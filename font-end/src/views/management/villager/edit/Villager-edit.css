@@ -1,0 +1,17 @@
+/* .villager-head{
+    background-color: rgba(0, 128, 0, 0.185);
+} */
+
+.btn-class{
+    margin: 0 auto;
+    width: 100%;
+}
+.btn-addhome{
+    width: 95%;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    margin-top: 15px;
+    margin-left: auto;
+    margin-right: auto;
+}

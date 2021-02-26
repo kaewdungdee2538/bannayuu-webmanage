@@ -1,0 +1,187 @@
+import { Injectable } from '@nestjs/common';
+import { dbConnection } from 'src/pg_database/pg.database';
+import { StatusException } from 'src/utils/callback.status';
+import { ErrMessageUtilsTH } from 'src/utils/err_message_th.utils';
+
+@Injectable()
+export class HomeService {
+    constructor(
+        private readonly errMessageUtilsTh: ErrMessageUtilsTH,
+        private readonly dbconnecttion: dbConnection) { }
+
+    async getAllHome(body: any, employeeInfo: any) {
+        return await this.getAll(body, employeeInfo);
+    }
+    async createHome(body: any, homeInfo: any) {
+        return await this.addHome(body, homeInfo);
+    }
+
+    async getAll(body: any, employeeInfo: any) {
+        const company_id = employeeInfo.employee.company_id;
+
+        let sql = `select * 
+        from m_home 
+        where company_id = $1
+        and delete_flag = 'N'
+        order by home_address
+        ;`
+        const query = {
+            text: sql
+            , values: [company_id]
+        }
+        const res = await this.dbconnecttion.getPgData(query);
+        if (res.error) throw new StatusException({
+            error: res.error,
+            result: null,
+            message: this.errMessageUtilsTh.messageProcessFail,
+            statusCode: 200
+        }, 200);
+        else throw new StatusException({
+            error: null,
+            result: res.result,
+            message: this.errMessageUtilsTh.messageSuccess,
+            statusCode: 200
+        }, 200);
+    }
+
+    async addHome(body: any, employeeInfo: any) {
+        const employeeObj = employeeInfo.employee
+        const company_id = employeeObj.company_id
+        const home_address = body.home_address
+        const home_remark = body.home_remark
+        const employee_id = employeeObj.employee_id
+        let sql = `insert into m_home(home_code,company_id,home_address,home_remark,create_by,create_date)
+        values(
+            fun_generate_uuid('HOME'||trim(to_char(${company_id},'000'))||trim(to_char(${company_id},'0000')),6)
+            ,$1,$2,$3,$4,current_timestamp
+            );`
+        const query1 = {
+            text: sql
+            , values: [company_id, home_address, home_remark, employee_id]
+        }
+        const res = await this.dbconnecttion.savePgData([query1]);
+        if (res.error) throw new StatusException({
+            error: res.error,
+            result: null,
+            message: this.errMessageUtilsTh.messageProcessFail,
+            statusCode: 200
+        }, 200);
+        else throw new StatusException({
+            error: null,
+            result: res.result,
+            message: this.errMessageUtilsTh.messageSuccess,
+            statusCode: 200
+        }, 200);
+    }
+
+    async getHomeInfoByID(body:any,employeeInfo:any){
+        const home_id = body.home_id;
+        const employee = employeeInfo.employee
+        const employee_id = employee.employee_id
+        let sql = `select home_id,home_code,home_name,home_address
+        ,home_type,home_data,home_remark
+        ,mh.create_date
+        ,mh.update_date
+        ,mh.company_id
+		,mc.company_name
+		,(select CONCAT(first_name_th,' ',last_name_th)
+		  from m_employee
+		  where employee_id = mh.create_by::integer
+		 ) as create_by
+		 ,(select CONCAT(first_name_th,' ',last_name_th)
+		  from m_employee
+		  where employee_id = mh.update_by::integer
+		 ) as update_by
+        from m_home mh
+        left join m_company mc on mh.company_id = mc.company_id
+        where mh.delete_flag = 'N' and mh.company_id=$1 and mh.home_id =$2
+        limit 1;`
+        const query = {
+            text:sql
+            ,values:[employee_id,home_id]
+        }
+        const res = await this.dbconnecttion.getPgData(query);
+        if (res.error) throw new StatusException({
+            error: res.error,
+            result: null,
+            message: this.errMessageUtilsTh.messageProcessFail,
+            statusCode: 200
+        }, 200);
+        else throw new StatusException({
+            error: null,
+            result: res.result,
+            message: this.errMessageUtilsTh.messageSuccess,
+            statusCode: 200
+        }, 200);
+    }
+
+    async editHomeInfo(body: any, employeeInfo: any) {
+        console.log(employeeInfo.employee)
+        const employeeObj = employeeInfo.employee
+        const home_address = body.home_address
+        const home_remark = body.home_remark
+        const employee_id = employeeObj.employee_id
+        const company_id = employeeObj.company_id
+        const home_id = body.home_id
+        let sql = `update m_home set 
+        home_address = $1,home_remark=$2
+        ,update_by=$3,update_date=now()
+        where company_id=$4 and home_id=$5
+        ;`
+        const query = {
+            text: sql
+            , values: [
+                home_address, home_remark
+                , employee_id, company_id, home_id]
+        }
+        const res = await this.dbconnecttion.savePgData([query]);
+        if (res.error) throw new StatusException({
+            error: res.error,
+            result: null,
+            message: this.errMessageUtilsTh.messageProcessFail,
+            statusCode: 200
+        }, 200);
+        else throw new StatusException({
+            error: null,
+            result: this.errMessageUtilsTh.messageSucceessEn,
+            message: this.errMessageUtilsTh.messageSuccess,
+            statusCode: 200
+        }, 200);
+    }
+
+    async deleteHomeByID(body:any,employeeObj: any){
+        const employee = employeeObj.employee;
+        console.log(body.home_id)
+        console.log(employee)
+        console.log(employee.company_id)
+        console.log(employee.employee_id)
+        let sql = `update m_home 
+        set delete_flag = 'Y'
+        ,delete_date=current_timestamp,delete_by=$1
+        ,update_date=current_timestamp,update_by=$1
+        where company_id=$2
+        and home_id=$3
+        ;`
+        const query = {
+            text:sql
+            ,values:[
+                employee.employee_id
+                ,employee.company_id
+                ,body.home_id
+            ]
+        }
+        const res = await this.dbconnecttion.savePgData([query]);
+        if (res.error) throw new StatusException({
+            error: res.error,
+            result: null,
+            message: this.errMessageUtilsTh.messageProcessFail,
+            statusCode: 200
+        }, 200);
+        else throw new StatusException({
+            error: null,
+            result: this.errMessageUtilsTh.messageSucceessEn,
+            message: this.errMessageUtilsTh.messageSuccess,
+            statusCode: 200
+        }, 200);
+    }
+}
