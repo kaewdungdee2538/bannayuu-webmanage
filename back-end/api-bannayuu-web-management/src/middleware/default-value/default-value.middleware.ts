@@ -33,16 +33,16 @@ export class DefaultValueMiddleware implements NestMiddleware {
             return this.errMessageUrilTh.errCompanyIDProhibitSpecial
         else if(!this.formatDataUtils.IsNumber(body.company_id))
             return this.errMessageUrilTh.errCompanyIDNotNumber
-        else if(this.formatDataUtils.HaveSpecialFormat(body.company_code))
-            return this.errMessageUrilTh.errCompanyCodeProhibitSpecial
-        else if(!body.guardhouse_id)
-            return this.errMessageUrilTh.errGuardHouseIDNotFound
-        else if(this.formatDataUtils.HaveSpecialFormat(body.guardhouse_id))
-            return this.errMessageUrilTh.errGuardHouseIDProhibitSpecial
-        else if(!this.formatDataUtils.IsNumber(body.guardhouse_id))
-            return this.errMessageUrilTh.errGuardHouseIDNotNumber
-        else if(this.formatDataUtils.HaveSpecialFormat(body.guardhouse_code))
-            return this.errMessageUrilTh.errGuardHouseCodeProhibitSpecial
+        // else if(this.formatDataUtils.HaveSpecialFormat(body.company_code))
+        //     return this.errMessageUrilTh.errCompanyCodeProhibitSpecial
+        // else if(!body.guardhouse_id)
+        //     return this.errMessageUrilTh.errGuardHouseIDNotFound
+        // else if(this.formatDataUtils.HaveSpecialFormat(body.guardhouse_id))
+        //     return this.errMessageUrilTh.errGuardHouseIDProhibitSpecial
+        // else if(!this.formatDataUtils.IsNumber(body.guardhouse_id))
+        //     return this.errMessageUrilTh.errGuardHouseIDNotNumber
+        // else if(this.formatDataUtils.HaveSpecialFormat(body.guardhouse_code))
+        //     return this.errMessageUrilTh.errGuardHouseCodeProhibitSpecial
         return null;
     }
 };

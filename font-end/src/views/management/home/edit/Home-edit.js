@@ -30,16 +30,20 @@ const CoreUIHomeEdit = () => {
     useEffect(() => {
         if (!authStore.authorization) {
             history.push('/')
+        }else{
+            document.body.style.cursor = 'wait';
+            getHomeInfo(authStore).then(res => {
+                if (res.result) {
+                    if (res.result.length > 0)
+                        setHomeInfo(res.result)
+                }  
+            }).catch(err=>{
+                console.log(err)
+                history.push('/page404')
+            }).finally(value=>{
+                document.body.style.cursor = 'default';
+            })    
         }
-        document.body.style.cursor = 'wait';
-        getHomeInfo(authStore.access_token).then(res => {
-            if (res.result) {
-                if (res.result.length > 0)
-                    setHomeInfo(res.result)
-            }
-            document.body.style.cursor = 'default';
-        })
-
     }, []);
     const [selectedRow, setSelectedRow] = useState({ selected: false, home_id: '' });
 
@@ -61,7 +65,7 @@ const CoreUIHomeEdit = () => {
     //-------------------Refesh form
     if (!!refeshForm) {
         document.body.style.cursor = 'wait';
-        getHomeInfo(authStore.access_token).then(res => {
+        getHomeInfo(authStore).then(res => {
             if (res.result) {
                 if (res.result.length > 0)
                     setHomeInfo(res.result)
@@ -80,6 +84,7 @@ const CoreUIHomeEdit = () => {
                 setRefeshForm={setRefeshForm}
             />
     }
+    //---------------------Delete
     function deleteHomeModal(event) {
         const getAddress = event.target.getAttribute("address")
         const home_id = event.target.getAttribute("home_id")

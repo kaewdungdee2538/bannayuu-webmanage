@@ -1,11 +1,3 @@
-/* .villager-head{
-    background-color: rgba(0, 128, 0, 0.185);
-} */
-
-.btn-class{
-    margin: 0 auto;
-    width: 100%;
-}
 .btn-addhome{
     width: 95%;
     display: flex;
@@ -15,3 +7,32 @@
     margin-left: auto;
     margin-right: auto;
 }
+.btn-class{
+    width: 100%;
+    height: 30px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+
+}
+.btn-head{
+    font-size: 20px;
+    width: 100%;
+
+}
+.btn-edit{
+    max-width: 120px;
+}
+.btn-delete{
+    max-width: 80px;
+}
+tr{
+    vertical-align: middle;
+}
+.btn-icon{
+    font-size: 12px;
+    margin: 0 5px;
+}
+/* .home-form-head{
+    background-color: rgb(240, 245, 255);
+} */

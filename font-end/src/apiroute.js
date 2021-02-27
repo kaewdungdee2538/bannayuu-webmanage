@@ -9,6 +9,8 @@ const ApiRoute ={
         ,get_home_byid_url:'/webbannayuu/api/home/get-home-by-id'
         ,edit_homeinfo_url:'/webbannayuu/api/home/edit-home'
         ,delete_homeinfo_url:'/webbannayuu/api/home/delete-home'
+    },villager:{
+        get_allvillager_byhomeid_url:'/webbannayuu/api/villager/get-all-by-homeid'
     }
 }
 export default ApiRoute;

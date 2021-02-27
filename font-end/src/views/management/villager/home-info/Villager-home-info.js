@@ -1,82 +1,92 @@
-import { useState } from 'react'
-import './Villager-home-info.css'
+import { useState, useEffect } from "react";
+import "./Villager-home-info.css";
 import {
-    CButton,
-    CCard,
-    CCardBody,
-    CCardHeader,
-    CCol,
-    CDataTable,
-} from '@coreui/react';
-import {
-    useHistory 
-} from 'react-router-dom'
+  CButton,
+  CCard,
+  CCardBody,
+  CCardHeader,
+  CCol,
+  CDataTable,
+} from "@coreui/react";
+import { useHistory } from "react-router-dom";
+import { useSelector } from "react-redux";
+import { getHomeInfo } from "./Villager-home-info-controller";
+import store, { selectHome,unSelectHome } from "../../../../store";
 
-const getBadge = status => {
-    switch (status) {
-        case 'Active': return 'success'
-        case 'Inactive': return 'secondary'
-        case 'Pending': return 'warning'
-        case 'Banned': return 'danger'
-        default: return 'primary'
-    }
-}
-
-const usersData = [
-    { home_id: 0, address: '111', createdate: '2018/01/01', updatedate: '2018/01/02', status: 'Active' },
-    { home_id: 1, address: '112', createdate: '2018/01/01', updatedate: '2018/01/02', status: 'Active' },
-    { home_id: 2, address: '113', createdate: '2018/02/01', updatedate: '2018/01/02', status: 'Active' },
-    { home_id: 3, address: '114', createdate: '2018/02/01', updatedate: '2018/01/02', status: 'Inactive' },
-    { home_id: 4, address: '115', createdate: '2018/02/01', updatedate: '2018/01/02', status: 'Inactive' },
-    { home_id: 5, address: '116', createdate: '2018/02/01', updatedate: '2018/01/02', status: 'Inactive' },
-]
-
-const fields = ['address', 'event']
-
-
+const fields = ["address", "event"];
 const VillagerHomeInfo = () => {
-    const history = useHistory();
+  const history = useHistory();
+  const authStore = useSelector((store) => store);
 
-    function onEditRowClick(event) {
-        history.push("/villager/edit")
+  //-------------------State
+  const [homeInfo, setHomeInfo] = useState(null);
+  //-------------------Form load
+  useEffect(() => {
+    //-------------------Reset Store
+    store.dispatch(unSelectHome());
+    if (!authStore.authorization) {
+      history.push("/");
+    }else{
+        document.body.style.cursor = "wait";
+        getHomeInfo(authStore)
+          .then((res) => {
+            if (res.result) {
+              if (res.result.length > 0) setHomeInfo(res.result);
+            }
+          })
+          .catch((err) => {
+            console.log(err);
+            history.push("/page404");
+          })
+          .finally((value) => {
+            document.body.style.cursor = "default";
+          });
     }
+  }, []);
+  //-------------------Select
+  function onEditRowClick(event) {
+    history.push("/villager/edit");
+    store.dispatch(selectHome({ home_selected: event }));
+  }
 
-    return (
-        <CCard>
-            <CCardHeader className="form-main-header">
-                บ้าน
+  return (
+    <CCard>
+      <CCardHeader className="form-main-header">บ้าน</CCardHeader>
+      <CCardBody>
+        <CCol xs="12" lg="12">
+          <CCard>
+            <CCardHeader className="form-section-header">
+              Home Table
             </CCardHeader>
             <CCardBody>
-                <CCol xs="12" lg="12">
-                    <CCard>
-                        <CCardHeader className="form-section-header">
-                            Home Table
-                        </CCardHeader>
-                        <CCardBody>
-                            <CDataTable
-                                onRowClick={onEditRowClick}
-                                items={usersData}
-                                fields={fields}
-                                striped
-                                itemsPerPage={5}
-                                pagination
-                                scopedSlots={{
-                                    'event':
-                                        (item) => (
-                                            <td>
-                                                <CButton className="btn-class" color="primary">เลือกบ้าน</CButton>
-                                            </td>
-                                        )
-                                }
-                                }
-                            />
-                        </CCardBody>
-                    </CCard>
-                </CCol>
+              <CDataTable
+                onRowClick={onEditRowClick}
+                items={homeInfo}
+                fields={fields}
+                striped
+                itemsPerPage={10}
+                pagination
+                scopedSlots={{
+                  address: (item) => (
+                    <td>
+                      <span>{item.home_address}</span>
+                    </td>
+                  ),
+                  event: (item) => (
+                    <td>
+                      <CButton className="btn-class" color="primary">
+                        เลือกบ้าน
+                      </CButton>
+                    </td>
+                  ),
+                }}
+              />
             </CCardBody>
+          </CCard>
+        </CCol>
+      </CCardBody>
+    </CCard>
+  );
+};
 
-        </CCard>
-    )
-}
-
-export default VillagerHomeInfo
+export default VillagerHomeInfo;

@@ -17,7 +17,7 @@ export class HomeService {
     }
 
     async getAll(body: any, employeeInfo: any) {
-        const company_id = employeeInfo.employee.company_id;
+        const company_id = body.company_id;
 
         let sql = `select * 
         from m_home 
@@ -46,7 +46,7 @@ export class HomeService {
 
     async addHome(body: any, employeeInfo: any) {
         const employeeObj = employeeInfo.employee
-        const company_id = employeeObj.company_id
+        const company_id = body.company_id
         const home_address = body.home_address
         const home_remark = body.home_remark
         const employee_id = employeeObj.employee_id
@@ -76,6 +76,7 @@ export class HomeService {
 
     async getHomeInfoByID(body:any,employeeInfo:any){
         const home_id = body.home_id;
+        const company_id = body.company_id
         const employee = employeeInfo.employee
         const employee_id = employee.employee_id
         let sql = `select home_id,home_code,home_name,home_address
@@ -98,7 +99,7 @@ export class HomeService {
         limit 1;`
         const query = {
             text:sql
-            ,values:[employee_id,home_id]
+            ,values:[company_id,home_id]
         }
         const res = await this.dbconnecttion.getPgData(query);
         if (res.error) throw new StatusException({
@@ -116,12 +117,11 @@ export class HomeService {
     }
 
     async editHomeInfo(body: any, employeeInfo: any) {
-        console.log(employeeInfo.employee)
         const employeeObj = employeeInfo.employee
         const home_address = body.home_address
         const home_remark = body.home_remark
         const employee_id = employeeObj.employee_id
-        const company_id = employeeObj.company_id
+        const company_id = body.company_id
         const home_id = body.home_id
         let sql = `update m_home set 
         home_address = $1,home_remark=$2
@@ -151,10 +151,9 @@ export class HomeService {
 
     async deleteHomeByID(body:any,employeeObj: any){
         const employee = employeeObj.employee;
-        console.log(body.home_id)
-        console.log(employee)
-        console.log(employee.company_id)
-        console.log(employee.employee_id)
+        const employee_id = employee.employee_id;
+        const company_id = body.company_id;
+        const home_id = body.home_id;
         let sql = `update m_home 
         set delete_flag = 'Y'
         ,delete_date=current_timestamp,delete_by=$1
@@ -165,9 +164,9 @@ export class HomeService {
         const query = {
             text:sql
             ,values:[
-                employee.employee_id
-                ,employee.company_id
-                ,body.home_id
+                employee_id
+                ,company_id
+                ,home_id
             ]
         }
         const res = await this.dbconnecttion.savePgData([query]);

@@ -11,6 +11,8 @@ import {
     CLabel,
     CInput
 } from '@coreui/react'
+import store, { selectHome,unSelectHome } from "../../../../store";
+import { useSelector } from "react-redux";
 function VillagerInfoModal({ selectedRow, setSelectedRow }) {
 
     // const [modal, setModal] = useState(true)

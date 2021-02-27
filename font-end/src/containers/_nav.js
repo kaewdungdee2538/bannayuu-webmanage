@@ -11,11 +11,11 @@ const _nav =  [
  
   {
     _tag: 'CSidebarNavTitle',
-    _children: ['จัดการลูกบ้าน']
+    _children: ['home management']
   },
   {
     _tag: 'CSidebarNavDropdown',
-    name: 'บ้าน',
+    name: 'Home Management',
     route: '/icons',
     icon: 'cil-drop',
     _children:[
