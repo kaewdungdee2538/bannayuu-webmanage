@@ -30,7 +30,7 @@ const CoreUIHomeAdd = ({ showCreateAdd, setShowCreateAdd ,setRefeshForm}) => {
     function addHomeModal() {
         document.body.style.cursor='wait';
         const values = {
-            access_token: authStore.access_token
+            authStore
             , home_address: address
             , home_remark: remark
         }

@@ -16,7 +16,7 @@ import VillagerAddModal from "../add/Villager-add";
 import store, { selectHome, unSelectHome } from "../../../../store";
 import { useSelector } from "react-redux";
 import { useHistory } from "react-router-dom";
-import { getVillagerInfo } from "./Villager-edit-controller";
+import { getVillagerInfo,editVillager } from "./Villager-edit-controller";
 
 const fields = ["edit", "name", "telephone", "delete"];
 
@@ -24,55 +24,71 @@ const CoreUILineHomeEdit = (props) => {
   const history = useHistory();
   const authStore = useSelector((store) => store);
   const [villagerInfo, setVillagerInfo] = useState(null);
+  const [refesh, setRefeshForm] = useState(false);
   //----------------------------State
   const [selectedRow, setSelectedRow] = useState({
     selected: false,
     home_id: "",
-    address: "",
-    createdate: "",
-    updatedate: "",
+    home_line_id: "",
+    home_line_code:""
   });
   //----------------------------Form load
   useEffect(() => {
     if (!authStore.authorization) {
       history.push("/");
-    }else{
-        document.body.style.cursor = "wait";
-        getVillagerInfo(authStore)
-          .then((res) => {
-            console.log(res.result);
-            if (res.result) {
-              if (res.result.length > 0) setVillagerInfo(res.result);
-            } else swal("Warning!", res.error, "warning");
-          })
-          .catch((err) => {
-            console.log(err);
-            history.push("/page404");
-          })
-          .finally((value) => {
-            document.body.style.cursor = "default";
-          });
+    } else {
+      refeshForm();
     }
   }, []);
+  //----------------------------Refesh form
+  function refeshForm() {
+    document.body.style.cursor = "wait";
+    getVillagerInfo(authStore)
+      .then((res) => {
+        if (res.result) {
+          if (res.result.length > 0) setVillagerInfo(res.result);
+        } else swal("Warning!", res.error, "warning");
+      })
+      .catch((err) => {
+        console.log(err);
+        history.push("/page404");
+      })
+      .finally((value) => {
+        document.body.style.cursor = "default";
+      });
+  }
+  if (refesh) {
+    refeshForm();
+    setRefeshForm(false);
+  }
   //----------------------------Show edit modal
   let selectedrow = null;
-  if (!!selectedRow) {
+  if (selectedRow.selected) {
     selectedrow = (
       <VillagerInfoModal
         selectedRow={selectedRow}
         setSelectedRow={setSelectedRow}
+        setRefeshForm={setRefeshForm}
       />
     );
   }
   function onEditRowClick(event) {
-    setSelectedRow({ ...event, selected: true });
+    const home_id = event.target.getAttribute("home_id");
+    const home_line_id = event.target.getAttribute("home_line_id");
+    const home_line_code = event.target.getAttribute("home_line_code");
+    setSelectedRow({
+      selected:true
+      ,home_id
+      ,home_line_id
+      ,home_line_code
+    })
   }
   //------------------------------Show create modal
   const [showCreate, setShowCreate] = useState(false);
   let showCreateModal = null;
-  if (!!showCreate) {
+  if (showCreate) {
     showCreateModal = (
-      <VillagerAddModal showCreate={showCreate} setShowCreate={setShowCreate} />
+      <VillagerAddModal showCreate={showCreate} setShowCreate={setShowCreate} setRefeshForm={setRefeshForm}/>
     );
   }
 
@@ -118,7 +134,8 @@ const CoreUILineHomeEdit = (props) => {
                   delete: (item) => (
                     <td>
                       <CButton
-                       // onClick={deleteHomeModal}
+                        // onClick={deleteHomeModal}
+                        key={Date.now}
                         home_id={item.home_id}
                         home_line_id={item.home_line_id}
                         home_line_code={item.home_line_code}
@@ -145,7 +162,8 @@ const CoreUILineHomeEdit = (props) => {
                   edit: (item) => (
                     <td>
                       <CButton
-                      // onClick={onEditRowClick}
+                        onClick={onEditRowClick}
+                        key={Date.now}
                         home_id={item.home_id}
                         home_line_id={item.home_line_id}
                         home_line_code={item.home_line_code}

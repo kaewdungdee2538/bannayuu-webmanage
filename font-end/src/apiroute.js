@@ -11,6 +11,9 @@ const ApiRoute ={
         ,delete_homeinfo_url:'/webbannayuu/api/home/delete-home'
     },villager:{
         get_allvillager_byhomeid_url:'/webbannayuu/api/villager/get-all-by-homeid'
+        ,add_villager_url:'/webbannayuu/api/villager/add-villager'
+        ,get_vilager_byhomelineid_url:'/webbannayuu/api/villager/get-by-homelineid'
+        ,edit_villager_url:'/webbannayuu/api/villager/edit-villager'
     }
 }
 export default ApiRoute;

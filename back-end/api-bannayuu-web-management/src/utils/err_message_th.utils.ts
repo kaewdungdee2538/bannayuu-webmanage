@@ -97,11 +97,11 @@ export class ErrMessageUtilsTH{
     errImageVehicleNotFound = 'ไม่พบรูปภาพพาหนะ'
     errImageCustomerNotFound = 'ไม่พบรูปภาพผู้ใช้บริการ'
 
-    errHomeIDNotFound = 'ไม่พบรหัสลูกบ้าน'
-    errHomeIDNotNumber = 'รหัสลูกบ้านต้องเป็นตัวเลขเท่านั้น'
-    errHomeIdProhibitSpecial = 'รหัสลูกบ้านห้ามมีอักขระพิเศษ หรือช่องว่าง'
+    errHomeIDNotFound = 'ไม่พบรหัสที่อยู่'
+    errHomeIDNotNumber = 'รหัสที่อยู่ต้องเป็นตัวเลขเท่านั้น'
+    errHomeIdProhibitSpecial = 'รหัสที่อยู่ห้ามมีอักขระพิเศษ หรือช่องว่าง'
     errHomeIDNotInDataBase = 'ไม่พบบ้านเลขที่ในระบบ'
-    errHomeGetFail = 'เรียกดูข้อมูลลูกบ้านล้มเหลว'
+    errHomeGetFail = 'เรียกดูข้อมูลบ้านล้มเหลว'
 
     errGetCompanyIDNotFound = 'ไม่พบรหัส Company'
     errGetCompanyIDNotNumber = 'รหัส Company ต้องเป็นตัวเลขเท่านั้น'
@@ -182,4 +182,17 @@ export class ErrMessageUtilsTH{
     errHomeAddressProhibitSpecial = 'ที่อยู่ห้ามมีอักขระพิเศษ'
     errHomeAddressIsDuplicate = 'บ้านเลขที่ซ้ำในระบบ'
     errHomeAddressNotInBase = 'ไม่พบที่อยู่ในระบบ'
+
+    errFirstNameNotFound = 'กรุณากรอกชื่อ'
+    errFirstNameProhitbitSpecial = 'ชื่อห้ามมีอักขระพิเศษ'
+    errLastNameNotFound = 'กรุณากรอกนามสกุล'
+    errLastNameProhitbitSpecial = 'นามสกุลห้ามมีอักขระพิเศษ'
+    errMobilePhoneNotFound = 'กรุณากรอกเบอร์โทรศัพท์'
+    errMobilePhoneProhitbitSpecial = 'เบอร์โทรศัพท์ห้ามมีอักขระพิเศษ หรือช่องว่าง'
+    errMobilePhoneNotNumber = 'เบอร์โทรศัพท์ต้องเป็นตัวเลขเท่านั้น'
+
+    errVillagerNotFound = 'ไม่พบรหัสของลูกบ้าน'
+    errVillagerProhibitSpecial = 'รหัสลูกบ้านห้ามมีอักขระพิเศษ หรือช่องว่าง'
+    errVillagerNotNumber = 'รหัสลูกบ้านต้องเป็นตัวเลขเท่านั้น'
+    errVillagerNotInBase = 'ไม่พบข้อมูลลูกบ้านในระบบ'
 }

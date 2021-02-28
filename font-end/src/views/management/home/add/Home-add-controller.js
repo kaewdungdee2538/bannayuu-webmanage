@@ -1,11 +1,13 @@
 import axios from 'axios';
 import ApiRoute from '../../../../apiroute'
 const addHomeInfo = (props) => {
-
+    const {authStore} = props
+    const company_id = authStore.company_id;
     const config = {
-        headers: { Authorization: `Bearer ${props.access_token}` }
+        headers: { Authorization: `Bearer ${authStore.access_token}` }
     }
     const bodyParameters = {
+        company_id,
         home_address: props.home_address,
         home_remark: props.home_remark,
     }
@@ -16,3 +18,4 @@ const addHomeInfo = (props) => {
 }
 
 export default addHomeInfo;
+ 

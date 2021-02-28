@@ -15,6 +15,24 @@ export class VillagerController {
       @UseGuards(JwtAuthGuard)
       @Post('get-all-by-homeid')
       async getVillagerAllByHomeID(@Body() body,@Request() req){
-        return this.villagerService.getVillagerAllByHomeID(body)
+        return await this.villagerService.getVillagerAllByHomeID(body)
+      }
+
+      @UseGuards(JwtAuthGuard)
+      @Post('add-villager')
+      async addVillager(@Body() body,@Request() req){
+        return await this.villagerService.addVillager(body,req);
+      }
+
+      @UseGuards(JwtAuthGuard)
+      @Post('get-by-homelineid')
+      async getVillagerByLineID(@Body() body,@Request() req){
+        return await this.villagerService.getVillagerByLineID(body,req);
+      }
+
+      @UseGuards(JwtAuthGuard)
+      @Post('edit-villager')
+      async editVillager(@Body() body,@Request() req){
+        return await this.villagerService.editVillager(body,req);
       }
 }

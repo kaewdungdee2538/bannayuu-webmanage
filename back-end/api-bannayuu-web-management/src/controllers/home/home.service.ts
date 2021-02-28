@@ -52,7 +52,7 @@ export class HomeService {
         const employee_id = employeeObj.employee_id
         let sql = `insert into m_home(home_code,company_id,home_address,home_remark,create_by,create_date)
         values(
-            fun_generate_uuid('HOME'||trim(to_char(${company_id},'000'))||trim(to_char(${company_id},'0000')),6)
+            fun_generate_uuid('HOME'||trim(to_char(${company_id},'000')),6)
             ,$1,$2,$3,$4,current_timestamp
             );`
         const query1 = {

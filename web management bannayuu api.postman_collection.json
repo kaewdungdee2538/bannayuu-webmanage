@@ -1,0 +1,388 @@
+{
+	"info": {
+		"_postman_id": "3cc4961c-0b08-4b84-8002-1e459e68cdc4",
+		"name": "web management bannayuu api",
+		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json"
+	},
+	"item": [
+		{
+			"name": "Auth",
+			"item": [
+				{
+					"name": "Login Web management",
+					"request": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n    \"username\":\"11\",\r\n    \"password\":\"11\",\r\n    \"company_id\":\"1\",\r\n    \"company_code\":\"100\",\r\n    \"guardhouse_id\":\"1\",\r\n    \"guardhouse_code\":\"1001\"\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "http://{{Server}}:4010/webbannayuu/api/auth/login",
+							"protocol": "http",
+							"host": [
+								"{{Server}}"
+							],
+							"port": "4010",
+							"path": [
+								"webbannayuu",
+								"api",
+								"auth",
+								"login"
+							]
+						}
+					},
+					"response": []
+				}
+			]
+		},
+		{
+			"name": "home",
+			"item": [
+				{
+					"name": "get all home",
+					"request": {
+						"method": "POST",
+						"header": [
+							{
+								"key": "Authorization",
+								"value": "Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJlbXBsb3llZSI6eyJlbXBsb3llZV9pZCI6MSwiZW1wbG95ZWVfY29kZSI6IjEwMDAwMSIsImZpcnN0X25hbWVfdGgiOiLguYTguILguYjguKLguYnguK3guKIiLCJsYXN0X25hbWVfdGgiOiLguITguK3guKLguKPguLHguIEiLCJ1c2VybmFtZSI6IjExIiwicGFzc3dvcmRfc3RhdHVzIjp0cnVlLCJjb21wYW55X2lkIjoxfSwiaWF0IjoxNjE0NTA3NzYzLCJleHAiOjE2MTQ1OTQxNjN9.zSzhOMAr4VbSGYnTCuHnHglsV9UTTYD5cYuqqz1t5EE",
+								"type": "text"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n    \"company_id\":1\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "http://{{Server}}:4010/webbannayuu/api/home/get-all",
+							"protocol": "http",
+							"host": [
+								"{{Server}}"
+							],
+							"port": "4010",
+							"path": [
+								"webbannayuu",
+								"api",
+								"home",
+								"get-all"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "add home",
+					"request": {
+						"method": "POST",
+						"header": [
+							{
+								"key": "Authorization",
+								"value": "Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJlbXBsb3llZSI6eyJlbXBsb3llZV9pZCI6MSwiZW1wbG95ZWVfY29kZSI6IjEwMDAwMSIsImZpcnN0X25hbWVfdGgiOiLguYTguILguYjguKLguYnguK3guKIiLCJsYXN0X25hbWVfdGgiOiLguITguK3guKLguKPguLHguIEiLCJ1c2VybmFtZSI6IjExIiwicGFzc3dvcmRfc3RhdHVzIjp0cnVlLCJjb21wYW55X2lkIjoxfSwiaWF0IjoxNjE0NDE4NTIxLCJleHAiOjE2MTQ1MDQ5MjF9.zxNXtVO8y9pRSG-v7uFtrca1RKt0_HchR_xJ8LLCEWI",
+								"type": "text"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n     \"company_id\":1\r\n    ,\"home_address\":\"6665\"\r\n    ,\"home_remark\":\"ทดสอบระบบ666\"\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "http://{{Server}}:4010/webbannayuu/api/home/add-home",
+							"protocol": "http",
+							"host": [
+								"{{Server}}"
+							],
+							"port": "4010",
+							"path": [
+								"webbannayuu",
+								"api",
+								"home",
+								"add-home"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "get home info by home_id",
+					"request": {
+						"method": "POST",
+						"header": [
+							{
+								"key": "Authorization",
+								"value": "Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJlbXBsb3llZSI6eyJlbXBsb3llZV9pZCI6MSwiZW1wbG95ZWVfY29kZSI6IjEwMDAwMSIsImZpcnN0X25hbWVfdGgiOiLguYTguILguYjguKLguYnguK3guKIiLCJsYXN0X25hbWVfdGgiOiLguITguK3guKLguKPguLHguIEiLCJ1c2VybmFtZSI6IjExIiwicGFzc3dvcmRfc3RhdHVzIjp0cnVlLCJjb21wYW55X2lkIjoxfSwiaWF0IjoxNjE0NDE4NTIxLCJleHAiOjE2MTQ1MDQ5MjF9.zxNXtVO8y9pRSG-v7uFtrca1RKt0_HchR_xJ8LLCEWI",
+								"type": "text"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n     \"company_id\":1\r\n    ,\"home_id\":\"55\"\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "http://{{Server}}:4010/webbannayuu/api/home/get-home-by-id",
+							"protocol": "http",
+							"host": [
+								"{{Server}}"
+							],
+							"port": "4010",
+							"path": [
+								"webbannayuu",
+								"api",
+								"home",
+								"get-home-by-id"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "edit Home",
+					"request": {
+						"method": "POST",
+						"header": [
+							{
+								"key": "Authorization",
+								"value": "Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJlbXBsb3llZSI6eyJlbXBsb3llZV9pZCI6MSwiZW1wbG95ZWVfY29kZSI6IjEwMDAwMSIsImZpcnN0X25hbWVfdGgiOiLguYTguILguYjguKLguYnguK3guKIiLCJsYXN0X25hbWVfdGgiOiLguITguK3guKLguKPguLHguIEiLCJ1c2VybmFtZSI6IjExIiwicGFzc3dvcmRfc3RhdHVzIjp0cnVlLCJjb21wYW55X2lkIjoxfSwiaWF0IjoxNjE0NDE4NTIxLCJleHAiOjE2MTQ1MDQ5MjF9.zxNXtVO8y9pRSG-v7uFtrca1RKt0_HchR_xJ8LLCEWI",
+								"type": "text"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n    \"company_id\":1\r\n    ,\"home_id\":\"55\"\r\n    ,\"home_address\":\"665\"\r\n    ,\"home_remark\":\"ทดสอบระบบ266666\"\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "http://{{Server}}:4010/webbannayuu/api/home/edit-home",
+							"protocol": "http",
+							"host": [
+								"{{Server}}"
+							],
+							"port": "4010",
+							"path": [
+								"webbannayuu",
+								"api",
+								"home",
+								"edit-home"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "delete home",
+					"request": {
+						"method": "POST",
+						"header": [
+							{
+								"key": "Authorization",
+								"value": "Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJlbXBsb3llZSI6eyJlbXBsb3llZV9pZCI6MSwiZW1wbG95ZWVfY29kZSI6IjEwMDAwMSIsImZpcnN0X25hbWVfdGgiOiLguYTguILguYjguKLguYnguK3guKIiLCJsYXN0X25hbWVfdGgiOiLguITguK3guKLguKPguLHguIEiLCJ1c2VybmFtZSI6IjExIiwicGFzc3dvcmRfc3RhdHVzIjp0cnVlLCJjb21wYW55X2lkIjoxfSwiaWF0IjoxNjE0NDE4NTIxLCJleHAiOjE2MTQ1MDQ5MjF9.zxNXtVO8y9pRSG-v7uFtrca1RKt0_HchR_xJ8LLCEWI",
+								"type": "text"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n    \"company_id\":1\r\n    ,\"home_id\":\"55\"\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "http://{{Server}}:4010/webbannayuu/api/home/delete-home",
+							"protocol": "http",
+							"host": [
+								"{{Server}}"
+							],
+							"port": "4010",
+							"path": [
+								"webbannayuu",
+								"api",
+								"home",
+								"delete-home"
+							]
+						}
+					},
+					"response": []
+				}
+			]
+		},
+		{
+			"name": "villager",
+			"item": [
+				{
+					"name": "get villager all by home_id",
+					"request": {
+						"method": "POST",
+						"header": [
+							{
+								"key": "Authorization",
+								"value": "Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJlbXBsb3llZSI6eyJlbXBsb3llZV9pZCI6MSwiZW1wbG95ZWVfY29kZSI6IjEwMDAwMSIsImZpcnN0X25hbWVfdGgiOiLguYTguILguYjguKLguYnguK3guKIiLCJsYXN0X25hbWVfdGgiOiLguITguK3guKLguKPguLHguIEiLCJ1c2VybmFtZSI6IjExIiwicGFzc3dvcmRfc3RhdHVzIjp0cnVlLCJjb21wYW55X2lkIjoxfSwiaWF0IjoxNjE0NDM0MjQ0LCJleHAiOjE2MTQ1MjA2NDR9.Z0UdMH8_h-4G2gzSm-gcQWtnr070SfzDmxDuPWm68Vw",
+								"type": "text"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n    \"company_id\":1\r\n    ,\"home_id\":7\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "http://{{Server}}:4010/webbannayuu/api/villager/get-all-by-homeid",
+							"protocol": "http",
+							"host": [
+								"{{Server}}"
+							],
+							"port": "4010",
+							"path": [
+								"webbannayuu",
+								"api",
+								"villager",
+								"get-all-by-homeid"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "add villager ",
+					"request": {
+						"method": "POST",
+						"header": [
+							{
+								"key": "Authorization",
+								"value": "Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJlbXBsb3llZSI6eyJlbXBsb3llZV9pZCI6MSwiZW1wbG95ZWVfY29kZSI6IjEwMDAwMSIsImZpcnN0X25hbWVfdGgiOiLguYTguILguYjguKLguYnguK3guKIiLCJsYXN0X25hbWVfdGgiOiLguITguK3guKLguKPguLHguIEiLCJ1c2VybmFtZSI6IjExIiwicGFzc3dvcmRfc3RhdHVzIjp0cnVlLCJjb21wYW55X2lkIjoxfSwiaWF0IjoxNjE0NTA3NzYzLCJleHAiOjE2MTQ1OTQxNjN9.zSzhOMAr4VbSGYnTCuHnHglsV9UTTYD5cYuqqz1t5EE",
+								"type": "text"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n    \"company_id\":1\r\n    ,\"home_id\":36\r\n    ,\"home_line_first_name\":\"tetetetee\"\r\n    ,\"home_line_last_name\":\"warwarwa\"\r\n    ,\"home_line_mobile_phone\":\"123213213213213\"\r\n    ,\"home_line_remark\":\"ทดสอบ อิอิ\"\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "http://{{Server}}:4010/webbannayuu/api/villager/add-villager",
+							"protocol": "http",
+							"host": [
+								"{{Server}}"
+							],
+							"port": "4010",
+							"path": [
+								"webbannayuu",
+								"api",
+								"villager",
+								"add-villager"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "edit villager",
+					"request": {
+						"method": "POST",
+						"header": [
+							{
+								"key": "Authorization",
+								"value": "Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJlbXBsb3llZSI6eyJlbXBsb3llZV9pZCI6MSwiZW1wbG95ZWVfY29kZSI6IjEwMDAwMSIsImZpcnN0X25hbWVfdGgiOiLguYTguILguYjguKLguYnguK3guKIiLCJsYXN0X25hbWVfdGgiOiLguITguK3guKLguKPguLHguIEiLCJ1c2VybmFtZSI6IjExIiwicGFzc3dvcmRfc3RhdHVzIjp0cnVlLCJjb21wYW55X2lkIjoxfSwiaWF0IjoxNjE0NTE3ODI1LCJleHAiOjE2MTQ2MDQyMjV9.20E9zxS8m8ZckTNXhwI26PyGrEHXNigK7WhlKrrRynI",
+								"type": "text"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n    \"company_id\":1\r\n    ,\"home_id\":36\r\n    ,\"home_line_id\":9\r\n    ,\"home_line_first_name\":\"tetetetee\"\r\n    ,\"home_line_last_name\":\"warwarwa\"\r\n    ,\"home_line_mobile_phone\":\"123213213213213\"\r\n    ,\"home_line_remark\":\"ทดสอบ อิอิ\"\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "http://{{Server}}:4010/webbannayuu/api/villager/edit-villager",
+							"protocol": "http",
+							"host": [
+								"{{Server}}"
+							],
+							"port": "4010",
+							"path": [
+								"webbannayuu",
+								"api",
+								"villager",
+								"edit-villager"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "get villager by home_line_id",
+					"request": {
+						"method": "POST",
+						"header": [
+							{
+								"key": "Authorization",
+								"value": "Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJlbXBsb3llZSI6eyJlbXBsb3llZV9pZCI6MSwiZW1wbG95ZWVfY29kZSI6IjEwMDAwMSIsImZpcnN0X25hbWVfdGgiOiLguYTguILguYjguKLguYnguK3guKIiLCJsYXN0X25hbWVfdGgiOiLguITguK3guKLguKPguLHguIEiLCJ1c2VybmFtZSI6IjExIiwicGFzc3dvcmRfc3RhdHVzIjp0cnVlLCJjb21wYW55X2lkIjoxfSwiaWF0IjoxNjE0NTE3ODI1LCJleHAiOjE2MTQ2MDQyMjV9.20E9zxS8m8ZckTNXhwI26PyGrEHXNigK7WhlKrrRynI",
+								"type": "text"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n    \"company_id\":1\r\n    ,\"home_id\":36\r\n    ,\"home_line_id\":9\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "http://localhost:4010/webbannayuu/api/villager/get-by-homelineid",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "4010",
+							"path": [
+								"webbannayuu",
+								"api",
+								"villager",
+								"get-by-homelineid"
+							]
+						}
+					},
+					"response": []
+				}
+			]
+		}
+	]
+}

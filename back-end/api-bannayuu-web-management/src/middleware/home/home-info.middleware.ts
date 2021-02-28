@@ -11,7 +11,6 @@ export class HomeInfoMiddleware implements NestMiddleware {
         private readonly formatDataUtils: FormatDataUtils,
     ){}
     use(req: Request, res: Response, next: () => void) {
-        console.log(req.user)
         const messageCheckvalue = this.CheckValues(req.body)
         if (messageCheckvalue) {
             console.log('Middleware check Home value  : ' + messageCheckvalue)
