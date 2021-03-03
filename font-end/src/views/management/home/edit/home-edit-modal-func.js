@@ -56,6 +56,7 @@ export const editHomeInfoByID = (props) => {
     home_id: home_obj.home_id,
     home_address: home_obj.home_address,
     home_remark: home_obj.home_remark,
+    home_enable:home_obj.home_enable
   };
   const url = `${ApiRoute.main_url}${ApiRoute.port}${ApiRoute.home.edit_homeinfo_url}`;
   return axios

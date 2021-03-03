@@ -10,14 +10,15 @@ import {
     CModalTitle,
     CFormGroup,
     CLabel,
-    CInput
+    CInput,
+    CSwitch
 } from '@coreui/react'
 import HomeAddInput from '../component/Home-add-input'
 import HomeAddGetCode from '../component/Home-add-gen-code'
 import { getHomeInfoByID, editHomeInfoByID } from './home-edit-modal-func'
 import { useHistory } from 'react-router-dom'
 import { convertTZ } from '../../../../utils'
-function HomeEditModal({ selectedRow, setSelectedRow, authStore ,setRefeshForm}) {
+function HomeEditModal({ selectedRow, setSelectedRow, authStore, setRefeshForm }) {
     const history = useHistory();
     // const [modal, setModal] = useState(true)
     // const [large, setLarge] = useState(selectedRow)
@@ -27,6 +28,7 @@ function HomeEditModal({ selectedRow, setSelectedRow, authStore ,setRefeshForm})
     // const [warning, setWarning] = useState(false)
     // const [danger, setDanger] = useState(false)
     // const [info, setInfo] = useState(false)
+    const [check, setCheck] = useState(true);
     const { selected, home_id } = selectedRow
     const [homeCode, setHomeCode] = useState('');
     const [addressText, setAddressText] = useState('');
@@ -61,6 +63,8 @@ function HomeEditModal({ selectedRow, setSelectedRow, authStore ,setRefeshForm})
                         const update_date = !result.update_date ? '' : convertTZ(result.update_date)
                         const update_by = !result.update_by ? '' : result.update_by
                         const company_name = !result.company_name ? '' : result.company_name
+                        const status = result.status === 'active' ? true : false;
+                        console.log(result.status)
                         setHomeCode(home_code)
                         setAddressText(home_address)
                         setRemarkText(home_remark)
@@ -69,6 +73,7 @@ function HomeEditModal({ selectedRow, setSelectedRow, authStore ,setRefeshForm})
                         setUpdateDate(update_date)
                         setUpdateBy(update_by)
                         setCompanyName(company_name)
+                        setCheck(status)
                     }
                 }).catch(err => {
                     console.log(err)
@@ -93,6 +98,7 @@ function HomeEditModal({ selectedRow, setSelectedRow, authStore ,setRefeshForm})
             , home_code: homeCode
             , home_address: addressText
             , home_remark: remarkText
+            , home_enable: check
         }
         editHomeInfoByID({ home_obj, authStore })
             .then(res => {
@@ -121,6 +127,29 @@ function HomeEditModal({ selectedRow, setSelectedRow, authStore ,setRefeshForm})
             })
 
     }
+    //--------------
+    function onCheckBoxChange(event) {
+        if (!event.target.checked) {
+            swal({
+                title: "ปิดสถานะ!",
+                text: "ต้องการปิดสถานะบ้านหลังนี้หรือไม่!",
+                icon: "warning",
+                buttons: true,
+                dangerMode: true,
+            })
+                .then((willDelete) => {
+                    if (willDelete) {
+                        setCheck(false)
+                    } else {
+
+                    }
+                });
+        } else {
+            setCheck(true)
+        }
+
+
+    }
     return (
         <CModal
             show={selected}
@@ -132,6 +161,10 @@ function HomeEditModal({ selectedRow, setSelectedRow, authStore ,setRefeshForm})
             </CModalHeader>
             <CModalBody>
                 <CFormGroup>
+                    <HomeAddGetCode
+                        title="ชื่อหมู่บ้าน"
+                        text={companyName}
+                    />
                     <HomeAddGetCode
                         title="Home code"
                         text={homeCode}
@@ -150,15 +183,25 @@ function HomeEditModal({ selectedRow, setSelectedRow, authStore ,setRefeshForm})
                         setText={setRemarkText}
                         maxLenght="255"
                     />
-                    <HomeAddGetCode
-                        title="ชื่อหมู่บ้าน"
-                        text={companyName}
-                    />
                 </CFormGroup>
             </CModalBody>
-            <CModalFooter>
-                <CButton className="btn-modal-footer" color="secondary" onClick={closeModal}>Cancel</CButton>
-                <CButton className="btn-modal-footer" color="primary" onClick={editHomeModal}>แก้ไข</CButton>
+            <CModalFooter className="modal-footer">
+                <div>
+                    <CSwitch
+                        className={'mx-2'}
+                        shape={'pill'}
+                        color={'info'}
+                        labelOn={'เปิด'}
+                        labelOff={'ปิด'}
+                        checked={check}
+                        onChange={onCheckBoxChange}
+                    />
+                    <span>สถานะการใช้งาน</span>
+                </div>
+                <div>
+                    <CButton className="btn-modal-footer" color="primary" onClick={editHomeModal}>บันทึก</CButton>
+                    <CButton className="btn-modal-footer" color="warning" onClick={closeModal}>ยกเลิก</CButton>
+                </div>
             </CModalFooter>
         </CModal>
     );

@@ -2,6 +2,8 @@ import { MiddlewareConsumer, Module } from '@nestjs/common';
 import { AppController } from './app.controller';
 import { AppService } from './app.service';
 import { AuthModule } from './auth/auth.module';
+import { AnnounceHistoryModule } from './controllers/announce-history/announce-history.module';
+import { AnnounceModule } from './controllers/announce/announce.module';
 import { HomeModule } from './controllers/home/home.module';
 import { VillagerModule } from './controllers/villager/villager.module';
 import { loggerMiddleware } from './middleware/logger.middleware';
@@ -11,6 +13,8 @@ import { loggerMiddleware } from './middleware/logger.middleware';
     AuthModule
     ,HomeModule
     ,VillagerModule
+    ,AnnounceModule
+    ,AnnounceHistoryModule
   ],
   controllers: [AppController],
   providers: [

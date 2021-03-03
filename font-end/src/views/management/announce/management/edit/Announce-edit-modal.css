@@ -1,0 +1,10 @@
+.modal-header-edit{
+    background-color: rgba(50,31,229);
+    color: white;
+}
+
+.time-block{
+    border: 1px solid rgb(221, 217, 217);
+    padding: 20px;
+    border-radius: 5px;
+}

@@ -91,7 +91,7 @@ const CoreUIHomeAdd = ({ showCreateAdd, setShowCreateAdd ,setRefeshForm}) => {
             </CModalBody>
             <CModalFooter>
                 <CButton className="btn-modal-footer" color="success" onClick={addHomeModal}>เพิ่มข้อมูล</CButton>
-                <CButton className="btn-modal-footer" color="secondary" onClick={closeModal}>ยกเลิก</CButton>
+                <CButton className="btn-modal-footer" color="warning" onClick={closeModal}>ยกเลิก</CButton>
             </CModalFooter>
         </CModal>
     )

@@ -19,11 +19,13 @@ export class HomeService {
     async getAll(body: any, employeeInfo: any) {
         const company_id = body.company_id;
 
-        let sql = `select * 
+        let sql = `select home_id,home_code,home_name,home_address
+        , home_data,home_remark,create_date,update_date,
+        case when delete_flag = 'N' then 'active'
+        else 'inactive' end as status
         from m_home 
         where company_id = $1
-        and delete_flag = 'N'
-        order by home_address
+        order by home_address,delete_flag
         ;`
         const query = {
             text: sql
@@ -74,7 +76,7 @@ export class HomeService {
         }, 200);
     }
 
-    async getHomeInfoByID(body:any,employeeInfo:any){
+    async getHomeInfoByID(body: any, employeeInfo: any) {
         const home_id = body.home_id;
         const company_id = body.company_id
         const employee = employeeInfo.employee
@@ -93,13 +95,15 @@ export class HomeService {
 		  from m_employee
 		  where employee_id = mh.update_by::integer
 		 ) as update_by
+        ,case when mh.delete_flag = 'N' then 'active'
+        else 'inactive' end as status
         from m_home mh
         left join m_company mc on mh.company_id = mc.company_id
-        where mh.delete_flag = 'N' and mh.company_id=$1 and mh.home_id =$2
+        where  mh.company_id=$1 and mh.home_id =$2
         limit 1;`
         const query = {
-            text:sql
-            ,values:[company_id,home_id]
+            text: sql
+            , values: [company_id, home_id]
         }
         const res = await this.dbconnecttion.getPgData(query);
         if (res.error) throw new StatusException({
@@ -123,18 +127,66 @@ export class HomeService {
         const employee_id = employeeObj.employee_id
         const company_id = body.company_id
         const home_id = body.home_id
-        let sql = `update m_home set 
+        let query1, query2;
+        console.log(body.home_enable)
+        if (body.home_enable) {
+            let sql = `update m_home set 
+            home_address = $1,home_remark=$2
+            ,update_by=$3,update_date=now()
+            ,delete_flag='N'
+            where company_id=$4 and home_id=$5
+            ;`
+            query1 = {
+                text: sql
+                , values: [
+                    home_address, home_remark
+                    , employee_id, company_id, home_id]
+            }
+            let sql2 = `update m_home_line set 
+            update_by=$1,update_date=current_timestamp
+            ,delete_flag='N'
+            where company_id=$2 and home_id=$3
+            ;`
+            query2 = {
+                text:sql2
+                ,values :[
+                    employee_id
+                    ,company_id,home_id
+                ]
+            }
+        } else {
+            let sql = `update m_home set 
         home_address = $1,home_remark=$2
-        ,update_by=$3,update_date=now()
+        ,update_by=$3,update_date=current_timestamp
+        ,delete_flag = 'Y',delete_date = current_timestamp
+        ,delete_by = $6
         where company_id=$4 and home_id=$5
         ;`
-        const query = {
-            text: sql
-            , values: [
-                home_address, home_remark
-                , employee_id, company_id, home_id]
+            query1 = {
+                text: sql
+                , values: [
+                    home_address, home_remark
+                    , employee_id, company_id, home_id
+                    , employee_id
+                ]
+            }
+            let sql2 = `update m_home_line set
+        update_by=$1,update_date=current_timestamp
+        ,delete_flag = 'Y',delete_date = current_timestamp
+        ,delete_by = $2
+        where company_id=$3 and home_id=$4
+        ;`
+        query2 = {
+            text:sql2
+            ,values:[
+                employee_id
+                ,employee_id
+                ,company_id,home_id
+            ]
         }
-        const res = await this.dbconnecttion.savePgData([query]);
+        }
+        const querys = [query1, query2]
+        const res = await this.dbconnecttion.savePgData(querys);
         if (res.error) throw new StatusException({
             error: res.error,
             result: null,
@@ -149,7 +201,7 @@ export class HomeService {
         }, 200);
     }
 
-    async deleteHomeByID(body:any,employeeObj: any){
+    async deleteHomeByID(body: any, employeeObj: any) {
         const employee = employeeObj.employee;
         const employee_id = employee.employee_id;
         const company_id = body.company_id;
@@ -157,16 +209,15 @@ export class HomeService {
         let sql = `update m_home 
         set delete_flag = 'Y'
         ,delete_date=current_timestamp,delete_by=$1
-        ,update_date=current_timestamp,update_by=$1
         where company_id=$2
         and home_id=$3
         ;`
         const query = {
-            text:sql
-            ,values:[
+            text: sql
+            , values: [
                 employee_id
-                ,company_id
-                ,home_id
+                , company_id
+                , home_id
             ]
         }
         const res = await this.dbconnecttion.savePgData([query]);

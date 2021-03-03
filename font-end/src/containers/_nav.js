@@ -1,14 +1,30 @@
 import React from 'react'
 import CIcon from '@coreui/icons-react'
 
-const _nav =  [
+const _nav = [
   {
     _tag: 'CSidebarNavItem',
     name: 'Dashboard',
     to: '/dashboard',
-    icon: <CIcon name="cil-speedometer" customClasses="c-sidebar-nav-icon"/>,
+    icon: <CIcon name="cil-speedometer" customClasses="c-sidebar-nav-icon" />,
   },
- 
+  {
+    _tag: 'CSidebarNavTitle',
+    _children: ['e-stamp management']
+  }, {
+    _tag: 'CSidebarNavDropdown',
+    name: 'จัดการ',
+    route: '/icons',
+    icon: 'cil-drop',
+    _children: [
+      {
+        _tag: 'CSidebarNavItem',
+        name: 'E-STAMP',
+        route: '/icons',
+        to: '',
+      },
+    ]
+  },
   {
     _tag: 'CSidebarNavTitle',
     _children: ['home management']
@@ -18,7 +34,7 @@ const _nav =  [
     name: 'Home Management',
     route: '/icons',
     icon: 'cil-drop',
-    _children:[
+    _children: [
       {
         _tag: 'CSidebarNavItem',
         name: 'บ้าน',
@@ -38,10 +54,23 @@ const _nav =  [
     _children: ['ประกาศโครงการ']
   },
   {
-    _tag: 'CSidebarNavItem',
-    name: 'จัดการประกาศโครงการ',
-    to: '/annouce',
-    icon: <CIcon name="cil-drop" customClasses="c-sidebar-nav-icon"/>,
+    _tag: 'CSidebarNavDropdown',
+    name: 'ประกาศโครงการ',
+    icon: <CIcon name="cil-drop" customClasses="c-sidebar-nav-icon" />,
+    _children: [
+      {
+        _tag: 'CSidebarNavItem',
+        name: 'จัดการประกาศโครงการ',
+        route: '/icons',
+        to: '/annouce',
+      },
+      {
+        _tag: 'CSidebarNavItem',
+        name: 'ประวัติประกาศโครงการ',
+        route: '/icons',
+        to: '/annouce-history',
+      },
+    ]
   },
 ]
 

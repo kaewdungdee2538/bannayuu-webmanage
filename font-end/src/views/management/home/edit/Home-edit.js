@@ -19,7 +19,16 @@ import { useHistory } from 'react-router-dom'
 import { convertTZ } from '../../../../utils'
 import { deleteHomeByID } from './home-edit-modal-func'
 
-const fields = ['edit', 'address', 'createdate', 'updatedate', 'delete']
+const getBadge = status => {
+    switch (status) {
+        case 'active': return 'success'
+        case 'inactive': return 'secondary'
+        case 'pending': return 'warning'
+        case 'banned': return 'danger'
+        default: return 'primary'
+    }
+}
+const fields = ['edit', 'address', 'createdate', 'updatedate', 'status']
 
 
 const CoreUIHomeEdit = () => {
@@ -30,19 +39,22 @@ const CoreUIHomeEdit = () => {
     useEffect(() => {
         if (!authStore.authorization) {
             history.push('/')
-        }else{
+        } else {
             document.body.style.cursor = 'wait';
             getHomeInfo(authStore).then(res => {
                 if (res.result) {
                     if (res.result.length > 0)
                         setHomeInfo(res.result)
-                }  
-            }).catch(err=>{
+                    else {
+                        setHomeInfo(null);
+                    }
+                }
+            }).catch(err => {
                 console.log(err)
                 history.push('/page404')
-            }).finally(value=>{
+            }).finally(value => {
                 document.body.style.cursor = 'default';
-            })    
+            })
         }
     }, []);
     const [selectedRow, setSelectedRow] = useState({ selected: false, home_id: '' });
@@ -153,7 +165,7 @@ const CoreUIHomeEdit = () => {
             <CCardBody>
                 <CCol xs="12" lg="12">
                     <CCard>
-                        <CCardHeader className="home-form-head">
+                        <CCardHeader>
                             Home Table
             </CCardHeader>
                         <CCardBody>
@@ -187,25 +199,13 @@ const CoreUIHomeEdit = () => {
                                             </span>
                                         </td>
                                     )
-                                    , 'delete':
-                                        (item) => (
-                                            <td>
-                                                <CButton
-                                                    home_id={item.home_id}
-                                                    address={item.home_address}
-                                                    onClick={deleteHomeModal}
-                                                    className="btn-class btn-delete"
-                                                    color="danger">
-                                                    <CIcon
-                                                        home_id={item.home_id}
-                                                        address={item.home_address}
-                                                        name="cil-ban" />
-                                                    <span
-                                                        home_id={item.home_id}
-                                                        address={item.home_address}
-                                                        className="btn-icon">ลบ</span></CButton>
-                                            </td>
-                                        )
+                                    , 'status': (item) => (
+                                        <td>
+                                            <CBadge color={getBadge(item.status)}>
+                                                {item.status}
+                                            </CBadge>
+                                        </td>
+                                    )
                                     , 'edit':
                                         (item) => (
                                             <td>

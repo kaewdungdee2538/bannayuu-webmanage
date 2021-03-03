@@ -1,10 +1,12 @@
-/* .form-main-header{
-    background-color: rgb(240, 245, 255);;
+.form-main-header{
+    background-color: #1769aa;
+    color: white;
 }
-.form-section-header{
+/* .form-section-header{
     background-color: rgb(240, 245, 255);;
-} */
+}  */
 
 .btn-class{
     width: 100%;
+    box-shadow: 2px 4px 5px rgba(0,0,0,0.5);
 }

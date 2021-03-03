@@ -9,16 +9,14 @@
 }
 .btn-class{
     width: 100%;
-    height: 30px;
     display: flex;
     justify-content: center;
     align-items: center;
-
 }
 .btn-head{
     font-size: 20px;
     width: 100%;
-
+    box-shadow: 2px 4px 5px rgba(0,0,0,0.5);
 }
 .btn-edit{
     max-width: 120px;
@@ -33,6 +31,7 @@ tr{
     font-size: 12px;
     margin: 0 5px;
 }
-/* .home-form-head{
-    background-color: rgb(240, 245, 255);
-} */
+.villager-head{
+    background-color: #1769aa;
+    color: white;
+}

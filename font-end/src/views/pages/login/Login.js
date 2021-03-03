@@ -66,6 +66,13 @@ const Login = () => {
           history.push('/dashboard')
         }
 
+      }).catch(err=>{
+        swal({
+          title: "Warning!",
+          text: "เชื่อมต่อ Server ล้มเหลว",
+          icon: "warning",
+          button: "OK",
+        });
       })
   }
 

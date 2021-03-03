@@ -33,6 +33,7 @@ export const editVillager = (props) =>{
     const home_line_last_name = villagerObj.home_line_last_name
     const home_line_mobile_phone = villagerObj.home_line_mobile_phone
     const home_line_remark = villagerObj.home_line_remark
+    const home_enable = villagerObj.home_enable
     const config = {
       headers: { Authorization: `Bearer ${authStore.access_token}` },
     };
@@ -44,6 +45,7 @@ export const editVillager = (props) =>{
       home_line_last_name,
       home_line_mobile_phone,
       home_line_remark,
+      home_enable,
     };
     const url =`${ApiRoute.main_url}${ApiRoute.port}${ApiRoute.villager.edit_villager_url}`
     return axios.post(url,bodyParameters,config)

@@ -13,6 +13,10 @@ const initialState = {
   home_selected: null,
 };
 
+var globalState={
+  sidebarShow: "responsive"
+};
+
 //ACTION
 export const enaAuthenticationLogin = (props) => {
   return {
@@ -46,17 +50,28 @@ const changeState = (state = initialState, { type, ...rest }) => {
   const data = { ...rest.data };
   switch (type) {
     case "set":
+      globalState = { ...state, ...rest };
       return { ...state, ...rest };
     case "ENABLE_AUTH":
-      return { ...state, ...data };
+      globalState =  { ...state, ...data };
+      localStorage.setItem('authStorage',JSON.stringify(globalState))
+      return globalState;
     case "DISABLE_AUTH":
-      return { ...state };
+      globalState = { ...state };
+      localStorage.setItem('authStorage',JSON.stringify(globalState))
+      return globalState;
     case "SELECT_HOME":
-      return { ...state, ...data };
+      globalState = { ...state, ...data };
+      localStorage.setItem('authStorage',JSON.stringify(globalState))
+      return globalState;
     case "UNSELECT_HOME":
-      return { ...state, ...data };
+      globalState = { ...state, ...data };
+      localStorage.setItem('authStorage',JSON.stringify(globalState))
+      return globalState;
     default:
-      return state;
+      const localStr = localStorage.getItem('authStorage')
+      const localStageReturn = !localStr ? state : JSON.parse(localStr);
+      return localStageReturn;
   }
 };
 

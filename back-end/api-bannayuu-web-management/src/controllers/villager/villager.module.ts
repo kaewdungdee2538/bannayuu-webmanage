@@ -16,16 +16,19 @@ import { VillagerService } from './villager.service';
 export class VillagerModule {
   configure(consumer: MiddlewareConsumer) {
     consumer
-      .apply(DefaultValueMiddleware,HomeEditMiddleware)
+      .apply(DefaultValueMiddleware)
       .forRoutes('webbannayuu/api/villager/*');
       consumer
-      .apply(VillagerAddMiddleware)
+      .apply(HomeEditMiddleware,VillagerAddMiddleware)
       .forRoutes('webbannayuu/api/villager/add-villager');
       consumer
-      .apply(DefaultValueMiddleware,HomeEditMiddleware,VillagerEditMiddleware)
+      .apply(HomeEditMiddleware,DefaultValueMiddleware,VillagerEditMiddleware)
       .forRoutes('webbannayuu/api/villager/get-by-homelineid');
       consumer
-      .apply(VillagerAddMiddleware,VillagerEditMiddleware)
+      .apply(HomeEditMiddleware,VillagerAddMiddleware,VillagerEditMiddleware)
       .forRoutes('webbannayuu/api/villager/edit-villager');
+      consumer
+      .apply(HomeEditMiddleware,VillagerEditMiddleware)
+      .forRoutes('webbannayuu/api/villager/delete-villager');
   }
 }

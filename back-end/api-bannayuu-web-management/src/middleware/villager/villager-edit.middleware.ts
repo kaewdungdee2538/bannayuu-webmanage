@@ -41,7 +41,7 @@ export class VillagerEditMiddleware implements NestMiddleware {
     async checkHomeLineInBase(body:any){
         const home_line_id = body.home_line_id;
         const company_id = body.company_id;
-        let sql = `select * from m_home_line where delete_flag = 'N' and home_line_id = $1 and company_id =$2;`
+        let sql = `select * from m_home_line where home_line_id = $1 and company_id =$2;`
         const query = {
             text:sql
             ,values:[home_line_id,company_id]

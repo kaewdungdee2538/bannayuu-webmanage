@@ -1,4 +1,4 @@
-import { Controller,Request,Body,Post, UseGuards } from '@nestjs/common';
+import { Controller,Request,Body,Post,Delete, UseGuards } from '@nestjs/common';
 import { JwtAuthGuard } from 'src/auth/jwt-auth.guard';
 import { dbConnection } from 'src/pg_database/pg.database';
 import { ErrMessageUtilsTH } from 'src/utils/err_message_th.utils';
@@ -12,6 +12,12 @@ export class VillagerController {
         private readonly errMessageUtilsTh: ErrMessageUtilsTH,
       ) {}
 
+      @UseGuards(JwtAuthGuard)
+      @Post('get-allhome')
+      async getAllHome(@Body() body,@Request() req){
+        return await this.villagerService.getAllHome(body);
+      }
+      
       @UseGuards(JwtAuthGuard)
       @Post('get-all-by-homeid')
       async getVillagerAllByHomeID(@Body() body,@Request() req){
@@ -34,5 +40,11 @@ export class VillagerController {
       @Post('edit-villager')
       async editVillager(@Body() body,@Request() req){
         return await this.villagerService.editVillager(body,req);
+      }
+
+      @UseGuards(JwtAuthGuard)
+      @Delete('delete-villager')
+      async deleteVillager(@Body() body,@Request() req){
+        return await this.villagerService.deleteVillager(body,req);
       }
 }

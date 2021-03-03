@@ -16,10 +16,18 @@ import VillagerAddModal from "../add/Villager-add";
 import store, { selectHome, unSelectHome } from "../../../../store";
 import { useSelector } from "react-redux";
 import { useHistory } from "react-router-dom";
-import { getVillagerInfo,editVillager } from "./Villager-edit-controller";
-
-const fields = ["edit", "name", "telephone", "delete"];
-
+import { getVillagerInfo, editVillager } from "./Villager-edit-controller";
+import { deleteVillager } from "../delete/Villager-delete-controller"
+const fields = ["edit", "name", "telephone", "status"];
+const getBadge = status => {
+  switch (status) {
+      case 'active': return 'success'
+      case 'inactive': return 'secondary'
+      case 'pending': return 'warning'
+      case 'banned': return 'danger'
+      default: return 'primary'
+  }
+}
 const CoreUILineHomeEdit = (props) => {
   const history = useHistory();
   const authStore = useSelector((store) => store);
@@ -30,7 +38,7 @@ const CoreUILineHomeEdit = (props) => {
     selected: false,
     home_id: "",
     home_line_id: "",
-    home_line_code:""
+    home_line_code: ""
   });
   //----------------------------Form load
   useEffect(() => {
@@ -77,10 +85,10 @@ const CoreUILineHomeEdit = (props) => {
     const home_line_id = event.target.getAttribute("home_line_id");
     const home_line_code = event.target.getAttribute("home_line_code");
     setSelectedRow({
-      selected:true
-      ,home_id
-      ,home_line_id
-      ,home_line_code
+      selected: true
+      , home_id
+      , home_line_id
+      , home_line_code
     })
   }
   //------------------------------Show create modal
@@ -88,8 +96,68 @@ const CoreUILineHomeEdit = (props) => {
   let showCreateModal = null;
   if (showCreate) {
     showCreateModal = (
-      <VillagerAddModal showCreate={showCreate} setShowCreate={setShowCreate} setRefeshForm={setRefeshForm}/>
+      <VillagerAddModal showCreate={showCreate} setShowCreate={setShowCreate} setRefeshForm={setRefeshForm} />
     );
+  }
+  //------------------------------Delete villager
+  function deleteVillagerInfo(event) {
+    const home_id = event.target.getAttribute("home_id");
+    const home_line_id = event.target.getAttribute("home_line_id");
+    const home_line_code = event.target.getAttribute("home_line_code");
+    const home_line_name = event.target.getAttribute("home_line_name");
+    if (home_id) {
+      swal({
+        title: "Are you sure?",
+        text: `คุณต้องการลบ ${home_line_name} หรือไม่!`,
+        icon: "warning",
+        buttons: true,
+        dangerMode: true,
+      })
+        .then((willDelete) => {
+          if (willDelete) {
+            swal({
+              title: "Delete!",
+              text: "ต้องการลบลูกบ้านจริง หรือไม่!",
+              icon: "warning",
+              buttons: true,
+              dangerMode: true,
+            })
+              .then((willDelete) => {
+                if (willDelete) {
+                  const villagerObj = {
+                    home_id
+                    , home_line_id
+                  }
+                  console.log(villagerObj)
+                  document.body.style.cursor = 'wait';
+                  deleteVillager({ authStore, villagerObj })
+                    .then(res => {
+                      if (res.error) swal({
+                        title: "Waring.",
+                        text: res.message,
+                        icon: "warning",
+                        button: "OK",
+                      })
+                      else {
+                        swal("ลบลูกบ้านเรียนร้อย", {
+                          icon: "success",
+                        });
+                        setRefeshForm(true);
+                      }
+                    }).catch(err => {
+                      console.log(err)
+                      history.push('/page404')
+                    }).finally(value => {
+                      document.body.style.cursor = 'default';
+                    })
+                } else {
+
+                }
+              });
+          } else {
+          }
+        });
+    }
   }
 
   return (
@@ -99,7 +167,7 @@ const CoreUILineHomeEdit = (props) => {
       <CCardHeader className="villager-head">ลูกบ้าน</CCardHeader>
       <div className="btn-addhome">
         <CButton
-          className="btn-class"
+          className="btn-class btn-head"
           color="success"
           onClick={() => setShowCreate(true)}
         >
@@ -109,7 +177,7 @@ const CoreUILineHomeEdit = (props) => {
       <CCardBody>
         <CCol xs="12" lg="12">
           <CCard>
-            <CCardHeader className="villager-head">Villager Table</CCardHeader>
+            <CCardHeader>Villager Table</CCardHeader>
             <CCardBody>
               <CDataTable
                 // onRowClick={onEditRowClick}
@@ -131,35 +199,45 @@ const CoreUILineHomeEdit = (props) => {
                       <span>{item.home_line_mobile_phone}</span>
                     </td>
                   ),
-                  delete: (item) => (
+                  'status': (item) => (
                     <td>
-                      <CButton
-                        // onClick={deleteHomeModal}
-                        key={Date.now}
-                        home_id={item.home_id}
-                        home_line_id={item.home_line_id}
-                        home_line_code={item.home_line_code}
-                        className="btn-class btn-delete"
-                        color="danger"
-                      >
-                        <CIcon
-                          home_id={item.home_id}
-                          home_line_id={item.home_line_id}
-                          home_line_code={item.home_line_code}
-                          name="cil-ban"
-                        />
-                        <span
-                          home_id={item.home_id}
-                          home_line_id={item.home_line_id}
-                          home_line_code={item.home_line_code}
-                          className="btn-icon"
-                        >
-                          ลบ
-                        </span>
-                      </CButton>
+                        <CBadge color={getBadge(item.status)}>
+                            {item.status}
+                        </CBadge>
                     </td>
-                  ),
-                  edit: (item) => (
+                )
+                  // delete: (item) => (
+                  //   <td>
+                  //     <CButton
+                  //       onClick={deleteVillagerInfo}
+                  //       key={Date.now}
+                  //       home_id={item.home_id}
+                  //       home_line_id={item.home_line_id}
+                  //       home_line_code={item.home_line_code}
+                  //       home_line_name={`${item.home_line_first_name} ${item.home_line_last_name}`}
+                  //       className="btn-class btn-delete"
+                  //       color="danger"
+                  //     >
+                  //       <CIcon
+                  //         home_id={item.home_id}
+                  //         home_line_id={item.home_line_id}
+                  //         home_line_code={item.home_line_code}
+                  //         home_line_name={`${item.home_line_first_name} ${item.home_line_last_name}`}
+                  //         name="cil-ban"
+                  //       />
+                  //       <span
+                  //         home_id={item.home_id}
+                  //         home_line_id={item.home_line_id}
+                  //         home_line_code={item.home_line_code}
+                  //         home_line_name={`${item.home_line_first_name} ${item.home_line_last_name}`}
+                  //         className="btn-icon"
+                  //       >
+                  //         ลบ
+                  //       </span>
+                  //     </CButton>
+                  //   </td>
+                  // ),
+                  ,edit: (item) => (
                     <td>
                       <CButton
                         onClick={onEditRowClick}

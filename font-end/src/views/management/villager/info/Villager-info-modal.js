@@ -11,6 +11,7 @@ import {
   CFormGroup,
   CLabel,
   CInput,
+  CSwitch,
 } from "@coreui/react";
 import store, { selectHome, unSelectHome } from "../../../../store";
 import { useSelector } from "react-redux";
@@ -21,7 +22,7 @@ import {
 } from "./Villager-info-modal-controller";
 import InputDisable from "../../component/input/InputDisable";
 import InputEnable from "../../component/input/InputEnable";
-function VillagerInfoModal({ selectedRow, setSelectedRow,setRefeshForm }) {
+function VillagerInfoModal({ selectedRow, setSelectedRow, setRefeshForm }) {
   const history = useHistory();
   const authStore = useSelector((store) => store);
   const { selected, home_id, home_line_id, home_line_code } = selectedRow;
@@ -32,12 +33,13 @@ function VillagerInfoModal({ selectedRow, setSelectedRow,setRefeshForm }) {
     home_address: "",
     home_line_id: "",
     home_line_code: "",
-    company_name:"",
+    company_name: "",
   });
-  const [firstName,setFirstName] = useState('');
-  const [lastName,setLastName] = useState('');
-  const [mobilePhone,setMobilePhone] = useState('');
-  const [remark,setRemark] = useState('');
+  const [firstName, setFirstName] = useState('');
+  const [lastName, setLastName] = useState('');
+  const [mobilePhone, setMobilePhone] = useState('');
+  const [remark, setRemark] = useState('');
+  const [check, setCheck] = useState('');
   //-----------------------Form load
   useEffect(() => {
     if (!authStore.authorization) {
@@ -62,12 +64,16 @@ function VillagerInfoModal({ selectedRow, setSelectedRow,setRefeshForm }) {
                   home_line_id,
                   home_line_code: result.home_line_code,
                   home_address: result.home_address,
-                  company_name:result.company_name,
-                };});
+                  company_name: result.company_name,
+                  status: result
+                };
+              });
               setFirstName(result.home_line_first_name)
               setLastName(result.home_line_last_name)
               setMobilePhone(result.home_line_mobile_phone)
               setRemark(result.home_line_remark)
+              const status = result.status==='active' ? true : false;
+              setCheck(status)
             } else swal("Warning!", "ไม่พบข้อมูลลูกบ้านในระบบ", "warning");
           } else swal("Warning!", res.error, "warning");
         })
@@ -87,46 +93,68 @@ function VillagerInfoModal({ selectedRow, setSelectedRow,setRefeshForm }) {
 
   function editHomeModal() {
     document.body.style.cursor = "wait";
-      const villagerObj = {
-        home_id
-        ,home_line_id
-        ,home_line_code
-        ,home_line_first_name:firstName
-        ,home_line_last_name:lastName
-        ,home_line_mobile_phone:mobilePhone
-        ,home_line_remark:remark
-      }
-    editVillager({authStore,villagerObj})
-    .then(res=>{
+    const villagerObj = {
+      home_id
+      , home_line_id
+      , home_line_code
+      , home_line_first_name: firstName
+      , home_line_last_name: lastName
+      , home_line_mobile_phone: mobilePhone
+      , home_line_remark: remark
+      , home_enable:check
+    }
+    editVillager({ authStore, villagerObj })
+      .then(res => {
         if (res.error)
-        swal({
-          title: "Warning.",
-          text: res.message,
-          icon: "warning",
-          button: "OK",
-        });
-      else {
-        swal({
-          title: "Success.",
-          text: "เพิ่มบ้านเลขที่เรียบร้อย",
-          icon: "success",
-          button: "OK",
-        });
-        setRefeshForm(true);
-        closeModal();
-      }
-    } ).catch(err=>{
-        swal({
-            title: "Error",
-            text: err,
-            icon: "error",
+          swal({
+            title: "Warning.",
+            text: res.message,
+            icon: "warning",
             button: "OK",
           });
-    }).finally(value=>{
+        else {
+          swal({
+            title: "Success.",
+            text: "เพิ่มบ้านเลขที่เรียบร้อย",
+            icon: "success",
+            button: "OK",
+          });
+          setRefeshForm(true);
+          closeModal();
+        }
+      }).catch(err => {
+        swal({
+          title: "Error",
+          text: err,
+          icon: "error",
+          button: "OK",
+        });
+      }).finally(value => {
         document.body.style.cursor = "default";
-    })
+      })
   }
+  //-----------------------Check Box
+  function onCheckBoxChange(event) {
+    if (!event.target.checked) {
+      swal({
+        title: "ปิดสถานะ!",
+        text: "ต้องการปิดสถานะบ้านหลังนี้หรือไม่!",
+        icon: "warning",
+        buttons: true,
+        dangerMode: true,
+      })
+        .then((willDelete) => {
+          if (willDelete) {
+            setCheck(false)
+          } else {
 
+          }
+        });
+    } else {
+      setCheck(true)
+    }
+  }
+  //------------------------------------------------------------
   return (
     <CModal show={selected} onClose={closeModal} size="lg">
       <CModalHeader closeButton className="modal-villager-head-edit">
@@ -134,6 +162,7 @@ function VillagerInfoModal({ selectedRow, setSelectedRow,setRefeshForm }) {
       </CModalHeader>
       <CModalBody>
         <CFormGroup>
+          <InputDisable title="ชื่อหมู่บ้าน" text={homeObj.company_name} />
           <InputDisable title="Home code" text={homeObj.home_code} />
           <InputDisable title="บ้านเลขที่" text={homeObj.home_address} />
           <InputDisable title="Villager code" text={homeObj.home_line_code} />
@@ -144,7 +173,7 @@ function VillagerInfoModal({ selectedRow, setSelectedRow,setRefeshForm }) {
             setText={setFirstName}
             maxLenght="100"
           />
-         <InputEnable
+          <InputEnable
             title="นามสกุล"
             placeholder="Enter last name"
             text={lastName}
@@ -165,24 +194,37 @@ function VillagerInfoModal({ selectedRow, setSelectedRow,setRefeshForm }) {
             setText={setRemark}
             maxLenght="250"
           />
-          <InputDisable title="ชื่อหมู่บ้าน" text={homeObj.company_name} />
         </CFormGroup>
       </CModalBody>
-      <CModalFooter>
-        <CButton
-          className="btn-modal-footer"
-          color="primary"
-          onClick={editHomeModal}
-        >
-          แก้ไข
+      <CModalFooter className="modal-footer">
+        <div>
+          <CSwitch
+            className={'mx-2'}
+            shape={'pill'}
+            color={'info'}
+            labelOn={'เปิด'}
+            labelOff={'ปิด'}
+            checked={check}
+            onChange={onCheckBoxChange}
+          />
+          <span>สถานะการใช้งาน</span>
+        </div>
+        <div>
+          <CButton
+            className="btn-modal-footer"
+            color="primary"
+            onClick={editHomeModal}
+          >
+            บันทึก
         </CButton>
-        <CButton
-          className="btn-modal-footer"
-          color="secondary"
-          onClick={closeModal}
-        >
-          Cancel
+          <CButton
+            className="btn-modal-footer"
+            color="warning"
+            onClick={closeModal}
+          >
+            ยกเลิก
         </CButton>
+        </div>
       </CModalFooter>
     </CModal>
   );

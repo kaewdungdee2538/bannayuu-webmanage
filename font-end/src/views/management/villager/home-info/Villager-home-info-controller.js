@@ -11,7 +11,7 @@ export const getHomeInfo = (authStore) => {
     };
     return axios
       .post(
-        `${ApiRoute.main_url}${ApiRoute.port}${ApiRoute.home.get_allhome_url}`,
+        `${ApiRoute.main_url}${ApiRoute.port}${ApiRoute.villager.get_home_for_villager_url}`,
         bodyParameters,
         config
       )

@@ -43,7 +43,8 @@ const User = React.lazy(() => import('./views/users/User'));
 const Home = React.lazy(() => import('./views/management/home/edit/Home-edit'))
 const Villager = React.lazy(() => import('./views/management/villager/home-info/Villager-home-info'))
 const VillagerEdit = React.lazy(() => import('./views/management/villager/edit/Villager-edit'))
-const AnnouceMain = React.lazy(()=>import('./views/management/announce/main/annouce-main'))
+const AnnouceMain = React.lazy(()=>import('./views/management/announce/management/main/Annouce-main'))
+const AnnounceHistory = React.lazy(()=>import('./views/management/announce/history/main/Announce-history-main'))
 const routes = [
   { path: '/main', exact: true, name: 'Home' },
   { path: '/page404', name: 'Not Found', component: page404 },
@@ -90,6 +91,7 @@ const routes = [
   { path: '/villager', exact: true, name: 'Villager', component: Villager },
   { path: '/villager/edit', exact: true, name: 'Villager Edit', component: VillagerEdit },
   { path: '/annouce', exact: true, name: 'Annouce', component: AnnouceMain },
+  { path: '/annouce-history', exact: true, name: 'Annouce History', component: AnnounceHistory },
 ];
 
 export default routes;

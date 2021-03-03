@@ -8,7 +8,36 @@ export class VillagerService {
   constructor(
     private readonly errMessageUtilsTh: ErrMessageUtilsTH,
     private readonly dbconnecttion: dbConnection,
-  ) {}
+  ) { }
+  async getAllHome(body: any) {
+    const company_id = body.company_id;
+
+    let sql = `select home_id,home_code,home_name,home_address
+    , home_data,home_remark,create_date,update_date,
+    case when delete_flag = 'N' then 'active'
+    else 'inactive' end as status
+    from m_home 
+    where company_id = $1 and delete_flag = 'N'
+    order by home_address
+    ;`
+    const query = {
+      text: sql
+      , values: [company_id]
+    }
+    const res = await this.dbconnecttion.getPgData(query);
+    if (res.error) throw new StatusException({
+      error: res.error,
+      result: null,
+      message: this.errMessageUtilsTh.messageProcessFail,
+      statusCode: 200
+    }, 200);
+    else throw new StatusException({
+      error: null,
+      result: res.result,
+      message: this.errMessageUtilsTh.messageSuccess,
+      statusCode: 200
+    }, 200);
+  }
 
   async getVillagerAllByHomeID(body: any) {
     const company_id = body.company_id;
@@ -19,9 +48,11 @@ export class VillagerService {
         ,home_line_first_name,home_line_last_name
         ,home_line_mobile_phone
         ,home_line_remark
-         from m_home_line
-         where delete_flag = 'N'
-         and company_id = $1
+        ,case when delete_flag = 'N' then 'active'
+        else 'inactive' end as status
+        from m_home_line
+        where 
+        company_id = $1
          and home_id = $2
          order by home_line_first_name,home_line_last_name,home_line_mobile_phone;`;
     const query = {
@@ -75,31 +106,31 @@ export class VillagerService {
         ,$7
     );`
     const query = {
-        text:sql
-        ,values:[
-            home_id
-            ,home_line_first_name,home_line_last_name
-            ,home_line_mobile_phone,home_line_remark
-            ,employee_id
-            ,company_id
-        ]
+      text: sql
+      , values: [
+        home_id
+        , home_line_first_name, home_line_last_name
+        , home_line_mobile_phone, home_line_remark
+        , employee_id
+        , company_id
+      ]
     }
     const res = await this.dbconnecttion.savePgData([query]);
-        if (res.error) throw new StatusException({
-            error: res.error,
-            result: null,
-            message: this.errMessageUtilsTh.messageProcessFail,
-            statusCode: 200
-        }, 200);
-        else throw new StatusException({
-            error: null,
-            result: this.errMessageUtilsTh.messageSucceessEn,
-            message: this.errMessageUtilsTh.messageSuccess,
-            statusCode: 200
-        }, 200); 
+    if (res.error) throw new StatusException({
+      error: res.error,
+      result: null,
+      message: this.errMessageUtilsTh.messageProcessFail,
+      statusCode: 200
+    }, 200);
+    else throw new StatusException({
+      error: null,
+      result: this.errMessageUtilsTh.messageSucceessEn,
+      message: this.errMessageUtilsTh.messageSuccess,
+      statusCode: 200
+    }, 200);
   }
-//------------------------------------Edit
-  async getVillagerByLineID(body:any,req:any){
+  //------------------------------------Edit
+  async getVillagerByLineID(body: any, req: any) {
     const company_id = body.company_id;
     const home_id = body.home_id;
     const home_line_id = body.home_line_id;
@@ -114,16 +145,18 @@ export class VillagerService {
         ,mh.home_code
         ,mh.home_address
         ,mc.company_name
+        ,case when mhl.delete_flag = 'N' then 'active'
+        else 'inactive' end as status
          from m_home_line mhl left join m_company mc on mhl.company_id = mc.company_id
         left join m_home mh on mhl.home_id = mh.home_id
-         where mhl.delete_flag = 'N'
-         and mhl.company_id = $1
+         where 
+         mhl.company_id = $1
          and mhl.home_id = $2
          and mhl.home_line_id =$3
          order by home_line_first_name,home_line_last_name,home_line_mobile_phone;`;
     const query = {
       text: sql,
-      values: [company_id, home_id,home_line_id],
+      values: [company_id, home_id, home_line_id],
     };
     const res = await this.dbconnecttion.getPgData(query);
     if (res.error)
@@ -148,7 +181,7 @@ export class VillagerService {
       );
   }
 
-  async editVillager(body:any,req:any){
+  async editVillager(body: any, req: any) {
     const employeeObj = req.user.employee
     const company_id = body.company_id;
     const home_id = body.home_id;
@@ -158,33 +191,94 @@ export class VillagerService {
     const home_line_mobile_phone = body.home_line_mobile_phone;
     const home_line_remark = body.home_line_remark;
     const employee_id = employeeObj.employee_id
+    let query1;
+    if (body.home_enable) {
+      let sql = `update m_home_line set
+      home_line_first_name=$1,home_line_last_name=$2
+      ,home_line_mobile_phone=$3,home_line_remark=$4
+      ,update_by=$5,update_date=current_timestamp
+      ,delete_flag='N'
+      where home_line_id=$6 and company_id=$7
+      ;`
+      query1 = {
+        text: sql
+        , values: [
+          home_line_first_name, home_line_last_name
+          , home_line_mobile_phone, home_line_remark
+          , employee_id
+          , home_line_id, company_id
+        ]
+      }
+    } else {
+      let sql = `update m_home_line set
+      home_line_first_name=$1,home_line_last_name=$2
+      ,home_line_mobile_phone=$3,home_line_remark=$4
+      ,update_by=$5,update_date=current_timestamp
+      ,delete_flag='Y',delete_date=current_timestamp,delete_by=$6
+      where home_line_id=$7 and company_id=$8
+      ;`
+      query1 = {
+        text: sql
+        , values: [
+          home_line_first_name, home_line_last_name
+          , home_line_mobile_phone, home_line_remark
+          , employee_id
+          , employee_id
+          , home_line_id, company_id
+        ]
+      }
+    }
+
+    const querys = [query1];
+
+    const res = await this.dbconnecttion.savePgData(querys);
+    if (res.error) throw new StatusException({
+      error: res.error,
+      result: null,
+      message: this.errMessageUtilsTh.messageProcessFail,
+      statusCode: 200
+    }, 200);
+    else throw new StatusException({
+      error: null,
+      result: this.errMessageUtilsTh.messageSucceessEn,
+      message: this.errMessageUtilsTh.messageSuccess,
+      statusCode: 200
+    }, 200);
+  }
+
+  //--------------------------Delete
+  async deleteVillager(body: any, req: any) {
+    const employeeObj = req.user.employee
+    const company_id = body.company_id;
+    const home_id = body.home_id;
+    const home_line_id = body.home_line_id;
+    const employee_id = employeeObj.employee_id
     let sql = `update m_home_line set
-    home_line_first_name=$1,home_line_last_name=$2
-    ,home_line_mobile_phone=$3,home_line_remark=$4
-    ,update_by=$5,update_date=current_timestamp
-    where home_line_id=$6 and company_id=$7
+    delete_flag = 'Y',delete_date = current_timestamp
+    ,delete_by = $1
+    where company_id = $2
+    and home_line_id = $3
     ;`
     const query = {
-        text:sql
-        ,values:[
-            home_line_first_name,home_line_last_name
-            ,home_line_mobile_phone,home_line_remark
-            ,employee_id
-            ,home_line_id,company_id
-        ]
+      text: sql
+      , values: [
+        employee_id
+        , company_id
+        , home_line_id
+      ]
     }
     const res = await this.dbconnecttion.savePgData([query]);
-        if (res.error) throw new StatusException({
-            error: res.error,
-            result: null,
-            message: this.errMessageUtilsTh.messageProcessFail,
-            statusCode: 200
-        }, 200);
-        else throw new StatusException({
-            error: null,
-            result: this.errMessageUtilsTh.messageSucceessEn,
-            message: this.errMessageUtilsTh.messageSuccess,
-            statusCode: 200
-        }, 200); 
+    if (res.error) throw new StatusException({
+      error: res.error,
+      result: null,
+      message: this.errMessageUtilsTh.messageProcessFail,
+      statusCode: 200
+    }, 200);
+    else throw new StatusException({
+      error: null,
+      result: this.errMessageUtilsTh.messageSucceessEn,
+      message: this.errMessageUtilsTh.messageSuccess,
+      statusCode: 200
+    }, 200);
   }
 }

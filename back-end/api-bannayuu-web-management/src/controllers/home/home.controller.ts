@@ -142,7 +142,7 @@ export class HomeController {
   async checkHomeInbase(body: any) {
     const home_id = body.home_id;
     const company_id = body.company_id;
-    let sql = `select * from m_home where delete_flag = 'N' and company_id = $1 and home_id = $2;`;
+    let sql = `select * from m_home where  company_id = $1 and home_id = $2;`;
     const query = {
       text: sql,
       values: [company_id, home_id],

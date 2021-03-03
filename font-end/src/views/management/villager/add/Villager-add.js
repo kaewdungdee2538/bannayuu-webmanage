@@ -132,7 +132,7 @@ function VillagerAddModal({ showCreate, setShowCreate, setRefeshForm}) {
         </CButton>
         <CButton
           className="btn-modal-footer"
-          color="secondary"
+          color="warning"
           onClick={closeModal}
         >
           ยกเลิก
