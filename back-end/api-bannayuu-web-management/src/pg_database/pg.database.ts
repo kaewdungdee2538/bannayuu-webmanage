@@ -1,16 +1,17 @@
 import 'dotenv/config';
 import { createConnection } from "typeorm";
+import {configfile} from '../conf/config.json'
 var connection;
 export class dbConnection {
     async createPgConnect() {
         try {
             connection = await createConnection({
                 type: 'postgres',
-                host: process.env.HOST,
+                host: configfile.host_name,
                 port: 5432,
                 username: 'cit',
                 password: 'db13apr',
-                database: process.env.DATABASE
+                database: configfile.database_name
             });
             console.log('Create PG Connection Success.');
             return true;

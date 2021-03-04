@@ -1,6 +1,6 @@
 
 const ApiRoute ={
-    main_url:"cit.bannayuu.com",
+    main_url:"http://cit.bannayuu.com",
     port:':4010',
     login:{
         login_url:'/webbannayuu/api/auth/login'
