@@ -16,6 +16,7 @@ import swal from 'sweetalert';
 import SelectBox from '../../../component/selectbox/SelectBox'
 import HistorySelectObject from './itemForSearch'
 import AnnounceHistoryMainController from './Announce-history-main-controller'
+import AnnounceHistoryModal from '../modal/Announce-history-modal'
 const fields = ['view', 'name', 'header', 'postdate', 'status']
 const getBadge = status => {
     switch (status) {
@@ -38,6 +39,9 @@ function AnnounceHistoryMain() {
             , type: HistorySelectObject[0].type
         });
     const [showHistory,setShowHistory] = useState(false);
+    const [selectHistory,setSelectHistory] = useState({
+        hni_id:"",hni_code:""
+    })
     //--------------Form load
     useEffect(() => {
         if (!authStore.authorization) {
@@ -73,7 +77,21 @@ function AnnounceHistoryMain() {
     }
     //---------------Show history
     function onViewClick(event){
+        const hni_id = event.target.getAttribute("hni_id");
+        const hni_code = event.target.getAttribute("hni_code");
+        setSelectHistory({
+            hni_id,hni_code
+        })
         setShowHistory(true)
+    }
+    let modalShowValue = null;
+    if(showHistory){
+        modalShowValue = <AnnounceHistoryModal
+        authStore={authStore}
+        showHistory={showHistory}
+        setShowHistory={setShowHistory}
+        selectHistory={selectHistory}
+        />
     }
     //---------------------------------------------
     return (<CCard>
@@ -159,7 +177,7 @@ function AnnounceHistoryMain() {
                 </CCard>
             </CCol>
         </CCardBody>
-
+        {modalShowValue}
     </CCard>)
 }
 

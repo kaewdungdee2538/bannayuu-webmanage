@@ -21,8 +21,6 @@ const SelectBox = (props) => {
     function onSelectedChange(event) {
         const value = event.target.value;
         const type = event.target.options[event.target.selectedIndex].getAttribute('type');
-        console.log(value);
-        console.log(type);
         setSelected({value,type})
     }
     return (<CFormGroup >

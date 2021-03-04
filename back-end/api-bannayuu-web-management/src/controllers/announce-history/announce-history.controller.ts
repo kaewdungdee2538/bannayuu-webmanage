@@ -17,4 +17,10 @@ export class AnnounceHistoryController {
       async getNormal(@Body() body,@Request() req){
         return await this.announceHistoryService.getNormal(body);
       }
+
+      @UseGuards(JwtAuthGuard)
+      @Post('get-by-id')
+      async getHistoryByid(@Body() body,@Request() req){
+          return await this.announceHistoryService.getHistoryByid(body);
+      }
 }

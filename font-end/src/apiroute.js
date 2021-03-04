@@ -1,6 +1,6 @@
 
 const ApiRoute ={
-    main_url:"http://cit.bannayuu.com",
+    main_url:"http://localhost",
     port:':4010',
     login:{
         login_url:'/webbannayuu/api/auth/login'
@@ -24,6 +24,7 @@ const ApiRoute ={
         ,edit_announce_url:'/webbannayuu/api/announce/edit-announce'
         ,delete_announce_url:'/webbannayuu/api/announce/cancel-announce'
         ,get_history_announce_all_url:'/webbannayuu/api/announce-history/get-normal'
+        ,get_history_announce_by_hni_id_url:'/webbannayuu/api/announce-history/get-by-id'
     }
 }
 export default ApiRoute;

@@ -162,7 +162,7 @@ function VillagerInfoModal({ selectedRow, setSelectedRow, setRefeshForm }) {
       </CModalHeader>
       <CModalBody>
         <CFormGroup>
-          <InputDisable title="ชื่อหมู่บ้าน" text={homeObj.company_name} />
+          <InputDisable title="ชื่อโครงการ" text={homeObj.company_name} />
           <InputDisable title="Home code" text={homeObj.home_code} />
           <InputDisable title="บ้านเลขที่" text={homeObj.home_address} />
           <InputDisable title="Villager code" text={homeObj.home_line_code} />

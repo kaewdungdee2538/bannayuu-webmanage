@@ -1,0 +1,10 @@
+.status-form{
+    display: flex;
+    flex-direction: column;
+}
+.item{
+    min-width: 100px;
+    max-width: 30%;
+    font-size: 20px;
+    text-transform: capitalize;
+}

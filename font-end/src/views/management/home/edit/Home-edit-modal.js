@@ -162,7 +162,7 @@ function HomeEditModal({ selectedRow, setSelectedRow, authStore, setRefeshForm }
             <CModalBody>
                 <CFormGroup>
                     <HomeAddGetCode
-                        title="ชื่อหมู่บ้าน"
+                        title="ชื่อโครงการ"
                         text={companyName}
                     />
                     <HomeAddGetCode

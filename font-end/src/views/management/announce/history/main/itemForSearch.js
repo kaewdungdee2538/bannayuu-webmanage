@@ -16,9 +16,17 @@ const HistorySelectObject = [
         , type: "month"
         , text: "1 เดือน"
     }, {
-        value: "2"
+        value: "3"
         , type: "month"
-        , text: "2 เดือน"
+        , text: "3 เดือน"
+    }, {
+        value: "6"
+        , type: "month"
+        , text: "6 เดือน"
+    }, {
+        value: "1"
+        , type: "year"
+        , text: "1 ปี"
     }
 ]
 

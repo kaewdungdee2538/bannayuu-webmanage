@@ -1,4 +1,5 @@
 import { MiddlewareConsumer, Module } from '@nestjs/common';
+import { AnnounceHistoryGetByIDMiddleware } from 'src/middleware/announce-history/announce-history-getbyid.middleware';
 import { AnnounceHistoryNormalMiddleware } from 'src/middleware/announce-history/announce-history-normal.middleware';
 import { DefaultValueMiddleware } from 'src/middleware/default-value/default-value.middleware';
 import { dbConnection } from 'src/pg_database/pg.database';
@@ -19,5 +20,8 @@ export class AnnounceHistoryModule {
       consumer
       .apply(AnnounceHistoryNormalMiddleware)
       .forRoutes('webbannayuu/api/announce-history/get-normal');
+      consumer
+      .apply(AnnounceHistoryGetByIDMiddleware)
+      .forRoutes('webbannayuu/api/announce-history/get-by-id');
   }
 }
