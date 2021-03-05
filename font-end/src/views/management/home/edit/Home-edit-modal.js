@@ -147,8 +147,6 @@ function HomeEditModal({ selectedRow, setSelectedRow, authStore, setRefeshForm }
         } else {
             setCheck(true)
         }
-
-
     }
     return (
         <CModal

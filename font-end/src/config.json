@@ -1,0 +1,6 @@
+{
+    "config": {
+        "url_hosting": "http://localhost",
+        "url_port": ":4010"
+    }
+}

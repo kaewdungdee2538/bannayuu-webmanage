@@ -13,15 +13,15 @@ const _nav = [
     _children: ['e-stamp management']
   }, {
     _tag: 'CSidebarNavDropdown',
-    name: 'จัดการ',
+    name: 'ตราประทับ',
     route: '/icons',
-    icon: 'cil-drop',
+    icon: 'cil-star',
     _children: [
       {
         _tag: 'CSidebarNavItem',
-        name: 'E-STAMP',
+        name: 'ประทับตราผู้มาเยือน',
         route: '/icons',
-        to: '',
+        to: '/estamp',
       },
     ]
   },
@@ -31,7 +31,7 @@ const _nav = [
   },
   {
     _tag: 'CSidebarNavDropdown',
-    name: 'Home Management',
+    name: 'หมู่บ้าน',
     route: '/icons',
     icon: 'cil-drop',
     _children: [

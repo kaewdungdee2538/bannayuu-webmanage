@@ -39,6 +39,9 @@ export class ErrMessageUtilsTH{
     errVisitorRecordIdProhibitSpecial = 'Visitor record ห้ามมีอักระพิเศษ หรือช่องว่าง'
     errVisitorRecordIdNotNumber = 'Visitor record ต้องเป็นตัวเลขเท่านั้น'
 
+    errVisitorRecord_CodeNotFound = 'ไม่พบโค้ด Visitor record'
+    errVisitorRecord_CodeProhitbit = 'โค้ด Visitor record ห้ามมีอักขระพิเศษ หรือช่องว่าง'
+
     errVisitorInfoNotFound = 'ไม่พบข้อมูลของ Visitor'
     errVisitorInfoPrefixNameNotFound = 'ไม่พบคำนำหน้าชื่อ Visitor'
     errVisitorInfoPrefixNameProhibitSpecial = 'คำนำหน้าชื่อ Visitor ห้ามมีอักขระพิเศษหรือช่องว่าง'
@@ -213,4 +216,12 @@ export class ErrMessageUtilsTH{
     errAnnounceValueNotNumber = 'จำนวนที่ใช้ในการค้นหาประวัติของประกาศโครงการ ต้องเป็นตัวเลขเท่านั้น'
     errAnnounceTypeNotFound = 'ไม่พบประเภทที่ใช้ในการค้นหาประวัติของประกาศโครงการ'
     errAnnounceTypeProhibitSpecial = 'ประเภทที่ใช้ในการค้นหาประวัติของประกาศโครงการ ห้ามมีอักขระพิเศษ หรือช่องว่าง'
+
+    errLicensePlateProhitbitSpecial = 'ทะเบียนรถห้ามมีอักขระพิเศษ'
+
+    errEstampNotInBase = 'ไม่พบตราประทับในระบบ'
+    errEstampNotFound = 'ไม่พบการประทับตรา'
+    errEstampProhibitSpecial = 'การประทับตรา ห้ามมีอักขระพิเศษ หรือช่องว่าง'
+
+    errVisitorRecordNotIn = 'ไม่พบการทำรายการเข้านี้'
 }
