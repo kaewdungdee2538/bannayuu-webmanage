@@ -53,7 +53,7 @@ const TheHeader = () => {
       <CHeaderBrand className="mx-auto d-lg-none" to="/">
         {/* <CIcon name="logo" height="48" alt="Logo"/> */}
         <CImg
-            src={'https://creativetalklive.com/wp-content/uploads/2019/10/applelogo1.jpg'}
+            src={'./image/logo-no-background.svg'}
             height="48"
             width="100"
           />

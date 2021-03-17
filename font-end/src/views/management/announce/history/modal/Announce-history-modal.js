@@ -75,6 +75,7 @@ const AnnounceHistoryModal = ({ showHistory, setShowHistory, selectHistory, setR
         <CModal
             show={showHistory}
             onClose={closeModal}
+            closeOnBackdrop={false}
             size="lg"
         >
             <CModalHeader closeButton className="modal-header">
@@ -126,6 +127,7 @@ const AnnounceHistoryModal = ({ showHistory, setShowHistory, selectHistory, setR
                 </CFormGroup>
             </CModalBody>
             <CModalFooter className="modal-footer">
+                <div></div>
                 <CButton className="btn-modal-footer" color="warning" onClick={closeModal}>ยกเลิก</CButton>
             </CModalFooter>
         </CModal>

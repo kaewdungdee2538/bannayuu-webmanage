@@ -14,7 +14,6 @@ const SelectBox = (props) => {
             name={name}
             value={item.value}
             type={item.type}
-
         >{item.text}
         </option>
     })
@@ -23,9 +22,11 @@ const SelectBox = (props) => {
         const type = event.target.options[event.target.selectedIndex].getAttribute('type');
         setSelected({value,type})
     }
-    return (<CFormGroup >
+    return (
+        
+    <CFormGroup >
         <CLabel>{title}</CLabel>
-        <CSelect custom
+        <CSelect 
             onChange={onSelectedChange}
         >
             {optionElem}

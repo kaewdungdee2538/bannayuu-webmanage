@@ -1,0 +1,24 @@
+.form-home-add-footer{
+    display: flex;
+    justify-content: flex-end;
+}
+
+.form-home-add-footer .btn{
+    margin: 0 10px;
+}
+.modal-header-edit{
+    background-color: rgba(50,31,229);
+    color: white;
+}
+
+.modal-input-disable{
+    color: gray;
+}
+.btn-modal-footer{
+    margin-left: 15px;
+    min-width: 90px;
+}
+
+.btn-icon-footer{
+    margin: 0 5px;
+}

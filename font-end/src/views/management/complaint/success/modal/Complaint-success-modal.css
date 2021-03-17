@@ -1,0 +1,41 @@
+.btn-modal-footer{
+    margin-left: 15px;
+    min-width: 90px;
+}
+.modal-header{
+    background-color: #37474f;
+    color: white;
+}
+
+.modal-footer{
+    display: flex;
+    justify-content: space-between;
+}
+
+.modal-footer>div{
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+.status{
+    font-size: 18px;
+}
+
+.img-complaint{
+    padding: 5px;
+    margin: 0 auto;
+    background-color: rgba(112, 128, 144, 0.404);
+    height: 240px;
+    max-width: 380px;
+}
+
+.img-complaint img{
+    width: 100%;
+    height: 100%;
+}
+
+.btn-icon{
+    font-size: 12px;
+    margin: 0 5px;
+}

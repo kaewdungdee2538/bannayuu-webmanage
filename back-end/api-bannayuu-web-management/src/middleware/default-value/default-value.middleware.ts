@@ -44,7 +44,7 @@ export class DefaultValueMiddleware implements NestMiddleware {
         //     return this.errMessageUrilTh.errGuardHouseIDNotNumber
         // else if(this.formatDataUtils.HaveSpecialFormat(body.guardhouse_code))
         //     return this.errMessageUrilTh.errGuardHouseCodeProhibitSpecial
-        return this.CheckCompanyInBase(body);
+        return await this.CheckCompanyInBase(body);
     }
 
     async CheckCompanyInBase(body: any) {

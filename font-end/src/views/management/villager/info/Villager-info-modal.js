@@ -156,7 +156,12 @@ function VillagerInfoModal({ selectedRow, setSelectedRow, setRefeshForm }) {
   }
   //------------------------------------------------------------
   return (
-    <CModal show={selected} onClose={closeModal} size="lg">
+    <CModal 
+    show={selected} 
+    onClose={closeModal} 
+    closeOnBackdrop={false}
+    borderColor="primary"
+    size="lg">
       <CModalHeader closeButton className="modal-villager-head-edit">
         <CModalTitle>แก้ไขข้อมูลบ้าน</CModalTitle>
       </CModalHeader>

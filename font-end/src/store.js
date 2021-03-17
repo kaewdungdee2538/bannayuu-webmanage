@@ -57,7 +57,7 @@ const changeState = (state = initialState, { type, ...rest }) => {
       localStorage.setItem('authStorage',JSON.stringify(globalState))
       return globalState;
     case "DISABLE_AUTH":
-      globalState = { ...state };
+      globalState = initialState;
       localStorage.setItem('authStorage',JSON.stringify(globalState))
       return globalState;
     case "SELECT_HOME":

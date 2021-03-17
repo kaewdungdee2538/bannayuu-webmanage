@@ -1,0 +1,179 @@
+import React, { useState, useEffect } from 'react'
+import swal from 'sweetalert';
+import './Parcel-receive-add.css'
+import { useSelector } from 'react-redux'
+import { useHistory } from 'react-router-dom'
+import {
+    CButton,
+    CModal,
+    CModalHeader,
+    CModalTitle,
+    CModalBody,
+    CModalFooter,
+    CFormGroup,
+    CRow,
+    CCol,
+    CLabel,
+    CInputFile,
+} from '@coreui/react'
+import InputEnable from '../../../component/input/InputEnable'
+import InputDisable from '../../../component/input/InputDisable'
+import TextArea from '../../../component/textarea/TextArea'
+import { addParcelReceive } from './Parcel-receive-add-controller'
+const ParcelReceiveAdd = ({ showAddModal, setShowAddModal, setRefeshForm }) => {
+    const history = useHistory();
+    const authStore = useSelector(state => state)
+    const [address, setAddress] = useState('');
+    const [header, setHeader] = useState('');
+    const [detail, setDetail] = useState('');
+    const [image, setImage] = useState(null);
+    const [fileName, setFileName] = useState('Choose File');
+    //--------------------------Form load
+    // useEffect(()=>{
+    //     if (!authStore.authorization) {
+    //         history.push("/");
+    //     } else {
+    //         document.body.style.cursor = "wait";
+    //         getHomeInfo({ authStore })
+    //             .then((res) => {
+    //                 if (res.result) {
+    //                     const result = res.result;
+    //                     setHomeAddressObj(result);
+    //                     console.log(result)
+    //                 } else swal("Warning!", res.error, "warning");
+    //             })
+    //             .catch((err) => {
+    //                 console.log(err);
+    //                 history.push("/page404");
+    //             })
+    //             .finally((value) => {
+    //                 document.body.style.cursor = "default";
+    //             });
+    //     }
+    // },[])
+    //--------------------------Close Modal
+    function closeModal(event) {
+        setShowAddModal(false);
+        setRefeshForm(true);
+    }
+
+    function addParcelModal() {
+        document.body.style.cursor = 'wait';
+        const values = {
+            authStore
+            , valuesObj: {
+                address,
+                header,
+                detail,
+                image
+            }
+        }
+        addParcelReceive(values).then(res => {
+            if (res.error) swal({
+                title: "Warning.",
+                text: res.message,
+                icon: "warning",
+                button: "OK",
+            });
+            else {
+                swal({
+                    title: "Success.",
+                    text: "ทำรายการรับพัสดุเรียบร้อย",
+                    icon: "success",
+                    button: "OK",
+                });
+                setRefeshForm(true)
+                closeModal();
+            }
+            document.body.style.cursor = 'default';
+        })
+
+    }
+
+
+    return (
+        <CModal
+            show={showAddModal}
+            onClose={closeModal}
+            closeOnBackdrop={false}
+            borderColor="success"
+            size="lg"
+        >
+            <CModalHeader closeButton className="modal-header-add">
+                <CModalTitle>ทำรายการรับพัสดุให้ลูกบ้าน</CModalTitle>
+            </CModalHeader>
+            <CModalBody>
+                <CFormGroup>
+                    <CRow>
+                        <CCol xs="12" sm="6" md="6">
+                            <InputDisable
+                                title="รหัสรับพัสดุ"
+                            />
+                        </CCol>
+                    </CRow>
+                    <CRow>
+                        <CCol xs="12" sm="6" md="6">
+                            <InputEnable
+                                title="บ้านเลขที่ (ลูกบ้าน)"
+                                text={address}
+                                setText={setAddress}
+                                maxLength={100}
+                                placeholder="Enter address "
+                            />
+                        </CCol>
+                    </CRow>
+                    <CRow>
+                        <CCol xs="12" sm="12" md="12">
+                            <InputEnable
+                                title="หัวข้อการรับพัสดุ"
+                                text={header}
+                                setText={setHeader}
+                                maxLength={100}
+                                placeholder="Enter parcel head"
+                            />
+                        </CCol>
+                    </CRow>
+
+                    <CRow>
+                        <CCol xs="12" sm="12" md="12">
+                            <TextArea
+                                title="รายละเอียดของพัสดุ"
+                                text={detail}
+                                setText={setDetail}
+                                maxLength={250}
+                                rows="3"
+                                placeholder="Enter parcel detail"
+                            />
+                        </CCol>
+                    </CRow>
+                    <br></br>
+                    <CRow>
+                        <CCol xs="12" md="12">
+                            <CLabel>เลือกรูปภาพ</CLabel>
+                            <div className="custom-file mb-3">
+                                <input type="file" className="custom-file-input" id="customFile" name="filename"
+                                    accept="image/*"
+                                    onChange={async (event) => {
+                                        const file = event.target.files.item(0);
+                                        setImage(file)
+                                        setFileName(file.name)
+                                    }
+                                    } />
+                                <label className="custom-file-label" htmlFor="customFile">{fileName}</label>
+                            </div>
+                        </CCol>
+                    </CRow>
+                </CFormGroup>
+            </CModalBody>
+            <CModalFooter>
+                <div></div>
+                <div>
+                    <CButton className="btn-modal-footer" color="success" onClick={addParcelModal}>เพิ่มรายการ</CButton>
+                    <CButton className="btn-modal-footer" color="warning" onClick={closeModal}>ยกเลิก</CButton>
+                </div>
+            </CModalFooter>
+        </CModal>
+    )
+}
+
+export default ParcelReceiveAdd

@@ -1,7 +1,9 @@
+import * as moment from 'moment';
 const format = /[ `!@#$%^&*()_+\-=\[\]{};':"\\|,.<>\/?~]/;
 const formatuuid = /[ `!@#$%^&*()_+\=\[\]{};':"\\|,.<>\/?~]/;
 const formathome = /[`@#$%^&*;'|<>~]/;
 const formatname = /[`!@#$%^&*()_+\-=\[\]{};':"\\|,.<>\/?~]/;
+
 export class FormatDataUtils {
     HaveSpecialFormat(input: string) {
         if (format.test(input))
@@ -9,19 +11,19 @@ export class FormatDataUtils {
         return false;
     }
 
-    HaveSpecialUuidFormat(input:string){
+    HaveSpecialUuidFormat(input: string) {
         if (formatuuid.test(input))
             return true;
         return false;
     }
 
-    HaveSpecialHomeFormat(input:string){
+    HaveSpecialHomeFormat(input: string) {
         if (formathome.test(input))
             return true;
         return false;
     }
 
-    HaveSpecialNameFormat(input:string){
+    HaveSpecialNameFormat(input: string) {
         if (formatname.test(input))
             return true;
         return false;
@@ -74,5 +76,16 @@ export class FormatDataUtils {
 
         console.log('Identity : ' + check)
         return check;
+    }
+
+    async IsDateTimeFormat(input: string) {
+        try {
+            const isdata = moment(input, "YYYY-MM-DD HH:mm:ss").isValid();
+            console.log('IsDateTimeFormat : '+isdata)
+            return isdata;
+        } catch (err) {
+            console.log(err);
+            return false;
+        }
     }
 }

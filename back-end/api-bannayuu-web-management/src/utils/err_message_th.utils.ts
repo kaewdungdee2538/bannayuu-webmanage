@@ -100,6 +100,7 @@ export class ErrMessageUtilsTH{
     errImageCardNotFound = 'ไม่พบรูปภาพหน้าบัตร'
     errImageVehicleNotFound = 'ไม่พบรูปภาพพาหนะ'
     errImageCustomerNotFound = 'ไม่พบรูปภาพผู้ใช้บริการ'
+    errImageParcelNotFound = 'ไม่พบรูปภาพพัสดุ'
 
     errHomeIDNotFound = 'ไม่พบรหัสที่อยู่'
     errHomeIDNotNumber = 'รหัสที่อยู่ต้องเป็นตัวเลขเท่านั้น'
@@ -224,4 +225,34 @@ export class ErrMessageUtilsTH{
     errEstampProhibitSpecial = 'การประทับตรา ห้ามมีอักขระพิเศษ หรือช่องว่าง'
 
     errVisitorRecordNotIn = 'ไม่พบการทำรายการเข้านี้'
+
+    errComplaintIDNotfound = 'ไม่พบรหัสร้องเรียน'
+    errComplaintIDProhibitSpecial = 'รหัสร้องเรียนห้ามมีอักขระพิเศษ หรือช่องว่าง'
+    errComplaintIDNotNumber = 'รหัสร้องเรียนต้องเป็นตัวเลขเท่านั้น'
+    errComplaintNotInBase = 'ไม่พบการร้องเรียนในระบบ'
+    errComplaintHeaderProhibitSpecial = 'หัวข้อร้องเรียนห้ามมีอักขระพิเศษ'
+
+    errComplaintRemarkNotFound = 'ไม่พบข้อความแจ้งเตือนลูกค้า'
+    errComplaintRemarkProhitbitSpecial = 'ข้อความแจ้งเตือนลูกค้า ห้ามมีอักขระพิเศษ'
+
+    errTimeStartNotFound = 'ไม่พบเวลาเริ่มต้นในการค้นหา'
+    errTimeStartNotTimeFormat = 'รูปแบบเวลาเริ่มต้นในการค้นหาไม่ถูกต้อง'
+    errTimeEndNotFound = 'ไม่พบเวลาสิ้นสุดในการค้นหา'
+    errTimeEndNotTimeFormat = 'รูปแบบเวลาสิ้นสุดในการค้นหาไม่ถูกต้อง'
+    errTimeStartOverTimeEnd = 'เวลาค้นหาเริ่มต้น ต้องน้อยกว่าเวลาค้นหาสิ้นสุด'
+
+    errParcelReceiveTitleNotFound = 'กรุณาระบุหัวข้อการรับพัสดุ'
+    errParcelReceiveTitleProhitbitSpecial = 'หัวข้อการรับพัสดุ ห้ามมีอักขระพิเศษ'
+    errParcelRecieveDetailProhibitSpecial = 'รายละเอียดการรับพัสดุ ห้ามมีอักขระพิเศษ'
+    errReceiveParcelDetailNotFound = 'กรุณาระบุรายละเอียดของพัสดุ'
+    errRecieveParcelDetailProhibitSpecial = 'รายะละเอียดของพัสดุ ห้ามมีอักขระพิเศษ'
+    errSendParcelDetailNotfound = 'กรุณาระบุรายละเอียดการส่งมอบพัสดุ'
+    errSendParcelDetailProhitbitSpecial = 'ละเอียดการส่งมอบพัสดุ ห้ามมีอักขระพิเศษ'
+
+    errParcelIDNotFound = 'ไม่พบรหัสพัสดุ'
+    errParcelIDProhitbitSpecial = 'รหัสพัสดุ ห้ามมีอักขระพิเศษ หรือช่องว่าง'
+    errParcelIDNotNumber = 'รหัสพัสดุต้องเป็นตัวเลขเท่านั้น'
+    errParcelNotInBase = 'ไม่พบรหัสพัสดุในระบบ'
+    errParcelSuccessfully = 'ลูกบ้านทำรายการรับพัสดุแล้ว'
+    errParcelSending = 'พัสดุถูกส่งให้ลูกบ้านแล้ว'
 }

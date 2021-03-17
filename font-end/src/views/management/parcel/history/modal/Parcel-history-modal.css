@@ -1,0 +1,25 @@
+.form-home-add-footer{
+    display: flex;
+    justify-content: flex-end;
+}
+
+.form-home-add-footer .btn{
+    margin: 0 10px;
+}
+.modal-header-parcel-his{
+    background-color: #2c387e;
+    color: white;
+}
+
+.modal-input-disable{
+    color: gray;
+}
+.btn-modal-footer{
+    margin-left: 15px;
+    min-width: 90px;
+}
+
+.btn-icon-footer{
+    margin: 0 5px;
+}
+

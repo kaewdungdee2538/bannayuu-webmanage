@@ -12,8 +12,8 @@ import {
   CSidebarNavItem,
   CImg
 } from '@coreui/react'
+import '../css/style.css'
 
-import CIcon from '@coreui/icons-react'
 
 // sidebar nav config
 import navigation from './_nav'
@@ -39,9 +39,16 @@ const TheSidebar = () => {
           height={35}
         /> */}
          <CImg
-            src={'https://creativetalklive.com/wp-content/uploads/2019/10/applelogo1.jpg'}
-            className="c-avatar-img"
+            src={'./image/logo-big.svg'}
+            // className="c-avatar-img"
+            className="c-sidebar-brand-full sidebar-head"
             height={70}
+          />
+           <CImg
+            src={'./image/logo-big.svg'}
+            // className="c-avatar-img"
+            className="c-sidebar-brand-minimized"
+            height={35}
           />
       </CSidebarBrand>
       <CSidebarNav>

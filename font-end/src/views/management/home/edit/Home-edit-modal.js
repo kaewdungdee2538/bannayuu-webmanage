@@ -152,6 +152,8 @@ function HomeEditModal({ selectedRow, setSelectedRow, authStore, setRefeshForm }
         <CModal
             show={selected}
             onClose={closeModal}
+            closeOnBackdrop={false}
+            borderColor="primary"
             size="lg"
         >
             <CModalHeader closeButton className="modal-header-edit">

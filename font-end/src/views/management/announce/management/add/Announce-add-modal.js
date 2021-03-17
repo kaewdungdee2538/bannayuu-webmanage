@@ -107,6 +107,8 @@ function AnnouceAddModal({ showAddAnnouce, setShowAddAnnouce,setRefeshForm }) {
         <CModal
             show={showAddAnnouce}
             onClose={closeModal}
+            closeOnBackdrop={false}
+            borderColor="success"
             size="lg"
         >
             <CModalHeader closeButton className="modal-header-add">

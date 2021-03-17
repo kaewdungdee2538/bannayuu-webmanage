@@ -61,6 +61,8 @@ const CoreUIHomeAdd = ({ showCreateAdd, setShowCreateAdd ,setRefeshForm}) => {
         <CModal
             show={showCreateAdd}
             onClose={closeModal}
+            closeOnBackdrop={false}
+            borderColor="success"
             size="lg"
         >
             <CModalHeader closeButton className="modal-header-add">

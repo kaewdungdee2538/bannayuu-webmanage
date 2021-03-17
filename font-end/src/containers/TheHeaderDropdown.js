@@ -8,8 +8,19 @@ import {
   CImg
 } from '@coreui/react'
 import CIcon from '@coreui/icons-react'
-
+import { useHistory } from 'react-router-dom'
+import store, { disAuthenticationLogin } from '../store'
 const TheHeaderDropdown = () => {
+  let history = useHistory();
+  function onLogoutClick(event) {
+    //set global store
+    store.dispatch(disAuthenticationLogin());
+    history.push('/')
+  }
+
+  function onUserProfileClick(event) {
+    history.push('/user-profile')
+  }
   return (
     <CDropdown
       inNav
@@ -62,13 +73,13 @@ const TheHeaderDropdown = () => {
         >
           <strong>Settings</strong>
         </CDropdownItem>
-        <CDropdownItem>
+        <CDropdownItem onClick={onUserProfileClick}>
           <CIcon name="cil-user" className="mfe-2" />Profile
         </CDropdownItem>
-        <CDropdownItem>
+        {/* <CDropdownItem>
           <CIcon name="cil-settings" className="mfe-2" />
           Settings
-        </CDropdownItem>
+        </CDropdownItem> */}
         {/* <CDropdownItem>
           <CIcon name="cil-credit-card" className="mfe-2" />
           Payments
@@ -80,7 +91,7 @@ const TheHeaderDropdown = () => {
           <CBadge color="primary" className="mfs-auto">42</CBadge>
         </CDropdownItem> */}
         <CDropdownItem divider />
-        <CDropdownItem>
+        <CDropdownItem onClick={onLogoutClick}>
           <CIcon name="cil-lock-locked" className="mfe-2" />
           Lockout
         </CDropdownItem>

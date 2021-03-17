@@ -171,6 +171,8 @@ function AnnouceEditModal({ showEdit, setShowEdit, setRefeshForm, editObj }) {
         <CModal
             show={showEdit}
             onClose={closeModal}
+            closeOnBackdrop={false}
+            borderColor="primary"
             size="lg"
         >
             <CModalHeader closeButton className="modal-header-edit">

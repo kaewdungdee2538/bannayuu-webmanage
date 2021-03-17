@@ -13,7 +13,7 @@ const TextArea = (props) => {
                 name="textarea-input"
                 rows={rows}
                 placeholder={placeholder}
-                value={text}
+                value={text ? text : ''}
                 onChange={event => setText(event.target.value)}
                 maxLength={maxLenght}
             // onBlur={event=>outFocus(event.target.value)}

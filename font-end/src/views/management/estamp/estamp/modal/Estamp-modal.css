@@ -1,0 +1,28 @@
+
+.btn-modal-footer{
+    margin-left: 15px;
+    min-width: 90px;
+}
+.modal-header-edit{
+    background-color: rgba(50,31,229);
+    color: white;
+}
+
+.modal-footer{
+    display: flex;
+    justify-content: space-between;
+}
+
+.modal-footer>div{
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+.modal-footer span{
+    /* font-size: 20px; */
+}
+
+.estamp-status{
+    font-size: 18px;
+}

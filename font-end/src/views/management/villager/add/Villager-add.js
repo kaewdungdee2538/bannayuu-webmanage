@@ -83,7 +83,12 @@ function VillagerAddModal({ showCreate, setShowCreate, setRefeshForm}) {
   }
 
   return (
-    <CModal show={showCreate} onClose={closeModal} size="lg">
+    <CModal 
+    show={showCreate} 
+    onClose={closeModal} 
+    closeOnBackdrop={false}
+    borderColor="success"
+    size="lg">
       <CModalHeader closeButton className="modal-villager-header-add">
         <CModalTitle>เพิ่มข้อมูลลูกบ้าน</CModalTitle>
       </CModalHeader>
