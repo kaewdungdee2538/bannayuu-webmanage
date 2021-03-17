@@ -28,7 +28,7 @@ const getBadge = status => {
         default: return 'primary'
     }
 }
-const fields = ['edit', 'address', 'createdate', 'updatedate', 'status']
+const fields = ['แก้ไข', 'บ้านเลขที่', 'วันที่สร้าง', 'วันที่แก้ไขล่าสุด', 'สถานะ']
 
 
 const CoreUIHomeEdit = () => {
@@ -178,35 +178,35 @@ const CoreUIHomeEdit = () => {
                                 itemsPerPage={10}
                                 pagination
                                 scopedSlots={{
-                                    'address': (item) => (
+                                    'บ้านเลขที่': (item) => (
                                         <td>
                                             <span>
                                                 {item.home_address}
                                             </span>
                                         </td>
                                     )
-                                    , 'createdate': (item) => (
+                                    , 'วันที่สร้าง': (item) => (
                                         <td>
                                             <span>
                                                 {!item.create_date ? '' : convertTZ(item.create_date)}
                                             </span>
                                         </td>
                                     )
-                                    , 'updatedate': (item) => (
+                                    , 'วันที่แก้ไขล่าสุด': (item) => (
                                         <td>
                                             <span>
                                                 {!item.update_date ? '' : convertTZ(item.update_date)}
                                             </span>
                                         </td>
                                     )
-                                    , 'status': (item) => (
+                                    , 'สถานะ': (item) => (
                                         <td>
                                             <CBadge color={getBadge(item.status)}>
                                                 {item.status}
                                             </CBadge>
                                         </td>
                                     )
-                                    , 'edit':
+                                    , 'แก้ไข':
                                         (item) => (
                                             <td>
                                                 <CButton

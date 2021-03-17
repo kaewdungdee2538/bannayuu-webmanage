@@ -40,6 +40,7 @@ const Widgets = React.lazy(() => import('./views/widgets/Widgets'));
 const Users = React.lazy(() => import('./views/users/Users'));
 const User = React.lazy(() => import('./views/users/User'));
 
+const MainForm = React.lazy(()=> import('./views/management/index/MainForm'))
 const Home = React.lazy(() => import('./views/management/home/edit/Home-edit'))
 const Villager = React.lazy(() => import('./views/management/villager/home-info/Villager-home-info'))
 const VillagerEdit = React.lazy(() => import('./views/management/villager/edit/Villager-edit'))
@@ -54,9 +55,9 @@ const ParcelReceiveMain = React.lazy(()=>import('./views/management/parcel/main/
 const ParcelHistoryMain = React.lazy(()=>import('./views/management/parcel/history/main/Parcel-history-main'))
 const UserProfileMain = React.lazy(()=>import('./views/management/profile/main/UserProfile-main'))
 const routes = [
-  { path: '/main', exact: true, name: 'Home' },
+  { path: '/main', exact: true, name: 'Home',component:MainForm },
   { path: '/page404', name: 'Not Found', component: page404 },
-  { path: '/dashboard', name: 'Dashboard', component: Dashboard },
+  // { path: '/dashboard', name: 'Dashboard', component: Dashboard },
   // { path: '/theme', name: 'Theme', component: Colors, exact: true },
   // { path: '/theme/colors', name: 'Colors', component: Colors },
   // { path: '/theme/typography', name: 'Typography', component: Typography },

@@ -17,7 +17,7 @@ import getAnnouceModal from './Announce-main-controller'
 import AnnouceEditModal from '../edit/Announce-edit-modal'
 import swal from 'sweetalert';
 import cancelAnnouceModal from '../delete/announce-delete-controller'
-const fields = ['edit', 'name', 'header', 'postdate', 'status', 'delete']
+const fields = ['แก้ไข', 'ชื่อ-สกุล', 'เรื่อง', 'วันที่ประกาศ', 'สถานะ', 'ยกเลิกประกาศ']
 const getBadge = status => {
     switch (status) {
         case 'active': return 'success'
@@ -182,22 +182,22 @@ function AnnouceMain() {
                             itemsPerPage={10}
                             pagination
                             scopedSlots={{
-                                name: (item) => (
+                                'ชื่อ-สกุล': (item) => (
                                     <td>
                                         <span>{item.hni_name}</span>
                                     </td>
                                 )
-                                , header: (item) => (
+                                , 'เรื่อง': (item) => (
                                     <td>
                                         <span>{item.hni_header_text}</span>
                                     </td>
                                 )
-                                , postdate: (item) => (
+                                , 'วันที่ประกาศ': (item) => (
                                     <td>
                                         <span>{item.hni_start_datetime}</span>
                                     </td>
                                 )
-                                , 'status':
+                                , 'สถานะ':
                                     (item) => (
                                         <td>
                                             <CBadge color={getBadge(item.status)}>
@@ -206,7 +206,7 @@ function AnnouceMain() {
                                         </td>
                                     )
 
-                                , 'delete':
+                                , 'ยกเลิกประกาศ':
                                     (item) => (
                                         <td>
                                             <CButton
@@ -222,10 +222,10 @@ function AnnouceMain() {
                                                 <span
                                                     hni_id={item.hni_id}
                                                     hni_code={item.hni_code}
-                                                    className="btn-icon">ลบ</span></CButton>
+                                                    className="btn-icon">ยกเลิก</span></CButton>
                                         </td>
                                     )
-                                , 'edit':
+                                , 'แก้ไข':
                                     (item) => (
                                         <td>
                                             <CButton

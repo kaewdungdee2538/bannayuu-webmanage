@@ -1,0 +1,10 @@
+.main-form{
+    height: 82vh;
+    padding: 5px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+.main-form img{
+    height: 100%;
+}

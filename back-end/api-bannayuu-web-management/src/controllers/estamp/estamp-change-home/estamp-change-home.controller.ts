@@ -10,4 +10,10 @@ export class EstampChangeHomeController {
     async getVisitorNotEstamp(@Body() body){
         return await this.estampChangeHomeService.getVisitorNotEstamp(body);
     }
+
+    @UseGuards(JwtAuthGuard)
+    @Post('change-home')
+    async changeHomeForVisitor(@Body()body,@Request() req){
+        return await this.estampChangeHomeService.changeHomeForVisitor(body);
+    }
 }

@@ -1,4 +1,5 @@
-export const fields = ['ประทับตรา', 'ทะเบียนรถ', 'ชื่อ', 'เวลาเข้า', 'estamp']
+export const fields = ['ประทับตรา', 'ทะเบียนรถ', 'ชื่อ-สกุล', 'เวลาเข้า', 'estamp']
+export const fieldsHome = ['บ้านเลขที่', 'เลือกบ้าน']
 export const getBadge = status => {
     switch (status) {
         case 'YES': return 'success'

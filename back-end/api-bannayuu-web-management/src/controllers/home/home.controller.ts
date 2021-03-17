@@ -27,6 +27,12 @@ export class HomeController {
   }
 
   @UseGuards(JwtAuthGuard)
+  @Post('get-all-not-disable')
+  getAllHomeNotDisable(@Body() body)  {
+    return this.homeService.getAllHomeNotDisable(body);
+  }
+
+  @UseGuards(JwtAuthGuard)
   @Post('add-home')
   async createHome(@Body() body, @Request() req) {
     const checkhomeDuplicate = await this.checkHomeDuplicate(body);

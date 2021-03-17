@@ -225,6 +225,7 @@ export class ErrMessageUtilsTH{
     errEstampProhibitSpecial = 'การประทับตรา ห้ามมีอักขระพิเศษ หรือช่องว่าง'
 
     errVisitorRecordNotIn = 'ไม่พบการทำรายการเข้านี้'
+    errVisitorEstamped = 'Visitor ได้ทำรายการประทับตราแล้ว'
 
     errComplaintIDNotfound = 'ไม่พบรหัสร้องเรียน'
     errComplaintIDProhibitSpecial = 'รหัสร้องเรียนห้ามมีอักขระพิเศษ หรือช่องว่าง'

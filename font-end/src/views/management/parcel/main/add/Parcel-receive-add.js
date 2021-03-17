@@ -27,7 +27,7 @@ const ParcelReceiveAdd = ({ showAddModal, setShowAddModal, setRefeshForm }) => {
     const [header, setHeader] = useState('');
     const [detail, setDetail] = useState('');
     const [image, setImage] = useState(null);
-    const [fileName, setFileName] = useState('Choose File');
+    const [fileName, setFileName] = useState('Choose image');
     //--------------------------Form load
     // useEffect(()=>{
     //     if (!authStore.authorization) {

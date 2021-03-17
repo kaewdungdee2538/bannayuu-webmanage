@@ -13,7 +13,7 @@ import { useSelector } from "react-redux";
 import { getHomeInfo } from "./Villager-home-info-controller";
 import store, { selectHome,unSelectHome } from "../../../../store";
 
-const fields = ["address", "event"];
+const fields = ["บ้านเลขที่", "เลือกบ้าน"];
 const VillagerHomeInfo = () => {
   const history = useHistory();
   const authStore = useSelector((store) => store);
@@ -67,12 +67,12 @@ const VillagerHomeInfo = () => {
                 itemsPerPage={10}
                 pagination
                 scopedSlots={{
-                  address: (item) => (
+                  'บ้านเลขที่': (item) => (
                     <td>
                       <span>{item.home_address}</span>
                     </td>
                   ),
-                  event: (item) => (
+                  'เลือกบ้าน': (item) => (
                     <td>
                       <CButton className="btn-class" color="primary">
                         เลือกบ้าน

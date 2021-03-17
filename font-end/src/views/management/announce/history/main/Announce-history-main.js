@@ -17,7 +17,7 @@ import SelectBox from '../../../component/selectbox/SelectBox'
 import HistorySelectObject from './itemForSearch'
 import AnnounceHistoryMainController from './Announce-history-main-controller'
 import AnnounceHistoryModal from '../modal/Announce-history-modal'
-const fields = ['view', 'name', 'header', 'postdate', 'status']
+const fields = ['แสดง', 'ชื่อ-สกุล', 'เรื่อง', 'วันที่ประกาศ', 'สถานะ']
 const getBadge = status => {
     switch (status) {
         case 'active': return 'success'
@@ -127,22 +127,22 @@ function AnnounceHistoryMain() {
                             itemsPerPage={10}
                             pagination
                             scopedSlots={{
-                                name: (item) => (
+                                'ชื่อ-สกุล': (item) => (
                                     <td>
                                         <span>{item.hni_name}</span>
                                     </td>
                                 )
-                                , header: (item) => (
+                                , 'เรื่อง': (item) => (
                                     <td>
                                         <span>{item.hni_header_text}</span>
                                     </td>
                                 )
-                                , postdate: (item) => (
+                                , 'วันที่ประกาศ': (item) => (
                                     <td>
                                         <span>{item.hni_start_datetime}</span>
                                     </td>
                                 )
-                                , 'status':
+                                , 'สถานะ':
                                     (item) => (
                                         <td>
                                             <CBadge color={getBadge(item.status)}>
@@ -150,7 +150,7 @@ function AnnounceHistoryMain() {
                                             </CBadge>
                                         </td>
                                     )
-                                , 'view':
+                                , 'แสดง':
                                     (item) => (
                                         <td>
                                             <CButton
@@ -158,7 +158,7 @@ function AnnounceHistoryMain() {
                                                 hni_code={item.hni_code}
                                                 onClick={onViewClick}
                                                 className="btn-class btn-view"
-                                                color="primary">
+                                                color="info">
                                                 <CIcon
                                                     hni_id={item.hni_id}
                                                     hni_code={item.hni_code}

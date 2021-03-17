@@ -146,7 +146,7 @@ export default function EstampHomeChange() {
                         <CRow>
                             <CCol xs="12" sm="6" md="6">
                                 <InputEnable
-                                    title="ชื่อ"
+                                    title="ชื่อ-สกุล"
                                     placeholder="Enter first name"
                                     text={f_name}
                                     setText={setF_Name}

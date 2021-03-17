@@ -82,4 +82,56 @@ export class EstampChangeHomeService {
                 },
                 200);
     }
+
+    async changeHomeForVisitor(body:any){
+        const company_id = body.company_id;
+        const home_id = body.home_id;
+        const visitor_record_id = body.visitor_record_id;
+        const HomeInfo = await this.getHomeInfo(body);
+        const home_info = {
+            home_id: HomeInfo.home_id
+            , home_code: HomeInfo.home_code
+            , home_name: HomeInfo.home_name
+            , home_address: HomeInfo.home_address
+            , home_type : HomeInfo.home_type
+            , home_data: HomeInfo.home_data
+            , home_remark: HomeInfo.home_remark
+            , home_privilege_line_amount: HomeInfo.home_privilege_line_amount
+            , home_privilege_card_amount: HomeInfo.home_privilege_card_amount
+        };
+        let sql = `update t_visitor_record set 
+        home_id = $1,home_info = $2 where visitor_record_id =$3
+        and company_id = $4
+        ;`
+        const query = {
+            text:sql
+            ,values:[home_id,home_info,visitor_record_id,company_id]
+        }
+        const res = await this.dbconnecttion.savePgData([query]);
+        if (res.error) throw new StatusException({
+            error: res.error,
+            result: null,
+            message: this.errMessageUtilsTh.messageProcessFail,
+            statusCode: 200
+        }, 200);
+        else throw new StatusException({
+            error: null,
+            result: this.errMessageUtilsTh.messageSucceessEn,
+            message: this.errMessageUtilsTh.messageSuccess,
+            statusCode: 200
+        }, 200);
+    }
+
+    async getHomeInfo(body:any){
+        const company_id = body.company_id;
+        const home_id = body.home_id;
+        let sql = `select * from m_home where
+        company_id = $1 and home_id = $2 limit 1;`
+        const query = {
+            text:sql
+            ,values:[company_id,home_id]
+        }
+        const res = await this.dbconnecttion.getPgData(query);
+        return res.result[0];
+    }
 }

@@ -63,7 +63,7 @@ const Login = () => {
           }
           //set global store
           store.dispatch(enaAuthenticationLogin(employee));
-          history.push('/dashboard')
+          history.push('/main')
         }
 
       }).catch(err=>{

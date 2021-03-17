@@ -35,7 +35,7 @@ const ParcelSendModal = ({ showEditModal, setShowEditModal, setRefeshForm, selec
         , image_parcel_receive: "", tpi_status: "", company_name: ""
     })
     const [image, setImage] = useState(null);
-    const [fileName, setFileName] = useState('Choose File');
+    const [fileName, setFileName] = useState('Choose image');
     const [remark, setRemark] = useState('')
     const [imageParcel, setImageParcel] = useState(null)
     //--------------------------Form load

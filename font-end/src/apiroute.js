@@ -8,6 +8,7 @@ const ApiRoute ={
         login_url:'/webbannayuu/api/auth/login'
     },home:{
         get_allhome_url:'/webbannayuu/api/home/get-all'
+        ,get_allhome_not_disable_url:'/webbannayuu/api/home/get-all-not-disable'
         ,add_homeinfo_url:'/webbannayuu/api/home/add-home'
         ,get_home_byid_url:'/webbannayuu/api/home/get-home-by-id'
         ,edit_homeinfo_url:'/webbannayuu/api/home/edit-home'
@@ -32,6 +33,7 @@ const ApiRoute ={
         ,get_visitor_record_byid:'/webbannayuu/api/estamp-all/get-visitor-byid'
         ,edit_visitor_estamp_url:'/webbannayuu/api/estamp-all/edit-estamp'
         ,get_estamp_visitor_not_estamp_url:'/webbannayuu/api/estamp-change-home/get-not-estamp'
+        ,save_change_home_visitor_url:'/webbannayuu/api/estamp-change-home/change-home'
     },complaint:{
         get_complaint_by_id_url:'/webbannayuu/api/complaint/get-byid'
         ,get_complaint_not_approve_url:'/webbannayuu/api/complaint/complaint-notapprove'

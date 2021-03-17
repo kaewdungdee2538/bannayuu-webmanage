@@ -198,7 +198,6 @@ function EstampHomeChangeModal(props) {
     if(showSelectHome){
         selectHomeForm = <EstampHomeChangeSelectHome
         estampInfo={estampInfo}
-        onChangeHomeClick={onChangeHomeClick}
         closeModal={closeModal}
         />
     }

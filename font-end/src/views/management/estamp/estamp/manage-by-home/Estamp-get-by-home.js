@@ -18,7 +18,7 @@ import swal from 'sweetalert';
 import moment from 'moment'
 import { EstampGetByHomeController } from './Estamp-get-by-home-controller'
 import EstampGetAll from '../manage-all/Estamp-get-all'
-const fields = ['address', 'select']
+const fields = ['บ้านเลขที่', 'เลือกบ้าน']
 function EstampGetByHome(props) {
     const history = useHistory();
     const authStore = useSelector(state => state)
@@ -84,12 +84,12 @@ function EstampGetByHome(props) {
                     itemsPerPage={10}
                     pagination
                     scopedSlots={{
-                        address: (item) => (
+                        'บ้านเลขที่': (item) => (
                             <td>
                                 <span>{item.home_address}</span>
                             </td>
                         )
-                        , 'select':
+                        , 'เลือกบ้าน':
                             (item) => (
                                 <td>
                                     <CButton

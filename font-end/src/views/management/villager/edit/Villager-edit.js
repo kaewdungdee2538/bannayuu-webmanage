@@ -18,7 +18,7 @@ import { useSelector } from "react-redux";
 import { useHistory } from "react-router-dom";
 import { getVillagerInfo, editVillager } from "./Villager-edit-controller";
 import { deleteVillager } from "../delete/Villager-delete-controller"
-const fields = ["edit", "name", "telephone", "status"];
+const fields = ["แก้ไข", "ชื่อ-สกุล", "เบอร์โทรศัพท์", "สถานะ"];
 const getBadge = status => {
   switch (status) {
       case 'active': return 'success'
@@ -187,19 +187,19 @@ const CoreUILineHomeEdit = (props) => {
                 itemsPerPage={10}
                 pagination
                 scopedSlots={{
-                  name: (item) => (
+                  'ชื่อ-สกุล': (item) => (
                     <td>
                       <span>
                         {item.home_line_first_name} {item.home_line_last_name}
                       </span>
                     </td>
                   ),
-                  telephone: (item) => (
+                  'เบอร์โทรศัพท์': (item) => (
                     <td>
                       <span>{item.home_line_mobile_phone}</span>
                     </td>
                   ),
-                  'status': (item) => (
+                  'สถานะ': (item) => (
                     <td>
                         <CBadge color={getBadge(item.status)}>
                             {item.status}
@@ -237,7 +237,7 @@ const CoreUILineHomeEdit = (props) => {
                   //     </CButton>
                   //   </td>
                   // ),
-                  ,edit: (item) => (
+                  ,'แก้ไข': (item) => (
                     <td>
                       <CButton
                         onClick={onEditRowClick}

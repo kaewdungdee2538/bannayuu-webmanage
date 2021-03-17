@@ -18,15 +18,47 @@ export class HomeService {
 
     async getAll(body: any, employeeInfo: any) {
         const company_id = body.company_id;
-
+        const home_address = body.home_address ? body.home_address : '';
         let sql = `select home_id,home_code,home_name,home_address
         , home_data,home_remark,create_date,update_date,
         case when delete_flag = 'N' then 'active'
         else 'inactive' end as status
         from m_home 
-        where company_id = $1
-        order by home_address,delete_flag
-        ;`
+        where company_id = $1`;
+        if(home_address)
+            sql += ` and home_address LIKE '%${home_address}%'`
+        sql += ` order by home_address;`
+        const query = {
+            text: sql
+            , values: [company_id]
+        }
+        const res = await this.dbconnecttion.getPgData(query);
+        if (res.error) throw new StatusException({
+            error: res.error,
+            result: null,
+            message: this.errMessageUtilsTh.messageProcessFail,
+            statusCode: 200
+        }, 200);
+        else throw new StatusException({
+            error: null,
+            result: res.result,
+            message: this.errMessageUtilsTh.messageSuccess,
+            statusCode: 200
+        }, 200);
+    }
+    
+    async getAllHomeNotDisable(body:any){
+        const company_id = body.company_id;
+        const home_address = body.home_address ? body.home_address : '';
+        let sql = `select home_id,home_code,home_name,home_address
+        , home_data,home_remark,create_date,update_date,
+        case when delete_flag = 'N' then 'active'
+        else 'inactive' end as status
+        from m_home 
+        where delete_flag = 'N' and company_id = $1`;
+        if(home_address)
+            sql += ` and home_address LIKE '%${home_address}%'`
+        sql += ` order by home_address;`
         const query = {
             text: sql
             , values: [company_id]
