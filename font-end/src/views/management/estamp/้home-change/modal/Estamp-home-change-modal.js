@@ -23,14 +23,17 @@ import InputDisable from '../../../component/input/InputDisable'
 import { EstampHomeChangeModalController } from './Estamp-home-change-modal-controller'
 import EstampHomeChangeInfo from './Estamp-home-change-info'
 import EstampHomeChangeSelectHome from './Estamp-home-change-home-select'
+import LoadingModal from '../../../component/loading/LoadingModal'
+import store, { disAuthenticationLogin } from '../../../../../store'
+
+
 function EstampHomeChangeModal(props) {
     const { showVisitorModal, setShowVisitorModal, setRefesh } = props;
     const history = useHistory();
     const authStore = useSelector(state => state)
     //-------------State
-    const [check, setCheck] = useState(false);
     const [showVisitorInfo, setShowVisitorInfo] = useState(true);
-    const [showSelectHome,setShowSelectHome] = useState(false);
+    const [showSelectHome, setShowSelectHome] = useState(false);
     const [estampInfo, setEstampInfo] = useState({
         visitor_record_id: "",
         visitor_record_code: "",
@@ -53,16 +56,18 @@ function EstampHomeChangeModal(props) {
         record_from: "",
         company_name: "",
     });
+    const [showLoading, setShowLoading] = useState(false);
     //-------------Form load
     useEffect(() => {
+        setShowLoading(true);
         if (showVisitorModal.selected) {
             const selectedObj = {
                 visitor_record_id: showVisitorModal.visitor_record_id
                 , visitor_record_code: showVisitorModal.visitor_record_code
             }
+            let isNotAuth;
             EstampHomeChangeModalController({ authStore, selectedObj })
                 .then((res) => {
-                    document.body.style.cursor = 'wait';
                     if (res.result) {
                         setEstampInfo({
                             visitor_record_id: res.result.visitor_record_id,
@@ -86,8 +91,8 @@ function EstampHomeChangeModal(props) {
                             record_from: !res.result.record_from ? '-' : res.result.record_from,
                             company_name: !res.result.company_name ? '-' : res.result.company_name,
                         });
-                        const select = res.result.estamp_flag === 'Y' ? true : false;
-                        setCheck(select)
+                    } else if (res.statusCode === 401) {
+                        isNotAuth = res.error;
                     } else {
                         setShowVisitorModal({
                             selected: false
@@ -102,7 +107,13 @@ function EstampHomeChangeModal(props) {
                     history.push("/page404");
                 })
                 .finally((value) => {
-                    document.body.style.cursor = "default";
+                    setShowLoading(false);
+                    if (isNotAuth) {
+                        swal("Warning!", isNotAuth, "warning");
+                        history.push("/");
+                        //clear state global at store 
+                        store.dispatch(disAuthenticationLogin());
+                    }
                 });
         }
     }, [showVisitorModal])
@@ -113,30 +124,9 @@ function EstampHomeChangeModal(props) {
             , visitor_record_id: ""
             , visitor_record_code: ""
         });
-        setCheck(false)
-        setRefesh(true);
     }
     //-------------check box
-    function onCheckBoxChange(event) {
-        if (!event.target.checked) {
-            swal({
-                title: "ยกเลิกตราประทับ!",
-                text: "ต้องการยกเลิกตราประทับหรือไม่!",
-                icon: "warning",
-                buttons: true,
-                dangerMode: true,
-            })
-                .then((willDelete) => {
-                    if (willDelete) {
-                        setCheck(false)
-                    } else {
 
-                    }
-                });
-        } else {
-            setCheck(true)
-        }
-    }
     //---------------Save edit
     function onChangeHomeClick(event) {
         if (showVisitorInfo) {
@@ -146,40 +136,6 @@ function EstampHomeChangeModal(props) {
             setShowVisitorInfo(true);
             setShowSelectHome(false);
         }
-        // const visitor_record_id = estampInfo.visitor_record_id
-        // const visitor_record_code = estampInfo.visitor_record_code
-        // const estamp_flag = true;
-        // const editEstampObj = {
-        //     visitor_record_id
-        //     , visitor_record_code
-        //     , estamp_flag
-        // }
-        // EstampModalEditController({ editEstampObj, authStore })
-        //     .then(res => {
-        //         document.body.style.cursor = 'wait';
-        //         if (res.error)
-        //             swal({
-        //                 title: "Waring.",
-        //                 text: res.message,
-        //                 icon: "warning",
-        //                 button: "OK",
-        //             });
-        //         else {
-        //             swal({
-        //                 title: "Success.",
-        //                 text: "แก้ตราประทับเรียบร้อย",
-        //                 icon: "success",
-        //                 button: "OK",
-        //             });
-        //             closeModal();
-        //             setRefesh(true);
-        //         }
-        //     }).catch(err => {
-        //         console.log(err)
-        //         history.push('/page404')
-        //     }).finally(value => {
-        //         document.body.style.cursor = 'default';
-        //     })
     }
 
 
@@ -191,16 +147,26 @@ function EstampHomeChangeModal(props) {
             estampInfo={estampInfo}
             onChangeHomeClick={onChangeHomeClick}
             closeModal={closeModal}
+            setShowLoading={setShowLoading}
         />
     } else visitorInfoForm = null;
     //-------------------Show Home Select
     let selectHomeForm = null;
-    if(showSelectHome){
+    if (showSelectHome) {
         selectHomeForm = <EstampHomeChangeSelectHome
-        estampInfo={estampInfo}
-        closeModal={closeModal}
+            estampInfo={estampInfo}
+            closeModal={closeModal}
+            setShowLoading={setShowLoading}
         />
     }
+    //-------------------Show loading spiner
+    let loadingmodal = null;
+    if (showLoading) {
+        loadingmodal = <LoadingModal
+            setShowLoading={setShowLoading}
+            showLoading={showLoading}
+        />
+    } else loadingmodal = null;
     //----------------------------------------
     return (
         <CModal
@@ -215,6 +181,7 @@ function EstampHomeChangeModal(props) {
             </CModalHeader>
             {visitorInfoForm}
             {selectHomeForm}
+            {loadingmodal}
         </CModal>
     );
 }

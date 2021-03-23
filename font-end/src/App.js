@@ -1,7 +1,6 @@
 import React, { Component } from 'react';
 import { HashRouter, Route, Switch } from 'react-router-dom';
 import './scss/style.scss';
-const {REACT_APP_API_URL} = process.env
 const loading = (
   <div className="pt-3 text-center">
     <div className="sk-spinner sk-spinner-pulse"></div>
@@ -18,8 +17,8 @@ const Page404 = React.lazy(() => import('./views/pages/page404/Page404'));
 const Page500 = React.lazy(() => import('./views/pages/page500/Page500'));
 
 class App extends Component {
+  
   render() {
-    console.log(process.env);
     return (
       <HashRouter>
           <React.Suspense fallback={loading}>

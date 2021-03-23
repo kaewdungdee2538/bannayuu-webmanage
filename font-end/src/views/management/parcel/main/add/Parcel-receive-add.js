@@ -20,7 +20,9 @@ import InputEnable from '../../../component/input/InputEnable'
 import InputDisable from '../../../component/input/InputDisable'
 import TextArea from '../../../component/textarea/TextArea'
 import { addParcelReceive } from './Parcel-receive-add-controller'
-const ParcelReceiveAdd = ({ showAddModal, setShowAddModal, setRefeshForm }) => {
+import store, { disAuthenticationLogin } from '../../../../../store'
+
+const ParcelReceiveAdd = ({ showAddModal, setShowAddModal, setRefeshForm, setShowLoading }) => {
     const history = useHistory();
     const authStore = useSelector(state => state)
     const [address, setAddress] = useState('');
@@ -59,6 +61,7 @@ const ParcelReceiveAdd = ({ showAddModal, setShowAddModal, setRefeshForm }) => {
 
     function addParcelModal() {
         document.body.style.cursor = 'wait';
+        setShowLoading(true);
         const values = {
             authStore
             , valuesObj: {
@@ -68,14 +71,19 @@ const ParcelReceiveAdd = ({ showAddModal, setShowAddModal, setRefeshForm }) => {
                 image
             }
         }
+        let isNotAuth;
         addParcelReceive(values).then(res => {
-            if (res.error) swal({
-                title: "Warning.",
-                text: res.message,
-                icon: "warning",
-                button: "OK",
-            });
-            else {
+            if (res.error) {
+                if (res.statusCode === 401)
+                    isNotAuth = res.error
+                else swal({
+                    title: "Warning.",
+                    text: res.message,
+                    icon: "warning",
+                    button: "OK",
+                });
+
+            } else {
                 swal({
                     title: "Success.",
                     text: "ทำรายการรับพัสดุเรียบร้อย",
@@ -85,11 +93,21 @@ const ParcelReceiveAdd = ({ showAddModal, setShowAddModal, setRefeshForm }) => {
                 setRefeshForm(true)
                 closeModal();
             }
+           
+        }).catch(err => {
+            console.log(err);
+            history.push("/page404");
+        }).finally(value => {
             document.body.style.cursor = 'default';
+            setShowLoading(false);
+            if (isNotAuth) {
+                swal("Warning!", isNotAuth, "warning");
+                history.push("/");
+                //clear state global at store 
+                store.dispatch(disAuthenticationLogin());
+            }
         })
-
     }
-
 
     return (
         <CModal

@@ -21,7 +21,9 @@ import DatetimePickerInput from '../../../component/datetime/DatetimePickerInput
 import InputEnable from '../../../component/input/InputEnable'
 import ParcelReceiveAdd from '../add/Parcel-receive-add'
 import ParcelSendModal from '../send/Parcel-send-modal'
-// import ComplaintReceiptModal from '../modal/Complainy-receipt-modal'
+import LoadingModal from '../../../component/loading/LoadingModal'
+import store, { disAuthenticationLogin } from '../../../../../store'
+
 const getBadge = status => {
     switch (status) {
         case 'receive_parcel': return 'light'
@@ -58,6 +60,15 @@ function ParcelReceiveMain() {
     const [dateTimeEnd, setDateTimeEnd] = useState(dateEnd);
     const [address, setAddress] = useState('');
     const [headerText, setHeaderText] = useState('')
+    const [showLoading, setShowLoading] = useState(false);
+    //-------------------Show loading spiner
+    let loadingmodal = null;
+    if (showLoading) {
+        loadingmodal = <LoadingModal
+            setShowLoading={setShowLoading}
+            showLoading={showLoading}
+        />
+    } else loadingmodal = null;
     //---------------Form load
     useEffect(() => {
         refeshFormFunc();
@@ -71,6 +82,8 @@ function ParcelReceiveMain() {
         if (!authStore.authorization) {
             history.push("/");
         } else {
+            let isNotAuth;
+            setShowLoading(true);
             document.body.style.cursor = "wait";
             const searchObj = {
                 address,
@@ -83,6 +96,8 @@ function ParcelReceiveMain() {
                     if (res.result) {
                         const result = res.result;
                         setParcelObj(result);
+                    } else if (res.statusCode === 401) {
+                        isNotAuth = res.error;
                     } else swal("Warning!", res.error, "warning");
                 })
                 .catch((err) => {
@@ -91,6 +106,13 @@ function ParcelReceiveMain() {
                 })
                 .finally((value) => {
                     document.body.style.cursor = "default";
+                    setShowLoading(false);
+                    if (isNotAuth) {
+                        swal("Warning!", isNotAuth, "warning");
+                        history.push("/");
+                        //clear state global at store 
+                        store.dispatch(disAuthenticationLogin());
+                    }
                 });
         }
     }
@@ -102,6 +124,7 @@ function ParcelReceiveMain() {
             setShowEditModal={setShowEditModal}
             setRefeshForm={setRefeshForm}
             selectedObj={selectedObj}
+            setShowLoading={setShowLoading}
         />
     } else parcelEditModal = null;
     //------------------on click show modal
@@ -157,11 +180,13 @@ function ParcelReceiveMain() {
             setShowAddModal={setShowAddModal}
             showAddModal={showAddModal}
             setRefeshForm={setRefeshForm}
+            setShowLoading={setShowLoading}
         />
     }
     //--------------------------
     return (
         <CCard>
+            {loadingmodal}
             {parcelEditModal}
             {parcelAddModal}
             <CCardHeader className="form-head-parcel">รับ-ส่งพัสดุให้ลูกบ้าน</CCardHeader>

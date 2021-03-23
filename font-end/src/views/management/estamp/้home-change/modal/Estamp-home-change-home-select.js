@@ -26,15 +26,18 @@ import { useHistory } from 'react-router-dom'
 import swal from 'sweetalert';
 import { getHomeAllNotDisable, changeHome } from './Estamp-home-change-modal-controller'
 import InputEnable from '../../../component/input/InputEnable'
+import store, { disAuthenticationLogin } from '../../../../../store'
+
 export default function EstampHomeChangeSelectHome(props) {
     const history = useHistory();
     const authStore = useSelector(state => state)
-    const { closeModal, estampInfo } = props;
+    const { closeModal, estampInfo, setShowLoading } = props;
     //------------------State
     const [homeInfo, setHomeInfo] = useState(null);
     const [addressSearch, setAddressSearch] = useState('');
     //------------------Form Load
     useEffect(() => {
+        setShowLoading(true);
         refeshForm();
     }, [])
     //------------------Refesh Form
@@ -42,14 +45,17 @@ export default function EstampHomeChangeSelectHome(props) {
         const searchObj = {
             home_address: addressSearch ? addressSearch : ""
         }
+        let isNotAuth;
         document.body.style.cursor = 'wait';
         getHomeAllNotDisable({ authStore, searchObj })
             .then((res) => {
                 if (res.result) {
                     setHomeInfo(res.result);
+                } else if (res.statusCode === 401) {
+                    isNotAuth = res.error;
                 } else {
                     setHomeInfo(null)
-                    // swal("Warning!", res.error, "warning");
+                    swal("Warning!", res.error, "warning");
                 }
             })
             .catch((err) => {
@@ -58,6 +64,13 @@ export default function EstampHomeChangeSelectHome(props) {
             })
             .finally((value) => {
                 document.body.style.cursor = "default";
+                setShowLoading(false);
+                if (isNotAuth) {
+                    swal("Warning!", isNotAuth, "warning");
+                    history.push("/");
+                    //clear state global at store 
+                    store.dispatch(disAuthenticationLogin());
+                }
             });
     }
     //------------------On Search Click
@@ -85,23 +98,42 @@ export default function EstampHomeChangeSelectHome(props) {
             home_id
             , visitor_record_id: estampInfo.visitor_record_id
         }
+        let isNotAuth;
         document.body.style.cursor = 'wait';
+        setShowLoading(true);
         changeHome({ authStore, selectedObj })
             .then(res => {
-                if (res.error) swal("Warning!", res.error, "warning");
-                else {
-                    swal("Success", "เปลี่ยนบ้านให้ผู้มาเยือนเรียบร้อย", "success");
-                    closeModal();
+                if (res.error) {
+                    if (res.statusCode === 401) {
+                        isNotAuth = res.error
+                    }else{
+                        swal("Warning!", res.error, "warning");
+                        setShowLoading(false);
+                    }
+                }  else {
+                    swal("Success", "เปลี่ยนบ้านให้ผู้มาเยือนเรียบร้อย", "success")
+                        .then((value) => {
+                            closeModal();
+                        });
                 }
             })
             .catch((err) => {
                 console.log(err);
                 history.push("/page404");
+                closeModal();
             })
             .finally((value) => {
                 document.body.style.cursor = "default";
+                if (isNotAuth) {
+                    swal("Warning!", isNotAuth, "warning");
+                    history.push("/");
+                    //clear state global at store 
+                    store.dispatch(disAuthenticationLogin());
+                }
             });
     }
+    //-------------------Show loading spiner
+
     //-------------------------------------------
     return (
         <div>

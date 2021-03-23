@@ -1,6 +1,7 @@
-import { useState, useEffect } from 'react'
+import { useState } from 'react'
 import './Announce-add-modal.css'
 import { useSelector } from 'react-redux'
+import { useHistory } from 'react-router-dom'
 import swal from 'sweetalert';
 import InputEnable from '../../../component/input/InputEnable'
 import TextArea from '../../../component/textarea/TextArea'
@@ -16,7 +17,10 @@ import {
     CFormGroup,
 } from '@coreui/react'
 import moment from 'moment'
-function AnnouceAddModal({ showAddAnnouce, setShowAddAnnouce,setRefeshForm }) {
+import store, { disAuthenticationLogin } from '../../../../../store'
+
+function AnnouceAddModal({ showAddAnnouce, setShowAddAnnouce, setRefeshForm, setShowLoading }) {
+    const history = useHistory();
     const authStore = useSelector(state => state)
     const dateState = moment().format("YYYY-MM-DDTHH:mm");
     const dateEnd = moment().add(1, 'days').format("YYYY-MM-DDTHH:mm")
@@ -25,7 +29,7 @@ function AnnouceAddModal({ showAddAnnouce, setShowAddAnnouce,setRefeshForm }) {
     const [announceHead, setAnnounceHead] = useState('');
     const [announceRemark, setAnnounceRemark] = useState('');
     const [announceDetail, setAnnounceDetail] = useState('');
-   const [announceLink,setAnnounceLink] = useState('')
+    const [announceLink, setAnnounceLink] = useState('')
     const [dateTimeStart, setDateTimeStart] = useState(dateState);
     const [dateTimeEnd, setDateTimeEnd] = useState(dateEnd);
     //-------------Close modal
@@ -36,50 +40,68 @@ function AnnouceAddModal({ showAddAnnouce, setShowAddAnnouce,setRefeshForm }) {
     function addAnnouce(event) {
         const middleware = addAnnouceMiddleware();
         if (middleware)
-            swal("Warning!", middleware , "warning");
-        else{
+            swal("Warning!", middleware, "warning");
+        else {
             const announceObj = {
-                hni_name:announceName
-                ,hni_start_datetime:moment(dateTimeStart).format("YYYY-MM-DDTHH:mm:ss").toString()
-                ,hni_end_datetime:moment(dateTimeEnd).format("YYYY-MM-DDTHH:mm:ss").toString()
-                ,hni_header_text:announceHead
-                ,hni_detail_text:announceDetail
-                ,hni_link_text:announceLink
-                ,hni_remark:announceRemark
-                ,ref_hni_id:null
+                hni_name: announceName
+                , hni_start_datetime: moment(dateTimeStart).format("YYYY-MM-DDTHH:mm:ss").toString()
+                , hni_end_datetime: moment(dateTimeEnd).format("YYYY-MM-DDTHH:mm:ss").toString()
+                , hni_header_text: announceHead
+                , hni_detail_text: announceDetail
+                , hni_link_text: announceLink
+                , hni_remark: announceRemark
+                , ref_hni_id: null
             }
-            document.body.style.cursor='wait';
-            addAnnouceModal({authStore,announceObj})
-            .then(res => {
-                if (res.error) swal({
-                    title: "Warning.",
-                    text: res.message,
-                    icon: "warning",
-                    button: "OK",
+            let isNotAuth;
+            setShowLoading(true)
+            document.body.style.cursor = 'wait';
+            addAnnouceModal({ authStore, announceObj })
+                .then(res => {
+                    if (res.error) {
+                        if (res.statusCode === 401) {
+                            isNotAuth = res.error
+                        } else swal({
+                            title: "Warning.",
+                            text: res.message,
+                            icon: "warning",
+                            button: "OK",
+                        });
+                    } else {
+                        swal({
+                            title: "Success.",
+                            text: "เพิ่มประกาศเรียบร้อย",
+                            icon: "success",
+                            button: "OK",
+                        });
+                        setRefeshForm(true)
+                        closeModal();
+                        setShowLoading(false)
+                    }
+                    document.body.style.cursor = 'default';
+                }).catch((err) => {
+                    console.log(err);
+                    history.push("/page404");
+                })
+                .finally((value) => {
+                    document.body.style.cursor = "default";
+                    if (isNotAuth) {
+                        swal("Warning!", isNotAuth, "warning");
+                        history.push("/");
+                        //clear state global at store 
+                        store.dispatch(disAuthenticationLogin());
+                    }
                 });
-                else {
-                    swal({
-                        title: "Success.",
-                        text: "เพิ่มประกาศเรียบร้อย",
-                        icon: "success",
-                        button: "OK",
-                    });
-                    setRefeshForm(true)
-                    closeModal();
-                }
-                document.body.style.cursor='default';
-            })
         }
     }
 
     function addAnnouceMiddleware() {
         if (dateTimeStart >= dateTimeEnd)
             return 'ช่วงเวลาประกาศจำต้องไม่เท่ากัน'
-        else if(!announceName)
+        else if (!announceName)
             return 'กรุณากรอกชื่อเรื่อง'
-        else if(!announceHead)
+        else if (!announceHead)
             return 'กรุณากรอกหัวประกาศ'
-        else if(!announceDetail)
+        else if (!announceDetail)
             return 'กรุณากรอกรายละเอียดของประกาศ'
         return null;
     }
@@ -145,7 +167,7 @@ function AnnouceAddModal({ showAddAnnouce, setShowAddAnnouce,setRefeshForm }) {
                         text={announceRemark}
                         setText={setAnnounceRemark}
                     />
-                     <InputEnable
+                    <InputEnable
                         title="ลิงค์อ้างอิง"
                         placeholder="Enter reference link"
                         maxLenght="250"

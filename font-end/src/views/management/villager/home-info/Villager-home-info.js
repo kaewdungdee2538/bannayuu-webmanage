@@ -8,11 +8,12 @@ import {
   CCol,
   CDataTable,
 } from "@coreui/react";
+import swal from "sweetalert";
 import { useHistory } from "react-router-dom";
 import { useSelector } from "react-redux";
 import { getHomeInfo } from "./Villager-home-info-controller";
-import store, { selectHome,unSelectHome } from "../../../../store";
-
+import store, { selectHome, unSelectHome,disAuthenticationLogin } from "../../../../store";
+import LoadingModal from '../../component/loading/LoadingModal'
 const fields = ["บ้านเลขที่", "เลือกบ้าน"];
 const VillagerHomeInfo = () => {
   const history = useHistory();
@@ -20,27 +21,47 @@ const VillagerHomeInfo = () => {
 
   //-------------------State
   const [homeInfo, setHomeInfo] = useState(null);
+  const [showLoading, setShowLoading] = useState(false);
+  //-------------------Show loading spiner
+  let loadingmodal = null;
+  if (showLoading) {
+    loadingmodal = <LoadingModal
+      setShowLoading={setShowLoading}
+      showLoading={showLoading}
+    />
+  } else loadingmodal = null;
   //-------------------Form load
   useEffect(() => {
     //-------------------Reset Store
     store.dispatch(unSelectHome());
     if (!authStore.authorization) {
       history.push("/");
-    }else{
-        document.body.style.cursor = "wait";
-        getHomeInfo(authStore)
-          .then((res) => {
-            if (res.result) {
-              if (res.result.length > 0) setHomeInfo(res.result);
-            }
-          })
-          .catch((err) => {
-            console.log(err);
-            history.push("/page404");
-          })
-          .finally((value) => {
-            document.body.style.cursor = "default";
-          });
+    } else {
+      let isNotAuth;
+      setShowLoading(true);
+      document.body.style.cursor = "wait";
+      getHomeInfo(authStore)
+        .then((res) => {
+          if (res.result) {
+            if (res.result.length > 0) setHomeInfo(res.result);
+          }else if (res.statusCode === 401) {
+            isNotAuth = res.error;
+          } 
+        })
+        .catch((err) => {
+          console.log(err);
+          history.push("/page404");
+        })
+        .finally((value) => {
+          document.body.style.cursor = "default";
+          setShowLoading(false);
+          if (isNotAuth) {
+            swal("Warning!", isNotAuth, "warning");
+            history.push("/");
+            //clear state global at store 
+            store.dispatch(disAuthenticationLogin());
+          }
+        });
     }
   }, []);
   //-------------------Select
@@ -51,6 +72,7 @@ const VillagerHomeInfo = () => {
 
   return (
     <CCard>
+      {loadingmodal}
       <CCardHeader className="form-main-header">บ้าน</CCardHeader>
       <CCardBody>
         <CCol xs="12" lg="12">

@@ -17,13 +17,16 @@ import SelectBox from '../../../component/selectbox/SelectBox'
 import HistorySelectObject from './itemForSearch'
 import AnnounceHistoryMainController from './Announce-history-main-controller'
 import AnnounceHistoryModal from '../modal/Announce-history-modal'
+import LoadingModal from '../../../component/loading/LoadingModal'
+import store, { disAuthenticationLogin } from '../../../../../store'
+
 const fields = ['แสดง', 'ชื่อ-สกุล', 'เรื่อง', 'วันที่ประกาศ', 'สถานะ']
 const getBadge = status => {
     switch (status) {
         case 'active': return 'success'
         case 'posted': return 'secondary'
         case 'pending': return 'warning'
-        case 'banned': return 'danger'
+        case 'cancel': return 'danger'
         default: return 'primary'
     }
 }
@@ -38,10 +41,19 @@ function AnnounceHistoryMain() {
             value: HistorySelectObject[0].value
             , type: HistorySelectObject[0].type
         });
-    const [showHistory,setShowHistory] = useState(false);
-    const [selectHistory,setSelectHistory] = useState({
-        hni_id:"",hni_code:""
+    const [showHistory, setShowHistory] = useState(false);
+    const [selectHistory, setSelectHistory] = useState({
+        hni_id: "", hni_code: ""
     })
+    const [showLoading, setShowLoading] = useState(false);
+    //-------------------Show loading spiner
+    let loadingmodal = null;
+    if (showLoading) {
+        loadingmodal = <LoadingModal
+            setShowLoading={setShowLoading}
+            showLoading={showLoading}
+        />
+    } else loadingmodal = null;
     //--------------Form load
     useEffect(() => {
         if (!authStore.authorization) {
@@ -52,11 +64,15 @@ function AnnounceHistoryMain() {
     }, []);
     //--------------Reset form
     function refeshForm() {
+        let isNotAuth;
+        setShowLoading(true);
         document.body.style.cursor = "wait";
         AnnounceHistoryMainController({ authStore, selected })
             .then((res) => {
                 if (res.result) {
                     if (res.result.length > 0) setAnnounceObj(res.result);
+                } else if (res.statusCode === 401) {
+                    isNotAuth = res.error
                 } else swal("Warning!", res.error, "warning");
             })
             .catch((err) => {
@@ -66,6 +82,13 @@ function AnnounceHistoryMain() {
             .finally((value) => {
                 document.body.style.cursor = "default";
                 setRefeshForm(false);
+                setShowLoading(false)
+                if (isNotAuth) {
+                    swal("Warning!", isNotAuth, "warning");
+                    history.push("/");
+                    //clear state global at store 
+                    store.dispatch(disAuthenticationLogin());
+                }
             });
     }
     if (resfeshForm) {
@@ -76,21 +99,22 @@ function AnnounceHistoryMain() {
         refeshForm();
     }
     //---------------Show history
-    function onViewClick(event){
+    function onViewClick(event) {
         const hni_id = event.target.getAttribute("hni_id");
         const hni_code = event.target.getAttribute("hni_code");
         setSelectHistory({
-            hni_id,hni_code
+            hni_id, hni_code
         })
         setShowHistory(true)
     }
     let modalShowValue = null;
-    if(showHistory){
+    if (showHistory) {
         modalShowValue = <AnnounceHistoryModal
-        authStore={authStore}
-        showHistory={showHistory}
-        setShowHistory={setShowHistory}
-        selectHistory={selectHistory}
+            authStore={authStore}
+            showHistory={showHistory}
+            setShowHistory={setShowHistory}
+            selectHistory={selectHistory}
+            setShowLoading={setShowLoading}
         />
     }
     //---------------------------------------------
@@ -177,6 +201,7 @@ function AnnounceHistoryMain() {
                 </CCard>
             </CCol>
         </CCardBody>
+        {loadingmodal}
         {modalShowValue}
     </CCard>)
 }

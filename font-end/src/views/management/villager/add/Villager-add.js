@@ -17,7 +17,9 @@ import InputEnable from "../../component/input/InputEnable";
 import { useSelector } from "react-redux";
 import { useHistory } from "react-router-dom";
 import { addVillager } from "./Villager-add-controller";
-function VillagerAddModal({ showCreate, setShowCreate, setRefeshForm}) {
+import store, { disAuthenticationLogin } from "../../../../store";
+
+function VillagerAddModal({ showCreate, setShowCreate, setRefeshForm, setShowLoading }) {
   const history = useHistory();
   const authStore = useSelector((store) => store);
   //------------------------------State
@@ -49,6 +51,7 @@ function VillagerAddModal({ showCreate, setShowCreate, setRefeshForm}) {
 
   //------------------------------Add Event
   function addHomeModal(event) {
+    setShowLoading(true)
     document.body.style.cursor = "wait";
     const villagerObj = {
       villager_f_name,
@@ -56,15 +59,18 @@ function VillagerAddModal({ showCreate, setShowCreate, setRefeshForm}) {
       villager_mobile_phone,
       villager_remark,
     };
+    let isNotAuth;
     addVillager({ authStore, villagerObj }).then((res) => {
-      if (res.error)
-        swal({
+      if (res.error){
+        if (res.statusCode === 401) {
+          isNotAuth = res.error;
+        }else swal({
           title: "Warning.",
           text: res.message,
           icon: "warning",
           button: "OK",
         });
-      else {
+      } else {
         swal({
           title: "Success.",
           text: "เพิ่มบ้านเลขที่เรียบร้อย",
@@ -74,8 +80,20 @@ function VillagerAddModal({ showCreate, setShowCreate, setRefeshForm}) {
         setRefeshForm(true);
         closeModal();
       }
-      document.body.style.cursor = "default";
-    });
+    }).catch((err) => {
+      console.log(err);
+      history.push("/page404");
+    })
+      .finally((value) => {
+        document.body.style.cursor = "default";
+        setShowLoading(false)
+        if (isNotAuth) {
+          swal("Warning!", isNotAuth, "warning");
+          history.push("/");
+          //clear state global at store 
+          store.dispatch(disAuthenticationLogin());
+        }
+      });
   }
   //------------------------------Close Event
   function closeModal(event) {
@@ -83,12 +101,12 @@ function VillagerAddModal({ showCreate, setShowCreate, setRefeshForm}) {
   }
 
   return (
-    <CModal 
-    show={showCreate} 
-    onClose={closeModal} 
-    closeOnBackdrop={false}
-    borderColor="success"
-    size="lg">
+    <CModal
+      show={showCreate}
+      onClose={closeModal}
+      closeOnBackdrop={false}
+      borderColor="success"
+      size="lg">
       <CModalHeader closeButton className="modal-villager-header-add">
         <CModalTitle>เพิ่มข้อมูลลูกบ้าน</CModalTitle>
       </CModalHeader>

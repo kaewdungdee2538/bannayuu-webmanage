@@ -22,7 +22,7 @@ export class AnnounceHistoryService {
 		,to_char(hni_end_datetime,'DD/MM/YYYY HH24:MI:SS') as hni_end_datetime
         ,to_char(create_date,'DD/MM/YYYY HH24:MI:SS') as create_date,create_by
         ,to_char(update_date,'DD/MM/YYYY HH24:MI:SS') as update_date,update_by
-        ,case when delete_flag = 'Y' then 'banned'
+        ,case when delete_flag = 'Y' then 'cancel'
 		when current_timestamp < hni_start_datetime then 'pending'
         when current_timestamp > hni_end_datetime then 'posted'
         when current_timestamp between hni_start_datetime and hni_end_datetime then 'active'
@@ -68,7 +68,7 @@ export class AnnounceHistoryService {
 		,to_char(hni_end_datetime,'DD/MM/YYYY HH24:MI:SS') as hni_end_datetime
         ,to_char(hni.create_date,'DD/MM/YYYY HH24:MI:SS') as create_date,hni.create_by
         ,to_char(hni.update_date,'DD/MM/YYYY HH24:MI:SS') as update_date,hni.update_by
-        ,case when hni.delete_flag = 'Y' then 'banned'
+        ,case when hni.delete_flag = 'Y' then 'cancel'
 		when current_timestamp < hni_start_datetime then 'pending'
         when current_timestamp > hni_end_datetime then 'posted'
         when current_timestamp between hni_start_datetime and hni_end_datetime then 'active'

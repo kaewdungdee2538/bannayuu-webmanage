@@ -36,8 +36,18 @@ const Login = () => {
       return { ...userItem, [name]: value }
     })
   }
-  //------------------------------------------------
+
+  //-------------------on password enter
+  function onPasswordEnter(event) {
+    if (event.key === 'Enter')
+      Login();
+  }
+  //--------------------on Login click
   async function onLoginClick(event) {
+    event.preventDefault();
+    Login();
+  }
+  async function Login() {
     axios.post(`${ApiRoute.main_url}${ApiRoute.port}${ApiRoute.login.login_url}`
       , user)
       .then(res => {
@@ -66,7 +76,7 @@ const Login = () => {
           history.push('/main')
         }
 
-      }).catch(err=>{
+      }).catch(err => {
         swal({
           title: "Warning!",
           text: "เชื่อมต่อ Server ล้มเหลว",
@@ -75,7 +85,6 @@ const Login = () => {
         });
       })
   }
-
 
   return (
     <div className="c-app c-default-layout flex-row align-items-center">
@@ -110,6 +119,7 @@ const Login = () => {
                       </CInputGroupPrepend>
                       <CInput
                         onChange={passwordOnChange}
+                        onKeyDown={onPasswordEnter}
                         name="password"
                         value={user.password}
                         type="password"

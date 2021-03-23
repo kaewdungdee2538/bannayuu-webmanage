@@ -20,6 +20,9 @@ import { ComplaintNotApproveMainController } from './Complaint-not-approve-main-
 import ComplaintNotApproveModal from '../modal/Complaint-not-approve-modal'
 import DatetimePickerInput from '../../../component/datetime/DatetimePickerInput'
 import InputEnable from '../../../component/input/InputEnable'
+import LoadingModal from '../../../component/loading/LoadingModal'
+import store,{disAuthenticationLogin} from '../../../../../store'
+
 const getBadge = status => {
     switch (status) {
         case 'N': return 'secondary'
@@ -50,6 +53,15 @@ function ComplaintNotApproveMain() {
     const [dateTimeEnd, setDateTimeEnd] = useState(dateEnd);
     const [address, setAddress] = useState('');
     const [headerText, setHeaderText] = useState('')
+    const [showLoading,setShowLoading] = useState(false);
+    //-------------------Show loading spiner
+    let loadingmodal = null;
+    if (showLoading) {
+        loadingmodal = <LoadingModal
+            setShowLoading={setShowLoading}
+            showLoading={showLoading}
+        />
+    } else loadingmodal = null;
     //---------------Form load
     useEffect(() => {
         refeshFormFunc();
@@ -63,6 +75,7 @@ function ComplaintNotApproveMain() {
         if (!authStore.authorization) {
             history.push("/");
         } else {
+            setShowLoading(true)
             document.body.style.cursor = "wait";
             const searchObj = {
                 address,
@@ -70,12 +83,15 @@ function ComplaintNotApproveMain() {
                 start_date: moment(dateTimeStart).format("YYYY-MM-DDTHH:mm:ss").toString(),
                 end_date: moment(dateTimeEnd).format("YYYY-MM-DDTHH:mm:ss").toString()
             }
+            let isNotAuth;
             ComplaintNotApproveMainController({ authStore, searchObj })
                 .then((res) => {
                     if (res.result) {
                         const result = res.result;
                         setComplaintObj(result);
-                    } else swal("Warning!", res.error, "warning");
+                    } else if (res.statusCode === 401) {
+                        isNotAuth = res.error
+                    }else swal("Warning!", res.error, "warning");
                 })
                 .catch((err) => {
                     console.log(err);
@@ -83,6 +99,13 @@ function ComplaintNotApproveMain() {
                 })
                 .finally((value) => {
                     document.body.style.cursor = "default";
+                    setShowLoading(false);
+                    if (isNotAuth) {
+                        swal("Warning!", isNotAuth, "warning");
+                        history.push("/");
+                        //clear state global at store 
+                        store.dispatch(disAuthenticationLogin());
+                    }
                 });
         }
     }
@@ -95,6 +118,7 @@ function ComplaintNotApproveMain() {
             showModal={showModal}
             setShowModal={setShowModal}
             setRefeshForm={setRefeshForm}
+            setShowLoading={setShowLoading}
         />
     } else complatintModal = null;
     //------------------on click show modal
@@ -146,6 +170,7 @@ function ComplaintNotApproveMain() {
     //--------------------------
     return (
         <CCard>
+            {loadingmodal}
             {complatintModal}
             <CCardHeader className="form-head-complaint">ร้องเรียนที่ยังไม่ได้ตรวจสอบ</CCardHeader>
             <CCardBody>

@@ -29,7 +29,6 @@ export class EstampEditMiddleware implements NestMiddleware {
     }
 
     async CheckValues(body: any) {
-        console.log({body})
         if (!body.visitor_record_id)
             return this.errMessageUrilTh.errVisitorRecordIdNotNumber
         else if (this.formatDataUtils.HaveSpecialFormat(body.visitor_record_id))

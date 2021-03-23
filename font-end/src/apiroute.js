@@ -34,6 +34,7 @@ const ApiRoute ={
         ,edit_visitor_estamp_url:'/webbannayuu/api/estamp-all/edit-estamp'
         ,get_estamp_visitor_not_estamp_url:'/webbannayuu/api/estamp-change-home/get-not-estamp'
         ,save_change_home_visitor_url:'/webbannayuu/api/estamp-change-home/change-home'
+        ,get_visitor_estamp_history_all_url:'/webbannayuu/api/estamp-all/getvisitor-estamp-history'
     },complaint:{
         get_complaint_by_id_url:'/webbannayuu/api/complaint/get-byid'
         ,get_complaint_not_approve_url:'/webbannayuu/api/complaint/complaint-notapprove'
@@ -52,6 +53,8 @@ const ApiRoute ={
         ,get_parcel_history_by_id_url:'/webbannayuu/api/parcel/get/history-by-id'
     },user_profile:{
         get_user_profile_by_id_url : '/webbannayuu/api/user-profile/get-by-id'
+    },notification_item:{
+        get_notification_item_all_url:'/webbannayuu/api/notification-item/get-all'
     }
 }
 export default ApiRoute;

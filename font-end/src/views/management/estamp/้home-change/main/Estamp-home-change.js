@@ -21,6 +21,9 @@ import DatetimePickerInput from '../../../component/datetime/DatetimePickerInput
 import { fields, getBadge, getTextStatus } from '../data/estamp-home-change-data'
 import { VisitorGetNotEstampController } from './Estamp-home-change-controller'
 import EstampHomeChangeModal from '../modal/Estamp-home-change-modal'
+import LoadingModal from '../../../component/loading/LoadingModal'
+import store, { disAuthenticationLogin } from '../../../../../store'
+
 export default function EstampHomeChange() {
 
     const history = useHistory();
@@ -41,6 +44,7 @@ export default function EstampHomeChange() {
     const [f_name, setF_Name] = useState("");
     const [l_name, setL_Name] = useState("");
     const [home_address, setHome_address] = useState("");
+    const [showLoading, setShowLoading] = useState(false);
     //--------------Form load
     useEffect(() => {
         if (!authStore.authorization) {
@@ -55,11 +59,13 @@ export default function EstampHomeChange() {
 
     function refeshForm() {
         document.body.style.cursor = "wait";
+        setShowLoading(true)
         const selectedObj = {
             start_date: moment(dateTimeStart).format("YYYY-MM-DDTHH:mm:ss").toString(),
             end_date: moment(dateTimeEnd).format("YYYY-MM-DDTHH:mm:ss").toString()
             , license_plate, f_name, l_name, home_address
         }
+        let isNotAuth;
         VisitorGetNotEstampController({ authStore, selectedObj })
             .then((res) => {
                 if (res.result) {
@@ -67,6 +73,8 @@ export default function EstampHomeChange() {
                     else {
                         setVisitorObj([]);
                     }
+                } else if (res.statusCode === 401) {
+                    isNotAuth = res.error;
                 } else swal("Warning!", res.error, "warning");
             })
             .catch((err) => {
@@ -76,6 +84,13 @@ export default function EstampHomeChange() {
             .finally((value) => {
                 document.body.style.cursor = "default";
                 setRefesh(false);
+                setShowLoading(false)
+                if (isNotAuth) {
+                    swal("Warning!", isNotAuth, "warning");
+                    history.push("/");
+                    //clear state global at store 
+                    store.dispatch(disAuthenticationLogin());
+                }
             });
     }
     //-----------------Date Handing
@@ -120,8 +135,18 @@ export default function EstampHomeChange() {
             , visitor_record_code
         })
     }
+    //-------------------Show loading spiner
+    let loadingmodal = null;
+    if (showLoading) {
+        loadingmodal = <LoadingModal
+            setShowLoading={setShowLoading}
+            showLoading={showLoading}
+        />
+    } else loadingmodal = null;
+    //--------------------------------
     return (
         <CCard>
+            {loadingmodal}
             {visitorModal}
             <CCardHeader className="form-head-estamp-change-home">เปลี่ยนบ้านให้ผู้มาเยือน</CCardHeader>
             <CCol xs="12" lg="12">
@@ -146,7 +171,7 @@ export default function EstampHomeChange() {
                         <CRow>
                             <CCol xs="12" sm="6" md="6">
                                 <InputEnable
-                                    title="ชื่อ-สกุล"
+                                    title="ชื่อ"
                                     placeholder="Enter first name"
                                     text={f_name}
                                     setText={setF_Name}
@@ -200,7 +225,7 @@ export default function EstampHomeChange() {
                             itemsPerPage={5}
                             pagination
                             scopedSlots={{
-                                'ชื่อ': (item) => (
+                                'ชื่อ-สกุล': (item) => (
                                     <td>
                                         <span>{item.first_name_th} {item.last_name_th}</span>
                                     </td>

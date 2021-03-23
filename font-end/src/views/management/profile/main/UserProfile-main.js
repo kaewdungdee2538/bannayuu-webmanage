@@ -19,6 +19,9 @@ import moment from 'moment'
 import { GetUserProfileByIDController } from './UserProfile-main-controller'
 import InputDisable from '../../component/input/InputDisable'
 import ImageBoxProfile from '../../component/image/ImageProfile'
+import LoadingModal from '../../component/loading/LoadingModal'
+import store, { disAuthenticationLogin } from '../../../../store'
+
 function UserProfileMain() {
     const history = useHistory();
     const authStore = useSelector(state => state)
@@ -41,6 +44,15 @@ function UserProfileMain() {
         , employee_picture_path: ""
         , company_name: ""
     });
+    const [showLoading, setShowLoading] = useState(false);
+    //-------------------Show loading spiner
+    let loadingmodal = null;
+    if (showLoading) {
+        loadingmodal = <LoadingModal
+            setShowLoading={setShowLoading}
+            showLoading={showLoading}
+        />
+    } else loadingmodal = null;
     //----------------Form load
     useEffect(() => {
         refeshFormFunc();
@@ -54,13 +66,16 @@ function UserProfileMain() {
         if (!authStore.authorization) {
             history.push("/");
         } else {
+            let isNotAuth;
+            setShowLoading(true)
             document.body.style.cursor = "wait";
             GetUserProfileByIDController({ authStore })
                 .then((res) => {
                     if (res.result) {
-                        console.log(res.result)
                         const result = res.result;
                         setUserProfileObj(result);
+                    } else if (res.statusCode === 401) {
+                        isNotAuth = res.error
                     } else swal("Warning!", res.error, "warning");
                 })
                 .catch((err) => {
@@ -69,12 +84,19 @@ function UserProfileMain() {
                 })
                 .finally((value) => {
                     document.body.style.cursor = "default";
+                    setShowLoading(false);
+                    if (isNotAuth) {
+                        swal("Warning!", isNotAuth, "warning");
+                        history.push("/");
+                        //clear state global at store 
+                        store.dispatch(disAuthenticationLogin());
+                    }
                 });
         }
     }
     return (
         <CCard>
-
+            {loadingmodal}
             <CCardBody>
                 <CCol xs="12" lg="12">
                     <CCard>

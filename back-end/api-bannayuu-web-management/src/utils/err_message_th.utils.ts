@@ -241,6 +241,7 @@ export class ErrMessageUtilsTH{
     errTimeEndNotFound = 'ไม่พบเวลาสิ้นสุดในการค้นหา'
     errTimeEndNotTimeFormat = 'รูปแบบเวลาสิ้นสุดในการค้นหาไม่ถูกต้อง'
     errTimeStartOverTimeEnd = 'เวลาค้นหาเริ่มต้น ต้องน้อยกว่าเวลาค้นหาสิ้นสุด'
+    errTimeSearchOver30Days = 'ช่วงเวลาที่ใช้ค้นหา ห้ามเกิน 30 วัน'
 
     errParcelReceiveTitleNotFound = 'กรุณาระบุหัวข้อการรับพัสดุ'
     errParcelReceiveTitleProhitbitSpecial = 'หัวข้อการรับพัสดุ ห้ามมีอักขระพิเศษ'

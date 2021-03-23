@@ -20,6 +20,9 @@ import { ComplaintSuccessMainController } from './Complaint-success-main-control
 import ComplaintSuccessModal from '../modal/Complaint-success-modal'
 import DatetimePickerInput from '../../../component/datetime/DatetimePickerInput'
 import InputEnable from '../../../component/input/InputEnable'
+import LoadingModal from '../../../component/loading/LoadingModal'
+import store, { disAuthenticationLogin } from '../../../../../store'
+
 const getBadge = status => {
     switch (status) {
         case 'N': return 'secondary'
@@ -38,7 +41,7 @@ const getStatus = status => {
         default: return 'ดำเนินการเรียบร้อย'
     }
 }
-const fields = ['แสดง','ที่อยู่', 'หัวข้อ', 'วันที่', 'สถานะ',]
+const fields = ['แสดง', 'ที่อยู่', 'หัวข้อ', 'วันที่', 'สถานะ',]
 
 function ComplaintSuccessMain() {
     const history = useHistory();
@@ -56,6 +59,15 @@ function ComplaintSuccessMain() {
     const [dateTimeEnd, setDateTimeEnd] = useState(dateEnd);
     const [address, setAddress] = useState('');
     const [headerText, setHeaderText] = useState('')
+    const [showLoading, setShowLoading] = useState(false);
+    //-------------------Show loading spiner
+    let loadingmodal = null;
+    if (showLoading) {
+        loadingmodal = <LoadingModal
+            setShowLoading={setShowLoading}
+            showLoading={showLoading}
+        />
+    } else loadingmodal = null;
     //---------------Form load
     useEffect(() => {
         refeshFormFunc();
@@ -69,6 +81,8 @@ function ComplaintSuccessMain() {
         if (!authStore.authorization) {
             history.push("/");
         } else {
+            setShowLoading(true)
+            let isNotAuth;
             document.body.style.cursor = "wait";
             const searchObj = {
                 address,
@@ -81,6 +95,8 @@ function ComplaintSuccessMain() {
                     if (res.result) {
                         const result = res.result;
                         setComplaintObj(result);
+                    } else if (res.statusCode === 401) {
+                        isNotAuth = res.error
                     } else swal("Warning!", res.error, "warning");
                 })
                 .catch((err) => {
@@ -89,6 +105,13 @@ function ComplaintSuccessMain() {
                 })
                 .finally((value) => {
                     document.body.style.cursor = "default";
+                    setShowLoading(false);
+                    if (isNotAuth) {
+                        swal("Warning!", isNotAuth, "warning");
+                        history.push("/");
+                        //clear state global at store 
+                        store.dispatch(disAuthenticationLogin());
+                    }
                 });
         }
     }
@@ -101,6 +124,7 @@ function ComplaintSuccessMain() {
             showModal={showModal}
             setShowModal={setShowModal}
             setRefeshForm={setRefeshForm}
+            setShowLoading={setShowLoading}
         />
     } else complatintModal = null;
     //------------------on click show modal
@@ -152,6 +176,7 @@ function ComplaintSuccessMain() {
     //--------------------------
     return (
         <CCard>
+            {loadingmodal}
             {complatintModal}
             <CCardHeader className="form-head-complaint">ประวัติการร้องเรียน</CCardHeader>
             <CCardBody>
@@ -242,7 +267,7 @@ function ComplaintSuccessMain() {
                                                         hci_code={item.hci_code}
                                                         className="btn-icon">แสดง</span></CButton>
                                             </td>
-                                        ), 
+                                        ),
                                     'ที่อยู่': (item) => (
                                         <td>
                                             <span>

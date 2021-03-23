@@ -21,18 +21,25 @@ import CIcon from '@coreui/icons-react'
 import swal from 'sweetalert';
 import EstampGetAll from '../manage-all/Estamp-get-all'
 import EstampGetByHome from '../manage-by-home/Estamp-get-by-home'
+import LoadingModal from '../../../component/loading/LoadingModal'
 function EstampMain() {
     const history = useHistory();
     const authStore = useSelector(state => state)
 
-    //--------------Form load
-
-    //--------------Reset form
-
-
+    //-------------------State
+    const [showLoading,setShowLoading] = useState(false);
+    //-------------------Show loading spiner
+  let loadingmodal = null;
+  if(showLoading){
+      loadingmodal = <LoadingModal
+      setShowLoading={setShowLoading}
+      showLoading={showLoading}
+      />
+  }else loadingmodal = null;
     //---------------------------------------------
     return (
         <CCard>
+            {loadingmodal}
             <CCardHeader className="form-head-estamp">จัดการประทับตราโครงการ</CCardHeader>
             <CCardBody>
                 
@@ -51,10 +58,10 @@ function EstampMain() {
                             </CNav>
                             <CTabContent>
                                 <CTabPane className="tab-form">
-                                    <EstampGetAll/>
+                                    <EstampGetAll setShowLoading={setShowLoading}/>
                                 </CTabPane>
                                 <CTabPane className="tab-form">
-                                    <EstampGetByHome/>
+                                    <EstampGetByHome setShowLoading={setShowLoading}/>
                                 </CTabPane>
                             </CTabContent>
                         </CTabs>

@@ -18,15 +18,19 @@ import swal from 'sweetalert';
 import moment from 'moment'
 import { EstampGetByHomeController } from './Estamp-get-by-home-controller'
 import EstampGetAll from '../manage-all/Estamp-get-all'
+import store, { disAuthenticationLogin } from '../../../../../store'
+
 const fields = ['บ้านเลขที่', 'เลือกบ้าน']
+
 function EstampGetByHome(props) {
     const history = useHistory();
     const authStore = useSelector(state => state)
+    const { setShowLoading } = props
     //--------------State
     const [homeObj, setHomeObj] = useState([])
     const [showVisitor, setShowVisitor] = useState(false);
     const [homeInfoObj, setHomeInfo] = useState({
-        home_id: "", home_code: "",home_address:""
+        home_id: "", home_code: "", home_address: ""
     })
     //----------------Form load
     useEffect(() => {
@@ -34,15 +38,18 @@ function EstampGetByHome(props) {
         if (!authStore.authorization) {
             history.push("/");
         } else {
-
+            let isNotAuth;
+            setShowLoading(true);
+            document.body.style.cursor = "wait";
             EstampGetByHomeController({ authStore })
                 .then((res) => {
-                    document.body.style.cursor = "wait";
                     if (res.result) {
                         if (res.result.length > 0) setHomeObj(res.result);
                         else {
                             setHomeObj([]);
                         }
+                    } else if (res.statusCode === 401) {
+                        isNotAuth = res.error;
                     } else swal("Warning!", res.error, "warning");
                 })
                 .catch((err) => {
@@ -51,6 +58,13 @@ function EstampGetByHome(props) {
                 })
                 .finally((value) => {
                     document.body.style.cursor = "default";
+                    setShowLoading(false);
+                    if (isNotAuth) {
+                        swal("Warning!", isNotAuth, "warning");
+                        history.push("/");
+                        //clear state global at store 
+                        store.dispatch(disAuthenticationLogin());
+                    }
                 });
         }
     }, [])
@@ -60,7 +74,7 @@ function EstampGetByHome(props) {
         const home_code = event.target.getAttribute("home_code");
         const home_address = event.target.getAttribute("home_address");
         setHomeInfo({
-            home_id, home_code,home_address
+            home_id, home_code, home_address
         })
         setShowVisitor(true);
     }
@@ -69,6 +83,7 @@ function EstampGetByHome(props) {
         showVisitorInfo = <EstampGetAll
             homeInfoObj={homeInfoObj}
             setShowVisitor={setShowVisitor}
+            setShowLoading={setShowLoading}
         />
     } else {
         showVisitorInfo = <CCard>
@@ -117,7 +132,7 @@ function EstampGetByHome(props) {
             </CCardBody>
         </CCard>
     }
-//--------------------------------------------------------------
+    //--------------------------------------------------------------
     return (
         <div>
             {showVisitorInfo}

@@ -13,7 +13,7 @@ import {
   CInput,
   CSwitch,
 } from "@coreui/react";
-import store, { selectHome, unSelectHome } from "../../../../store";
+import store, { selectHome, unSelectHome, disAuthenticationLogin } from "../../../../store";
 import { useSelector } from "react-redux";
 import { useHistory } from "react-router-dom";
 import {
@@ -22,7 +22,7 @@ import {
 } from "./Villager-info-modal-controller";
 import InputDisable from "../../component/input/InputDisable";
 import InputEnable from "../../component/input/InputEnable";
-function VillagerInfoModal({ selectedRow, setSelectedRow, setRefeshForm }) {
+function VillagerInfoModal({ selectedRow, setSelectedRow, setRefeshForm, setShowLoading }) {
   const history = useHistory();
   const authStore = useSelector((store) => store);
   const { selected, home_id, home_line_id, home_line_code } = selectedRow;
@@ -45,12 +45,14 @@ function VillagerInfoModal({ selectedRow, setSelectedRow, setRefeshForm }) {
     if (!authStore.authorization) {
       history.push("/");
     } else {
+      setShowLoading(true)
       document.body.style.cursor = "wait";
       const villagerObj = {
         home_id,
         home_line_id,
         home_line_code,
       };
+      let isNotAuth;
       getVillagerByIDInfo({ authStore, villagerObj })
         .then((res) => {
           if (res.result) {
@@ -72,9 +74,11 @@ function VillagerInfoModal({ selectedRow, setSelectedRow, setRefeshForm }) {
               setLastName(result.home_line_last_name)
               setMobilePhone(result.home_line_mobile_phone)
               setRemark(result.home_line_remark)
-              const status = result.status==='active' ? true : false;
+              const status = result.status === 'active' ? true : false;
               setCheck(status)
             } else swal("Warning!", "ไม่พบข้อมูลลูกบ้านในระบบ", "warning");
+          } else if (res.statusCode === 401) {
+            isNotAuth = res.error;
           } else swal("Warning!", res.error, "warning");
         })
         .catch((err) => {
@@ -83,6 +87,13 @@ function VillagerInfoModal({ selectedRow, setSelectedRow, setRefeshForm }) {
         })
         .finally((value) => {
           document.body.style.cursor = "default";
+          setShowLoading(false)
+          if (isNotAuth) {
+            swal("Warning!", isNotAuth, "warning");
+            history.push("/");
+            //clear state global at store 
+            store.dispatch(disAuthenticationLogin());
+          }
         });
     }
   }, []);
@@ -92,6 +103,7 @@ function VillagerInfoModal({ selectedRow, setSelectedRow, setRefeshForm }) {
   }
 
   function editHomeModal() {
+    setShowLoading(true);
     document.body.style.cursor = "wait";
     const villagerObj = {
       home_id
@@ -101,17 +113,23 @@ function VillagerInfoModal({ selectedRow, setSelectedRow, setRefeshForm }) {
       , home_line_last_name: lastName
       , home_line_mobile_phone: mobilePhone
       , home_line_remark: remark
-      , home_enable:check
+      , home_enable: check
     }
+    let isNotAuth;
     editVillager({ authStore, villagerObj })
       .then(res => {
-        if (res.error)
-          swal({
+        if (res.error) {
+          if (res.statusCode === 401) {
+            isNotAuth = res.error;
+          } else swal({
             title: "Warning.",
             text: res.message,
             icon: "warning",
             button: "OK",
           });
+          setShowLoading(false);
+        }
+
         else {
           swal({
             title: "Success.",
@@ -131,6 +149,12 @@ function VillagerInfoModal({ selectedRow, setSelectedRow, setRefeshForm }) {
         });
       }).finally(value => {
         document.body.style.cursor = "default";
+        if (isNotAuth) {
+          swal("Warning!", isNotAuth, "warning");
+          history.push("/");
+          //clear state global at store 
+          store.dispatch(disAuthenticationLogin());
+        }
       })
   }
   //-----------------------Check Box
@@ -156,12 +180,12 @@ function VillagerInfoModal({ selectedRow, setSelectedRow, setRefeshForm }) {
   }
   //------------------------------------------------------------
   return (
-    <CModal 
-    show={selected} 
-    onClose={closeModal} 
-    closeOnBackdrop={false}
-    borderColor="primary"
-    size="lg">
+    <CModal
+      show={selected}
+      onClose={closeModal}
+      closeOnBackdrop={false}
+      borderColor="primary"
+      size="lg">
       <CModalHeader closeButton className="modal-villager-head-edit">
         <CModalTitle>แก้ไขข้อมูลบ้าน</CModalTitle>
       </CModalHeader>
@@ -170,7 +194,7 @@ function VillagerInfoModal({ selectedRow, setSelectedRow, setRefeshForm }) {
           <InputDisable title="ชื่อโครงการ" text={homeObj.company_name} />
           <InputDisable title="Home code" text={homeObj.home_code} />
           <InputDisable title="บ้านเลขที่" text={homeObj.home_address} />
-          <InputDisable title="Villager code" text={homeObj.home_line_code} />
+          <InputDisable title="Token" text={homeObj.home_line_code} />
           <InputEnable
             title="ชื่อ"
             placeholder="Enter first name"

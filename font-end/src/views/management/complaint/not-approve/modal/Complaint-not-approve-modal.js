@@ -29,8 +29,10 @@ import CIcon from '@coreui/icons-react'
 import swal from 'sweetalert';
 import moment from 'moment'
 import { ComplaintNotApproveModalController } from './Complaint-not-approve-modal-controller'
-import { ComplaintSaveReceiptModalController,ComplaintSaveRejectModalController } from './Complaint-not-approve-modal-controller'
+import { ComplaintSaveReceiptModalController, ComplaintSaveRejectModalController } from './Complaint-not-approve-modal-controller'
 import ApiRoute from '../../../../../apiroute'
+import store, { disAuthenticationLogin } from '../../../../../store'
+
 const getBadge = status => {
     switch (status) {
         case 'N': return 'secondary'
@@ -47,7 +49,7 @@ export default function ComplaintNotApproveModal(props) {
     const history = useHistory();
     const authStore = useSelector(state => state)
     //--------------State
-    const { hci_id, hci_code, showModal, setShowModal, setRefeshForm } = props;
+    const { hci_id, hci_code, showModal, setShowModal, setRefeshForm, setShowLoading } = props;
     const [complaintObj, setComplaintObj] = useState({
         hci_id: ""
         , hci_code: ""
@@ -68,8 +70,10 @@ export default function ComplaintNotApproveModal(props) {
         if (!authStore.authorization) {
             history.push("/");
         } else {
+            setShowLoading(true)
             document.body.style.cursor = "wait";
             const selectObj = { hci_id, hci_code }
+            let isNotAuth;
             ComplaintNotApproveModalController({ authStore, selectObj })
                 .then((res) => {
                     if (res.result) {
@@ -91,6 +95,8 @@ export default function ComplaintNotApproveModal(props) {
                         const image_url = ApiRoute.image_url + result.img_complaint;
                         console.log(image_url)
                         setImageComplaint(image_url);
+                    } else if (res.statusCode === 401) {
+                        isNotAuth = res.error
                     } else swal("Warning!", res.error, "warning");
                 })
                 .catch((err) => {
@@ -99,6 +105,13 @@ export default function ComplaintNotApproveModal(props) {
                 })
                 .finally((value) => {
                     document.body.style.cursor = "default";
+                    setShowLoading(false);
+                    if (isNotAuth) {
+                        swal("Warning!", isNotAuth, "warning");
+                        history.push("/");
+                        //clear state global at store 
+                        store.dispatch(disAuthenticationLogin());
+                    }
                 });
 
 
@@ -115,17 +128,22 @@ export default function ComplaintNotApproveModal(props) {
                 hci_id: complaintObj.hci_id
                 , hci_remark: remark
             }
+            let isNotAuth;
+            setShowLoading(true)
+            document.body.style.cursor = 'wait';
             ComplaintSaveReceiptModalController({ authStore, complaintObject })
                 .then(res => {
-                    document.body.style.cursor = 'wait';
-                    if (res.error)
-                        swal({
+                    if (res.error) {
+                        if (res.statusCode === 401) {
+                            isNotAuth = res.error
+                        } else swal({
                             title: "Waring.",
                             text: res.message,
                             icon: "warning",
                             button: "OK",
                         });
-                    else {
+                        setShowLoading(false);
+                    } else {
                         swal({
                             title: "Success.",
                             text: "รับเรื่องร้องเรียนเรียบร้อย",
@@ -140,6 +158,12 @@ export default function ComplaintNotApproveModal(props) {
                     history.push('/page404')
                 }).finally(value => {
                     document.body.style.cursor = 'default';
+                    if (isNotAuth) {
+                        swal("Warning!", isNotAuth, "warning");
+                        history.push("/");
+                        //clear state global at store 
+                        store.dispatch(disAuthenticationLogin());
+                    }
                 })
         }
     }
@@ -151,30 +175,35 @@ export default function ComplaintNotApproveModal(props) {
             icon: "warning",
             buttons: true,
             dangerMode: true,
-          })
-          .then((willDelete) => {
-            if (willDelete) {
-                saveReject();
-            } 
-          });
+        })
+            .then((willDelete) => {
+                if (willDelete) {
+                    saveReject();
+                }
+            });
     }
-    function saveReject(){
+    function saveReject() {
         if (saveMiddleware()) {
             const complaintObject = {
                 hci_id: complaintObj.hci_id
                 , hci_remark: remark
             }
+            let isNotAuth;
+            setShowLoading(true)
+            document.body.style.cursor = 'wait';
             ComplaintSaveRejectModalController({ authStore, complaintObject })
                 .then(res => {
-                    document.body.style.cursor = 'wait';
-                    if (res.error)
-                        swal({
+                    if (res.error) {
+                        if (res.statusCode === 401) {
+                            isNotAuth = res.error
+                        } else swal({
                             title: "Waring.",
                             text: res.message,
                             icon: "warning",
                             button: "OK",
                         });
-                    else {
+                        setShowLoading(false)
+                    } else {
                         swal({
                             title: "Success.",
                             text: "ปฏิเสธคำร้องเรียนเรียบร้อย",
@@ -189,6 +218,12 @@ export default function ComplaintNotApproveModal(props) {
                     history.push('/page404')
                 }).finally(value => {
                     document.body.style.cursor = 'default';
+                    if (isNotAuth) {
+                        swal("Warning!", isNotAuth, "warning");
+                        history.push("/");
+                        //clear state global at store 
+                        store.dispatch(disAuthenticationLogin());
+                    }
                 })
         }
     }

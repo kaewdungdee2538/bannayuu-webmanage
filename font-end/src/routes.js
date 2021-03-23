@@ -48,12 +48,14 @@ const AnnouceMain = React.lazy(()=>import('./views/management/announce/managemen
 const AnnounceHistory = React.lazy(()=>import('./views/management/announce/history/main/Announce-history-main'))
 const EstampMain = React.lazy(()=>import('./views/management/estamp/estamp/main/EstampMain'))
 const EstampHomeChange = React.lazy(()=>import('./views/management/estamp/้home-change/main/Estamp-home-change'))
+const EstampHistoryMain = React.lazy(()=>import('./views/management/estamp/history/main/Estamp-history-main'))
 const ComplaintNotApproveMain = React.lazy(()=>import('./views/management/complaint/not-approve/main/Complaint-not-approve-main'))
 const ComplaintRecieptMain = React.lazy(()=>import('./views/management/complaint/reciept/main/Complaint-reciept-main'))
 const ComplaintSuccessMain = React.lazy(()=>import('./views/management/complaint/success/main/Complaint-success-main'))
 const ParcelReceiveMain = React.lazy(()=>import('./views/management/parcel/main/main/Parcel-receive-main'))
 const ParcelHistoryMain = React.lazy(()=>import('./views/management/parcel/history/main/Parcel-history-main'))
 const UserProfileMain = React.lazy(()=>import('./views/management/profile/main/UserProfile-main'))
+
 const routes = [
   { path: '/main', exact: true, name: 'Home',component:MainForm },
   { path: '/page404', name: 'Not Found', component: page404 },
@@ -102,7 +104,8 @@ const routes = [
   { path: '/annouce', exact: true, name: 'Annouce', component: AnnouceMain },
   { path: '/annouce-history', exact: true, name: 'Annouce History', component: AnnounceHistory },
   { path: '/estamp', exact: true, name: 'Estamp', component: EstampMain },
-  { path: '/estamp-home-change', exact: true, name: 'Estamp', component: EstampHomeChange },
+  { path: '/estamp-home-change', exact: true, name: 'Estamp Home Change', component: EstampHomeChange },
+  { path: '/estamp-history', exact: true, name: 'Estamp History', component: EstampHistoryMain },
   { path: '/complaint-not-apprive', exact: true, name: 'Complaint Not Approve', component: ComplaintNotApproveMain },
   { path: '/complaint-receipt', exact: true, name: 'Complaint Receipt', component: ComplaintRecieptMain },
   { path: '/complaint-success', exact: true, name: 'Complaint Success', component: ComplaintSuccessMain },

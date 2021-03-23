@@ -24,10 +24,10 @@ export class JwtAuthGuard extends AuthGuard('jwt') {
         if (err || !user) {
             console.log(`Authentication Unauthorized ${user}`);
             throw err || new StatusException({
-                error: 'Unauthorized',
+                error: 'Session หมดอายุ',
                 result: null,
-                message: 'Unauthorized',
-                statusCode: 200
+                message: 'Session หมดอายุ',
+                statusCode: 401
             }, 200)
         }
         

@@ -16,9 +16,10 @@ import TextAreaDisable from '../../../component/textarea/TextAreaDisable'
 import StatusItem from '../../../component/status-item/StatusItem'
 import AnnounceHistoryModalController from './Announce-history-modal-controller'
 import { useHistory } from 'react-router-dom'
+import store, { disAuthenticationLogin } from '../../../../../store'
 
 
-const AnnounceHistoryModal = ({ showHistory, setShowHistory, selectHistory, setRefeshForm }) => {
+const AnnounceHistoryModal = ({ showHistory, setShowHistory, selectHistory, setShowLoading }) => {
     const history = useHistory();
     //-----------------------State
     const authStore = useSelector(state => state)
@@ -30,21 +31,25 @@ const AnnounceHistoryModal = ({ showHistory, setShowHistory, selectHistory, setR
         , hni_start_datetime: ""
         , hni_end_datetime: ""
         , hni_status: ""
-        , company_name:""
+        , company_name: ""
     })
     //------------------------Load form 
     useEffect(() => {
+        let isNotAuth;
+        setShowLoading(true)
         document.body.style.cursor = 'wait';
         AnnounceHistoryModalController({ authStore, selectHistory })
             .then(res => {
-                if (res.error)
-                    swal({
+                if (res.error) {
+                    if (res.statusCode === 401) {
+                        isNotAuth = res.error
+                    } else swal({
                         title: "Waring.",
                         text: res.message,
                         icon: "warning",
                         button: "OK",
                     });
-                else {
+                } else {
                     const result = res.result;
                     setItemsObj({
                         hni_code: result.hni_code
@@ -56,7 +61,7 @@ const AnnounceHistoryModal = ({ showHistory, setShowHistory, selectHistory, setR
                         , hni_start_datetime: result.hni_start_datetime
                         , hni_end_datetime: result.hni_end_datetime
                         , hni_status: !result.status ? "none" : result.status
-                        , company_name : result.company_name
+                        , company_name: result.company_name
                     })
                 }
             }).catch(err => {
@@ -64,6 +69,13 @@ const AnnounceHistoryModal = ({ showHistory, setShowHistory, selectHistory, setR
                 history.push('/page404')
             }).finally(value => {
                 document.body.style.cursor = 'default';
+                setShowLoading(false)
+                if (isNotAuth) {
+                    swal("Warning!", isNotAuth, "warning");
+                    history.push("/");
+                    //clear state global at store 
+                    store.dispatch(disAuthenticationLogin());
+                }
             })
     }, [])
     //------------------------Close

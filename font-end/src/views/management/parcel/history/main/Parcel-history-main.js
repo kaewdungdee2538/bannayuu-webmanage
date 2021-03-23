@@ -22,6 +22,8 @@ import InputEnable from '../../../component/input/InputEnable'
 import SelectBox from '../../../component/selectbox/SelectBox'
 import { getBadge, getStatus, selectBoxItem, fields } from '../data/parcel-history-data'
 import ParcelHistoryModal from '../modal/Parcel-history-modal'
+import LoadingModal from '../../../component/loading/LoadingModal'
+import store, { disAuthenticationLogin } from '../../../../../store'
 
 function ParcelHistoryMain() {
     const history = useHistory();
@@ -43,6 +45,15 @@ function ParcelHistoryMain() {
     const [selected, setSelected] = useState({
         value: "", type: ""
     })
+    const [showLoading, setShowLoading] = useState(false);
+    //-------------------Show loading spiner
+    let loadingmodal = null;
+    if (showLoading) {
+        loadingmodal = <LoadingModal
+            setShowLoading={setShowLoading}
+            showLoading={showLoading}
+        />
+    } else loadingmodal = null;
     //---------------Form load
     useEffect(() => {
         refeshFormFunc();
@@ -56,6 +67,7 @@ function ParcelHistoryMain() {
         if (!authStore.authorization) {
             history.push("/");
         } else {
+            setShowLoading(true);
             document.body.style.cursor = "wait";
             const searchObj = {
                 address,
@@ -64,11 +76,14 @@ function ParcelHistoryMain() {
                 end_date: moment(dateTimeEnd).format("YYYY-MM-DDTHH:mm:ss").toString(),
                 status_type: selected.value
             }
+            let isNotAuth;
             ParcelHistoryMainController({ authStore, searchObj })
                 .then((res) => {
                     if (res.result) {
                         const result = res.result;
                         setParcelObj(result);
+                    } else if (res.statusCode === 401) {
+                        isNotAuth = res.error;
                     } else swal("Warning!", res.error, "warning");
                 })
                 .catch((err) => {
@@ -77,6 +92,13 @@ function ParcelHistoryMain() {
                 })
                 .finally((value) => {
                     document.body.style.cursor = "default";
+                    setShowLoading(false);
+                    if (isNotAuth) {
+                        swal("Warning!", isNotAuth, "warning");
+                        history.push("/");
+                        //clear state global at store 
+                        store.dispatch(disAuthenticationLogin());
+                    }
                 });
         }
     }
@@ -87,6 +109,7 @@ function ParcelHistoryMain() {
             showModal={showModal}
             setShowModal={setShowModal}
             selectedObj={selectedObj}
+            setShowLoading={setShowLoading}
         />
     } else parcelShowModal = null;
     //------------------on click show modal
@@ -139,6 +162,7 @@ function ParcelHistoryMain() {
     //--------------------------
     return (
         <CCard>
+            {loadingmodal}
             {parcelShowModal}
             <CCardHeader className="form-head-parcel">ประวัติการรับ-ส่งพัสดุให้ลูกบ้าน</CCardHeader>
             <CCardBody>

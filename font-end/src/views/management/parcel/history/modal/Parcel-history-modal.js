@@ -15,6 +15,7 @@ import {
     CCol,
     CLabel,
     CInputFile,
+    CBadge,
 } from '@coreui/react'
 import CIcon from '@coreui/icons-react'
 import InputDisable from '../../../component/input/InputDisable'
@@ -23,7 +24,10 @@ import TextAreaDisable from '../../../component/textarea/TextAreaDisable'
 import { getParcelHistoryBydID } from './Parcel-history-modal-controller'
 import ImageBox from '../../../component/image/ImageBox'
 import ApiRoute from '../../../../../apiroute'
-const ParcelHistoryModal = ({ showModal, setShowModal, selectedObj }) => {
+import { getBadge, getStatus } from '../data/parcel-history-data'
+import store, { disAuthenticationLogin } from '../../../../../store'
+
+const ParcelHistoryModal = ({ showModal, setShowModal, selectedObj, setShowLoading }) => {
     const history = useHistory();
     const authStore = useSelector(state => state)
     const [parcelObj, setParcelObj] = useState({
@@ -46,6 +50,8 @@ const ParcelHistoryModal = ({ showModal, setShowModal, selectedObj }) => {
         if (!authStore.authorization) {
             history.push("/");
         } else {
+            let isNotAuth;
+            setShowLoading(true);
             document.body.style.cursor = "wait";
             getParcelHistoryBydID({ authStore, selectedObj })
                 .then((res) => {
@@ -54,6 +60,8 @@ const ParcelHistoryModal = ({ showModal, setShowModal, selectedObj }) => {
                         setParcelObj(result);
                         setImageReceive(result.image_parcel_receive)
                         setImageSend(result.image_parcel_send)
+                    } else if (res.statusCode === 401) {
+                        isNotAuth = res.error;
                     } else swal("Warning!", res.error, "warning");
                 })
                 .catch((err) => {
@@ -62,6 +70,13 @@ const ParcelHistoryModal = ({ showModal, setShowModal, selectedObj }) => {
                 })
                 .finally((value) => {
                     document.body.style.cursor = "default";
+                    setShowLoading(false);
+                    if (isNotAuth) {
+                        swal("Warning!", isNotAuth, "warning");
+                        history.push("/");
+                        //clear state global at store 
+                        store.dispatch(disAuthenticationLogin());
+                    }
                 });
         }
     }, [])
@@ -177,6 +192,16 @@ const ParcelHistoryModal = ({ showModal, setShowModal, selectedObj }) => {
                             />
                         </CCol>
                     </CRow>
+                    <CRow>
+                        <CCol xs="12" sm="12">
+                            <CLabel>สถานะ</CLabel>
+                            <br></br>
+                            <CBadge className="badge-modal" color={getBadge(parcelObj.tpi_status)}>
+                                {getStatus(parcelObj.tpi_status)}
+                            </CBadge>
+                        </CCol>
+                    </CRow>
+
                 </CFormGroup>
             </CModalBody>
             <CModalFooter>

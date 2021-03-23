@@ -18,6 +18,8 @@ import { useSelector } from 'react-redux'
 import { useHistory } from 'react-router-dom'
 import { convertTZ } from '../../../../utils'
 import { deleteHomeByID } from './home-edit-modal-func'
+import LoadingModal from '../../component/loading/LoadingModal'
+import store, { disAuthenticationLogin } from '../../../../store'
 
 const getBadge = status => {
     switch (status) {
@@ -36,10 +38,22 @@ const CoreUIHomeEdit = () => {
     const authStore = useSelector(store => store);
     const [homeInfo, setHomeInfo] = useState(null)
     const [refeshForm, setRefeshForm] = useState(false);
+    const [showLoading, setShowLoading] = useState(false);
+    //-------------------Show loading spiner
+    let loadingmodal = null;
+    if (showLoading) {
+        loadingmodal = <LoadingModal
+            setShowLoading={setShowLoading}
+            showLoading={showLoading}
+        />
+    } else loadingmodal = null;
+    //--------------------Form Load
     useEffect(() => {
         if (!authStore.authorization) {
             history.push('/')
         } else {
+            let isNotAuth;
+            setShowLoading(true)
             document.body.style.cursor = 'wait';
             getHomeInfo(authStore).then(res => {
                 if (res.result) {
@@ -48,12 +62,21 @@ const CoreUIHomeEdit = () => {
                     else {
                         setHomeInfo(null);
                     }
+                }else if (res.statusCode === 401) {
+                    isNotAuth = res.error;
                 }
             }).catch(err => {
                 console.log(err)
                 history.push('/page404')
             }).finally(value => {
                 document.body.style.cursor = 'default';
+                setShowLoading(false);
+                if (isNotAuth) {
+                    swal("Warning!", isNotAuth, "warning");
+                    history.push("/");
+                    //clear state global at store 
+                    store.dispatch(disAuthenticationLogin());
+                }
             })
         }
     }, []);
@@ -66,7 +89,9 @@ const CoreUIHomeEdit = () => {
             selectedRow={selectedRow}
             setSelectedRow={setSelectedRow}
             authStore={authStore}
-            setRefeshForm={setRefeshForm} />
+            setRefeshForm={setRefeshForm} 
+            setShowLoading={setShowLoading}
+            />
     }
 
     //------------------Edit
@@ -75,17 +100,24 @@ const CoreUIHomeEdit = () => {
             setSelectedRow({ home_id: event.target.getAttribute("home_id"), selected: true })
     }
     //-------------------Refesh form
-    if (!!refeshForm) {
+    if (refeshForm) {
         document.body.style.cursor = 'wait';
         getHomeInfo(authStore).then(res => {
             if (res.result) {
                 if (res.result.length > 0)
                     setHomeInfo(res.result)
             }
-            document.body.style.cursor = 'default';
         })
-        //stop refesh form
-        setRefeshForm(false);
+            .catch(err => {
+                console.log(err)
+                history.push('/page404')
+            }).finally(value => {
+                document.body.style.cursor = 'default';
+                setShowLoading(false);
+                //stop refesh form
+                setRefeshForm(false);
+            })
+
     }
     let showCreateAddress = null;
     if (!!showCreateAdd) {
@@ -94,6 +126,7 @@ const CoreUIHomeEdit = () => {
                 showCreateAdd={showCreateAdd}
                 setShowCreateAdd={setShowCreateAdd}
                 setRefeshForm={setRefeshForm}
+                setShowLoading={setShowLoading}
             />
     }
     //---------------------Delete
@@ -153,6 +186,7 @@ const CoreUIHomeEdit = () => {
 
     return (
         <CCard>
+            {loadingmodal}
             <CCardHeader className="home-form-head">ข้อมูลบ้าน</CCardHeader>
             <div className="btn-addhome">
                 <CButton

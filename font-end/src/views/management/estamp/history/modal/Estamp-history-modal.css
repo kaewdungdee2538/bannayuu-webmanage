@@ -1,0 +1,24 @@
+
+.btn-modal-footer{
+    margin-left: 15px;
+    min-width: 90px;
+}
+.modal-header-history{
+    background-color: rgb(128, 128, 128);
+    color: white;
+}
+
+.modal-footer{
+    display: flex;
+    justify-content: space-between;
+}
+
+.modal-footer>div{
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+.estamp-status{
+    font-size: 18px;
+}

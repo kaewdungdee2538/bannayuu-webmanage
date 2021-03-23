@@ -17,13 +17,16 @@ import getAnnouceModal from './Announce-main-controller'
 import AnnouceEditModal from '../edit/Announce-edit-modal'
 import swal from 'sweetalert';
 import cancelAnnouceModal from '../delete/announce-delete-controller'
+import LoadingModal from '../../../component/loading/LoadingModal'
+import store, { disAuthenticationLogin } from '../../../../../store'
+
 const fields = ['แก้ไข', 'ชื่อ-สกุล', 'เรื่อง', 'วันที่ประกาศ', 'สถานะ', 'ยกเลิกประกาศ']
 const getBadge = status => {
     switch (status) {
         case 'active': return 'success'
         case 'posted': return 'secondary'
         case 'pending': return 'warning'
-        case 'banned': return 'danger'
+        case 'cancel': return 'danger'
         default: return 'primary'
     }
 }
@@ -39,21 +42,34 @@ function AnnouceMain() {
         hni_id: ""
         , hni_code: ""
     })
+    const [showLoading, setShowLoading] = useState(false);
+    //-------------------Show loading spiner
+    let loadingmodal = null;
+    if (showLoading) {
+        loadingmodal = <LoadingModal
+            setShowLoading={setShowLoading}
+            showLoading={showLoading}
+        />
+    } else loadingmodal = null;
     //--------------Form load
     useEffect(() => {
         if (!authStore.authorization) {
             history.push("/");
         } else {
+            setShowLoading(true)
             refeshForm();
         }
     }, []);
     //-------------Refesh form
     function refeshForm() {
+        let isNotAuth;
         document.body.style.cursor = "wait";
         getAnnouceModal({ authStore })
             .then((res) => {
                 if (res.result) {
                     if (res.result.length > 0) setAnnounceObj(res.result);
+                } else if (res.statusCode === 401) {
+                    isNotAuth = res.error
                 } else swal("Warning!", res.error, "warning");
             })
             .catch((err) => {
@@ -62,7 +78,14 @@ function AnnouceMain() {
             })
             .finally((value) => {
                 document.body.style.cursor = "default";
+                setShowLoading(false);
                 setRefeshForm(false);
+                if (isNotAuth) {
+                    swal("Warning!", isNotAuth, "warning");
+                    history.push("/");
+                    //clear state global at store 
+                    store.dispatch(disAuthenticationLogin());
+                }
             });
     }
     if (resfeshForm) {
@@ -79,6 +102,7 @@ function AnnouceMain() {
             showAddAnnouce={showAddAnnouce}
             setShowAddAnnouce={setShowAddAnnouce}
             setRefeshForm={setRefeshForm}
+            setShowLoading={setShowLoading}
         />
     }
     //-------------Edit Announce
@@ -98,6 +122,7 @@ function AnnouceMain() {
             setShowEdit={setShowEdit}
             setRefeshForm={setRefeshForm}
             editObj={editObj}
+            setShowLoading={setShowLoading}
         />
     }
     //--------------Cancel Announce
@@ -125,17 +150,21 @@ function AnnouceMain() {
                         })
                             .then((willDelete) => {
                                 if (willDelete) {
-
+                                    let isNotAuth;
+                                    setShowLoading(true)
                                     document.body.style.cursor = 'wait';
                                     cancelAnnouceModal({ authStore, announceObj })
                                         .then(res => {
-                                            if (res.error) swal({
-                                                title: "Waring.",
-                                                text: res.message,
-                                                icon: "warning",
-                                                button: "OK",
-                                            })
-                                            else {
+                                            if (res.error) {
+                                                if (res.statusCode === 401) {
+                                                    isNotAuth = res.error
+                                                } else swal({
+                                                    title: "Waring.",
+                                                    text: res.message,
+                                                    icon: "warning",
+                                                    button: "OK",
+                                                })
+                                            } else {
                                                 swal("ลบลูกบ้านเรียนร้อย", {
                                                     icon: "success",
                                                 });
@@ -146,6 +175,12 @@ function AnnouceMain() {
                                             history.push('/page404')
                                         }).finally(value => {
                                             document.body.style.cursor = 'default';
+                                            if (isNotAuth) {
+                                                swal("Warning!", isNotAuth, "warning");
+                                                history.push("/");
+                                                //clear state global at store 
+                                                store.dispatch(disAuthenticationLogin());
+                                            }
                                         })
                                 } else {
 
@@ -252,6 +287,7 @@ function AnnouceMain() {
                 </CCard>
             </CCol>
         </CCardBody>
+        {loadingmodal}
         {addAnnouceModal}
         {modalEdit}
     </CCard>)

@@ -22,7 +22,7 @@ export class AnnounceService {
         ,case when current_timestamp < hni_start_datetime then 'pending'
         when current_timestamp > hni_end_datetime then 'posted'
         when current_timestamp between hni_start_datetime and hni_end_datetime then 'active'
-        else 'banned' end as status
+        when delete_flag = 'Y' then 'cancel' else 'none' end as status
         from h_notification_info
         where delete_flag = 'N'
         and company_id =$1

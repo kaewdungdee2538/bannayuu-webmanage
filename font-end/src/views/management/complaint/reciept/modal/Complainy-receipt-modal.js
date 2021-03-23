@@ -30,6 +30,8 @@ import swal from 'sweetalert';
 import moment from 'moment'
 import { ComplaintReceiptModalController, ComplaintSaveSuccessModalController, ComplaintSaveCancelModalController } from './Complainy-receipt-modal-controller'
 import ApiRoute from '../../../../../apiroute'
+import store, { disAuthenticationLogin } from '../../../../../store'
+
 const getBadge = status => {
     switch (status) {
         case 'N': return 'secondary'
@@ -48,7 +50,7 @@ export default function ComplaintReceiptModal(props) {
     const history = useHistory();
     const authStore = useSelector(state => state)
     //--------------State
-    const { hci_id, hci_code, showModal, setShowModal, setRefeshForm } = props;
+    const { hci_id, hci_code, showModal, setShowModal, setRefeshForm, setShowLoading } = props;
     const [complaintObj, setComplaintObj] = useState({
         hci_id: ""
         , hci_code: ""
@@ -70,6 +72,8 @@ export default function ComplaintReceiptModal(props) {
         if (!authStore.authorization) {
             history.push("/");
         } else {
+            let isNotAuth;
+            setShowLoading(true)
             document.body.style.cursor = "wait";
             const selectObj = { hci_id, hci_code }
             ComplaintReceiptModalController({ authStore, selectObj })
@@ -93,6 +97,8 @@ export default function ComplaintReceiptModal(props) {
                         //----------------Set image path
                         const image_url = ApiRoute.image_url + result.img_complaint;
                         setImageComplaint(image_url);
+                    } else if (res.statusCode === 401) {
+                        isNotAuth = res.error
                     } else swal("Warning!", res.error, "warning");
                 })
                 .catch((err) => {
@@ -101,6 +107,13 @@ export default function ComplaintReceiptModal(props) {
                 })
                 .finally((value) => {
                     document.body.style.cursor = "default";
+                    setShowLoading(false);
+                    if (isNotAuth) {
+                        swal("Warning!", isNotAuth, "warning");
+                        history.push("/");
+                        //clear state global at store 
+                        store.dispatch(disAuthenticationLogin());
+                    }
                 });
 
 
@@ -117,17 +130,22 @@ export default function ComplaintReceiptModal(props) {
                 hci_id: complaintObj.hci_id
                 , hci_remark: remark
             }
+            let isNotAuth;
+            setShowLoading(true)
+            document.body.style.cursor = 'wait';
             ComplaintSaveSuccessModalController({ authStore, complaintObject })
                 .then(res => {
-                    document.body.style.cursor = 'wait';
-                    if (res.error)
-                        swal({
+                    if (res.error) {
+                        if (res.statusCode === 401) {
+                            isNotAuth = res.error
+                        } else swal({
                             title: "Waring.",
                             text: res.message,
                             icon: "warning",
                             button: "OK",
                         });
-                    else {
+                        setShowLoading(false)
+                    } else {
                         swal({
                             title: "Success.",
                             text: "รับเรื่องร้องเรียนเรียบร้อย",
@@ -142,6 +160,12 @@ export default function ComplaintReceiptModal(props) {
                     history.push('/page404')
                 }).finally(value => {
                     document.body.style.cursor = 'default';
+                    if (isNotAuth) {
+                        swal("Warning!", isNotAuth, "warning");
+                        history.push("/");
+                        //clear state global at store 
+                        store.dispatch(disAuthenticationLogin());
+                    }
                 })
         }
     }
@@ -166,17 +190,22 @@ export default function ComplaintReceiptModal(props) {
                 hci_id: complaintObj.hci_id
                 , hci_remark: remark
             }
+            let isNotAuth;
+            setShowLoading(true)
+            document.body.style.cursor = 'wait';
             ComplaintSaveCancelModalController({ authStore, complaintObject })
                 .then(res => {
-                    document.body.style.cursor = 'wait';
-                    if (res.error)
-                        swal({
+                    if (res.error) {
+                        if (res.statusCode === 401) {
+                            isNotAuth = res.error
+                        } else swal({
                             title: "Waring.",
                             text: res.message,
                             icon: "warning",
                             button: "OK",
                         });
-                    else {
+                        setShowLoading(false)
+                    } else {
                         swal({
                             title: "Success.",
                             text: "ยกเลิกดำเนินการเรียบร้อย",
@@ -191,6 +220,12 @@ export default function ComplaintReceiptModal(props) {
                     history.push('/page404')
                 }).finally(value => {
                     document.body.style.cursor = 'default';
+                    if (isNotAuth) {
+                        swal("Warning!", isNotAuth, "warning");
+                        history.push("/");
+                        //clear state global at store 
+                        store.dispatch(disAuthenticationLogin());
+                    }
                 })
         }
     }

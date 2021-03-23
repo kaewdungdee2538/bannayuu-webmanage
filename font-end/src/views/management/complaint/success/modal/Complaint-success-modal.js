@@ -30,6 +30,8 @@ import swal from 'sweetalert';
 import moment from 'moment'
 import { ComplaintSuccessModalModalController } from './Complaint-success-modal-controller'
 import ApiRoute from '../../../../../apiroute'
+import store, { disAuthenticationLogin } from '../../../../../store'
+
 const getBadge = status => {
     switch (status) {
         case 'N': return 'secondary'
@@ -52,7 +54,7 @@ export default function ComplaintSuccessModal(props) {
     const history = useHistory();
     const authStore = useSelector(state => state)
     //--------------State
-    const { hci_id, hci_code, showModal, setShowModal, setRefeshForm } = props;
+    const { hci_id, hci_code, showModal, setShowModal, setRefeshForm,setShowLoading } = props;
     const [complaintObj, setComplaintObj] = useState({
         hci_id: ""
         , hci_code: ""
@@ -74,6 +76,8 @@ export default function ComplaintSuccessModal(props) {
         if (!authStore.authorization) {
             history.push("/");
         } else {
+            let isNotAuth;
+            setShowLoading(true)
             document.body.style.cursor = "wait";
             const selectObj = { hci_id, hci_code }
             ComplaintSuccessModalModalController({ authStore, selectObj })
@@ -98,6 +102,8 @@ export default function ComplaintSuccessModal(props) {
                         const image_url = ApiRoute.image_url + result.img_complaint;
                         console.log(image_url)
                         setImageComplaint(image_url);
+                    }else if (res.statusCode === 401) {
+                        isNotAuth = res.error
                     } else swal("Warning!", res.error, "warning");
                 })
                 .catch((err) => {
@@ -106,6 +112,13 @@ export default function ComplaintSuccessModal(props) {
                 })
                 .finally((value) => {
                     document.body.style.cursor = "default";
+                    setShowLoading(false);
+                    if (isNotAuth) {
+                        swal("Warning!", isNotAuth, "warning");
+                        history.push("/");
+                        //clear state global at store 
+                        store.dispatch(disAuthenticationLogin());
+                    }
                 });
 
 

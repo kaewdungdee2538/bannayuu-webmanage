@@ -24,8 +24,9 @@ import TextAreaDisable from '../../../component/textarea/TextAreaDisable'
 import ImageBox from '../../../component/image/ImageBox'
 import { sendParcelSend } from './Parcel-send-modal-controller'
 import { getParcelWaitSendBydID } from './Parcel-send-modal-controller'
-import ApiRoute from '../../../../../apiroute'
-const ParcelSendModal = ({ showEditModal, setShowEditModal, setRefeshForm, selectedObj }) => {
+import store, { disAuthenticationLogin } from '../../../../../store'
+
+const ParcelSendModal = ({ showEditModal, setShowEditModal, setRefeshForm, selectedObj, setShowLoading }) => {
     const history = useHistory();
     const authStore = useSelector(state => state)
     const [parcelObj, setParcelObj] = useState({
@@ -43,13 +44,17 @@ const ParcelSendModal = ({ showEditModal, setShowEditModal, setRefeshForm, selec
         if (!authStore.authorization) {
             history.push("/");
         } else {
+            let isNotAuth;
             document.body.style.cursor = "wait";
+            setShowLoading(true)
             getParcelWaitSendBydID({ authStore, selectedObj })
                 .then((res) => {
                     if (res.result) {
                         const result = res.result;
                         setParcelObj(result);
                         setImageParcel(result.image_parcel_receive)
+                    } else if (res.statusCode === 401) {
+                        isNotAuth = res.error;
                     } else swal("Warning!", res.error, "warning");
                 })
                 .catch((err) => {
@@ -58,6 +63,13 @@ const ParcelSendModal = ({ showEditModal, setShowEditModal, setRefeshForm, selec
                 })
                 .finally((value) => {
                     document.body.style.cursor = "default";
+                    setShowLoading(false);
+                    if (isNotAuth) {
+                        swal("Warning!", isNotAuth, "warning");
+                        history.push("/");
+                        //clear state global at store 
+                        store.dispatch(disAuthenticationLogin());
+                    }
                 });
         }
     }, [])
@@ -69,23 +81,28 @@ const ParcelSendModal = ({ showEditModal, setShowEditModal, setRefeshForm, selec
 
     function sendParcelModal() {
         document.body.style.cursor = 'wait';
+        setShowLoading(true);
         const values = {
             authStore
             , valuesObj: {
                 image
-                ,tpi_id:parcelObj.tpi_id
-                ,tpi_code:parcelObj.tpi_code
-                ,send_parcel_detail:remark
+                , tpi_id: parcelObj.tpi_id
+                , tpi_code: parcelObj.tpi_code
+                , send_parcel_detail: remark
             }
         }
+        let isNotAuth;
         sendParcelSend(values).then(res => {
-            if (res.error) swal({
-                title: "Warning.",
-                text: res.message,
-                icon: "warning",
-                button: "OK",
-            });
-            else {
+            if (res.error) {
+                if (res.statusCode === 401)
+                    isNotAuth = res.error
+                else swal({
+                    title: "Warning.",
+                    text: res.message,
+                    icon: "warning",
+                    button: "OK",
+                });
+            } else {
                 swal({
                     title: "Success.",
                     text: "ทำรายการรับพัสดุเรียบร้อย",
@@ -95,9 +112,19 @@ const ParcelSendModal = ({ showEditModal, setShowEditModal, setRefeshForm, selec
                 setRefeshForm(true)
                 closeModal();
             }
+        }).catch(err => {
+            console.log(err);
+            history.push("/page404");
+        }).finally(value => {
             document.body.style.cursor = 'default';
+            setShowLoading(false);
+            if (isNotAuth) {
+                swal("Warning!", isNotAuth, "warning");
+                history.push("/");
+                //clear state global at store 
+                store.dispatch(disAuthenticationLogin());
+            }
         })
-
     }
 
 
@@ -170,8 +197,8 @@ const ParcelSendModal = ({ showEditModal, setShowEditModal, setRefeshForm, selec
                     <CRow>
                         <CCol xs="12" sm="12">
                             <ImageBox
-                            title="รูปภาพพัสดุ"
-                            link={imageParcel}
+                                title="รูปภาพพัสดุ"
+                                link={imageParcel}
                             />
                         </CCol>
                     </CRow>
@@ -185,7 +212,7 @@ const ParcelSendModal = ({ showEditModal, setShowEditModal, setRefeshForm, selec
                                 placeholder="Enter remark"
                                 text={remark}
                                 setText={setRemark}
-                                
+
                             />
                         </CCol>
                     </CRow>

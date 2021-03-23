@@ -13,19 +13,20 @@ import swal from "sweetalert";
 import CIcon from "@coreui/icons-react";
 import VillagerInfoModal from "../info/Villager-info-modal";
 import VillagerAddModal from "../add/Villager-add";
-import store, { selectHome, unSelectHome } from "../../../../store";
+import store, {disAuthenticationLogin, selectHome, unSelectHome } from "../../../../store";
 import { useSelector } from "react-redux";
 import { useHistory } from "react-router-dom";
 import { getVillagerInfo, editVillager } from "./Villager-edit-controller";
-import { deleteVillager } from "../delete/Villager-delete-controller"
+import { deleteVillager } from "../delete/Villager-delete-controller";
+import LoadingModal from '../../component/loading/LoadingModal';
 const fields = ["แก้ไข", "ชื่อ-สกุล", "เบอร์โทรศัพท์", "สถานะ"];
 const getBadge = status => {
   switch (status) {
-      case 'active': return 'success'
-      case 'inactive': return 'secondary'
-      case 'pending': return 'warning'
-      case 'banned': return 'danger'
-      default: return 'primary'
+    case 'active': return 'success'
+    case 'inactive': return 'secondary'
+    case 'pending': return 'warning'
+    case 'banned': return 'danger'
+    default: return 'primary'
   }
 }
 const CoreUILineHomeEdit = (props) => {
@@ -40,6 +41,15 @@ const CoreUILineHomeEdit = (props) => {
     home_line_id: "",
     home_line_code: ""
   });
+  const [showLoading, setShowLoading] = useState(false);
+  //-------------------Show loading spiner
+  let loadingmodal = null;
+  if (showLoading) {
+    loadingmodal = <LoadingModal
+      setShowLoading={setShowLoading}
+      showLoading={showLoading}
+    />
+  } else loadingmodal = null;
   //----------------------------Form load
   useEffect(() => {
     if (!authStore.authorization) {
@@ -50,11 +60,15 @@ const CoreUILineHomeEdit = (props) => {
   }, []);
   //----------------------------Refesh form
   function refeshForm() {
+    let isNotAuth;
     document.body.style.cursor = "wait";
+    setShowLoading(true)
     getVillagerInfo(authStore)
       .then((res) => {
         if (res.result) {
           if (res.result.length > 0) setVillagerInfo(res.result);
+        } else if (res.statusCode === 401) {
+          isNotAuth = res.error;
         } else swal("Warning!", res.error, "warning");
       })
       .catch((err) => {
@@ -63,6 +77,13 @@ const CoreUILineHomeEdit = (props) => {
       })
       .finally((value) => {
         document.body.style.cursor = "default";
+        setShowLoading(false)
+        if (isNotAuth) {
+          swal("Warning!", isNotAuth, "warning");
+          history.push("/");
+          //clear state global at store 
+          store.dispatch(disAuthenticationLogin());
+        }
       });
   }
   if (refesh) {
@@ -77,6 +98,7 @@ const CoreUILineHomeEdit = (props) => {
         selectedRow={selectedRow}
         setSelectedRow={setSelectedRow}
         setRefeshForm={setRefeshForm}
+        setShowLoading={setShowLoading}
       />
     );
   }
@@ -96,7 +118,7 @@ const CoreUILineHomeEdit = (props) => {
   let showCreateModal = null;
   if (showCreate) {
     showCreateModal = (
-      <VillagerAddModal showCreate={showCreate} setShowCreate={setShowCreate} setRefeshForm={setRefeshForm} />
+      <VillagerAddModal showCreate={showCreate} setShowCreate={setShowCreate} setRefeshForm={setRefeshForm} setShowLoading={setShowLoading} />
     );
   }
   //------------------------------Delete villager
@@ -162,6 +184,7 @@ const CoreUILineHomeEdit = (props) => {
 
   return (
     <CCard>
+      {loadingmodal}
       {selectedrow}
       {showCreateModal}
       <CCardHeader className="villager-head">ลูกบ้าน</CCardHeader>
@@ -201,11 +224,11 @@ const CoreUILineHomeEdit = (props) => {
                   ),
                   'สถานะ': (item) => (
                     <td>
-                        <CBadge color={getBadge(item.status)}>
-                            {item.status}
-                        </CBadge>
+                      <CBadge color={getBadge(item.status)}>
+                        {item.status}
+                      </CBadge>
                     </td>
-                )
+                  )
                   // delete: (item) => (
                   //   <td>
                   //     <CButton
@@ -237,7 +260,7 @@ const CoreUILineHomeEdit = (props) => {
                   //     </CButton>
                   //   </td>
                   // ),
-                  ,'แก้ไข': (item) => (
+                  , 'แก้ไข': (item) => (
                     <td>
                       <CButton
                         onClick={onEditRowClick}

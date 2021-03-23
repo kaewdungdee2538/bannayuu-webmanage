@@ -8,7 +8,7 @@ const getBadge = status => {
         case 'active': return 'success'
         case 'posted': return 'secondary'
         case 'pending': return 'warning'
-        case 'banned': return 'danger'
+        case 'cancel': return 'danger'
         default: return 'primary'
     }
 }

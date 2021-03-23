@@ -18,7 +18,9 @@ import HomeAddGetCode from '../component/Home-add-gen-code'
 import { getHomeInfoByID, editHomeInfoByID } from './home-edit-modal-func'
 import { useHistory } from 'react-router-dom'
 import { convertTZ } from '../../../../utils'
-function HomeEditModal({ selectedRow, setSelectedRow, authStore, setRefeshForm }) {
+import store, { disAuthenticationLogin } from '../../../../store'
+
+function HomeEditModal({ selectedRow, setSelectedRow, authStore, setRefeshForm, setShowLoading }) {
     const history = useHistory();
     // const [modal, setModal] = useState(true)
     // const [large, setLarge] = useState(selectedRow)
@@ -41,16 +43,21 @@ function HomeEditModal({ selectedRow, setSelectedRow, authStore, setRefeshForm }
     //----------------On Load
     useEffect(() => {
         if (selected) {
+            let isNotAuth;
+            setShowLoading(true)
             document.body.style.cursor = 'wait';
             getHomeInfoByID({ home_id, authStore })
                 .then(res => {
                     if (res.error) {
-                        swal({
-                            title: "Waring.",
-                            text: res.message,
-                            icon: "warning",
-                            button: "OK",
-                        });
+                        if (res.statusCode === 401) {
+                            isNotAuth = res.error;
+                        } else
+                            swal({
+                                title: "Waring.",
+                                text: res.message,
+                                icon: "warning",
+                                button: "OK",
+                            });
                         closeModal();
                     } else {
 
@@ -64,7 +71,6 @@ function HomeEditModal({ selectedRow, setSelectedRow, authStore, setRefeshForm }
                         const update_by = !result.update_by ? '' : result.update_by
                         const company_name = !result.company_name ? '' : result.company_name
                         const status = result.status === 'active' ? true : false;
-                        console.log(result.status)
                         setHomeCode(home_code)
                         setAddressText(home_address)
                         setRemarkText(home_remark)
@@ -80,6 +86,13 @@ function HomeEditModal({ selectedRow, setSelectedRow, authStore, setRefeshForm }
                     history.push('/page404')
                 }).finally(value => {
                     document.body.style.cursor = 'default';
+                    setShowLoading(false)
+                    if (isNotAuth) {
+                        swal("Warning!", isNotAuth, "warning");
+                        history.push("/");
+                        //clear state global at store 
+                        store.dispatch(disAuthenticationLogin());
+                    }
                 })
         }
 
@@ -92,6 +105,8 @@ function HomeEditModal({ selectedRow, setSelectedRow, authStore, setRefeshForm }
     }
     //------------------------Edit
     function editHomeModal() {
+        let isNotAuth;
+        setShowLoading(true)
         document.body.style.cursor = 'wait';
         const home_obj = {
             home_id
@@ -102,14 +117,17 @@ function HomeEditModal({ selectedRow, setSelectedRow, authStore, setRefeshForm }
         }
         editHomeInfoByID({ home_obj, authStore })
             .then(res => {
-                if (res.error)
-                    swal({
+                if (res.error) {
+                    if (res.statusCode === 401) {
+                        isNotAuth = res.error;
+                    } else swal({
                         title: "Waring.",
                         text: res.message,
                         icon: "warning",
                         button: "OK",
                     });
-                else {
+                    setShowLoading(false)
+                } else {
                     swal({
                         title: "Success.",
                         text: "แก้ไขบ้านเลขที่เรียบร้อย",
@@ -124,6 +142,12 @@ function HomeEditModal({ selectedRow, setSelectedRow, authStore, setRefeshForm }
                 history.push('/page404')
             }).finally(value => {
                 document.body.style.cursor = 'default';
+                if (isNotAuth) {
+                    swal("Warning!", isNotAuth, "warning");
+                    history.push("/");
+                    //clear state global at store 
+                    store.dispatch(disAuthenticationLogin());
+                }
             })
 
     }

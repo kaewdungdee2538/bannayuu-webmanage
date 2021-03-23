@@ -20,6 +20,9 @@ import { ComplaintRecieptMainController } from './Complaint-reciept-main-control
 import DatetimePickerInput from '../../../component/datetime/DatetimePickerInput'
 import InputEnable from '../../../component/input/InputEnable'
 import ComplaintReceiptModal from '../modal/Complainy-receipt-modal'
+import LoadingModal from '../../../component/loading/LoadingModal'
+import store, { disAuthenticationLogin } from '../../../../../store'
+
 const getBadge = status => {
     switch (status) {
         case 'N': return 'secondary'
@@ -53,6 +56,15 @@ function ComplaintRecieptMain() {
     const [dateTimeEnd, setDateTimeEnd] = useState(dateEnd);
     const [address, setAddress] = useState('');
     const [headerText, setHeaderText] = useState('')
+    const [showLoading, setShowLoading] = useState(false);
+    //-------------------Show loading spiner
+    let loadingmodal = null;
+    if (showLoading) {
+        loadingmodal = <LoadingModal
+            setShowLoading={setShowLoading}
+            showLoading={showLoading}
+        />
+    } else loadingmodal = null;
     //---------------Form load
     useEffect(() => {
         refeshFormFunc();
@@ -66,6 +78,8 @@ function ComplaintRecieptMain() {
         if (!authStore.authorization) {
             history.push("/");
         } else {
+            let isNotAuth;
+            setShowLoading(true)
             document.body.style.cursor = "wait";
             const searchObj = {
                 address,
@@ -78,6 +92,8 @@ function ComplaintRecieptMain() {
                     if (res.result) {
                         const result = res.result;
                         setComplaintObj(result);
+                    } else if (res.statusCode === 401) {
+                        isNotAuth = res.error
                     } else swal("Warning!", res.error, "warning");
                 })
                 .catch((err) => {
@@ -86,6 +102,13 @@ function ComplaintRecieptMain() {
                 })
                 .finally((value) => {
                     document.body.style.cursor = "default";
+                    setShowLoading(false)
+                    if (isNotAuth) {
+                        swal("Warning!", isNotAuth, "warning");
+                        history.push("/");
+                        //clear state global at store 
+                        store.dispatch(disAuthenticationLogin());
+                    }
                 });
         }
     }
@@ -98,6 +121,7 @@ function ComplaintRecieptMain() {
             showModal={showModal}
             setShowModal={setShowModal}
             setRefeshForm={setRefeshForm}
+            setShowLoading={setShowLoading}
         />
     } else complatintModal = null;
     //------------------on click show modal
@@ -149,6 +173,7 @@ function ComplaintRecieptMain() {
     //--------------------------
     return (
         <CCard>
+            {loadingmodal}
             {complatintModal}
             <CCardHeader className="form-head-complaint">คำร้องที่กำลังดำเนินการ</CCardHeader>
             <CCardBody>

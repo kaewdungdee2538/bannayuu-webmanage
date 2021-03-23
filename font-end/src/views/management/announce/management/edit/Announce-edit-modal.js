@@ -18,7 +18,9 @@ import {
 import moment from 'moment'
 import { getAnnouceByIdModal, editAnnouceModal } from './Announce-edit-modal-controller'
 import InputDisable from '../../../component/input/InputDisable'
-function AnnouceEditModal({ showEdit, setShowEdit, setRefeshForm, editObj }) {
+import store, { disAuthenticationLogin } from '../../../../../store'
+
+function AnnouceEditModal({ showEdit, setShowEdit, setRefeshForm, editObj, setShowLoading }) {
     const history = useHistory();
     const authStore = useSelector(state => state)
     const dateState = moment().format("YYYY-MM-DDTHH:mm");
@@ -41,12 +43,16 @@ function AnnouceEditModal({ showEdit, setShowEdit, setRefeshForm, editObj }) {
         const announceObj = {
             hni_id: editObj.hni_id
         }
+        let isNotAuth;
+        setShowLoading(true)
+        document.body.style.cursor = "wait";
         getAnnouceByIdModal({ announceObj, authStore })
             .then((res) => {
-                document.body.style.cursor = "wait";
                 if (res.result) {
                     if (res.error) {
-                        swal({
+                        if (res.statusCode === 401) {
+                            isNotAuth = res.error
+                        } else swal({
                             title: "Waring.",
                             text: res.message,
                             icon: "warning",
@@ -79,6 +85,8 @@ function AnnouceEditModal({ showEdit, setShowEdit, setRefeshForm, editObj }) {
                         setDateTimeEnd(moment(hni_end_datetime).format("YYYY-MM-DDTHH:mm"))
                         setCompany_name(company_name)
                     }
+                } else if (res.statusCode === 401) {
+                    isNotAuth = res.error
                 } else swal("Warning!", res.error, "warning");
             })
             .catch((err) => {
@@ -87,6 +95,13 @@ function AnnouceEditModal({ showEdit, setShowEdit, setRefeshForm, editObj }) {
             })
             .finally((value) => {
                 document.body.style.cursor = "default";
+                setShowLoading(false);
+                if (isNotAuth) {
+                    swal("Warning!", isNotAuth, "warning");
+                    history.push("/");
+                    //clear state global at store 
+                    store.dispatch(disAuthenticationLogin());
+                }
             });
     }, [])
 
@@ -112,27 +127,45 @@ function AnnouceEditModal({ showEdit, setShowEdit, setRefeshForm, editObj }) {
                 , hni_remark: announceRemark
                 , hni_data
             }
+            let isNotAuth;
+            setShowLoading(true)
             document.body.style.cursor = 'wait';
-            editAnnouceModal({authStore,announceObj})
-            .then(res => {
-                if (res.error) swal({
-                    title: "Warning.",
-                    text: res.message,
-                    icon: "warning",
-                    button: "OK",
+            editAnnouceModal({ authStore, announceObj })
+                .then(res => {
+                    if (res.error) {
+                        if (res.statusCode === 401) {
+                            isNotAuth = res.error
+                        } else swal({
+                            title: "Warning.",
+                            text: res.message,
+                            icon: "warning",
+                            button: "OK",
+                        });
+                        setShowLoading(false);
+                    } else {
+                        swal({
+                            title: "Success.",
+                            text: "เพิ่มประกาศเรียบร้อย",
+                            icon: "success",
+                            button: "OK",
+                        });
+                        setRefeshForm(true)
+                        closeModal();
+                    }
+                    document.body.style.cursor = 'default';
+                }).catch((err) => {
+                    console.log(err);
+                    history.push("/page404");
+                })
+                .finally((value) => {
+                    document.body.style.cursor = "default";
+                    if (isNotAuth) {
+                        swal("Warning!", isNotAuth, "warning");
+                        history.push("/");
+                        //clear state global at store 
+                        store.dispatch(disAuthenticationLogin());
+                    }
                 });
-                else {
-                    swal({
-                        title: "Success.",
-                        text: "เพิ่มประกาศเรียบร้อย",
-                        icon: "success",
-                        button: "OK",
-                    });
-                    setRefeshForm(true)
-                    closeModal();
-                }
-                document.body.style.cursor='default';
-            })
         }
     }
 

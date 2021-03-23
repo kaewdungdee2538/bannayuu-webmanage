@@ -25,8 +25,6 @@ export const EstampModalEditController = (props)=>{
     const visitor_record_id = editEstampObj.visitor_record_id;
     const visitor_record_code = editEstampObj.visitor_record_code
     const estamp_flag = editEstampObj.estamp_flag ? 'Y' : 'N'
-
-    console.log(editEstampObj)
     const config = {
         headers: { Authorization: `Bearer ${authStore.access_token}` }
     }

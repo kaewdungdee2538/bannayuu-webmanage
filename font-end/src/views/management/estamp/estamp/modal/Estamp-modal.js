@@ -21,6 +21,9 @@ import swal from 'sweetalert';
 import moment from 'moment'
 import InputDisable from '../../../component/input/InputDisable'
 import { EstampModalController, EstampModalEditController } from './Estamp-modal-controller'
+import store, { disAuthenticationLogin } from '../../../../../store'
+
+
 const getBadge = status => {
     switch (status) {
         case 'Y': return 'success'
@@ -38,7 +41,7 @@ const getTextStatus = status => {
     }
 }
 function EstampModal(props) {
-    const { showEstampInfo, setShowEstampInfo, setRefesh } = props;
+    const { showEstampInfo, setShowEstampInfo, setRefesh, setShowLoading } = props;
     const history = useHistory();
     const authStore = useSelector(state => state)
     //-------------State
@@ -72,9 +75,11 @@ function EstampModal(props) {
                 visitor_record_id: showEstampInfo.visitor_record_id
                 , visitor_record_code: showEstampInfo.visitor_record_code
             }
+            let isNotAuth;
+            setShowLoading(true);
+            document.body.style.cursor = 'wait';
             EstampModalController({ authStore, selectedObj })
                 .then((res) => {
-                    document.body.style.cursor = 'wait';
                     if (res.result) {
                         setEstampInfo({
                             visitor_record_id: res.result.visitor_record_id,
@@ -100,6 +105,8 @@ function EstampModal(props) {
                         });
                         const select = res.result.estamp_flag === 'Y' ? true : false;
                         setCheck(select)
+                    } else if (res.statusCode === 401) {
+                        isNotAuth = res.error;
                     } else {
                         setEstampInfo({ ...estampInfo });
                         setShowEstampInfo({
@@ -116,6 +123,13 @@ function EstampModal(props) {
                 })
                 .finally((value) => {
                     document.body.style.cursor = "default";
+                    setShowLoading(false);
+                    if (isNotAuth) {
+                        swal("Warning!", isNotAuth, "warning");
+                        history.push("/");
+                        //clear state global at store 
+                        store.dispatch(disAuthenticationLogin());
+                    }
                 });
         }
     }, [showEstampInfo])
@@ -127,8 +141,7 @@ function EstampModal(props) {
             , visitor_record_id: ""
             , visitor_record_code: ""
         });
-        setCheck(false)
-        setRefesh(true);
+        setCheck(false);
     }
     //-------------check box
     function onCheckBoxChange(event) {
@@ -161,16 +174,21 @@ function EstampModal(props) {
             , visitor_record_code
             , estamp_flag
         }
+        let isNotAuth;
+        setShowLoading(true);
+        document.body.style.cursor = 'wait';
         EstampModalEditController({ editEstampObj, authStore })
             .then(res => {
-                document.body.style.cursor = 'wait';
-                if (res.error)
-                    swal({
+                if (res.error) {
+                    if (res.statusCode === 401) {
+                        isNotAuth = res.error;
+                    } else swal({
                         title: "Waring.",
                         text: res.message,
                         icon: "warning",
                         button: "OK",
                     });
+                }
                 else {
                     swal({
                         title: "Success.",
@@ -186,6 +204,12 @@ function EstampModal(props) {
                 history.push('/page404')
             }).finally(value => {
                 document.body.style.cursor = 'default';
+                if (isNotAuth) {
+                    swal("Warning!", isNotAuth, "warning");
+                    history.push("/");
+                    //clear state global at store 
+                    store.dispatch(disAuthenticationLogin());
+                }
             })
     }
     //------------------Button Estamp
@@ -197,7 +221,9 @@ function EstampModal(props) {
                 color="info" />
             <span className="btn-icon">ประทับตรา</span>
         </CButton>
-    }else btnEstamp = null;
+    } else btnEstamp = null;
+
+    //--------------------------------------------------------
     return (
         <CModal
             show={showEstampInfo.selected}

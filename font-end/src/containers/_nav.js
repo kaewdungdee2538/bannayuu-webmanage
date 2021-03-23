@@ -28,6 +28,11 @@ const _nav = [
         name: 'เปลี่ยนบ้านให้ผู้มาเยือน',
         route: '/icons',
         to: '/estamp-home-change',
+      },{
+        _tag: 'CSidebarNavItem',
+        name: 'ประวัติประทับตรา',
+        route: '/icons',
+        to: '/estamp-history',
       },
     ]
   },

@@ -1,8 +1,10 @@
 import { MiddlewareConsumer, Module } from '@nestjs/common';
 import { DefaultValueMiddleware } from 'src/middleware/default-value/default-value.middleware';
 import { EstampEditMiddleware } from 'src/middleware/estamp/estamp-all/estamp-all-edit.middleware';
+import { EstampHistoryMiddleware } from 'src/middleware/estamp/estamp-all/estamp-all-history.middleware';
 import { EstampAllMiddleware } from 'src/middleware/estamp/estamp-all/estamp-all.middleware';
 import { EstampGetRecordMiddleware } from 'src/middleware/estamp/get-record/estamp-get-record.middleware';
+import { TimeMiddleware } from 'src/middleware/time/time.middleware';
 import { dbConnection } from 'src/pg_database/pg.database';
 import { ErrMessageUtilsTH } from 'src/utils/err_message_th.utils';
 import { FormatDataUtils } from 'src/utils/format_data.utils';
@@ -16,16 +18,19 @@ import { EstampAllService } from './estamp-all.service';
 export class EstampAllModule {
   configure(consumer: MiddlewareConsumer) {
     consumer
-      .apply(DefaultValueMiddleware)
+      .apply(DefaultValueMiddleware,)
       .forRoutes('webbannayuu/api/estamp-all/*');
     consumer
-      .apply(EstampAllMiddleware)
+      .apply(EstampAllMiddleware,TimeMiddleware)
       .forRoutes('webbannayuu/api/estamp-all/getvisitorall');
-      consumer
+    consumer
       .apply(EstampGetRecordMiddleware)
       .forRoutes('webbannayuu/api/estamp-all/get-visitor-byid');
-      consumer
+    consumer
       .apply(EstampEditMiddleware)
       .forRoutes('webbannayuu/api/estamp-all/edit-estamp');
+    consumer
+      .apply(EstampAllMiddleware,TimeMiddleware,EstampHistoryMiddleware)
+      .forRoutes('webbannayuu/api/estamp-all/getvisitor-estamp-history');
   }
 }

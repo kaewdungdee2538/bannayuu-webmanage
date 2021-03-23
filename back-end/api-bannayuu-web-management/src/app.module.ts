@@ -13,6 +13,7 @@ import { ParcelModule } from './controllers/parcel/parcel.module';
 import { ImageModule } from './controllers/image/image.module';
 import { UserProfileModule } from './controllers/user-profile/user-profile.module';
 import { EstampChangeHomeModule } from './controllers/estamp/estamp-change-home/estamp-change-home.module';
+import { NotificationItemModule } from './controllers/notification-item/notification-item.module';
 
 @Module({
   imports: [
@@ -27,6 +28,7 @@ import { EstampChangeHomeModule } from './controllers/estamp/estamp-change-home/
     ,ImageModule
     ,UserProfileModule
     ,EstampChangeHomeModule
+    ,NotificationItemModule
   ],
   controllers: [AppController],
   providers: [

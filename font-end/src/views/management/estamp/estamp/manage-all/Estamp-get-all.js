@@ -20,6 +20,8 @@ import InlineDatePickerDemo from '../../../component/datetime/DatetimePickerInpu
 import EstampGetAllController from './Estamp-get-all-controller'
 import InputEnable from '../../../component/input/InputEnable'
 import EstampModal from '../modal/Estamp-modal'
+import store,{disAuthenticationLogin} from '../../../../../store'
+
 const fields = ['ประทับตรา', 'ทะเบียนรถ', 'ชื่อ', 'เวลาเข้า', 'estamp']
 const getBadge = status => {
     switch (status) {
@@ -38,7 +40,7 @@ const getTextStatus = status => {
     }
 }
 function EstampGetAll(prop) {
-    const { homeInfoObj, setShowVisitor } = prop;
+    const { homeInfoObj, setShowVisitor, setShowLoading } = prop;
     const history = useHistory();
     const authStore = useSelector(state => state)
     const dateState = moment().set({ hour: 0, minute: 0, second: 0, millisecond: 0 }).format("YYYY-MM-DDTHH:mm");
@@ -64,12 +66,15 @@ function EstampGetAll(prop) {
         if (!authStore.authorization) {
             history.push("/");
         } else {
+            setShowLoading(true);
             refeshForm();
         }
     }, []);
     //--------------Reset form
-    if (refesh)
+    if (refesh){
         refeshForm();
+    }
+        
 
     function refeshForm() {
         document.body.style.cursor = "wait";
@@ -79,6 +84,7 @@ function EstampGetAll(prop) {
             , license_plate, f_name, l_name
             , home_id: !homeInfoObj ? 0 : homeInfoObj.home_id
         }
+        let isNotAuth;
         EstampGetAllController({ authStore, selectedObj })
             .then((res) => {
                 if (res.result) {
@@ -86,7 +92,9 @@ function EstampGetAll(prop) {
                     else {
                         setEstampObj([]);
                     }
-                } else swal("Warning!", res.error, "warning");
+                } else if (res.statusCode === 401) {
+                    isNotAuth = res.error;
+                }else swal("Warning!", res.error, "warning");
             })
             .catch((err) => {
                 console.log(err);
@@ -95,10 +103,18 @@ function EstampGetAll(prop) {
             .finally((value) => {
                 document.body.style.cursor = "default";
                 setRefesh(false);
+                setShowLoading(false);
+                if (isNotAuth) {
+                    swal("Warning!", isNotAuth, "warning");
+                    history.push("/");
+                    //clear state global at store 
+                    store.dispatch(disAuthenticationLogin());
+                }
             });
     }
     //----------------Search
     function onSearchClick(event) {
+        setShowLoading(true);
         refeshForm();
     }
     //-----------------Date Handing
@@ -127,6 +143,7 @@ function EstampGetAll(prop) {
             showEstampInfo={showEstampInfo}
             setShowEstampInfo={setShowEstampInfo}
             setRefesh={setRefesh}
+            setShowLoading={setShowLoading}
         />
     }
 
