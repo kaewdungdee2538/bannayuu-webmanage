@@ -43,6 +43,7 @@ export class ParcelController {
         return await this.parcelService.addParcelReceive(body,req,pathCustomer)
     }
 
+
     @Post('send-parcel')
     @UseGuards(JwtAuthGuard)
     @UseInterceptors(
@@ -69,6 +70,32 @@ export class ParcelController {
         return await this.parcelService.addParcelSend(body,req,pathCustomer)
     }
 
+    @Post('reject-parcel')
+    @UseGuards(JwtAuthGuard)
+    @UseInterceptors(
+        SendParcelInterceptor,
+        FileFieldsInterceptor([
+            {name:'image_parcel_send',maxCount:1}
+        ],{
+            storage: diskStorage({
+                destination: getCurrentDatePathFileSave,
+                filename: editFileName,
+            }),
+            fileFilter: imageFileFilter,
+            limits:{fileSize: 1024*1024*5}
+        }),
+        DefaultInterceptor,
+        ParcelSendInterceptor
+    )
+    async addParcelReject(@UploadedFiles() files, @Body() body,@Request() req){
+        const pathMain = configfile.image_path;
+        const pathCustomer = !files.image_parcel_send ? [] : files.image_parcel_send.map(file=>{
+            const newfilename = file.path.replace(pathMain,'');
+            return newfilename.replace(/\\/g, '/');
+        })
+        return await this.parcelService.addParcelReject(body,req,pathCustomer)
+    }
+
     @Post('get/wait-send')
     @UseGuards(JwtAuthGuard)
     async getParcelWaitToSend(@Body() body){
@@ -91,5 +118,11 @@ export class ParcelController {
     @UseGuards(JwtAuthGuard)
     async getPacelHistoryByID(@Body() body){
         return this.parcelService.getParcelHistoryByID(body);
+    }
+
+    @Post('get/sended')
+    @UseGuards(JwtAuthGuard)
+    async getParcelSended(@Body() body){
+        return this.parcelService.getParcelSended(body);
     }
 }

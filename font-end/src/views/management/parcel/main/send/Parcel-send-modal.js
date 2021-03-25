@@ -22,7 +22,7 @@ import InputDisable from '../../../component/input/InputDisable'
 import TextArea from '../../../component/textarea/TextArea'
 import TextAreaDisable from '../../../component/textarea/TextAreaDisable'
 import ImageBox from '../../../component/image/ImageBox'
-import { sendParcelSend } from './Parcel-send-modal-controller'
+import { sendParcelSend,sendParcelReject } from './Parcel-send-modal-controller'
 import { getParcelWaitSendBydID } from './Parcel-send-modal-controller'
 import store, { disAuthenticationLogin } from '../../../../../store'
 
@@ -126,8 +126,75 @@ const ParcelSendModal = ({ showEditModal, setShowEditModal, setRefeshForm, selec
             }
         })
     }
-
-
+    //----------------------cancel click
+    function onClickSaveCancel(event){
+        if (saveMiddleware()) {
+            swal({
+                title: "Are you sure?",
+                text: "ต้องการยกเลิกรับพัสดุ หรือไม่!",
+                icon: "warning",
+                buttons: true,
+                dangerMode: true,
+            })
+                .then((willDelete) => {
+                    if (willDelete) {
+                        saveParcelReceiveCancel();
+                    }
+                });
+        }
+    }
+    function saveParcelReceiveCancel(){
+        document.body.style.cursor = 'wait';
+        setShowLoading(true);
+        const values = {
+            authStore
+            , valuesObj: {
+                image
+                , tpi_id: parcelObj.tpi_id
+                , tpi_code: parcelObj.tpi_code
+                , send_parcel_detail: remark
+            }
+        }
+        let isNotAuth;
+        sendParcelReject(values).then(res => {
+            if (res.error) {
+                if (res.statusCode === 401)
+                    isNotAuth = res.error
+                else swal({
+                    title: "Warning.",
+                    text: res.message,
+                    icon: "warning",
+                    button: "OK",
+                });
+            } else {
+                swal({
+                    title: "Success.",
+                    text: "ยกเลิกรับพัสดุเรียบร้อย",
+                    icon: "success",
+                    button: "OK",
+                });
+                setRefeshForm(true)
+                closeModal();
+            }
+        }).catch(err => {
+            console.log(err);
+            history.push("/page404");
+        }).finally(value => {
+            document.body.style.cursor = 'default';
+            setShowLoading(false);
+            if (isNotAuth) {
+                swal("Warning!", isNotAuth, "warning");
+                history.push("/");
+                //clear state global at store 
+                store.dispatch(disAuthenticationLogin());
+            }
+        })
+    }
+    //------------------Middle ware
+    function saveMiddleware(){
+        return true;
+    }
+    //--------------------------------
     return (
         <CModal
             show={showEditModal}
@@ -136,7 +203,7 @@ const ParcelSendModal = ({ showEditModal, setShowEditModal, setRefeshForm, selec
             borderColor="primary"
             size="lg"
         >
-            <CModalHeader closeButton className="modal-header-edit">
+            <CModalHeader closeButton className="modal-header-parcel">
                 <CModalTitle>ทำรายการส่งพัสดุให้ลูกบ้าน</CModalTitle>
             </CModalHeader>
             <CModalBody>
@@ -234,8 +301,15 @@ const ParcelSendModal = ({ showEditModal, setShowEditModal, setRefeshForm, selec
                     </CRow>
                 </CFormGroup>
             </CModalBody>
-            <CModalFooter>
-                <div></div>
+            <CModalFooter className="form-footer">
+                <div>
+                <CButton className="btn-modal-footer" color="danger" onClick={onClickSaveCancel}>
+                        <CIcon
+                            name="cil-ban"
+                            color="info" />
+                        <span className="btn-icon-footer">ยกเลิกรับพัสดุ</span>
+                    </CButton>
+                </div>
                 <div>
                     <CButton className="btn-modal-footer" color="primary" onClick={sendParcelModal}>
                         <CIcon
@@ -243,7 +317,9 @@ const ParcelSendModal = ({ showEditModal, setShowEditModal, setRefeshForm, selec
                             color="danger" />
                         <span className="btn-icon-footer">ส่งพัสดุให้ลูกบ้าน</span>
                     </CButton>
-                    <CButton className="btn-modal-footer" color="warning" onClick={closeModal}>ยกเลิก</CButton>
+                    <CButton className="btn-modal-footer" color="warning" onClick={closeModal}>
+                        <span className="btn-icon-footer">ยกเลิก</span>
+                    </CButton>
                 </div>
             </CModalFooter>
         </CModal>

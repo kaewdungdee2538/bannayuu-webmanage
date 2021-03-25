@@ -58,12 +58,15 @@ export class ParcelSendInterceptor implements NestInterceptor {
             ,values:[company_id,tpi_id]
         }
        const res = await this.dbconnection.getPgData(query);
+       console.log(res.result)
        if (res.error)
            return res.error
        else if (res.result.length === 0)
            return this.errMessageUrilTh.errParcelNotInBase;
         else if(res.result[0].tpi_flag.toUpperCase() === 'Y')
             return this.errMessageUrilTh.errParcelSuccessfully
+            else if(res.result[0].tpi_status.toLowerCase() === 'reject_parcel')
+            return this.errMessageUrilTh.errParcelReject
         else if(res.result[0].tpi_status.toLowerCase() === 'send_parcel')
             return this.errMessageUrilTh.errParcelSending
        else return null;

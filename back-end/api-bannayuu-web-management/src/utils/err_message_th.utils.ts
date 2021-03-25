@@ -256,5 +256,15 @@ export class ErrMessageUtilsTH{
     errParcelIDNotNumber = 'รหัสพัสดุต้องเป็นตัวเลขเท่านั้น'
     errParcelNotInBase = 'ไม่พบรหัสพัสดุในระบบ'
     errParcelSuccessfully = 'ลูกบ้านทำรายการรับพัสดุแล้ว'
+    errParcelReject = 'รายการรับพัสดุถูกยกเลิกไปแล้ว'
     errParcelSending = 'พัสดุถูกส่งให้ลูกบ้านแล้ว'
+
+    errSosIdNotfound = 'ไม่พบรหัสแจ้งเตือนฉุกเฉิน'
+    errSosIdProhibitSpecial = 'รหัสแจ้งเตือนฉุกเฉิน ห้ามมีอักขระพิเศษ หรือช่องว่าง'
+    errSosIdNotNumber = 'รหัสแจ้งเตือนฉุกเฉินต้องเป็นตัวเลขเท่านั้น'
+    errSosNotInbase = 'ไม่พบการแจ้งเตือนฉุกเฉินในระบบ'
+    errSosActionDuplicate = 'การแจ้งเตือนฉุกเฉินถูกอนุมัติไปแล้ว'
+
+    errRemarkNofound = 'กรุณากรอกหมายเหตุ'
+    errReamrkPohibitSpecial = 'หมายเหตุ ห้ามมีอักขระพิเศษ'
 }

@@ -72,6 +72,49 @@ export class ParcelService {
         }, 200);
     }
 
+    async addParcelReject(body: any, req: any, pathCustomer: any) {
+        const employeeObj = req.user.employee;
+        const image_parcel_send = pathCustomer[0];
+        const company_id = body.company_id;
+        const send_parcel_detail = body.send_parcel_detail;
+        const employee_id = employeeObj.employee_id;
+        const tpi_id = body.tpi_id;
+        const receive_parcel_data = {
+            image_parcel_send
+        }
+
+        let sql = `update t_parcel_info set
+        send_parcel_detail = $1,send_parcel_data =$2
+        ,send_parcel_datetime = current_timestamp
+        ,send_parcel_by = $3
+        ,update_by = $3,update_date = current_timestamp
+        ,tpi_status = 'reject_parcel'
+        where company_id = $4 and tpi_id = $5
+        ;`
+
+        const query = {
+            text: sql
+            , values: [
+                send_parcel_detail, receive_parcel_data
+                , employee_id
+                , company_id
+                , tpi_id
+            ]
+        }
+        const res = await this.dbconnecttion.savePgData([query]);
+        if (res.error) throw new StatusException({
+            error: res.error,
+            result: null,
+            message: this.errMessageUtilsTh.messageProcessFail,
+            statusCode: 200
+        }, 200);
+        else throw new StatusException({
+            error: null,
+            result: this.errMessageUtilsTh.messageSucceessEn,
+            message: this.errMessageUtilsTh.messageSuccess,
+            statusCode: 200
+        }, 200);
+    }
 
     async addParcelSend(body: any, req: any, pathCustomer: any) {
         const employeeObj = req.user.employee;
@@ -166,6 +209,56 @@ export class ParcelService {
                 200);
     }
 
+    async getParcelSended(body: any) {
+        const company_id = body.company_id;
+        const home_address = !body.home_address ? null : body.home_address;
+        const start_date = !body.start_date ? '' : body.start_date;
+        const end_date = !body.end_date ? '' : body.end_date;
+        let sql = `select tpi_id,ref_tpi_id,tpi.home_id,mh.home_address,tpi_code
+        ,to_char(tpi_datetime,'DD/MM/YYYY HH24:MI:SS') as tpi_datetime,tpi_title,tpi_detail
+        ,to_char(send_parcel_datetime,'DD/MM/YYYY HH24:MI:SS') as send_parcel_datetime
+		,(select CONCAT(prefix_name_th,' ',first_name_th,' ',last_name_th) from m_employee where employee_id = tpi.send_parcel_by::integer) as send_parcel_by
+        ,send_parcel_detail,send_parcel_data->'image_parcel_send' as image_parcel_send
+        ,tpi_status,tpi_flag
+        ,tpi_remark
+        from t_parcel_info tpi 
+        left join m_company mc on tpi.company_id = mc.company_id
+        left join m_home mh on tpi.home_id = mh.home_id
+        where tpi.delete_flag = 'N' and tpi_status in ('send_parcel')
+        and tpi.company_id = $1
+        and send_parcel_datetime between $2 and $3 
+        `
+        if (home_address) {
+            sql += ` and mh.home_address = '${home_address}'`
+        }
+
+        sql += ' order by mh.home_address,receive_parcel_datetime;'
+        const query = {
+            text: sql
+            , values: [company_id, start_date, end_date]
+        }
+        const res = await this.dbconnecttion.getPgData(query);
+        if (res.error)
+            throw new StatusException(
+                {
+                    error: res.error,
+                    result: null,
+                    message: this.errMessageUtilsTh.messageProcessFail,
+                    statusCode: 200,
+                },
+                200);
+        else
+            throw new StatusException(
+                {
+                    error: null,
+                    result: res.result,
+                    message: this.errMessageUtilsTh.messageSuccess,
+                    statusCode: 200,
+                },
+                200);
+    }
+
+    
     async getParcelWaitToSendByID(body: any) {
         const company_id = body.company_id;
         const tpi_id = !body.tpi_id ? null : body.tpi_id;

@@ -23,24 +23,7 @@ import ParcelReceiveAdd from '../add/Parcel-receive-add'
 import ParcelSendModal from '../send/Parcel-send-modal'
 import LoadingModal from '../../../component/loading/LoadingModal'
 import store, { disAuthenticationLogin } from '../../../../../store'
-
-const getBadge = status => {
-    switch (status) {
-        case 'receive_parcel': return 'light'
-        case 'send_parcel': return 'info'
-        case 'receive_vilager': return 'success'
-        default: return 'danger'
-    }
-}
-const getStatus = status => {
-    switch (status) {
-        case 'receive_parcel': return 'รอการส่งมอบ'
-        case 'send_parcel': return 'ส่งพัสดุให้ลูกบ้านแล้ว'
-        case 'receive_vilager': return 'ลูกบ้านรับพัสดุเรียบร้อย'
-        default: return 'ยกเลิกรายการ'
-    }
-}
-const fields = ['ส่งพัสดุ', 'ที่อยู่', 'รายละเอียด', 'วันที่รับพัสดุ', 'สถานะ',]
+import {getBadge,getStatus,fields} from '../data/parcel-main-data'
 
 function ParcelReceiveMain() {
     const history = useHistory();

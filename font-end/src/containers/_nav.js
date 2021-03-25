@@ -30,7 +30,7 @@ const _nav = [
         to: '/estamp-home-change',
       },{
         _tag: 'CSidebarNavItem',
-        name: 'ประวัติประทับตรา',
+        name: 'ประวัติ',
         route: '/icons',
         to: '/estamp-history',
       },
@@ -50,6 +50,12 @@ const _nav = [
         name: 'รับ-ส่งพัสดุให้ลูกบ้าน',
         route: '/icons',
         to: '/parcel',
+      },
+      {
+        _tag: 'CSidebarNavItem',
+        name: 'ยกเลิกส่ง-เปลี่ยนบ้าน',
+        route: '/icons',
+        to: '/parcel-change',
       },
       {
         _tag: 'CSidebarNavItem',
@@ -123,15 +129,38 @@ const _nav = [
     _children: [
       {
         _tag: 'CSidebarNavItem',
-        name: 'จัดการประกาศโครงการ',
+        name: 'จัดการ',
         route: '/icons',
         to: '/annouce',
       },
       {
         _tag: 'CSidebarNavItem',
-        name: 'ประวัติประกาศโครงการ',
+        name: 'ประวัติ',
         route: '/icons',
         to: '/annouce-history',
+      },
+    ]
+  },
+  {
+    _tag: 'CSidebarNavTitle',
+    _children: ['sos management'],
+  },
+  {
+    _tag: 'CSidebarNavDropdown',
+    name: 'แจ้งเตือนฉุกเฉิน',
+    icon: <CIcon name="cil-notes" customClasses="c-sidebar-nav-icon" />,
+    _children: [
+      {
+        _tag: 'CSidebarNavItem',
+        name: 'จัดการ',
+        route: '/icons',
+        to: '/sos',
+      },
+      {
+        _tag: 'CSidebarNavItem',
+        name: 'ประวัติ',
+        route: '/icons',
+        to: '/sos-history',
       },
     ]
   },

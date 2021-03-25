@@ -1,0 +1,26 @@
+.form-footer{
+    display: flex;
+    justify-content: space-between;
+}
+
+.modal-header-parcel-change{
+    background-color: rgba(50,31,229);
+    color: white;
+}
+
+.modal-input-disable{
+    color: gray;
+}
+.btn-modal-footer{
+    margin-left: 15px;
+    min-width: 90px;
+}
+
+.btn-icon-footer{
+    margin: 0 5px;
+}
+
+.badge-modal{
+    font-size: 16px;
+}
+

@@ -1,0 +1,9 @@
+.noti-icon{
+    width: 30px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+.noti-icon-img-icon img{
+    width: 80%;
+}

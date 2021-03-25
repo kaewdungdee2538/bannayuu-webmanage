@@ -4,9 +4,12 @@ import {
     CAlert,
     CProgress,
 } from '@coreui/react'
+import { useHistory } from 'react-router-dom'
 import './AlertPopup.css'
+
 export default function AlertPopup(props) {
-    const { timeShowAlert, setTimeShowAlert, title, text, color, activeClass, imgIcon } = props;
+    const history = useHistory();
+    const { timeShowAlert, setTimeShowAlert, title, text, color, activeClass, imgIcon,link } = props;
     let showClass = activeClass ? "show-alert" : "hidden-alert"
     let img_type = (value) => {
         switch (value) {
@@ -16,14 +19,20 @@ export default function AlertPopup(props) {
                 return ''
         }
     }
+
+    function onClickPopup(event){
+        history.push(link);
+        setTimeShowAlert(null);
+    }
     return (
         <div className={`alert-main`}>
             <CAlert
                 className={`alert-propup show-alert`}
                 color={color}
                 // show={timeShowAlert}
-                closeButton
+                // closeButton
                 onShowChange={setTimeShowAlert}
+                onClick={onClickPopup}
             >
                 <div className="alert-img">
                     <img src={img_type(imgIcon)} />

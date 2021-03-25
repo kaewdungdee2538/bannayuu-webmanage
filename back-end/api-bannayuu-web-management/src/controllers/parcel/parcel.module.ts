@@ -19,7 +19,7 @@ export class ParcelModule {
       .forRoutes('/webbannayuu/api/parcel/get/*');
       consumer
       .apply(ParcelGetWaitSendMiddleware)
-      .forRoutes('/webbannayuu/api/parcel/get/wait-send');
+      .forRoutes('/webbannayuu/api/parcel/get/wait-send','/webbannayuu/api/parcel/get/sended');
       consumer
       .apply(ParcelGetWaitSendByIDMiddleware)
       .forRoutes('/webbannayuu/api/parcel/get/wait-send-byid');

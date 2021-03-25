@@ -10,6 +10,7 @@ import {
 import CIcon from '@coreui/icons-react'
 import { useHistory } from 'react-router-dom'
 import store, { disAuthenticationLogin } from '../store'
+import ProfileIcon from '../views/management/component/header/profile-icon/ProfileIcon'
 const TheHeaderDropdown = () => {
   let history = useHistory();
   function onLogoutClick(event) {
@@ -28,13 +29,15 @@ const TheHeaderDropdown = () => {
       direction="down"
     >
       <CDropdownToggle className="c-header-nav-link" caret={false}>
-        <div className="c-avatar">
+        {/* <div className="c-avatar">
           <CImg
-            src={'https://www.popcornfor2.com/upload/115/news-full-114827.jpg'}
+            src={}
             className="c-avatar-img"
             alt="admin@bootstrapmaster.com"
           />
-        </div>
+        </div> */}
+        <ProfileIcon
+        imgLink={'https://www.popcornfor2.com/upload/115/news-full-114827.jpg'}/>
       </CDropdownToggle>
       <CDropdownMenu className="pt-0" placement="bottom-end">
         <CDropdownItem

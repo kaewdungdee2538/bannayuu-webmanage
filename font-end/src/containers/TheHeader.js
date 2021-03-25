@@ -19,6 +19,7 @@ import CIcon from '@coreui/icons-react'
 
 // routes config
 import routes from '../routes'
+import ApiRoute from "../apiroute";
 
 import {
   TheHeaderDropdown,
@@ -32,6 +33,7 @@ import { NotificationItemsAll } from './function/notification-items'
 import store, { disAuthenticationLogin } from '../store'
 import LoadingModal from '../views/management/component/loading/LoadingModal'
 import { useHistory } from 'react-router-dom'
+
 const TheHeader = () => {
   const socketRef = useRef();
   const authStore = useSelector(state => state)
@@ -45,17 +47,20 @@ const TheHeader = () => {
   const [showLoading, setShowLoading] = useState(false);
 
   useEffect(() => {
-    socketRef.current = io.connect('http://localhost:9000');
+    socketRef.current = io.connect(ApiRoute.url_socket_hosting);
     socketRef.current.on("socket_id", id => {
       setYourID(id);
     })
-    // getNotificationItemsAll();
+    if (authStore.authorization)
+      getNotificationItemsAll();
     socketRef.current.on(`message_sos${authStore.company_id}`, (message) => {
       console.log("here" + JSON.stringify(message));
-      setMessage(message.body);
-      setShowAlertSos(null);
-      setShowAlertSos(10);
-      // getNotificationItemsAll();
+      if (authStore.authorization) {
+        setMessage(message.body);
+        setShowAlertSos(null);
+        setShowAlertSos(10);
+        getNotificationItemsAll();
+      }
     })
   }, []);
 
@@ -123,6 +128,7 @@ const TheHeader = () => {
       imgIcon="sos"
       text={message}
       activeClass={true}
+      link="/sos"
     />
   }
   return (

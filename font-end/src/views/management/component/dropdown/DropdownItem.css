@@ -1,0 +1,17 @@
+.drop-item {
+  width: 100%;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+.drop-container {
+  width: 100%;
+  display: flex;
+  align-items: center;
+}
+.drop-container span {
+  margin-left: 5px;
+}
+.drop-img-icon {
+  width: 15%;
+}

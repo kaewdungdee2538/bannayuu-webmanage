@@ -1,6 +1,7 @@
 {
     "config": {
         "url_hosting": "http://192.168.10.227",
+        "url_socket_hosting":"https://cit.bannayuu.com/apisocket",
         "url_image":"https://95f0facf480e.jp.ngrok.io/api/getimage/",
         "url_web_image":"http://192.168.10.227:4010/webbannayuu/api/image?path=",
         "url_port": ":4010"

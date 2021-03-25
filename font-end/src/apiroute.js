@@ -47,7 +47,9 @@ const ApiRoute ={
     },parcel:{
         get_parcel_wait_send_url :'/webbannayuu/api/parcel/get/wait-send'
         ,get_parcel_wait_send_by_id_url:'/webbannayuu/api/parcel/get/wait-send-byid'
+        ,get_parcel_sended_url:'/webbannayuu/api/parcel/get/sended'
         ,save_parcel_receive_url :'/webbannayuu/api/parcel/receive-parcel'
+        ,save_parcel_reject_url :'/webbannayuu/api/parcel/reject-parcel'
         ,save_parcel_send_url :'/webbannayuu/api/parcel/send-parcel'
         ,get_parcel_history_url :'/webbannayuu/api/parcel/get/history'
         ,get_parcel_history_by_id_url:'/webbannayuu/api/parcel/get/history-by-id'
@@ -55,6 +57,12 @@ const ApiRoute ={
         get_user_profile_by_id_url : '/webbannayuu/api/user-profile/get-by-id'
     },notification_item:{
         get_notification_item_all_url:'/webbannayuu/api/notification-item/get-all'
+    },sos:{
+        get_sos_info_all_url:'/webbannayuu/api/sos/get-all'
+        ,get_sos_info_by_id_url:'/webbannayuu/api/sos/get-by-id'
+        ,get_sos_info_all_history_url:'/webbannayuu/api/sos/get-all-history'
+        ,save_sos_corporate_receive_url:'/webbannayuu/api/sos/corporate-receive'
+        ,save_sos_corporate_reject_url:'/webbannayuu/api/sos/corporate-reject'
     }
 }
 export default ApiRoute;
