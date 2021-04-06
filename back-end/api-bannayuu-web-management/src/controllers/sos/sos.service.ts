@@ -221,5 +221,47 @@ export class SosService {
             statusCode: 200
         }, 200);
     }
+
+
+    async getSosInfoLast(body: any) {
+        const company_id = body.company_id;
+        let sql = `select sos_id,sos_code
+        ,to_char(sos_datetime,'DD/MM/YYYY HH24:MI:SS') as sos_datetime
+        ,ref_sos_id,hsi.home_id,mh.home_address,home_line_uuid
+        ,sos_header_text,sos_detail_text
+        ,sos_data,sos_picture_data
+        ,sos_remark
+        ,sos_status
+        ,company_name
+        from h_sos_info hsi
+        left join m_home mh on hsi.home_id = mh.home_id
+        left join m_company mc on hsi.company_id = mc.company_id
+        where hsi.delete_flag = 'N'
+        and hsi.company_id = $1
+        order by sos_datetime DESC
+        limit 1;`
+
+        const query = {
+            text: sql
+            , values: [
+                company_id
+            ]
+        }
+        const res = await this.dbconnecttion.getPgData(query);
+        if (res.error) {
+            console.log(res.error)
+            throw new StatusException({
+                error: res.error,
+                result: null,
+                message: this.errMessageUtilsTh.messageProcessFail,
+                statusCode: 200
+            }, 200);
+        } else throw new StatusException({
+            error: null,
+            result: res.result[0],
+            message: this.errMessageUtilsTh.messageSuccess,
+            statusCode: 200
+        }, 200);
+    }
     
 }

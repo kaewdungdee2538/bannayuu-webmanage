@@ -1,6 +1,6 @@
 import React from 'react'
 import CIcon from '@coreui/icons-react'
-
+import { OuanIcon } from './function/OuanIcon'
 const _nav = [
   // {
   //   _tag: 'CSidebarNavItem',
@@ -15,7 +15,7 @@ const _nav = [
     _tag: 'CSidebarNavDropdown',
     name: 'ตราประทับ',
     route: '/icons',
-    icon: 'cil-star',
+    icon: <OuanIcon name="FaStamp" />,
     _children: [
       {
         _tag: 'CSidebarNavItem',
@@ -28,7 +28,7 @@ const _nav = [
         name: 'เปลี่ยนบ้านให้ผู้มาเยือน',
         route: '/icons',
         to: '/estamp-home-change',
-      },{
+      }, {
         _tag: 'CSidebarNavItem',
         name: 'ประวัติ',
         route: '/icons',
@@ -43,7 +43,7 @@ const _nav = [
     _tag: 'CSidebarNavDropdown',
     name: 'พัสดุ',
     route: '/icons',
-    icon: 'cil-inbox',
+    icon: <OuanIcon name="FaDollyFlatbed" />,
     _children: [
       {
         _tag: 'CSidebarNavItem',
@@ -73,7 +73,7 @@ const _nav = [
     _tag: 'CSidebarNavDropdown',
     name: 'หมู่บ้าน',
     route: '/icons',
-    icon: 'cil-home',
+    icon: <OuanIcon name="FaHome" />,
     _children: [
       {
         _tag: 'CSidebarNavItem',
@@ -90,13 +90,71 @@ const _nav = [
     ]
   },
   {
+    _tag: 'CSidebarNavDropdown',
+    name: 'ทะเบียนรถลูกบ้าน',
+    route: '/icons',
+    icon: <OuanIcon name="FaCar" />,
+    _children: [
+      {
+        _tag: 'CSidebarNavItem',
+        name: 'จัดการทะเบียนรถ',
+        route: '/icons',
+        to: '/home-licenseplate',
+      },
+    ]
+  },
+  {
+    _tag: 'CSidebarNavTitle',
+    _children: ['payment management']
+  },
+  {
+    _tag: 'CSidebarNavDropdown',
+    name: 'ค่าส่วนกลาง',
+    route: '/icons',
+    icon: <OuanIcon name="FaCity" />,
+    _children: [
+      {
+        _tag: 'CSidebarNavItem',
+        name: 'จัดการ',
+        route: '/icons',
+        to: '/commonfee-management',
+      },
+      {
+        _tag: 'CSidebarNavItem',
+        name: 'ประวัติ',
+        route: '/icons',
+        to: '/commonfee-history'
+      },
+    ]
+  },
+  {
+    _tag: 'CSidebarNavDropdown',
+    name: 'การจ่ายเงิน',
+    route: '/icons',
+    icon: <OuanIcon name="FaRegMoneyBillAlt" />,
+    _children: [
+      {
+        _tag: 'CSidebarNavItem',
+        name: 'ตรวจสอบ',
+        route: '/icons',
+        to: '/commonfee-management',
+      },
+      {
+        _tag: 'CSidebarNavItem',
+        name: 'ประวัติ',
+        route: '/icons',
+        to: '/commonfee-history'
+      },
+    ]
+  },
+  {
     _tag: 'CSidebarNavTitle',
     _children: ['complaint management'],
   },
   {
     _tag: 'CSidebarNavDropdown',
     name: 'จัดการการคำร้องเรียน',
-    icon: <CIcon name="cil-bookmark" customClasses="c-sidebar-nav-icon" />,
+    icon: <OuanIcon name="FaBullhorn" />,
     _children: [
       {
         _tag: 'CSidebarNavItem',
@@ -125,7 +183,7 @@ const _nav = [
   {
     _tag: 'CSidebarNavDropdown',
     name: 'ประกาศโครงการ',
-    icon: <CIcon name="cil-notes" customClasses="c-sidebar-nav-icon" />,
+    icon: <OuanIcon name="FaScroll" />,
     _children: [
       {
         _tag: 'CSidebarNavItem',
@@ -148,7 +206,7 @@ const _nav = [
   {
     _tag: 'CSidebarNavDropdown',
     name: 'แจ้งเตือนฉุกเฉิน',
-    icon: <CIcon name="cil-notes" customClasses="c-sidebar-nav-icon" />,
+    icon: <OuanIcon name="FaSms" />,
     _children: [
       {
         _tag: 'CSidebarNavItem',

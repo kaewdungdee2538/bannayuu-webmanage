@@ -100,7 +100,6 @@ export default function ComplaintSuccessModal(props) {
                         });
                         //----------------Set image path
                         const image_url = ApiRoute.image_url + result.img_complaint;
-                        console.log(image_url)
                         setImageComplaint(image_url);
                     }else if (res.statusCode === 401) {
                         isNotAuth = res.error

@@ -20,6 +20,7 @@
 }
 .btn-edit{
     max-width: 120px;
+   
 }
 .btn-delete{
     max-width: 80px;
@@ -34,4 +35,14 @@ tr{
 .villager-head{
     background-color: #1769aa;
     color: white;
+}
+.btn-home-change{
+    max-width: 120px;
+    background-color: #4a148cec;
+    color: white;
+}
+
+.btn-home-change:hover{
+    color: white;
+    background-color: #4a148c;
 }

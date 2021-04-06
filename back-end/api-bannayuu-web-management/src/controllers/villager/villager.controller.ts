@@ -47,4 +47,10 @@ export class VillagerController {
       async deleteVillager(@Body() body,@Request() req){
         return await this.villagerService.deleteVillager(body,req);
       }
+
+      @UseGuards(JwtAuthGuard)
+      @Post('home-change')
+      async homeChangeVillager(@Body() body,@Request() req){
+        return await this.villagerService.homeChangeVillager(body,req);
+      }
 }

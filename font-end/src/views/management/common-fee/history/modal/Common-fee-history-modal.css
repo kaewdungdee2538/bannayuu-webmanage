@@ -1,0 +1,28 @@
+.form--footer{
+    display: flex;
+    justify-content: flex-end;
+}
+
+.modal-header-history{
+    background-color: #1b5e20;
+    color: white;
+}
+
+.modal-input-disable{
+    color: gray;
+}
+.btn-modal-footer{
+    margin-left: 15px;
+    min-width: 90px;
+}
+.modal-footer{
+    display: flex;
+    justify-content: space-between;
+}
+.btn-icon-footer{
+    font-size: 13px;
+    margin: 0 5px;
+}
+.badge-modal{
+    font-size: 16px;
+}

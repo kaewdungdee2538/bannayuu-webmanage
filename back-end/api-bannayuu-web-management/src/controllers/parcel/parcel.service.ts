@@ -258,7 +258,7 @@ export class ParcelService {
                 200);
     }
 
-    
+
     async getParcelWaitToSendByID(body: any) {
         const company_id = body.company_id;
         const tpi_id = !body.tpi_id ? null : body.tpi_id;
@@ -337,7 +337,7 @@ export class ParcelService {
         and receive_parcel_datetime between $2 and $3`
         if (home_address)
             sql += ` and mh.home_address like '%${home_address}%'`
-        switch(status_type){
+        switch (status_type) {
             case 'all':
                 sql += ` and tpi_status != $4`
                 break;
@@ -345,10 +345,10 @@ export class ParcelService {
                 sql += ` and tpi_status = $4`
                 break;
         }
-            sql += `order by mh.home_address,receive_parcel_datetime,send_parcel_datetime;`
+        sql += `order by mh.home_address,receive_parcel_datetime,send_parcel_datetime;`
         const query = {
             text: sql
-            , values: [company_id, start_date, end_date,status_type]
+            , values: [company_id, start_date, end_date, status_type]
         }
         const res = await this.dbconnecttion.getPgData(query);
         if (res.error)
@@ -437,4 +437,82 @@ export class ParcelService {
                 },
                 200);
     }
+
+    async saveParcelChangeHome(body: any, req: any) {
+        const employeeObj = req.user.employee;
+        const company_id = body.company_id;
+        const employee_id = employeeObj.employee_id;
+        const tpi_id = body.tpi_id;
+        const home_id = body.home_id;
+        let sql = `update t_parcel_info
+        set home_id = $1
+        ,update_by = $2,update_date = current_timestamp
+        where company_id = $3
+        and tpi_id = $4
+        ;`
+
+        const query = {
+            text: sql
+            , values: [
+                home_id
+                , employee_id
+                , company_id
+                , tpi_id
+            ]
+        }
+        console.log(query)
+        const res = await this.dbconnecttion.savePgData([query]);
+        if (res.error) throw new StatusException({
+            error: res.error,
+            result: null,
+            message: this.errMessageUtilsTh.messageProcessFail,
+            statusCode: 200
+        }, 200);
+        else throw new StatusException({
+            error: null,
+            result: this.errMessageUtilsTh.messageSucceessEn,
+            message: this.errMessageUtilsTh.messageSuccess,
+            statusCode: 200
+        }, 200);
+    }
+
+    async saveParcelCancelSend(body: any, req: any) {
+        const employeeObj = req.user.employee;
+        const company_id = body.company_id;
+        const employee_id = employeeObj.employee_id;
+        const tpi_id = body.tpi_id;
+        const tpi_remark = body.tpi_remark;
+        let sql = `update t_parcel_info
+        set tpi_status = 'reject_parcel'
+        ,tpi_remark = $1
+        ,update_by = $2,update_date = current_timestamp
+        where company_id = $3
+        and tpi_id = $4
+        ;`
+
+        const query = {
+            text: sql
+            , values: [
+                tpi_remark
+                , employee_id
+                , company_id
+                , tpi_id
+            ]
+        }
+        console.log(query)
+        const res = await this.dbconnecttion.savePgData([query]);
+        if (res.error) throw new StatusException({
+            error: res.error,
+            result: null,
+            message: this.errMessageUtilsTh.messageProcessFail,
+            statusCode: 200
+        }, 200);
+        else throw new StatusException({
+            error: null,
+            result: this.errMessageUtilsTh.messageSucceessEn,
+            message: this.errMessageUtilsTh.messageSuccess,
+            statusCode: 200
+        }, 200);
+    }
+
 }

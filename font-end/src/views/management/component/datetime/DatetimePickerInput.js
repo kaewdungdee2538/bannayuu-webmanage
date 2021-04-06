@@ -7,7 +7,6 @@ import {
     CLabel,
 } from '@coreui/react'
 import moment from 'moment'
-import $ from 'jquery'
 const DatetimePickerInput = (props) => {
     const { text, setText, title, placeholder, maxLenght, outFocusMode } = props
    function onChangeDatetime(event){

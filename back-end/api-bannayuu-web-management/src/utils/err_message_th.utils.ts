@@ -1,6 +1,6 @@
 export class ErrMessageUtilsTH{
 
-    messageSucceessEn = 'Succee'
+    messageSucceessEn = 'Success'
     messageSuccess ='เรียบร้อย'
     messageProcessFail = 'ล้มเหลว'
 
@@ -243,6 +243,12 @@ export class ErrMessageUtilsTH{
     errTimeStartOverTimeEnd = 'เวลาค้นหาเริ่มต้น ต้องน้อยกว่าเวลาค้นหาสิ้นสุด'
     errTimeSearchOver30Days = 'ช่วงเวลาที่ใช้ค้นหา ห้ามเกิน 30 วัน'
 
+    errDateFormNotFound = 'ไม่พบวันที่เริ่มต้น'
+    errDateFormNotTimeFormat = 'รูปแบบวันที่เริ่มต้น ไม่ถูกต้อง'
+    errDateToNotFound = 'ไม่พบวันที่สิ้นสุด'
+    errDateToNotTimeFormat = 'รูปบบวันที่สิ้นสุด ไม่ถูกต้อง'
+    errDateFormIsOverDateTo = 'วันที่เริ่มต้น ต้องน้อยกว่าวันที่สิ้นสุด'
+
     errParcelReceiveTitleNotFound = 'กรุณาระบุหัวข้อการรับพัสดุ'
     errParcelReceiveTitleProhitbitSpecial = 'หัวข้อการรับพัสดุ ห้ามมีอักขระพิเศษ'
     errParcelRecieveDetailProhibitSpecial = 'รายละเอียดการรับพัสดุ ห้ามมีอักขระพิเศษ'
@@ -258,6 +264,7 @@ export class ErrMessageUtilsTH{
     errParcelSuccessfully = 'ลูกบ้านทำรายการรับพัสดุแล้ว'
     errParcelReject = 'รายการรับพัสดุถูกยกเลิกไปแล้ว'
     errParcelSending = 'พัสดุถูกส่งให้ลูกบ้านแล้ว'
+    errParcelNotSendedStatus= 'พัสดุยังไม่ถูกส่งให้ลูกบ้าน'
 
     errSosIdNotfound = 'ไม่พบรหัสแจ้งเตือนฉุกเฉิน'
     errSosIdProhibitSpecial = 'รหัสแจ้งเตือนฉุกเฉิน ห้ามมีอักขระพิเศษ หรือช่องว่าง'
@@ -267,4 +274,19 @@ export class ErrMessageUtilsTH{
 
     errRemarkNofound = 'กรุณากรอกหมายเหตุ'
     errReamrkPohibitSpecial = 'หมายเหตุ ห้ามมีอักขระพิเศษ'
+
+    errSquareValueNotfound = 'กรุณากรอกราคาต่อหน่วย'
+    errSquareValueProhibitSpecial = 'ราคาต่อหน่วย ห้ามมีอักขระพิเศษ หรือช่องว่าง'
+    errSquareValueNotNumber = 'ราคาต่อหน่วย ต้องเป็นตัวเลขเท่านั้น'
+    errCommonPaymentAmountNotFound = 'กรุณากรอกค่าส่วนกลาง'
+    errCommonPaymentAmountProhibitSpecial = 'ค่าส่วนกลางห้ามมีอักขระพิเศษ หรือช่องว่าง'
+    errCommonPaymentAmountNotNumber = 'ค่าส่วนกลาง ต้องเป็นตัวเลขเท่านั้น'
+    errCommonFeeNotInBase = 'ไม่พบข้อมูลค่าส่วนกลางในระบบ'
+    errCommonFeeIDNotFound = 'ไม่พบรหัสข้อมูลค่าส่วนกลาง'
+    errCommonFeeIDProhibitSpecial  = 'รหัสข้อมูลค่าส่วนกลาง ห้ามมีอักขระพิเศษ หรือช่องว่าง'
+    errCommonFeeNotNumber = 'รหัสข้อมูลส่วนกลาง ต้องเป็นตัวเลขเท่านั้น'
+
+    errSearchTypeNotFound = 'ไม่พบประเภทการค้นหา'
+    errSearchTpyeProhibitSpecial = 'ประเภทการค้นหา ห้ามมีอักขระพิเศษ หรือช่องว่าง'
+
 }

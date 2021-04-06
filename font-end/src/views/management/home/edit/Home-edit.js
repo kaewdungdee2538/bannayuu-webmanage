@@ -5,6 +5,7 @@ import {
     CCard,
     CCardBody,
     CCardHeader,
+    CRow,
     CCol,
     CDataTable,
     CBadge
@@ -20,7 +21,7 @@ import { convertTZ } from '../../../../utils'
 import { deleteHomeByID } from './home-edit-modal-func'
 import LoadingModal from '../../component/loading/LoadingModal'
 import store, { disAuthenticationLogin } from '../../../../store'
-
+import InputEnable from '../../component/input/InputEnable'
 const getBadge = status => {
     switch (status) {
         case 'active': return 'success'
@@ -39,6 +40,7 @@ const CoreUIHomeEdit = () => {
     const [homeInfo, setHomeInfo] = useState(null)
     const [refeshForm, setRefeshForm] = useState(false);
     const [showLoading, setShowLoading] = useState(false);
+    const [address,setAddress] = useState('');
     //-------------------Show loading spiner
     let loadingmodal = null;
     if (showLoading) {
@@ -49,20 +51,44 @@ const CoreUIHomeEdit = () => {
     } else loadingmodal = null;
     //--------------------Form Load
     useEffect(() => {
+        setShowLoading(true)
+        refesh();
+    }, []);
+    const [selectedRow, setSelectedRow] = useState({ selected: false, home_id: '' });
+
+    const [showCreateAdd, setShowCreateAdd] = useState(false);
+    let selectedrow = null;
+    if (!!selectedRow) {
+        selectedrow = <HomeEditModal
+            selectedRow={selectedRow}
+            setSelectedRow={setSelectedRow}
+            authStore={authStore}
+            setRefeshForm={setRefeshForm}
+            setShowLoading={setShowLoading}
+        />
+    }
+
+    //------------------Edit
+    function onEditRowClick(event) {
+        if (event.target.getAttribute("home_id"))
+            setSelectedRow({ home_id: event.target.getAttribute("home_id"), selected: true })
+    }
+    //-------------------Refesh form
+    function refesh(){
         if (!authStore.authorization) {
             history.push('/')
         } else {
             let isNotAuth;
-            setShowLoading(true)
             document.body.style.cursor = 'wait';
-            getHomeInfo(authStore).then(res => {
+            const searchObj = {home_address:address}
+            getHomeInfo({authStore,searchObj}).then(res => {
                 if (res.result) {
                     if (res.result.length > 0)
                         setHomeInfo(res.result)
                     else {
                         setHomeInfo(null);
                     }
-                }else if (res.statusCode === 401) {
+                } else if (res.statusCode === 401) {
                     isNotAuth = res.error;
                 }
             }).catch(err => {
@@ -77,47 +103,12 @@ const CoreUIHomeEdit = () => {
                     //clear state global at store 
                     store.dispatch(disAuthenticationLogin());
                 }
-            })
-        }
-    }, []);
-    const [selectedRow, setSelectedRow] = useState({ selected: false, home_id: '' });
-
-    const [showCreateAdd, setShowCreateAdd] = useState(false);
-    let selectedrow = null;
-    if (!!selectedRow) {
-        selectedrow = <HomeEditModal
-            selectedRow={selectedRow}
-            setSelectedRow={setSelectedRow}
-            authStore={authStore}
-            setRefeshForm={setRefeshForm} 
-            setShowLoading={setShowLoading}
-            />
-    }
-
-    //------------------Edit
-    function onEditRowClick(event) {
-        if (event.target.getAttribute("home_id"))
-            setSelectedRow({ home_id: event.target.getAttribute("home_id"), selected: true })
-    }
-    //-------------------Refesh form
-    if (refeshForm) {
-        document.body.style.cursor = 'wait';
-        getHomeInfo(authStore).then(res => {
-            if (res.result) {
-                if (res.result.length > 0)
-                    setHomeInfo(res.result)
-            }
-        })
-            .catch(err => {
-                console.log(err)
-                history.push('/page404')
-            }).finally(value => {
-                document.body.style.cursor = 'default';
-                setShowLoading(false);
-                //stop refesh form
                 setRefeshForm(false);
             })
-
+        }
+    }
+    if (refeshForm) {
+        refesh();
     }
     let showCreateAddress = null;
     if (!!showCreateAdd) {
@@ -128,6 +119,10 @@ const CoreUIHomeEdit = () => {
                 setRefeshForm={setRefeshForm}
                 setShowLoading={setShowLoading}
             />
+    }
+    //---------------------search
+    function onSearchClick(event){
+        refesh();
     }
     //---------------------Delete
     function deleteHomeModal(event) {
@@ -203,6 +198,32 @@ const CoreUIHomeEdit = () => {
                             Home Table
             </CCardHeader>
                         <CCardBody>
+                            <CRow>
+                                <CCol xs="12" sm="6" md="6">
+                                    <InputEnable
+                                        title="ที่อยู่"
+                                        placeholder="Enter home number"
+                                        maxLength="30"
+                                        text={address}
+                                        setText={setAddress}
+                                    />
+                                </CCol>
+                            </CRow>
+                            <CRow>
+                                <CCol xs="12" sm="12" md="12">
+                                    <CButton
+                                        className="btn-class btn-head btn-search"
+                                        color="info"
+                                        onClick={onSearchClick}
+                                    >
+                                        <CIcon
+                                            name="cil-magnifying-glass"
+                                            color="info" />
+                                        <span className="span-head">ค้นหา</span>
+                                    </CButton>
+                                </CCol>
+                            </CRow>
+                            <br></br>
                             <CDataTable
                                 // onRowClick={onEditRowClick}
                                 className="tb-modal-td"

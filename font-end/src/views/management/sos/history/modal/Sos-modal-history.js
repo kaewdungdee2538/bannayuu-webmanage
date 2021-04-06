@@ -161,9 +161,11 @@ const SosHistoryModal = ({ showSosModal, setShowSosModal, selectedObj, setShowLo
                         <CCol xs="6" sm="6">
                             <div className="badge-status">
                                 <CLabel>สถานะ</CLabel>
-                                <CBadge color={getBadge(sosObj.sos_status)} className="badge-item">
-                                    {getStatus(sosObj.sos_status)}
-                                </CBadge>
+                                <div>
+                                    <CBadge color={getBadge(sosObj.sos_status)} className="badge-item">
+                                        {getStatus(sosObj.sos_status)}
+                                    </CBadge>
+                                </div>
                             </div>
                         </CCol>
                     </CRow>

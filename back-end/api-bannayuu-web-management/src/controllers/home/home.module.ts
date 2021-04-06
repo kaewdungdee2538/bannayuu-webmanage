@@ -2,6 +2,7 @@ import { MiddlewareConsumer, Module } from '@nestjs/common';
 import { DefaultValueMiddleware } from 'src/middleware/default-value/default-value.middleware';
 import { HomeEditMiddleware } from 'src/middleware/home/home-edit.middleware';
 import { HomeInfoMiddleware } from 'src/middleware/home/home-info.middleware';
+import { HomeSearchAddressLkeMiddleware } from 'src/middleware/home/home-search-address-like.middleware';
 import { HomeSearchMiddleware } from 'src/middleware/home/home-search.middleware';
 import { dbConnection } from 'src/pg_database/pg.database';
 import { ErrMessageUtilsTH } from 'src/utils/err_message_th.utils';
@@ -19,7 +20,7 @@ export class HomeModule {
       .apply(DefaultValueMiddleware)
       .forRoutes('webbannayuu/api/home/*');
       consumer
-      .apply(HomeSearchMiddleware)
+      .apply(HomeSearchAddressLkeMiddleware)
       .forRoutes('webbannayuu/api/home/get-all', 'webbannayuu/api/home/get-all-not-disable');
     consumer
       .apply(HomeInfoMiddleware)

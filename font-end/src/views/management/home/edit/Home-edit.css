@@ -39,3 +39,14 @@ tr{
 .btn-head{
     box-shadow: 2px 3px 7px rgba(0,0,0,0.3);
 }
+
+.btn-search{
+    width: 95%;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    margin-top: 15px;
+    margin-left: auto;
+    margin-right: auto;
+    font-size: 20px;
+}

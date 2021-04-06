@@ -47,7 +47,7 @@ const TheHeader = () => {
   const [showLoading, setShowLoading] = useState(false);
 
   useEffect(() => {
-    socketRef.current = io.connect(ApiRoute.url_socket_hosting);
+    socketRef.current = io.connect(ApiRoute.socket_url);
     socketRef.current.on("socket_id", id => {
       setYourID(id);
     })

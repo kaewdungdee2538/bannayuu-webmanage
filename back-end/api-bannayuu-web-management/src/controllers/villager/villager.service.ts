@@ -11,14 +11,16 @@ export class VillagerService {
   ) { }
   async getAllHome(body: any) {
     const company_id = body.company_id;
-
+    const home_address = body.home_address ? body.home_address : '';
     let sql = `select home_id,home_code,home_name,home_address
     , home_data,home_remark,create_date,update_date,
     case when delete_flag = 'N' then 'active'
     else 'inactive' end as status
     from m_home 
-    where company_id = $1 and delete_flag = 'N'
-    order by home_address
+    where company_id = $1 and delete_flag = 'N'`
+    if(home_address)
+      sql += ` and home_address like '%${home_address}%'`
+    sql += `order by home_address
     ;`
     const query = {
       text: sql
@@ -281,4 +283,41 @@ export class VillagerService {
       statusCode: 200
     }, 200);
   }
+ //--------------------------Delete
+ async homeChangeVillager(body: any, req: any) {
+  const employeeObj = req.user.employee
+  const company_id = body.company_id;
+  const home_id = body.home_id;
+  const home_line_id = body.home_line_id;
+  const employee_id = employeeObj.employee_id
+  let sql = `update m_home_line set
+  home_id = $1,update_date = current_timestamp
+  ,update_by = $2
+  where company_id = $3
+  and home_line_id = $4
+  ;`
+  const query = {
+    text: sql
+    , values: [
+      home_id
+      , employee_id
+      , company_id
+      , home_line_id
+    ]
+  }
+  const res = await this.dbconnecttion.savePgData([query]);
+  if (res.error) throw new StatusException({
+    error: res.error,
+    result: null,
+    message: this.errMessageUtilsTh.messageProcessFail,
+    statusCode: 200
+  }, 200);
+  else throw new StatusException({
+    error: null,
+    result: this.errMessageUtilsTh.messageSucceessEn,
+    message: this.errMessageUtilsTh.messageSuccess,
+    statusCode: 200
+  }, 200);
+}
+  
 }

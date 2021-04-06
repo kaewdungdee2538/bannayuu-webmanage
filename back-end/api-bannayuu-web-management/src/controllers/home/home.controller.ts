@@ -33,6 +33,12 @@ export class HomeController {
   }
 
   @UseGuards(JwtAuthGuard)
+  @Post('get-address-not-disable')
+  getAllAddressNotDisable(@Body() body)  {
+    return this.homeService.getAllAddressNotDisable(body);
+  }
+
+  @UseGuards(JwtAuthGuard)
   @Post('add-home')
   async createHome(@Body() body, @Request() req) {
     const checkhomeDuplicate = await this.checkHomeDuplicate(body);

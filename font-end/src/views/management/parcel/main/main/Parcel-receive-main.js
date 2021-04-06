@@ -16,7 +16,7 @@ import { useHistory } from 'react-router-dom'
 import CIcon from '@coreui/icons-react'
 import swal from 'sweetalert';
 import moment from 'moment'
-import { ParcelReceiveMainController } from './Parcel-receive-main-controller'
+import { ParcelReceiveMainController,getHomeNotDisableInfo } from './Parcel-receive-main-controller'
 import DatetimePickerInput from '../../../component/datetime/DatetimePickerInput'
 import InputEnable from '../../../component/input/InputEnable'
 import ParcelReceiveAdd from '../add/Parcel-receive-add'
@@ -44,6 +44,7 @@ function ParcelReceiveMain() {
     const [address, setAddress] = useState('');
     const [headerText, setHeaderText] = useState('')
     const [showLoading, setShowLoading] = useState(false);
+    const [addressArray,setAddressArray] = useState([]);
     //-------------------Show loading spiner
     let loadingmodal = null;
     if (showLoading) {
@@ -54,8 +55,41 @@ function ParcelReceiveMain() {
     } else loadingmodal = null;
     //---------------Form load
     useEffect(() => {
+        setShowLoading(true);
+        getHomeAddress();
         refeshFormFunc();
     }, [])
+    //----------------get Home Address
+    function getHomeAddress(){
+        if (!authStore.authorization) {
+            history.push("/");
+        } else {
+            let isNotAuth;
+            document.body.style.cursor = "wait";
+            getHomeNotDisableInfo({ authStore })
+                .then((res) => {
+                    if (res.result) {
+                        const result = res.result.map((item)=>{return {id:item.home_id,value:item.home_address}});
+                        setAddressArray(result);
+                    } else if (res.statusCode === 401) {
+                        isNotAuth = res.error;
+                    } else swal("Warning!", res.error, "warning");
+                })
+                .catch((err) => {
+                    console.log(err);
+                    history.push("/page404");
+                })
+                .finally((value) => {
+                    document.body.style.cursor = "default";
+                    if (isNotAuth) {
+                        swal("Warning!", isNotAuth, "warning");
+                        history.push("/");
+                        //clear state global at store 
+                        store.dispatch(disAuthenticationLogin());
+                    }
+                });
+        }
+    }
     //-----------------Refesh Form
     if (refeshForm) {
         refeshFormFunc();
@@ -164,6 +198,7 @@ function ParcelReceiveMain() {
             showAddModal={showAddModal}
             setRefeshForm={setRefeshForm}
             setShowLoading={setShowLoading}
+            addressArray={addressArray}
         />
     }
     //--------------------------

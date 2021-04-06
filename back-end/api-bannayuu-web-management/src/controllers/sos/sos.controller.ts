@@ -20,6 +20,11 @@ export class SosController {
         return this.sosService.getSosInfoById(body);
     }
 
+    @Post('get-last')
+    async getSosInfoLast(@Body() body){
+        return this.sosService.getSosInfoLast(body);
+    }
+
     
     @UseGuards(JwtAuthGuard)
     @Post('get-all-history')

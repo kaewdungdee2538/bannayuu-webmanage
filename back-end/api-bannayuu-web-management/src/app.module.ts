@@ -15,6 +15,7 @@ import { UserProfileModule } from './controllers/user-profile/user-profile.modul
 import { EstampChangeHomeModule } from './controllers/estamp/estamp-change-home/estamp-change-home.module';
 import { NotificationItemModule } from './controllers/notification-item/notification-item.module';
 import { SosModule } from './controllers/sos/sos.module';
+import { CommonFeeModule } from './controllers/common-fee/common-fee.module';
 
 @Module({
   imports: [
@@ -31,6 +32,7 @@ import { SosModule } from './controllers/sos/sos.module';
     ,EstampChangeHomeModule
     ,NotificationItemModule
     ,SosModule
+    ,CommonFeeModule
   ],
   controllers: [AppController],
   providers: [

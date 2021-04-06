@@ -58,6 +58,9 @@ const UserProfileMain = React.lazy(()=>import('./views/management/profile/main/U
 const SosMainInfo = React.lazy(()=>import('./views/management/sos/main/info/Sos-main-info'))
 const SosHistoryInfo = React.lazy(()=>import('./views/management/sos/history/info/Sos-history-info'))
 const ParcelChangeSendMain = React.lazy(()=>import('./views/management/parcel/change-send/main/Parcel-change-send-main'))
+const CommonFeeManagementMain = React.lazy(()=>import('./views/management/common-fee/management/main/Common-fee-management-main'))
+const CommonFeeManagementHistory = React.lazy(()=>import('./views/management/common-fee/history/main/Common-fee-history-main'))
+const LicenseMain = React.lazy(()=>import('./views/management/license/main/License-main'))
 const routes = [
   { path: '/main', exact: true, name: 'Home',component:MainForm },
   { path: '/page404', name: 'Not Found', component: page404 },
@@ -116,7 +119,10 @@ const routes = [
   { path: '/parcel-change', exact: true, name: 'Parcel Send Change', component: ParcelChangeSendMain }, 
   { path: '/user-profile', exact: true, name: 'User Profile', component: UserProfileMain }, 
   { path: '/sos', exact: true, name: 'Sos', component: SosMainInfo }, 
-  { path: '/sos-history', exact: true, name: 'Sos History', component: SosHistoryInfo }, 
+  { path: '/sos-history', exact: true, name: 'Sos History', component: SosHistoryInfo },
+  { path: '/commonfee-management', exact: true, name: 'Common fee management', component: CommonFeeManagementMain }, 
+  { path: '/commonfee-history', exact: true, name: 'Common fee history', component: CommonFeeManagementHistory }, 
+  { path: '/home-licenseplate', exact: true, name: 'Home license plate', component: LicenseMain },     
   
 ];
 

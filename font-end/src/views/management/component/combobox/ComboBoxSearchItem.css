@@ -1,0 +1,11 @@
+.show-combobox{
+    display: block;
+}
+
+.hide-combobox{
+    display: none;
+}
+.item-combobox{
+    max-height: 450px;
+    overflow-y: auto;
+}

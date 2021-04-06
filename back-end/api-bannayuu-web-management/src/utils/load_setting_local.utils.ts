@@ -11,7 +11,7 @@ export class LoadSettingLocalUtils {
     async loadAllSetting(){
 
     }
-    async getBookingMode(company_id:string){
+    async getBookingInMode(company_id:string){
         const sql =`select setup_data->'booking_verify' as booking_verify
         from m_setup 
         where company_id = $1

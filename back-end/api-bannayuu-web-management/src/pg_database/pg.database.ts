@@ -1,4 +1,3 @@
-import 'dotenv/config';
 import { createConnection } from "typeorm";
 import {configfile} from '../conf/config.json'
 var connection;

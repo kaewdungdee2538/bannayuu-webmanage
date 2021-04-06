@@ -34,6 +34,7 @@ export class DefaultInterceptor implements NestInterceptor {
     async checkInputValues(request: any) {
         const body = request.body;
         const file = request.files
+        console.log(body)
          if(!body.company_id)
             return this.errMessageUrilTh.errCompanyIDNotFound;
         else if(this.formatDataUtils.HaveSpecialFormat(body.company_id))

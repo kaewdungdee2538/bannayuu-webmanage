@@ -1,6 +1,7 @@
 import * as config from './config.json'
 const ApiRoute ={
     main_url:config.config.url_hosting,
+    socket_url:config.config.url_socket_hosting,
     image_url:config.config.url_image,
     image_web_url:config.config.url_web_image,
     port:config.config.url_port,
@@ -9,6 +10,7 @@ const ApiRoute ={
     },home:{
         get_allhome_url:'/webbannayuu/api/home/get-all'
         ,get_allhome_not_disable_url:'/webbannayuu/api/home/get-all-not-disable'
+        ,get_alladdress_not_disable_url:'/webbannayuu/api/home/get-address-not-disable'
         ,add_homeinfo_url:'/webbannayuu/api/home/add-home'
         ,get_home_byid_url:'/webbannayuu/api/home/get-home-by-id'
         ,edit_homeinfo_url:'/webbannayuu/api/home/edit-home'
@@ -20,6 +22,7 @@ const ApiRoute ={
         ,get_vilager_byhomelineid_url:'/webbannayuu/api/villager/get-by-homelineid'
         ,edit_villager_url:'/webbannayuu/api/villager/edit-villager'
         ,delete_villager_url:'/webbannayuu/api/villager/delete-villager'
+        ,save_change_home_villager_url:'/webbannayuu/api/villager/home-change'
     },announce:{
         get_announce_all_url:'/webbannayuu/api/announce/get-all'
         ,get_announce_byid_url:'/webbannayuu/api/announce/get-by-id'
@@ -53,6 +56,8 @@ const ApiRoute ={
         ,save_parcel_send_url :'/webbannayuu/api/parcel/send-parcel'
         ,get_parcel_history_url :'/webbannayuu/api/parcel/get/history'
         ,get_parcel_history_by_id_url:'/webbannayuu/api/parcel/get/history-by-id'
+        ,save_change_home_parcel_url:'/webbannayuu/api/parcel/change-home'
+        ,save_cancel_send_parcel_url:'/webbannayuu/api/parcel/cancel-send'
     },user_profile:{
         get_user_profile_by_id_url : '/webbannayuu/api/user-profile/get-by-id'
     },notification_item:{
@@ -63,6 +68,14 @@ const ApiRoute ={
         ,get_sos_info_all_history_url:'/webbannayuu/api/sos/get-all-history'
         ,save_sos_corporate_receive_url:'/webbannayuu/api/sos/corporate-receive'
         ,save_sos_corporate_reject_url:'/webbannayuu/api/sos/corporate-reject'
+    },commonfee:{
+        get_common_fee_not_pay_url:'/webbannayuu/api/common-fee/get-common-fee-nopay'
+        ,get_common_fee_get_by_id_url:'/webbannayuu/api/common-fee/get-common-fee-byid'
+        ,get_common_fee_get_by_id_history_url:'/webbannayuu/api/common-fee/get-common-fee-byid-history'
+        ,get_common_fee_history_url:'/webbannayuu/api/common-fee/get-common-fee-history'
+        ,add_common_fee_url:'/webbannayuu/api/common-fee/add-common-fee'
+        ,edit_common_fee_url:'/webbannayuu/api/common-fee/edit-common-fee'
+        ,cancel_common_fee_url:'/webbannayuu/api/common-fee/cancel-common-fee'
     }
 }
 export default ApiRoute;

@@ -78,6 +78,34 @@ export class HomeService {
         }, 200);
     }
 
+    async getAllAddressNotDisable(body:any){
+        const company_id = body.company_id;
+        const home_address = body.home_address ? body.home_address : '';
+        let sql = `select home_id,home_address
+        from m_home 
+        where delete_flag = 'N' and company_id = $1`;
+        if(home_address)
+            sql += ` and home_address LIKE '%${home_address}%'`
+        sql += ` order by home_address;`
+        const query = {
+            text: sql
+            , values: [company_id]
+        }
+        const res = await this.dbconnecttion.getPgData(query);
+        if (res.error) throw new StatusException({
+            error: res.error,
+            result: null,
+            message: this.errMessageUtilsTh.messageProcessFail,
+            statusCode: 200
+        }, 200);
+        else throw new StatusException({
+            error: null,
+            result: res.result,
+            message: this.errMessageUtilsTh.messageSuccess,
+            statusCode: 200
+        }, 200);
+    }
+
     async addHome(body: any, employeeInfo: any) {
         const employeeObj = employeeInfo.employee
         const company_id = body.company_id

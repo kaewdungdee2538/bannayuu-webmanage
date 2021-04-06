@@ -13,13 +13,14 @@ import swal from "sweetalert";
 import CIcon from "@coreui/icons-react";
 import VillagerInfoModal from "../info/Villager-info-modal";
 import VillagerAddModal from "../add/Villager-add";
-import store, {disAuthenticationLogin, selectHome, unSelectHome } from "../../../../store";
+import store, { disAuthenticationLogin, selectHome, unSelectHome } from "../../../../store";
 import { useSelector } from "react-redux";
 import { useHistory } from "react-router-dom";
 import { getVillagerInfo, editVillager } from "./Villager-edit-controller";
 import { deleteVillager } from "../delete/Villager-delete-controller";
 import LoadingModal from '../../component/loading/LoadingModal';
-const fields = ["แก้ไข", "ชื่อ-สกุล", "เบอร์โทรศัพท์", "สถานะ"];
+import VillagerHomeChangeSelectHome from '../home-change/modal/Villager-home-change-modal'
+const fields = ["แก้ไข", "เปลี่ยนบ้าน", "ชื่อ-สกุล", "เบอร์โทรศัพท์", "สถานะ"];
 const getBadge = status => {
   switch (status) {
     case 'active': return 'success'
@@ -42,6 +43,10 @@ const CoreUILineHomeEdit = (props) => {
     home_line_code: ""
   });
   const [showLoading, setShowLoading] = useState(false);
+  const [showModalHomeChange, setShowModalHomeChange] = useState(false);
+  const [selectedHomeChange, setSelectHomeChange] = useState({
+    home_line_id: "",
+  })
   //-------------------Show loading spiner
   let loadingmodal = null;
   if (showLoading) {
@@ -121,6 +126,22 @@ const CoreUILineHomeEdit = (props) => {
       <VillagerAddModal showCreate={showCreate} setShowCreate={setShowCreate} setRefeshForm={setRefeshForm} setShowLoading={setShowLoading} />
     );
   }
+  //------------------------------Home Change
+  function onHomeChangeClick(event) {
+    const home_line_id = event.target.getAttribute("home_line_id");
+    setSelectHomeChange({ home_line_id })
+    setShowModalHomeChange(true);
+  }
+  let elemModalHomeChange = null;
+  if (showModalHomeChange) {
+    elemModalHomeChange = <VillagerHomeChangeSelectHome
+      selectedHomeChange={selectedHomeChange}
+      showModalHomeChange={showModalHomeChange}
+      setShowModalHomeChange={setShowModalHomeChange}
+      setShowLoading={setShowLoading}
+      setRefeshForm={setRefeshForm}
+    />
+  } else elemModalHomeChange = null;
   //------------------------------Delete villager
   function deleteVillagerInfo(event) {
     const home_id = event.target.getAttribute("home_id");
@@ -181,12 +202,13 @@ const CoreUILineHomeEdit = (props) => {
         });
     }
   }
-
+  //-------------------------------------------------
   return (
     <CCard>
       {loadingmodal}
       {selectedrow}
       {showCreateModal}
+      {elemModalHomeChange}
       <CCardHeader className="villager-head">ลูกบ้าน</CCardHeader>
       <div className="btn-addhome">
         <CButton
@@ -285,6 +307,35 @@ const CoreUILineHomeEdit = (props) => {
                           className="btn-icon"
                         >
                           แก้ไข
+                        </span>
+                      </CButton>
+                    </td>
+                  )
+                  , 'เปลี่ยนบ้าน': (item) => (
+                    <td>
+                      <CButton
+                        onClick={onHomeChangeClick}
+                        key={Date.now}
+                        home_id={item.home_id}
+                        home_line_id={item.home_line_id}
+                        home_line_code={item.home_line_code}
+                        className="btn-class btn-home-change"
+                      // color="warning"
+                      >
+                        <CIcon
+                          home_id={item.home_id}
+                          home_line_id={item.home_line_id}
+                          home_line_code={item.home_line_code}
+                          name="cil-fullscreen-exit"
+                          color="danger"
+                        />
+                        <span
+                          home_id={item.home_id}
+                          home_line_id={item.home_line_id}
+                          home_line_code={item.home_line_code}
+                          className="btn-icon"
+                        >
+                          เปลี่ยนบ้าน
                         </span>
                       </CButton>
                     </td>

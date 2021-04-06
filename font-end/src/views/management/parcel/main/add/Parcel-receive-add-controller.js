@@ -24,3 +24,4 @@ export const addParcelReceive = (props) => {
             return res.data.response;
         });
 };
+

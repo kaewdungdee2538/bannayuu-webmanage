@@ -29,11 +29,11 @@ export class TimeMiddleware implements NestMiddleware {
     async CheckValues(body: any) {
         if (!body.start_date)
             return this.errMessageUrilTh.errTimeStartNotFound
-        else if (!this.formatDataUtils.IsDateTimeFormat(body.start_date))
+        else if (!await this.formatDataUtils.IsDateTimeFormat(body.start_date))
             return this.errMessageUrilTh.errTimeStartNotTimeFormat
         else if (!body.end_date)
             return this.errMessageUrilTh.errTimeEndNotFound
-        else if(!this.formatDataUtils.IsDateTimeFormat(body.end_date))
+        else if(!await this.formatDataUtils.IsDateTimeFormat(body.end_date))
             return this.errMessageUrilTh.errTimeEndNotTimeFormat
         else if(moment(body.start_date)>moment(body.end_date))
             return this.errMessageUrilTh.errTimeStartOverTimeEnd;

@@ -21,38 +21,18 @@ import InputDisable from '../../../component/input/InputDisable'
 import TextArea from '../../../component/textarea/TextArea'
 import { addParcelReceive } from './Parcel-receive-add-controller'
 import store, { disAuthenticationLogin } from '../../../../../store'
-
-const ParcelReceiveAdd = ({ showAddModal, setShowAddModal, setRefeshForm, setShowLoading }) => {
+import ComboBoxSearchItem from '../../../component/combobox/ComboBoxSearchItem'
+const addressText = {
+    id: 0, value: 'เลือกบ้าน'
+}
+const ParcelReceiveAdd = ({ showAddModal, setShowAddModal, setRefeshForm, setShowLoading, addressArray }) => {
     const history = useHistory();
     const authStore = useSelector(state => state)
-    const [address, setAddress] = useState('');
+    const [address, setAddress] = useState({ id: 0, value: '' });
     const [header, setHeader] = useState('');
     const [detail, setDetail] = useState('');
     const [image, setImage] = useState(null);
     const [fileName, setFileName] = useState('Choose image');
-    //--------------------------Form load
-    // useEffect(()=>{
-    //     if (!authStore.authorization) {
-    //         history.push("/");
-    //     } else {
-    //         document.body.style.cursor = "wait";
-    //         getHomeInfo({ authStore })
-    //             .then((res) => {
-    //                 if (res.result) {
-    //                     const result = res.result;
-    //                     setHomeAddressObj(result);
-    //                     console.log(result)
-    //                 } else swal("Warning!", res.error, "warning");
-    //             })
-    //             .catch((err) => {
-    //                 console.log(err);
-    //                 history.push("/page404");
-    //             })
-    //             .finally((value) => {
-    //                 document.body.style.cursor = "default";
-    //             });
-    //     }
-    // },[])
     //--------------------------Close Modal
     function closeModal(event) {
         setShowAddModal(false);
@@ -60,12 +40,14 @@ const ParcelReceiveAdd = ({ showAddModal, setShowAddModal, setRefeshForm, setSho
     }
 
     function addParcelModal() {
+        if (!addParcelMiddleware())
+            return;
         document.body.style.cursor = 'wait';
         setShowLoading(true);
         const values = {
             authStore
             , valuesObj: {
-                address,
+                address: address.value,
                 header,
                 detail,
                 image
@@ -93,7 +75,7 @@ const ParcelReceiveAdd = ({ showAddModal, setShowAddModal, setRefeshForm, setSho
                 setRefeshForm(true)
                 closeModal();
             }
-           
+
         }).catch(err => {
             console.log(err);
             history.push("/page404");
@@ -108,7 +90,19 @@ const ParcelReceiveAdd = ({ showAddModal, setShowAddModal, setRefeshForm, setSho
             }
         })
     }
-
+    //------------------------Middleware
+    function addParcelMiddleware() {
+        if (address.id === 0) {
+            swal({
+                title: "Warning.",
+                text: 'กรุณาเลือกที่อยู่',
+                icon: "warning",
+                button: "OK",
+            });
+            return false;
+        }
+        return true;
+    }
     return (
         <CModal
             show={showAddModal}
@@ -121,6 +115,7 @@ const ParcelReceiveAdd = ({ showAddModal, setShowAddModal, setRefeshForm, setSho
                 <CModalTitle>ทำรายการรับพัสดุให้ลูกบ้าน</CModalTitle>
             </CModalHeader>
             <CModalBody>
+
                 <CFormGroup>
                     <CRow>
                         <CCol xs="12" sm="6" md="6">
@@ -130,6 +125,17 @@ const ParcelReceiveAdd = ({ showAddModal, setShowAddModal, setRefeshForm, setSho
                         </CCol>
                     </CRow>
                     <CRow>
+                        <CCol xs="12" sm="12" md="12">
+                            <ComboBoxSearchItem
+                                title="บ้านเลขที่ (ลูกบ้าน)"
+                                text={addressText}
+                                placeholder="Enter adress"
+                                itemsArray={addressArray}
+                                setText={setAddress}
+                            />
+                        </CCol>
+                    </CRow>
+                    {/* <CRow>
                         <CCol xs="12" sm="6" md="6">
                             <InputEnable
                                 title="บ้านเลขที่ (ลูกบ้าน)"
@@ -139,7 +145,7 @@ const ParcelReceiveAdd = ({ showAddModal, setShowAddModal, setRefeshForm, setSho
                                 placeholder="Enter address "
                             />
                         </CCol>
-                    </CRow>
+                    </CRow> */}
                     <CRow>
                         <CCol xs="12" sm="12" md="12">
                             <InputEnable

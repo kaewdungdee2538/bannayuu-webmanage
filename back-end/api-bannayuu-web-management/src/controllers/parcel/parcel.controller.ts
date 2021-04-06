@@ -125,4 +125,16 @@ export class ParcelController {
     async getParcelSended(@Body() body){
         return this.parcelService.getParcelSended(body);
     }
+
+    @Post('change-home')
+    @UseGuards(JwtAuthGuard)
+    async saveParcelChangeHome(@Body() body,@Request() req){
+        return this.parcelService.saveParcelChangeHome(body,req);
+    }
+
+    @Post('cancel-send')
+    @UseGuards(JwtAuthGuard)
+    async saveParcelCancelSend(@Body() body,@Request() req){
+        return this.parcelService.saveParcelCancelSend(body,req);
+    }
 }
