@@ -10,6 +10,7 @@ export class loggerMiddleware implements NestMiddleware {
             _request:req.body,
             _date:Date().toString()
         }
+        console.log('<========================================================>');
         console.log( request);
         next();
     }
