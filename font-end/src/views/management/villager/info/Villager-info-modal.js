@@ -83,7 +83,7 @@ function VillagerInfoModal({ selectedRow, setSelectedRow, setRefeshForm, setShow
         })
         .catch((err) => {
           console.log(err);
-          history.push("/page404");
+          history.push("/page500");
         })
         .finally((value) => {
           document.body.style.cursor = "default";

@@ -6,7 +6,7 @@ export default function getImageFormUrl(image_path){
         headers: {  },
       };
 
-      const url =`${ApiRoute.image_url}${image_path}`
+      const url =`${ApiRoute.image_line_url}${image_path}`
       return axios.post(url)
         .then((res) => {
           return res.data.response;

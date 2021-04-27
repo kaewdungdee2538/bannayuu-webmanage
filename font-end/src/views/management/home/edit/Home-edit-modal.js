@@ -83,7 +83,7 @@ function HomeEditModal({ selectedRow, setSelectedRow, authStore, setRefeshForm, 
                     }
                 }).catch(err => {
                     console.log(err)
-                    history.push('/page404')
+                    history.push('/page500')
                 }).finally(value => {
                     document.body.style.cursor = 'default';
                     setShowLoading(false)
@@ -139,7 +139,7 @@ function HomeEditModal({ selectedRow, setSelectedRow, authStore, setRefeshForm, 
                 }
             }).catch(err => {
                 console.log(err)
-                history.push('/page404')
+                history.push('/page500')
             }).finally(value => {
                 document.body.style.cursor = 'default';
                 if (isNotAuth) {

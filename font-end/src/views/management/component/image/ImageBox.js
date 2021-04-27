@@ -5,10 +5,10 @@ import {
 import ApiRoute from '../../../../apiroute'
 
 const ImageBox = (props) => {
-    const { title, link } = props
+    const { title, link,isNotStandard } = props
     let img_link = link ? `${ApiRoute.image_web_url}${link}` : `./image/camera-icon.png`
-    console.log('link' + link)
-    console.log('img_link' + img_link)
+    img_link = isNotStandard ? link : img_link;
+    console.log('img_link : '+img_link);
     return (
         <div key={Date.now}>
             <CLabel>{title}</CLabel>

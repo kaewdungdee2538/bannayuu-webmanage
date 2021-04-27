@@ -91,7 +91,7 @@ function AnnouceEditModal({ showEdit, setShowEdit, setRefeshForm, editObj, setSh
             })
             .catch((err) => {
                 console.log(err);
-                history.push("/page404");
+                history.push("/page500");
             })
             .finally((value) => {
                 document.body.style.cursor = "default";
@@ -155,7 +155,7 @@ function AnnouceEditModal({ showEdit, setShowEdit, setRefeshForm, editObj, setSh
                     document.body.style.cursor = 'default';
                 }).catch((err) => {
                     console.log(err);
-                    history.push("/page404");
+                    history.push("/page500");
                 })
                 .finally((value) => {
                     document.body.style.cursor = "default";

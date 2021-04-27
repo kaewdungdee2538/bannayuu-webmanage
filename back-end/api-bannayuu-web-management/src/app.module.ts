@@ -15,7 +15,12 @@ import { UserProfileModule } from './controllers/user-profile/user-profile.modul
 import { EstampChangeHomeModule } from './controllers/estamp/estamp-change-home/estamp-change-home.module';
 import { NotificationItemModule } from './controllers/notification-item/notification-item.module';
 import { SosModule } from './controllers/sos/sos.module';
-import { CommonFeeModule } from './controllers/common-fee/common-fee.module';
+import { CommonFeeModule } from './controllers/villager-cost/villager-cost.module';
+import { CalculateParkingModule } from './controllers/calculate-parking/calculate-parking.module';
+import { PaymentEventModule } from './controllers/setting-app/payment-event/payment-event.module';
+import { PaymentHistoryModule } from './controllers/payment/payment-history/payment-history.module';
+import { PaymentManagementModule } from './controllers/payment/payment-management/payment-management.module';
+import { CarModule } from './controllers/car/car.module';
 
 @Module({
   imports: [
@@ -33,6 +38,11 @@ import { CommonFeeModule } from './controllers/common-fee/common-fee.module';
     ,NotificationItemModule
     ,SosModule
     ,CommonFeeModule
+    ,CalculateParkingModule
+    ,PaymentEventModule
+    ,PaymentHistoryModule
+    ,PaymentManagementModule
+    ,CarModule
   ],
   controllers: [AppController],
   providers: [

@@ -64,7 +64,7 @@ const LicenseHome = (props) => {
                 }
             }).catch(err => {
                 console.log(err)
-                history.push('/page404')
+                history.push('/page500')
             }).finally(value => {
                 document.body.style.cursor = 'default';
                 setShowLoading(false);
@@ -89,7 +89,8 @@ const LicenseHome = (props) => {
     //----------------------on select click
     function onSelectClick(event) {
         const home_id = event.target.getAttribute('home_id');
-        setSelectedRow({ selected: true, home_id })
+        const home_address = event.target.getAttribute('home_address');
+        setSelectedRow({ selected: true, home_id ,home_address})
         setShowHomeForm(false)
         setShowLicenseForm(true);
     }
@@ -150,6 +151,7 @@ const LicenseHome = (props) => {
                                                 className="btn-class"
                                                 color="primary"
                                                 home_id={item.home_id}
+                                                home_address={item.home_address}
                                                 onClick={onSelectClick}
                                             >
                                                 เลือกบ้าน

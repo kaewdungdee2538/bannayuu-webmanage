@@ -109,7 +109,7 @@ const _nav = [
   },
   {
     _tag: 'CSidebarNavDropdown',
-    name: 'ค่าส่วนกลาง',
+    name: 'เรียกเก็บค่าใช้จ่ายลูกบ้าน',
     route: '/icons',
     icon: <OuanIcon name="FaCity" />,
     _children: [
@@ -117,13 +117,13 @@ const _nav = [
         _tag: 'CSidebarNavItem',
         name: 'จัดการ',
         route: '/icons',
-        to: '/commonfee-management',
+        to: '/villager-cost-management',
       },
       {
         _tag: 'CSidebarNavItem',
         name: 'ประวัติ',
         route: '/icons',
-        to: '/commonfee-history'
+        to: '/villager-cost-history'
       },
     ]
   },
@@ -135,15 +135,15 @@ const _nav = [
     _children: [
       {
         _tag: 'CSidebarNavItem',
-        name: 'ตรวจสอบ',
+        name: 'ตรวจสอบการโอนเงิน',
         route: '/icons',
-        to: '/commonfee-management',
+        to: '/villager-payment-management',
       },
       {
         _tag: 'CSidebarNavItem',
         name: 'ประวัติ',
         route: '/icons',
-        to: '/commonfee-history'
+        to: '/villager-payment-history'
       },
     ]
   },

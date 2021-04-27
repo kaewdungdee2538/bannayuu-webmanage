@@ -120,7 +120,8 @@ export class ErrMessageUtilsTH{
     errGetCarTypeNotFound = 'ไม่พบรหัสประเภทรถ'
     errGetCarTypeNotNumber = 'รหัสประเภทรถต้องเป็นตัวเลขเท่านั้น'
     errGetCarTypeProhibitSpecial = 'รหัสประเภทรถห้ามมีอักขระพิเศษ หรือช่องว่าง'
-   
+    errGetCartypeNotInBase = 'ไม่พบประเภทรถในระบบ'
+
     errGetCartypeCategoryFail = 'เรียกดูหมวดหมู่รถล้มเหลว'
 
     errGetDataActionInInfoNotFound = 'ไม่พบข้อมูลขาเข้า'
@@ -218,7 +219,9 @@ export class ErrMessageUtilsTH{
     errAnnounceTypeNotFound = 'ไม่พบประเภทที่ใช้ในการค้นหาประวัติของประกาศโครงการ'
     errAnnounceTypeProhibitSpecial = 'ประเภทที่ใช้ในการค้นหาประวัติของประกาศโครงการ ห้ามมีอักขระพิเศษ หรือช่องว่าง'
 
+    errLicensePlateNotFound = 'ไม่พบทะเบียนรถ'
     errLicensePlateProhitbitSpecial = 'ทะเบียนรถห้ามมีอักขระพิเศษ'
+    errLicensePlateIsDuplicateInBase = 'ทะเบียนรถซ้ำในระบบ'
 
     errEstampNotInBase = 'ไม่พบตราประทับในระบบ'
     errEstampNotFound = 'ไม่พบการประทับตรา'
@@ -249,6 +252,13 @@ export class ErrMessageUtilsTH{
     errDateToNotTimeFormat = 'รูปบบวันที่สิ้นสุด ไม่ถูกต้อง'
     errDateFormIsOverDateTo = 'วันที่เริ่มต้น ต้องน้อยกว่าวันที่สิ้นสุด'
 
+    errTimeOverNightStartNotFound = 'ไม่พบเวลาเริ่มต้นค้างคืน'
+    errTimeOverNightStartNotTimeFormat = 'รูปแบบเวลาเริ่มต้นค้างคืนไม่ถูกต้อง'
+    errTimeOverNightEndNotFound = 'ไม่พบเวลาสิ้นสุดค้างคืน'
+    errTimeOverNightEndNotTimeFormat = 'รูปแบบเวลาสิ้นสุดค้างคืนไม่ถูกต้อง'
+
+    errTimeForFreeNotFormat = 'รูปแบบเวลาจอดฟรีไม่ถูกต้อง'
+
     errParcelReceiveTitleNotFound = 'กรุณาระบุหัวข้อการรับพัสดุ'
     errParcelReceiveTitleProhitbitSpecial = 'หัวข้อการรับพัสดุ ห้ามมีอักขระพิเศษ'
     errParcelRecieveDetailProhibitSpecial = 'รายละเอียดการรับพัสดุ ห้ามมีอักขระพิเศษ'
@@ -278,15 +288,62 @@ export class ErrMessageUtilsTH{
     errSquareValueNotfound = 'กรุณากรอกราคาต่อหน่วย'
     errSquareValueProhibitSpecial = 'ราคาต่อหน่วย ห้ามมีอักขระพิเศษ หรือช่องว่าง'
     errSquareValueNotNumber = 'ราคาต่อหน่วย ต้องเป็นตัวเลขเท่านั้น'
-    errCommonPaymentAmountNotFound = 'กรุณากรอกค่าส่วนกลาง'
-    errCommonPaymentAmountProhibitSpecial = 'ค่าส่วนกลางห้ามมีอักขระพิเศษ หรือช่องว่าง'
-    errCommonPaymentAmountNotNumber = 'ค่าส่วนกลาง ต้องเป็นตัวเลขเท่านั้น'
-    errCommonFeeNotInBase = 'ไม่พบข้อมูลค่าส่วนกลางในระบบ'
-    errCommonFeeIDNotFound = 'ไม่พบรหัสข้อมูลค่าส่วนกลาง'
-    errCommonFeeIDProhibitSpecial  = 'รหัสข้อมูลค่าส่วนกลาง ห้ามมีอักขระพิเศษ หรือช่องว่าง'
-    errCommonFeeNotNumber = 'รหัสข้อมูลส่วนกลาง ต้องเป็นตัวเลขเท่านั้น'
+    errCommonPaymentAmountNotFound = 'กรุณากรอกค่าใช้จ่ายของลูกบ้าน'
+    errCommonPaymentAmountProhibitSpecial = 'ค่ค่าใช้จ่ายของลูกบ้าน ห้ามมีอักขระพิเศษ หรือช่องว่าง'
+    errCommonPaymentAmountNotNumber = 'ค่าใช้จ่ายของลูกบ้าน ต้องเป็นตัวเลขเท่านั้น'
+    errCommonFeeNotInBase = 'ไม่พบข้อมูลค่าใช้จ่ายของลูกบ้านในระบบ'
+    errCommonFeeIsPaymented = 'รายการค่าใช้จ่าย ถูกชำระเงินแล้ว'
+    errCommonFeeIDNotFound = 'ไม่พบรหัสข้อมูลค่าค่าใช้จ่ายของลูกบ้าน'
+    errCommonFeeIDProhibitSpecial  = 'รหัสข้อมูลค่าค่าใช้จ่ายของลูกบ้าน ห้ามมีอักขระพิเศษ หรือช่องว่าง'
+    errCommonFeeNotNumber = 'รหัสข้อมูลส่ค่าใช้จ่ายของลูกบ้าน ต้องเป็นตัวเลขเท่านั้น'
+    errCommonFeeCodeNotFound = 'ไม่พบรหัสข้อมูลค่าค่าใช้จ่ายของลูกบ้าน'
+    errCommonFeeCodeProhibitSpecial = 'รหัสข้อมูลค่าค่าใช้จ่ายของลูกบ้าน ห้ามมีอักขระพิเศษ หรือช่องว่าง'
+    errCommonFeeCodeNotNumber = 'รหัสข้อมูลส่ค่าใช้จ่ายของลูกบ้าน ต้องเป็นตัวเลขเท่านั้น'
 
     errSearchTypeNotFound = 'ไม่พบประเภทการค้นหา'
     errSearchTpyeProhibitSpecial = 'ประเภทการค้นหา ห้ามมีอักขระพิเศษ หรือช่องว่าง'
 
-}
+    errCPMIDNotFound = 'ไม่พบรหัส cpm id'
+    errCPMIDProhibitSpecial = 'cpm id ห้ามมีอักขระพิเศษ หรือช่องว่าง'
+    errCPMIDNotNumber = 'cpm id ต้องเป็นตัวเลขเท่านั้น'
+    errCPMNotInbase = 'ไม่พบ Calculate Master ในระบบ'
+
+    errCPMNameThNotFound = 'กรุณากรอกชื่อการคำนวณ Master (ภาษาไทย)'
+    errCPMNameThProhitbitSpecial = 'ชื่อการคำนวณ Master ห้ามมีอักขระพิเศษ (ภาษาไทย)'
+    errCPMNameEnNotFound = 'กรุณากรอกชื่อการคำนวณ Master (ภาษาอังกฤษ)'
+    errCPMNameEnProhitbitSpecial = 'ชื่อการคำนวณ Master ห้ามมีอักขระพิเศษ (ภาษาอังกฤษ)'
+    errCPMDayTypeNotFound = 'ไม่พบประเภทของวัน Master'
+    errCPMDayTypeProhitbitSpecial = 'ประเภทของวัน Master ห้ามมีอักขระพิเศษ หรือช่องว่าง'
+    errCPMOverNightStatusNotFound = 'ไม่พบสถานะการปรับค้างคืน'
+    errCPMOverNightStatusProhitbitSpecial = 'สถานะการปรับค้างคืน ห้ามมีอักขระพิเศษ หรือช่องว่าง'
+    errCPMFineAmountNotFound = 'กรุณากรอกค่าปรับค้างคืน'
+    errCPMFineAmountProhitbitSpecial = 'ค่าปรับค้างคืน ห้ามมีอักขระพิเศษ หรือช่องว่าง'
+    errCPMFineAmountNotNumber = 'ค่าปรับค้างคืนต้องเป็นตัวเลขเท่านั้น'
+
+    errPaymentEventIdNotFound = 'ไม่พบรหัสการจ่ายเงิน'
+    errPaymentEventIdProhibitSpecial = 'รหัสการจ่ายเงิน ห้ามมีอักขระพิเศษ หรือช่องว่าง'
+    errPaymentEventIdNotNumber = 'รหัสการจ่ายเงิน ต้องเป็นตัวเลขเท่านั้น'
+    errPaymentEventIdNotInbase = 'ไม่พบรหัสการจ่ายเงินในระบบ'
+
+    errPaymentCommonFeeIdNotFound = 'ไม่พบรหัสรายการชำระเงินค่าใช้จ่าย'
+    errPaymentCommonFeeIdProhibitSpecial = 'รหัสรายการชำระเงินค่าใช้จ่าย ห้ามมีอักขระพิเศษ หรือช่องว่าง'
+    errPaymentCommonFeeIdNotNumber = 'รหัสรายการชำระเงินค่าใช้จ่าย ต้องเป็นตัวเลขเท่านั้น'
+    errPaymentCommonFeeIdNotInbase = 'ไม่พบรหัสรายการชำระเงินค่าใช้จ่ายในระบบ'
+    errPaymentCommonFeeIdNotInbaseOrPaymented = 'ไม่พบรหัสรายการชำระเงินค่าใช้จ่ายในระบบ หรือถูกอนุมัติไปแล้ว'
+    errPaymentCommonFeeIsPaymented = 'รายการชำระเงินนี้ ถูกอนุมัติ หรือยกเลิกไปแล้ว'
+
+    errVillagerPaymentAmountNotFound = 'ไม่พบจำนวนเงินที่ชำระ'
+    errVillagerPaymentAmountProhibitSpecial = 'จำนวนเงินที่ชำระ ห้ามมีอักขระพิเศษ หรือช่องว่าง'
+    errVillagerPaymentAmountNotNumber = 'จำนวนเงินที่ชำระ ต้องเป็นตัวเลขเท่านั้น'
+
+    errCarLicenseIdNotFound = 'ไม่พบรหัสรถของลูกบ้าน'
+    errCarLicenseIdProhitbitSpecial = 'รหัสรถลูกบ้าน ห้ามมีอักขระพิเศษ หรือช่องว่าง'
+    errCarLicenseIdNotNumber = 'รหัสรถลูกบ้าน ต้องเป็นตัวเลข'
+    errCarLicenseNotInBase = 'ไม่พบรถในระบบ'
+
+    errCarBrandProhibitSpecial = 'ยี่ห้อรถห้ามมีอักขระพิเศษ'
+    errHomeCarNotInBase = 'ไม่พบข้อมูลรถลูกบ้านในระบบ'
+    errHomeCarIdNotFound = 'ไม่พบรหัสข้อมูลรถของลูกบ้าน'
+    errHomeCarIdProhitbitSpecial = 'รหัสข้อมูลรถลูกบ้าน ห้ามมีอักขระพิเศษ หรือช่องว่าง'
+    errHomeCarIdNotNumber = 'รหัสข้อมูลรถลูกบ้าน ต้องเป็นตัวเลขเท่านั้น'
+}   

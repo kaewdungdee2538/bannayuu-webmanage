@@ -2,7 +2,8 @@ import * as config from './config.json'
 const ApiRoute ={
     main_url:config.config.url_hosting,
     socket_url:config.config.url_socket_hosting,
-    image_url:config.config.url_image,
+    image_line_url:config.config.url_image_line,
+    image_payment_url:config.config.url_image_payment,
     image_web_url:config.config.url_web_image,
     port:config.config.url_port,
     login:{
@@ -68,14 +69,31 @@ const ApiRoute ={
         ,get_sos_info_all_history_url:'/webbannayuu/api/sos/get-all-history'
         ,save_sos_corporate_receive_url:'/webbannayuu/api/sos/corporate-receive'
         ,save_sos_corporate_reject_url:'/webbannayuu/api/sos/corporate-reject'
-    },commonfee:{
-        get_common_fee_not_pay_url:'/webbannayuu/api/common-fee/get-common-fee-nopay'
-        ,get_common_fee_get_by_id_url:'/webbannayuu/api/common-fee/get-common-fee-byid'
-        ,get_common_fee_get_by_id_history_url:'/webbannayuu/api/common-fee/get-common-fee-byid-history'
-        ,get_common_fee_history_url:'/webbannayuu/api/common-fee/get-common-fee-history'
-        ,add_common_fee_url:'/webbannayuu/api/common-fee/add-common-fee'
-        ,edit_common_fee_url:'/webbannayuu/api/common-fee/edit-common-fee'
-        ,cancel_common_fee_url:'/webbannayuu/api/common-fee/cancel-common-fee'
+    },villager_cost:{
+        get_villager_cost_not_pay_url:'/webbannayuu/api/villager-cost/get-villager-cost-nopay'
+        ,get_villager_cost_get_by_id_url:'/webbannayuu/api/villager-cost/get-villager-cost-byid'
+        ,get_villager_cost_get_by_id_history_url:'/webbannayuu/api/villager-cost/get-villager-cost-byid-history'
+        ,get_villager_cost_history_url:'/webbannayuu/api/villager-cost/get-villager-cost-history'
+        ,add_villager_cost_url:'/webbannayuu/api/villager-cost/add-villager-cost'
+        ,edit_villager_cost_url:'/webbannayuu/api/villager-cost/edit-villager-cost'
+        ,cancel_villager_cost_url:'/webbannayuu/api/villager-cost/cancel-villager-cost'
+    },payment_event:{
+        get_payment_event_all_url:'/webbannayuu/api/payment-event/getall'
+        ,get_payment_workflow_all_url:'/webbannayuu/api/workflow/getpayment'
+    },villager_payment:{
+        get_villager_payment_all_url:'/webbannayuu/api/payment-management/get-management'
+        ,get_villager_payment_by_id_url:'/webbannayuu/api/payment-management/get-management-by-id'
+        ,get_villager_payment_history_all_url:'/webbannayuu/api/payment-history/get-history'
+        ,get_villager_payment_history_by_id_url:'/webbannayuu/api/payment-history/get-history-by-id'
+        ,save_villager_payment_approve_url:'/webbannayuu/api/payment-management/approve-payment'
+        ,save_villager_payment_cancel_url:'/webbannayuu/api/payment-management/reject-payment'
+        
+    },license:{
+        get_license_by_home_id_url:'/webbannayuu/api/car/get-byhome'
+        ,get_license_by_home_car_id_url:'/webbannayuu/api/car/get-bycarid'
+        ,add_license_by_home_id_url:'/webbannayuu/api/car/add-byhome'
+        ,save_edit_license_url:'/webbannayuu/api/car/edit-info'
+        ,save_edit_license_home_change_url:'/webbannayuu/api/car/edit-home-change'
     }
 }
 export default ApiRoute;

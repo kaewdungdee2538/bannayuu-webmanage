@@ -5,7 +5,7 @@ export default function MainForm(props) {
     const history = useHistory();
     const authStore = useSelector(state => state)
     if (!authStore.authorization) {
-        history.push("/");
+        history.push("/login");
     }
     return (
         <div className="main-form">

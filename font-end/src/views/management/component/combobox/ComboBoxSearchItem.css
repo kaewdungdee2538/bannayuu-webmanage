@@ -6,6 +6,15 @@
     display: none;
 }
 .item-combobox{
-    max-height: 450px;
+    max-height: 400px;
     overflow-y: auto;
+}
+.dropdown-menu{
+    background-color: rgb(243, 243, 243);
+}
+.btn-drop{
+    width: 100%;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
 }

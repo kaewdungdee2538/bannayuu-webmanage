@@ -1,0 +1,32 @@
+.form--footer{
+    display: flex;
+    justify-content: flex-end;
+}
+
+.modal-header-edit{
+    background-color: rgba(50,31,229);
+    color: white;
+}
+
+.modal-input-disable{
+    color: gray;
+}
+.btn-modal-footer{
+    margin-left: 15px;
+    min-width: 90px;
+}
+.modal-footer{
+    display: flex;
+    justify-content: space-between;
+}
+.btn-icon-footer{
+    font-size: 13px;
+    margin: 0 5px;
+}
+
+@media screen and (max-width: 600px) {
+    .btn-modal-footer{
+        margin: 5px 0;
+        min-width: 90px;
+    }
+}

@@ -23,7 +23,7 @@ export class ImageService {
             //     message: this.errMessage.errImageGetFail,
             //     statusCode: 200
             // },200);
-            const image_default =join(__dirname, '../..', 'public\\images\\img_default.png');
+            const image_default =join(__dirname, '../../..', 'public\\images\\img_default.png');
             console.log('Not Image');
             console.log(image_default);
             const data = fs.readFileSync(image_default);

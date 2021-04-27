@@ -1,6 +1,7 @@
 import React from 'react';
 
 const page404 = React.lazy(() => import('./views/pages/page404/Page404'))
+const page500 = React.lazy(() => import('./views/pages/page500/Page500'))
 
 // const Toaster = React.lazy(() => import('./views/notifications/toaster/Toaster'));
 // const Tables = React.lazy(() => import('./views/base/tables/Tables'));
@@ -58,12 +59,17 @@ const UserProfileMain = React.lazy(()=>import('./views/management/profile/main/U
 const SosMainInfo = React.lazy(()=>import('./views/management/sos/main/info/Sos-main-info'))
 const SosHistoryInfo = React.lazy(()=>import('./views/management/sos/history/info/Sos-history-info'))
 const ParcelChangeSendMain = React.lazy(()=>import('./views/management/parcel/change-send/main/Parcel-change-send-main'))
-const CommonFeeManagementMain = React.lazy(()=>import('./views/management/common-fee/management/main/Common-fee-management-main'))
-const CommonFeeManagementHistory = React.lazy(()=>import('./views/management/common-fee/history/main/Common-fee-history-main'))
+const CommonFeeManagementMain = React.lazy(()=>import('./views/management/villager-cost/management/main/Common-fee-management-main'))
+const CommonFeeManagementHistory = React.lazy(()=>import('./views/management/villager-cost/history/main/Common-fee-history-main'))
 const LicenseMain = React.lazy(()=>import('./views/management/license/main/License-main'))
+const VillagerPaymentMain = React.lazy(()=>import('./views/management/villager-payment/management/main/Villager-payment-main'))
+const VillagerPaymentHistoryMain = React.lazy(()=>import('./views/management/villager-payment/history/main/Villager-payment-history-main'))
 const routes = [
+  { path: '/', exact: true, name: 'Home',component:MainForm },
   { path: '/main', exact: true, name: 'Home',component:MainForm },
   { path: '/page404', name: 'Not Found', component: page404 },
+  { path: '/page500', name: 'Internal Server Error', component: page500 },
+  
   // { path: '/dashboard', name: 'Dashboard', component: Dashboard },
   // { path: '/theme', name: 'Theme', component: Colors, exact: true },
   // { path: '/theme/colors', name: 'Colors', component: Colors },
@@ -120,10 +126,12 @@ const routes = [
   { path: '/user-profile', exact: true, name: 'User Profile', component: UserProfileMain }, 
   { path: '/sos', exact: true, name: 'Sos', component: SosMainInfo }, 
   { path: '/sos-history', exact: true, name: 'Sos History', component: SosHistoryInfo },
-  { path: '/commonfee-management', exact: true, name: 'Common fee management', component: CommonFeeManagementMain }, 
-  { path: '/commonfee-history', exact: true, name: 'Common fee history', component: CommonFeeManagementHistory }, 
-  { path: '/home-licenseplate', exact: true, name: 'Home license plate', component: LicenseMain },     
-  
+  { path: '/villager-cost-management', exact: true, name: 'Villager cost management', component: CommonFeeManagementMain }, 
+  { path: '/villager-cost-history', exact: true, name: 'Villager cost history', component: CommonFeeManagementHistory }, 
+  { path: '/home-licenseplate', exact: true, name: 'Home license plate', component: LicenseMain }, 
+  { path: '/villager-payment-management', exact: true, name: 'Villager payment', component: VillagerPaymentMain }, 
+  { path: '/villager-payment-history', exact: true, name: 'Villager history', component: VillagerPaymentHistoryMain },                 
+  { path: '*', name: 'Not Found', component: page404 },
 ];
 
 export default routes;

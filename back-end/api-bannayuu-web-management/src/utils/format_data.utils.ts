@@ -81,8 +81,35 @@ export class FormatDataUtils {
     async IsDateTimeFormat(input: string) {
         try {
             const isdata = moment(input, "YYYY-MM-DD HH:mm:ss").isValid();
-            console.log('IsDateTimeFormat : '+isdata)
+            console.log('IsDateTimeFormat : ' + isdata)
             return isdata;
+        } catch (err) {
+            console.log(err);
+            return false;
+        }
+    }
+
+    async IsTimeFormat(input: string) {
+        try {
+            const isdata = moment(input, "HH:mm:ss").isValid();
+            console.log('IsTimeFormat : ' + isdata)
+            return isdata;
+        } catch (err) {
+            console.log(err);
+            return false;
+        }
+    }
+
+    async IsTimeStartOverTimeEnd(inputStart: string, inputEnd: string) {
+        try {
+            const dateStart = moment(inputStart, "HH:mm:ss");
+            const dateEnd = moment(inputEnd, "HH:mm:ss");
+            if (dateStart > dateEnd) {
+                console.log('IsTimeStartOverTimeEnd : true');
+                return true;
+            }
+            console.log('IsTimeStartOverTimeEnd : false');
+            return false;
         } catch (err) {
             console.log(err);
             return false;

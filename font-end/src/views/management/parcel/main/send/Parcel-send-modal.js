@@ -59,7 +59,7 @@ const ParcelSendModal = ({ showEditModal, setShowEditModal, setRefeshForm, selec
                 })
                 .catch((err) => {
                     console.log(err);
-                    history.push("/page404");
+                    history.push("/page500");
                 })
                 .finally((value) => {
                     document.body.style.cursor = "default";
@@ -114,7 +114,7 @@ const ParcelSendModal = ({ showEditModal, setShowEditModal, setRefeshForm, selec
             }
         }).catch(err => {
             console.log(err);
-            history.push("/page404");
+            history.push("/page500");
         }).finally(value => {
             document.body.style.cursor = 'default';
             setShowLoading(false);
@@ -178,7 +178,7 @@ const ParcelSendModal = ({ showEditModal, setShowEditModal, setRefeshForm, selec
             }
         }).catch(err => {
             console.log(err);
-            history.push("/page404");
+            history.push("/page500");
         }).finally(value => {
             document.body.style.cursor = 'default';
             setShowLoading(false);

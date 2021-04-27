@@ -1,21 +1,27 @@
 import {
     CLabel,
+    CSelect,
 } from '@coreui/react'
-import { useHistory } from 'react-router-dom'
-import { useState } from 'react'
+import { useState, } from 'react'
 import './ComboBoxSearchItem.css'
 
+
 export default function ComboBoxSearchItem(props) {
-    const history = useHistory();
     const { title, text, placeholder, itemsArray, setText } = props;
     //-------------------------State
     const [itemsObj, setItemsObj] = useState(itemsArray)
     const [selectText, setSelectText] = useState(text)
     const [showComboBox, setShowComboxBox] = useState(false);
+
     //-------------------------on select item
     function onComboClick(event) {
         if (showComboBox) setShowComboxBox(false)
         else setShowComboxBox(true)
+    }
+    //--------------------------Close Combo box
+    function onCloseCombobox(event) {
+        setShowComboxBox(false);
+        setSelectText(selectText);
     }
     //----------------------------show combobox
     let elemShowComboBox = showComboBox ? 'show-combobox' : 'hide-combobox';
@@ -32,7 +38,8 @@ export default function ComboBoxSearchItem(props) {
                         className="dropdown-item"
                         defaultValue={item.value}
                         cb_id={item.id}
-                        onClick={onClickSelectItemCombobox} />
+                        onClick={onClickSelectItemCombobox}
+                    />
                 )
             })
         }
@@ -48,6 +55,7 @@ export default function ComboBoxSearchItem(props) {
             id: event.target.getAttribute('cb_id'),
             value: event.target.value
         })
+
     }
     //-----------------------------On filter
     function onChangeFilter(event) {
@@ -59,20 +67,20 @@ export default function ComboBoxSearchItem(props) {
     return (
         <div key={Date.now}>
             <CLabel>{title}</CLabel>
-            <div className="dropdown">
-                <button className="btn btn-secondary dropdown-toggle" type="button" id="dropdown_coins" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false"
-                    onClick={onComboClick}>
+            <div className="dropdown" >
+                <button className="btn btn-secondary dropdown-toggle btn-drop" type="button" id="dropdown_coins" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false"
+                    onClick={onComboClick} 
+                >
                     {selectText.value}
                 </button>
                 <div id="menu" className={`dropdown-menu ${elemShowComboBox}`} aria-labelledby="dropdown_coins">
-                    <form className="px-4 py-2">
+                    <form className="px-4 py-2" >
                         <input type="search" className="form-control" id="searchCoin"
                             placeholder={placeholder}
-                            // autofocus="autofocus" 
                             onChange={onChangeFilter}
                         />
                     </form>
-                    <div id="menuItems" className="item-combobox">{itemsElem}</div>
+                    <div id="menuItems" className="item-combobox" onBlur={onCloseCombobox}>{itemsElem}</div>
                     <div id="empty" className="dropdown-header">{!itemsArray ? "Items not found" : ""}</div>
                 </div>
             </div>

@@ -10,7 +10,7 @@ import { useHistory } from 'react-router-dom'
 import LoadingModal from '../../component/loading/LoadingModal'
 import store, { disAuthenticationLogin } from '../../../../store'
 import LicenseHome from '../home/License-home'
-import LicenseLicense from '../license/License-license'
+import LicenseLicense from '../license/main/License-license'
 const LicenseMain = () => {
     const history = useHistory();
     const authStore = useSelector(store => store);
@@ -18,6 +18,7 @@ const LicenseMain = () => {
     const [showLoading, setShowLoading] = useState(false);
     const [showHomeForm, setShowHomeForm] = useState(true);
     const [showLicenseForm, setShowLicenseForm] = useState(false);
+    
     //-------------------Show loading spiner
     useEffect(()=>{
 

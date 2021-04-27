@@ -92,8 +92,7 @@ export default function ComplaintNotApproveModal(props) {
                             , home_address: !result.home_address ? "" : result.home_address
                         });
                         //----------------Set image path
-                        const image_url = ApiRoute.image_url + result.img_complaint;
-                        console.log(image_url)
+                        const image_url = ApiRoute.image_line_url + result.img_complaint;
                         setImageComplaint(image_url);
                     } else if (res.statusCode === 401) {
                         isNotAuth = res.error
@@ -101,7 +100,7 @@ export default function ComplaintNotApproveModal(props) {
                 })
                 .catch((err) => {
                     console.log(err);
-                    history.push("/page404");
+                    history.push("/page500");
                 })
                 .finally((value) => {
                     document.body.style.cursor = "default";
@@ -155,7 +154,7 @@ export default function ComplaintNotApproveModal(props) {
                     }
                 }).catch(err => {
                     console.log(err)
-                    history.push('/page404')
+                    history.push('/page500')
                 }).finally(value => {
                     document.body.style.cursor = 'default';
                     if (isNotAuth) {
@@ -215,7 +214,7 @@ export default function ComplaintNotApproveModal(props) {
                     }
                 }).catch(err => {
                     console.log(err)
-                    history.push('/page404')
+                    history.push('/page500')
                 }).finally(value => {
                     document.body.style.cursor = 'default';
                     if (isNotAuth) {

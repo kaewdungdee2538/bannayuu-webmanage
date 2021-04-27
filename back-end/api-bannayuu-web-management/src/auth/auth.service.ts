@@ -49,7 +49,7 @@ export class AuthService {
             const payload = { employee: response.result[0] };
             console.log(payload);
             const access_token = this.jwtService.sign(
-                payload, { expiresIn: '1d' })
+                payload, { expiresIn: '30 days' })
             console.log('login : ' + JSON.stringify(payload) + 'access_token : ' + access_token);
             throw new StatusException({
                 error: null,
