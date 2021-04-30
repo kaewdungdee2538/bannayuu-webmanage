@@ -1,227 +1,39 @@
 import React from 'react'
 import CIcon from '@coreui/icons-react'
-import { OuanIcon } from './function/OuanIcon'
-const _nav = [
-  // {
-  //   _tag: 'CSidebarNavItem',
-  //   name: 'Dashboard',
-  //   to: '/dashboard',
-  //   icon: <CIcon name="cil-speedometer" customClasses="c-sidebar-nav-icon" />,
-  // },
-  {
-    _tag: 'CSidebarNavTitle',
-    _children: ['e-stamp management']
-  }, {
-    _tag: 'CSidebarNavDropdown',
-    name: 'ตราประทับ',
-    route: '/icons',
-    icon: <OuanIcon name="FaStamp" />,
-    _children: [
-      {
-        _tag: 'CSidebarNavItem',
-        name: 'ประทับตราผู้มาเยือน',
-        route: '/icons',
-        to: '/estamp',
-      },
-      {
-        _tag: 'CSidebarNavItem',
-        name: 'เปลี่ยนบ้านให้ผู้มาเยือน',
-        route: '/icons',
-        to: '/estamp-home-change',
-      }, {
-        _tag: 'CSidebarNavItem',
-        name: 'ประวัติ',
-        route: '/icons',
-        to: '/estamp-history',
-      },
-    ]
-  },
-  {
-    _tag: 'CSidebarNavTitle',
-    _children: ['parcel management']
-  }, {
-    _tag: 'CSidebarNavDropdown',
-    name: 'พัสดุ',
-    route: '/icons',
-    icon: <OuanIcon name="FaDollyFlatbed" />,
-    _children: [
-      {
-        _tag: 'CSidebarNavItem',
-        name: 'รับ-ส่งพัสดุให้ลูกบ้าน',
-        route: '/icons',
-        to: '/parcel',
-      },
-      {
-        _tag: 'CSidebarNavItem',
-        name: 'ยกเลิกส่ง-เปลี่ยนบ้าน',
-        route: '/icons',
-        to: '/parcel-change',
-      },
-      {
-        _tag: 'CSidebarNavItem',
-        name: 'ประวัติการรับ-ส่งพัสดุ',
-        route: '/icons',
-        to: '/parcel-history',
-      },
-    ]
-  },
-  {
-    _tag: 'CSidebarNavTitle',
-    _children: ['home management']
-  },
-  {
-    _tag: 'CSidebarNavDropdown',
-    name: 'หมู่บ้าน',
-    route: '/icons',
-    icon: <OuanIcon name="FaHome" />,
-    _children: [
-      {
-        _tag: 'CSidebarNavItem',
-        name: 'บ้าน',
-        route: '/icons',
-        to: '/home',
-      },
-      {
-        _tag: 'CSidebarNavItem',
-        name: 'จัดการลูกบ้าน',
-        route: '/icons',
-        to: '/villager'
-      },
-    ]
-  },
-  {
-    _tag: 'CSidebarNavDropdown',
-    name: 'ทะเบียนรถลูกบ้าน',
-    route: '/icons',
-    icon: <OuanIcon name="FaCar" />,
-    _children: [
-      {
-        _tag: 'CSidebarNavItem',
-        name: 'จัดการทะเบียนรถ',
-        route: '/icons',
-        to: '/home-licenseplate',
-      },
-    ]
-  },
-  {
-    _tag: 'CSidebarNavTitle',
-    _children: ['payment management']
-  },
-  {
-    _tag: 'CSidebarNavDropdown',
-    name: 'เรียกเก็บค่าใช้จ่ายลูกบ้าน',
-    route: '/icons',
-    icon: <OuanIcon name="FaCity" />,
-    _children: [
-      {
-        _tag: 'CSidebarNavItem',
-        name: 'จัดการ',
-        route: '/icons',
-        to: '/villager-cost-management',
-      },
-      {
-        _tag: 'CSidebarNavItem',
-        name: 'ประวัติ',
-        route: '/icons',
-        to: '/villager-cost-history'
-      },
-    ]
-  },
-  {
-    _tag: 'CSidebarNavDropdown',
-    name: 'การจ่ายเงิน',
-    route: '/icons',
-    icon: <OuanIcon name="FaRegMoneyBillAlt" />,
-    _children: [
-      {
-        _tag: 'CSidebarNavItem',
-        name: 'ตรวจสอบการโอนเงิน',
-        route: '/icons',
-        to: '/villager-payment-management',
-      },
-      {
-        _tag: 'CSidebarNavItem',
-        name: 'ประวัติ',
-        route: '/icons',
-        to: '/villager-payment-history'
-      },
-    ]
-  },
-  {
-    _tag: 'CSidebarNavTitle',
-    _children: ['complaint management'],
-  },
-  {
-    _tag: 'CSidebarNavDropdown',
-    name: 'จัดการการคำร้องเรียน',
-    icon: <OuanIcon name="FaBullhorn" />,
-    _children: [
-      {
-        _tag: 'CSidebarNavItem',
-        name: 'ยังไม่ได้ตรวจสอบ',
-        route: '/icons',
-        to: '/complaint-not-apprive',
-      },
-      {
-        _tag: 'CSidebarNavItem',
-        name: 'กำลังดำเนินการ',
-        route: '/icons',
-        to: '/complaint-receipt',
-      },
-      {
-        _tag: 'CSidebarNavItem',
-        name: 'เรียบร้อย และยกเลิก',
-        route: '/icons',
-        to: '/complaint-success',
-      },
-    ]
-  },
-  {
-    _tag: 'CSidebarNavTitle',
-    _children: ['announce management'],
-  },
-  {
-    _tag: 'CSidebarNavDropdown',
-    name: 'ประกาศโครงการ',
-    icon: <OuanIcon name="FaScroll" />,
-    _children: [
-      {
-        _tag: 'CSidebarNavItem',
-        name: 'จัดการ',
-        route: '/icons',
-        to: '/annouce',
-      },
-      {
-        _tag: 'CSidebarNavItem',
-        name: 'ประวัติ',
-        route: '/icons',
-        to: '/annouce-history',
-      },
-    ]
-  },
-  {
-    _tag: 'CSidebarNavTitle',
-    _children: ['sos management'],
-  },
-  {
-    _tag: 'CSidebarNavDropdown',
-    name: 'แจ้งเตือนฉุกเฉิน',
-    icon: <OuanIcon name="FaSms" />,
-    _children: [
-      {
-        _tag: 'CSidebarNavItem',
-        name: 'จัดการ',
-        route: '/icons',
-        to: '/sos',
-      },
-      {
-        _tag: 'CSidebarNavItem',
-        name: 'ประวัติ',
-        route: '/icons',
-        to: '/sos-history',
-      },
-    ]
-  },
-]
+import OuanIcon from './function/OuanIcon'
+import { nav_estamp_head, nav_estamp_item } from './nav/nav_estamp'
+import { nav_parcel_head, nav_parcel_item } from './nav/nav_parcel'
+import { nav_home_head, nav_home_item, nav_villager_item } from './nav/nav_home'
+import { nav_payment_head, nav_payment_corporate_item, nav_payment_villager_item } from './nav/nav_payment'
+import { nav_complaint_head, nav_complaint_item } from './nav/nav_complaint'
+import { nav_announce_head, nav_announce_item } from './nav/nav_announce'
+import { nav_sos_head, nav_sos_item } from './nav/nav_sos'
+import { nav_parking_head, nav_parking_item } from './nav/nav_parking'
+const _nav = []
+// {
+//   _tag: 'CSidebarNavItem',
+//   name: 'Dashboard',
+//   to: '/dashboard',
+//   icon: <CIcon name="cil-speedometer" customClasses="c-sidebar-nav-icon" />,
+// },
+_nav.push(nav_estamp_head)
+_nav.push(nav_estamp_item)
+_nav.push(nav_parcel_head)
+_nav.push(nav_parcel_item)
+_nav.push(nav_home_head)
+_nav.push(nav_home_item)
+_nav.push(nav_villager_item)
+_nav.push(nav_payment_head)
+_nav.push(nav_payment_corporate_item)
+_nav.push(nav_payment_villager_item)
+_nav.push(nav_sos_head)
+_nav.push(nav_sos_item)
+_nav.push(nav_parking_head)
+_nav.push(nav_parking_item)
+_nav.push(nav_complaint_head)
+_nav.push(nav_complaint_item)
+_nav.push(nav_announce_head)
+_nav.push(nav_announce_item)
+
 
 export default _nav

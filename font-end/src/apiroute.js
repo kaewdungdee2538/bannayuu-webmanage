@@ -94,6 +94,8 @@ const ApiRoute ={
         ,add_license_by_home_id_url:'/webbannayuu/api/car/add-byhome'
         ,save_edit_license_url:'/webbannayuu/api/car/edit-info'
         ,save_edit_license_home_change_url:'/webbannayuu/api/car/edit-home-change'
+    },parking:{
+        get_parking_master_all_url:'/webbannayuu/api/parking-config-master/get-all'
     }
 }
 export default ApiRoute;

@@ -21,6 +21,9 @@ import { PaymentEventModule } from './controllers/setting-app/payment-event/paym
 import { PaymentHistoryModule } from './controllers/payment/payment-history/payment-history.module';
 import { PaymentManagementModule } from './controllers/payment/payment-management/payment-management.module';
 import { CarModule } from './controllers/car/car.module';
+import { ParkingConfigMasterModule } from './controllers/parking-config/parking-config-master/parking-config-master.module';
+import { ParkingConfigHeaderModule } from './controllers/parking-config/parking-config-header/parking-config-header.module';
+import { ParkingConfigSubModule } from './controllers/parking-config/parking-config-sub/parking-config-sub.module';
 
 @Module({
   imports: [
@@ -43,6 +46,9 @@ import { CarModule } from './controllers/car/car.module';
     ,PaymentHistoryModule
     ,PaymentManagementModule
     ,CarModule
+    ,ParkingConfigMasterModule
+    ,ParkingConfigHeaderModule
+    ,ParkingConfigSubModule
   ],
   controllers: [AppController],
   providers: [

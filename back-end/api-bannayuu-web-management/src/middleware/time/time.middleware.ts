@@ -1,6 +1,5 @@
 import { Injectable, NestMiddleware } from '@nestjs/common';
 import { Request, Response } from 'express';
-import { dbConnection } from 'src/pg_database/pg.database';
 import { ErrMessageUtilsTH } from 'src/utils/err_message_th.utils';
 import { FormatDataUtils } from 'src/utils/format_data.utils';
 import * as moment from 'moment'; 
@@ -37,11 +36,9 @@ export class TimeMiddleware implements NestMiddleware {
             return this.errMessageUrilTh.errTimeEndNotTimeFormat
         else if(moment(body.start_date)>moment(body.end_date))
             return this.errMessageUrilTh.errTimeStartOverTimeEnd;
-        else if(moment(body.end_date).diff(moment(body.start_date),'days') > 30)
-            return this.errMessageUrilTh.errTimeSearchOver30Days;
+        else if(moment(body.end_date).diff(moment(body.start_date),'days') > 31)
+            return this.errMessageUrilTh.errTimeSearchOver31Days;
         return null;
     }
-
-  
 };
 

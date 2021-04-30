@@ -51,7 +51,6 @@ const Login = () => {
     axios.post(`${ApiRoute.main_url}${ApiRoute.port}${ApiRoute.login.login_url}`
       , user)
       .then(res => {
-        console.log(res.data)
         const response = res.data.response
         if (response.error) {
           swal({

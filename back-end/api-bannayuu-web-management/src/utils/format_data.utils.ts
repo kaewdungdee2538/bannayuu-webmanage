@@ -92,7 +92,7 @@ export class FormatDataUtils {
     async IsTimeFormat(input: string) {
         try {
             const isdata = moment(input, "HH:mm:ss").isValid();
-            console.log('IsTimeFormat : ' + isdata)
+            console.log('IsTimeFormat : ' + input + isdata)
             return isdata;
         } catch (err) {
             console.log(err);
@@ -114,5 +114,37 @@ export class FormatDataUtils {
             console.log(err);
             return false;
         }
+    }
+
+    async checkDayType(day_type: string) {
+        switch (day_type) {
+            case "N":
+                return true;
+            case "SPECIAL":
+                return true;
+            case "WEEKEND":
+                return true;
+            case "HOLIDAY":
+                return true;
+            default:
+                return false;
+        }
+    }
+
+    async isTimeStartOverTimeStop(time_start: string, time_stop: string) {
+        const Start = moment(time_start,'HH:mm:ss');
+        const Stop = moment(time_stop,'HH:mm:ss');
+        if (Start > Stop)
+            return true;
+        return false;
+    }
+
+
+    async isTimeStartOverOrEqualTimeStop(time_start: string, time_stop: string) {
+        const Start = moment(time_start,'HH:mm:ss');
+        const Stop = moment(time_stop,'HH:mm:ss');
+        if (Start > Stop)
+            return true;
+        return false;
     }
 }

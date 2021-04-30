@@ -160,7 +160,7 @@ function SosHistoryInfo() {
         <CCard>
             {loadingmodal}
             {showModal}
-            <CCardHeader className="form-head-parcel">ประวัติแจ้งเตือนฉุกเฉิน</CCardHeader>
+            <CCardHeader className="form-head-sos">ประวัติแจ้งเตือนฉุกเฉิน</CCardHeader>
             <CCardBody>
                 <CCol xs="12" lg="12">
                     <CCard>

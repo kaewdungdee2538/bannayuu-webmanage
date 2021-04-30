@@ -64,6 +64,7 @@ const CommonFeeManagementHistory = React.lazy(()=>import('./views/management/vil
 const LicenseMain = React.lazy(()=>import('./views/management/license/main/License-main'))
 const VillagerPaymentMain = React.lazy(()=>import('./views/management/villager-payment/management/main/Villager-payment-main'))
 const VillagerPaymentHistoryMain = React.lazy(()=>import('./views/management/villager-payment/history/main/Villager-payment-history-main'))
+const ParkingMain = React.lazy(()=>import('./views/management/parking/main/Parking-main'))
 const routes = [
   { path: '/', exact: true, name: 'Home',component:MainForm },
   { path: '/main', exact: true, name: 'Home',component:MainForm },
@@ -130,7 +131,8 @@ const routes = [
   { path: '/villager-cost-history', exact: true, name: 'Villager cost history', component: CommonFeeManagementHistory }, 
   { path: '/home-licenseplate', exact: true, name: 'Home license plate', component: LicenseMain }, 
   { path: '/villager-payment-management', exact: true, name: 'Villager payment', component: VillagerPaymentMain }, 
-  { path: '/villager-payment-history', exact: true, name: 'Villager history', component: VillagerPaymentHistoryMain },                 
+  { path: '/villager-payment-history', exact: true, name: 'Villager history', component: VillagerPaymentHistoryMain },  
+  { path: '/parking', exact: true, name: 'Parking Rate', component: ParkingMain },      
   { path: '*', name: 'Not Found', component: page404 },
 ];
 

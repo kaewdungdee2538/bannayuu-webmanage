@@ -11,9 +11,10 @@ import {
     FaStamp,
     FaSms,
     FaBullhorn,
+    FaParking,
 } from "react-icons/fa";
 import './OuanIcon.css'
-export const OuanIcon = (props) => {
+const OuanIcon = (props) => {
     const { name } = props
     const icon = iconName(name);
     return (
@@ -47,7 +48,11 @@ const iconName = (name) => {
             return <FaSms className="ouan-icon c-sidebar-nav-icon" />
         case 'FaBullhorn':
             return <FaBullhorn className="ouan-icon c-sidebar-nav-icon" />
+        case 'FaParking':
+            return <FaParking className="ouan-icon c-sidebar-nav-icon" />
         default:
             return <FaRegWindowClose className="ouan-icon c-sidebar-nav-icon" />
     }
 }
+
+export default OuanIcon;

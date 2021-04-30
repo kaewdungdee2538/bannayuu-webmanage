@@ -9,7 +9,7 @@ export default function MainForm(props) {
     }
     return (
         <div className="main-form">
-            <img src={'./image/logo-big.svg'} />
+            <img  src={'./image/logo-big.svg'} />
         </div>
     );
 }

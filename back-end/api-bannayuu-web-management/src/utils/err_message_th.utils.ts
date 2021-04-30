@@ -1,7 +1,7 @@
-export class ErrMessageUtilsTH{
+export class ErrMessageUtilsTH {
 
     messageSucceessEn = 'Success'
-    messageSuccess ='เรียบร้อย'
+    messageSuccess = 'เรียบร้อย'
     messageProcessFail = 'ล้มเหลว'
 
     errLoginUserOrPasswordNotValid = 'Username หรือ Password ไม่ถูกต้อง'
@@ -29,7 +29,7 @@ export class ErrMessageUtilsTH{
     errVisitorCartypeIDProhibitSpecail = 'รหัสประเภทรถห้ามมีอักขระพิเศษ'
     errVisitorCartypeIDNotNumber = 'รหัสประเภทรถต้องเป็นตัวเลขเท่านั้น'
     errVisitorCartypeNameContractionNotFound = 'ไม่พบอักษรย่อของประเภทรถ'
-    errVisitorCartypeNameContractionProhibitSpecial ='อักษรย่อของประเภทรถ ห้ามมีอักขระพิเศษหรือช่องว่าง'
+    errVisitorCartypeNameContractionProhibitSpecial = 'อักษรย่อของประเภทรถ ห้ามมีอักขระพิเศษหรือช่องว่าง'
     errVisitorCartypeNameThNotFound = 'ไม่พบประเภทรถ (ชื่อไทย)'
     errVisitorCartypeNameThProhibitSpecial = 'ประเภทรถ (ชื่อไทย) ห้ามมีอักขระพิเศษหรือช่องว่าง'
     errVisitorCartypeNameEnNotFound = 'ไม่พบประเภทรถ (ชื่ออังกฤษ)'
@@ -67,10 +67,10 @@ export class ErrMessageUtilsTH{
 
     errGetSlotVisitorNumberCompanyIDNotFound = 'ไม่พบ company id'
     errGetSlotVisitorNumberCompanyIDProhibitSpecial = 'company id ห้ามมีอักขระพิเศษหรือช่องว่าง'
-    errGetSlotVisitorNumberCompanyIDNotNumber ='company id ต้องเป็นตัวเลขเท่านั้น'
+    errGetSlotVisitorNumberCompanyIDNotNumber = 'company id ต้องเป็นตัวเลขเท่านั้น'
     errGetSlotVisitorNumberSlotNumberNotFound = 'ไม่พบเลข Slot'
     errGetSlotVisitorNumberSlotNumberProhibitSpecial = 'เลข Slot ห้ามมีอักขระพิเศษหรือช่องว่าง'
-    errGetSlotVisitorNumberSlotNumberNotNumber ='เลข Slot ต้องเป็นตัวเลขเท่านั้น'
+    errGetSlotVisitorNumberSlotNumberNotNumber = 'เลข Slot ต้องเป็นตัวเลขเท่านั้น'
     errGetSlotVisitorNumberIsFail = 'ค้นหา slot ล้มเหลว'
     errGetSlotVistiorNumberNotValue = 'ไม่พบ Slot ว่าง'
     errGetSlotVisitorNumberNotInDataBase = 'ไม่พบเลข slot ในระบบ'
@@ -82,7 +82,7 @@ export class ErrMessageUtilsTH{
     errVisitorSlotIdProhibitSpecial = 'record id ห้ามมีอักขระพิเศษ หรือช่องว่าง'
 
     errGetCardOrSlotNumberVisitor = 'กรุณาเลือกกรอกเลขบัตร หรือเลข slot อย่างใดอย่างหนึ่ง'
-    
+
     errGetHaveCardCodeAndCardName = 'กรุณาเลือกกรอกเลขบัตร หรือทาบบัตร อย่างใดอย่างหนึ่ง'
     errGetCardNotNumber = 'เลขบัตรต้องเป็นตัวเลขเท่านั้น'
     errGetCardProhibitSpecial = 'เลขบัตรห้ามมีอักขระพิเศษ หรือช่องว่าง'
@@ -94,7 +94,7 @@ export class ErrMessageUtilsTH{
     errVisitorRecordIDNotFound = 'ไม่พบรหัสอ้างอิง'
     errVisitorRecordInNotFound = 'ไม่พบข้อมูลขาเข้า'
 
-    
+
 
     errImageNotFound = 'ไม่พบรูปภาพ';
     errImageCardNotFound = 'ไม่พบรูปภาพหน้าบัตร'
@@ -111,7 +111,7 @@ export class ErrMessageUtilsTH{
     errGetCompanyIDNotFound = 'ไม่พบรหัส Company'
     errGetCompanyIDNotNumber = 'รหัส Company ต้องเป็นตัวเลขเท่านั้น'
     errGetCompanyIDProhibitSpecial = 'รหัส Company ห้ามมีอักขระพิเศษ หรือช่องว่าง'
-    
+
     errGetGuardhouseIDNotFound = 'ไม่พบรหัสป้อม'
     errGetGuardhouseIDNotNumber = 'รหัสป้อมต้องเป็นตัวเลขเท่านั้น'
     errGetGuardhouseIDProhibitSpecial = 'รหัสป้อม ห้ามมีอักขระพิเศษ หรือช่องว่าง'
@@ -128,7 +128,7 @@ export class ErrMessageUtilsTH{
 
     errImagePathNotFound = 'กรุณาใส่ Path รูปภาพ'
     errImageGetFail = 'ไม่พบรูปภาพที่ร้องขอ'
-    
+
     errAuthorizationNotFound = 'ไม่พบ Bearer Token สำหรับร้องขอข้อมูล'
 
     errPosIDNotFound = 'ไม่พบ pos id'
@@ -136,15 +136,15 @@ export class ErrMessageUtilsTH{
 
     errPriceOfCardlossNotFound = 'ไม่พบค่าปรับบัตรหาย'
     errPriceOfCardlossProhibitSpecial = 'ค่าปรับบัตรหายห้ามมีอักขระพิเศษ หรือช่องว่าง'
-    errPriceOfCardlossNotNumber  = 'ค่าปรับบัตรหายต้องเป็นตัวเลขเท่านั้น'
+    errPriceOfCardlossNotNumber = 'ค่าปรับบัตรหายต้องเป็นตัวเลขเท่านั้น'
 
     errCustomerPaymentNotFound = 'ไม่พบจำนวนเงินที่ลูกค้าชำระบริการ'
     errCustomerPaymentProhibitSpecial = 'จำนวนเงินที่ลูกค้าชำระบริการห้ามมีอักขระพิเศษ หรือช่องว่าง'
-    errCustomerPaymentNotNumber  = 'จำนวนเงินที่ลูกค้าชำระบริการต้องเป็นตัวเลขเท่านั้น'
+    errCustomerPaymentNotNumber = 'จำนวนเงินที่ลูกค้าชำระบริการต้องเป็นตัวเลขเท่านั้น'
 
     errChangeMoneyNotFound = 'ไม่พบจำนวนเงินทอน'
     errChangeMoneyProhibitSpecial = 'จำนวนเงินทอนห้ามมีอักขระพิเศษ หรือช่องว่าง'
-    errChangeMoneyNotNumber  = 'จำนวนเงินทอนต้องเป็นตัวเลขเท่านั้น'
+    errChangeMoneyNotNumber = 'จำนวนเงินทอนต้องเป็นตัวเลขเท่านั้น'
 
     errPaymentIncomplete = 'ชำระเงินไม่ครบถ้วน'
 
@@ -183,7 +183,7 @@ export class ErrMessageUtilsTH{
 
     errBookingGetError = 'ตรวจสอบ Booking Error กรุณาติดต่อเจ้าหน้าที่'
     errBookingNotVerifyEstamp = 'ไม่พบการ E-Stamp จากลูกบ้าน'
-    
+
     errHomeAddressNotFound = 'กรุณากรอกที่อยู่'
     errHomeAddressProhibitSpecial = 'ที่อยู่ห้ามมีอักขระพิเศษ'
     errHomeAddressIsDuplicate = 'บ้านเลขที่ซ้ำในระบบ'
@@ -244,7 +244,13 @@ export class ErrMessageUtilsTH{
     errTimeEndNotFound = 'ไม่พบเวลาสิ้นสุดในการค้นหา'
     errTimeEndNotTimeFormat = 'รูปแบบเวลาสิ้นสุดในการค้นหาไม่ถูกต้อง'
     errTimeStartOverTimeEnd = 'เวลาค้นหาเริ่มต้น ต้องน้อยกว่าเวลาค้นหาสิ้นสุด'
-    errTimeSearchOver30Days = 'ช่วงเวลาที่ใช้ค้นหา ห้ามเกิน 30 วัน'
+    errTimeSearchOver31Days = 'ช่วงเวลาที่ใช้ค้นหา ห้ามเกิน 31 วัน'
+
+    errTimeZoneStartNotFound = 'ไม่พบ Time zone เริ่มต้น'
+    errTimeZoneStartNotTimeFormat = 'รูปแบบ Time zone เริ่มต้น ไม่ถูกต้อง'
+    errTimeZoneEndNotFound = 'ไม่พบ Time zone สิ้นสุด'
+    errTimeZoneEndNotTimeFormat = 'รูปแบบ Time zone สิ้นสุด ไม่ถูกต้อง'
+    errTimeZoneStartOverTimeEnd = 'Time zone เริ่มต้น ห้ามมากกว่า Time zone สิ้นสุด'
 
     errDateFormNotFound = 'ไม่พบวันที่เริ่มต้น'
     errDateFormNotTimeFormat = 'รูปแบบวันที่เริ่มต้น ไม่ถูกต้อง'
@@ -274,7 +280,7 @@ export class ErrMessageUtilsTH{
     errParcelSuccessfully = 'ลูกบ้านทำรายการรับพัสดุแล้ว'
     errParcelReject = 'รายการรับพัสดุถูกยกเลิกไปแล้ว'
     errParcelSending = 'พัสดุถูกส่งให้ลูกบ้านแล้ว'
-    errParcelNotSendedStatus= 'พัสดุยังไม่ถูกส่งให้ลูกบ้าน'
+    errParcelNotSendedStatus = 'พัสดุยังไม่ถูกส่งให้ลูกบ้าน'
 
     errSosIdNotfound = 'ไม่พบรหัสแจ้งเตือนฉุกเฉิน'
     errSosIdProhibitSpecial = 'รหัสแจ้งเตือนฉุกเฉิน ห้ามมีอักขระพิเศษ หรือช่องว่าง'
@@ -294,7 +300,7 @@ export class ErrMessageUtilsTH{
     errCommonFeeNotInBase = 'ไม่พบข้อมูลค่าใช้จ่ายของลูกบ้านในระบบ'
     errCommonFeeIsPaymented = 'รายการค่าใช้จ่าย ถูกชำระเงินแล้ว'
     errCommonFeeIDNotFound = 'ไม่พบรหัสข้อมูลค่าค่าใช้จ่ายของลูกบ้าน'
-    errCommonFeeIDProhibitSpecial  = 'รหัสข้อมูลค่าค่าใช้จ่ายของลูกบ้าน ห้ามมีอักขระพิเศษ หรือช่องว่าง'
+    errCommonFeeIDProhibitSpecial = 'รหัสข้อมูลค่าค่าใช้จ่ายของลูกบ้าน ห้ามมีอักขระพิเศษ หรือช่องว่าง'
     errCommonFeeNotNumber = 'รหัสข้อมูลส่ค่าใช้จ่ายของลูกบ้าน ต้องเป็นตัวเลขเท่านั้น'
     errCommonFeeCodeNotFound = 'ไม่พบรหัสข้อมูลค่าค่าใช้จ่ายของลูกบ้าน'
     errCommonFeeCodeProhibitSpecial = 'รหัสข้อมูลค่าค่าใช้จ่ายของลูกบ้าน ห้ามมีอักขระพิเศษ หรือช่องว่าง'
@@ -314,11 +320,16 @@ export class ErrMessageUtilsTH{
     errCPMNameEnProhitbitSpecial = 'ชื่อการคำนวณ Master ห้ามมีอักขระพิเศษ (ภาษาอังกฤษ)'
     errCPMDayTypeNotFound = 'ไม่พบประเภทของวัน Master'
     errCPMDayTypeProhitbitSpecial = 'ประเภทของวัน Master ห้ามมีอักขระพิเศษ หรือช่องว่าง'
+    errCPMDayTypeNotInConFig = 'ไม่พบรูปแบบของประเภทวันในระบบ'
     errCPMOverNightStatusNotFound = 'ไม่พบสถานะการปรับค้างคืน'
     errCPMOverNightStatusProhitbitSpecial = 'สถานะการปรับค้างคืน ห้ามมีอักขระพิเศษ หรือช่องว่าง'
     errCPMFineAmountNotFound = 'กรุณากรอกค่าปรับค้างคืน'
     errCPMFineAmountProhitbitSpecial = 'ค่าปรับค้างคืน ห้ามมีอักขระพิเศษ หรือช่องว่าง'
     errCPMFineAmountNotNumber = 'ค่าปรับค้างคืนต้องเป็นตัวเลขเท่านั้น'
+
+    errCPHFirstIsDuplicate = 'การคำนวณ Header หลักของ Master นี้ซ้ำในระบบ'
+    errCPHFirstNotInBase = 'กรุณาสร้าง Header หลักของ Master นี้ก่อน'
+    errCPHSecondTimeZoneIsDuplicate = 'ช่วงเวลา Time zone ซ้ำในระบบ'
 
     errPaymentEventIdNotFound = 'ไม่พบรหัสการจ่ายเงิน'
     errPaymentEventIdProhibitSpecial = 'รหัสการจ่ายเงิน ห้ามมีอักขระพิเศษ หรือช่องว่าง'
@@ -346,4 +357,54 @@ export class ErrMessageUtilsTH{
     errHomeCarIdNotFound = 'ไม่พบรหัสข้อมูลรถของลูกบ้าน'
     errHomeCarIdProhitbitSpecial = 'รหัสข้อมูลรถลูกบ้าน ห้ามมีอักขระพิเศษ หรือช่องว่าง'
     errHomeCarIdNotNumber = 'รหัสข้อมูลรถลูกบ้าน ต้องเป็นตัวเลขเท่านั้น'
-}   
+
+    errNameThProhitbitSpecial = 'ชื่อภาษาไทย ห้ามมีอักขระพิเศษ'
+    errNameEnProhitbitSpecial = 'ชื่อภาษาอังกฤษ ห้ามมีอักขระพิเศษ'
+
+    errDateStartNotFount = 'ไม่พบวันที่เริ่ม'
+    errDateStartNotTimeFormat = 'รูปแบบวันที่เริ่มไม่ถูกต้อง'
+    errDateStopNotFount = 'ไม่พบวันที่สิ้นสุด'
+    errDateEndNotTimeFormat = 'รูปแบบวันที่สิ้นสุดไม่ถูกต้อง'
+    errDateStartOverDateEnd = 'วันที่เริ่มห้ามมากกว่าวันที่สิ้นสุด'
+
+    errCPMTimeForFreeNotFound = 'ไม่พบเวลาจอดฟรี'
+    errCPMTimeForFreeNoFormatTime = 'รูปแบบเวลาจอดฟรีไม่ถูกต้อง'
+
+    errCPMOverNightFineAmountNotFound = 'ไม่พบค่าปรับค้างคืน'
+    errCPMOverNightFineAmountProhibitSpecial = 'ค่าปรับค้างคืน ห้ามมีออักขระพิเศษ หรือช่องว่าง'
+    errCPMOverNightStatusNotNumber = 'ค่าปรับค้างคืน ต้องเป็นตัวเลขเท่านั้น'
+
+    errCPMNormalIsDuplicate = 'Calculate Master (วันปกติ) ซ้ำในระบบ'
+    errCPMWeekendIsDuplicate = 'Calculate Master (วันหยุดสุดสัปดาห์) ซ้ำในระบบ'
+    errCPMHolidayIsDuplicate = 'Calculate Master (วันนักขัตฤกษ์) ซ้ำในระบบ'
+    errCPMSpecialDateIsInRage = 'Calculate Master ช่วงวันที่ซ้ำกัน กับในระบบ'
+
+    errCPHNotInbase = 'ไม่พบ Calculate Header ในระบบ'
+    errCPHIDNotFound = 'ไม่พบรหัส Calculate Header'
+    errCPHIDProhibitSpecial = 'รหัส Calculate Header ห้ามมีอักขระพิเศษ หรือช่องว่าง'
+    errCPHIDNotNumber = 'รหัส Calculate Header ต้องเป็นตัวเลขเท่านั้น'
+
+    errCPSIDNotFound = 'ไม่พบรหัสเรทเงิน'
+    errCPSIDProhibitSpecial = 'รหัสเรทเงิน ห้ามมีอักขระพิเศษ หรือช่องว่าง'
+    errCPSIDNotNumber = 'รหัสเรทเงิน ต้องเป็นตัวเลขเท่านั้น'
+    errCPSNotInbase = 'ไม่พบเรทเงินในระบบ'
+
+    errIntervalStartNotFound = 'ไม่พบช่วงจอดรถเวลาเริ่มต้น'
+    errIntervalStartNotTimeFormat = 'รูปแบบช่วงเวลารถเริ่มต้นไม่ถูกต้อง'
+    errIntervalEndNotFound = 'ไม่พบช่วงเวลารถสิ้นสุด'
+    errIntervalEndNotTimeFormat = 'รูปแบบช่วงเวลารถสิ้นสุดไม่ถูกต้อง'
+    errIntervalStartOverOrEqualEnd = 'ช่วงเวลาจอดรถเริ่มต้น ห้ามมากกว่าหรือเท่ากับช่วงเวลาสิ้นสุด'
+    errIntervalIsDuplicateInBase = 'ช่วงเวลาจอดรถ ห้ามซ้ำกับในระบบ'
+
+    errIntervalEveryNotFound = 'ไม่พบช่วงเวลาที่ใช้ในการคำนวณ'
+    errIntercalEveryNotFormat = 'รูปแบบช่วงเวลาที่ใช้ในการคำนวณไม่ถูกต้อง'
+    
+
+    errAmountValueForCalculateNotFound = 'ไม่พบจำนวนเงินที่ใช้ในการคำนวณค่าจอดพื้นฐาน'
+    errAmountValueForCalculateProhibitSpecial = 'จำนวนเงินที่ใช้ในการคำนวณค่าจอดพื้นฐาน ห้ามมีขระพิเศษ หรือช่องว่าง'
+    errAmountValueForCalculateNotNumber = 'จำนวนเงินที่ใช้ในการคำนวณค่าจอดพื้นฐาน ต้องเป็นตัวเลขเท่านั้น'
+
+    errAmountParkingNotFound = 'ไม่พบค่าจอดรถ'
+    errAmountParkingProhibitSpecial = 'ค่าจอดรถ ห้ามมีอักขระพิเศษ หรือช่องว่าง'
+    errAmountParkingNumber = 'ค่าจอดรถ ต้องเป็นตัวเลขเท่านั้น'
+}

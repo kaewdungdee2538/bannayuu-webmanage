@@ -11,7 +11,7 @@ import { HomeInterceptor } from 'src/interceptor/home/home.interceptor';
 import {configfile} from '../../conf/config.json'
 import { SendParcelInterceptor } from 'src/interceptor/parcel/send/send-parcel.interceptor';
 import { ParcelSendInterceptor } from 'src/interceptor/parcel/send/parcel-send.interceptor';
-@Controller('/webbannayuu/api/parcel')
+@Controller('webbannayuu/api/parcel')
 export class ParcelController {
     constructor(private readonly parcelService:ParcelService){}
 

@@ -8,3 +8,9 @@
 .main-form img{
     height: 100%;
 }
+
+@media screen and (max-width: 800px) {
+    .main-form img{
+        width: 90%;
+    }
+}
