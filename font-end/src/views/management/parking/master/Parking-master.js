@@ -26,15 +26,18 @@ function ParkingMaster(props) {
     const history = useHistory();
     const authStore = useSelector(state => state)
     //------------------Props
-    const {setShowLoading
-    ,setShowMasterForm
-    ,setShowHeaderForm} = props;
+    const { setShowLoading
+        , setShowMasterForm
+        , setShowHeaderForm
+        , setSelectParkingMaster
+        , cartypesInfoArr
+        , setShowMasterEditForm
+    } = props;
     //------------------State
     const [parkingMasterObj, setParkingMasterObj] = useState(null);
     const [resfeshForm, setRefeshForm] = useState(false);
-    const [selectParkingMaster, setSelectParkingMaster] = useState({
-        cpm_id: "", cpm_code: ""
-    })
+    
+    const [cartypeEvent, setCartypeEvent] = useState(cartypeText)
     //--------------Form load
     useEffect(() => {
         if (!authStore.authorization) {
@@ -49,7 +52,7 @@ function ParkingMaster(props) {
         let isNotAuth;
         document.body.style.cursor = "wait";
         const searchObj = {
-            cartype_id: null,
+            cartype_id: cartypeEvent.id > 0 ? cartypeEvent.id : null,
         }
         getParkingMasterAll({ authStore, searchObj })
             .then((res) => {
@@ -82,6 +85,7 @@ function ParkingMaster(props) {
 
     //----------------Search
     function onSearchClick(event) {
+        setShowLoading(true);
         refeshForm();
     }
     //---------------Show edit form
@@ -91,6 +95,20 @@ function ParkingMaster(props) {
         setSelectParkingMaster({
             cpm_id, cpm_code
         })
+        setShowMasterEditForm(true);
+        setShowMasterForm(false);
+    }
+
+    //------------------Combobox cartype
+    let comboBoxPaymentArrayElem = null;
+    if (cartypesInfoArr.length > 0) {
+        comboBoxPaymentArrayElem = <ComboBoxSearchItem
+            title="รายการค่าใช้จ่าย"
+            text={cartypeEvent}
+            placeholder="Enter cartype"
+            itemsArray={cartypesInfoArr}
+            setText={setCartypeEvent}
+        />
     }
     //---------------------------------------------
     return (
@@ -100,6 +118,11 @@ function ParkingMaster(props) {
                     Parking Rate Table
                     </CCardHeader>
                 <CCardBody>
+                    <CRow>
+                        <CCol xs="12" sm="6" md="6">
+                            {comboBoxPaymentArrayElem}
+                        </CCol>
+                    </CRow>
                     <CRow>
                         <CCol xs="12">
                             <div className="head">
@@ -151,11 +174,11 @@ function ParkingMaster(props) {
                                             onClick={onViewClick}
                                             className="btn-class btn-edit"
                                             color="primary">
-                                            <CIcon
+                                            {/* <CIcon
                                                 cpm_id={item.cpm_id}
                                                 cpm_code={item.cpm_code}
                                                 name="cil-magnifying-glass"
-                                                color="info" />
+                                                color="info" /> */}
                                             <span
                                                 cpm_id={item.cpm_id}
                                                 cpm_code={item.cpm_code}

@@ -24,6 +24,7 @@ import { CarModule } from './controllers/car/car.module';
 import { ParkingConfigMasterModule } from './controllers/parking-config/parking-config-master/parking-config-master.module';
 import { ParkingConfigHeaderModule } from './controllers/parking-config/parking-config-header/parking-config-header.module';
 import { ParkingConfigSubModule } from './controllers/parking-config/parking-config-sub/parking-config-sub.module';
+import { CarTypeModule } from './controllers/car-type/car-type.module';
 
 @Module({
   imports: [
@@ -49,6 +50,7 @@ import { ParkingConfigSubModule } from './controllers/parking-config/parking-con
     ,ParkingConfigMasterModule
     ,ParkingConfigHeaderModule
     ,ParkingConfigSubModule
+    ,CarTypeModule
   ],
   controllers: [AppController],
   providers: [

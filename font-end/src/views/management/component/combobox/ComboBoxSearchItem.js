@@ -68,20 +68,20 @@ export default function ComboBoxSearchItem(props) {
         <div key={Date.now}>
             <CLabel>{title}</CLabel>
             <div className="dropdown" >
-                <button className="btn btn-secondary dropdown-toggle btn-drop" type="button" id="dropdown_coins" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false"
+                <button className="btn btn-secondary dropdown-toggle btn-drop" type="button"  data-toggle="dropdown" aria-haspopup="true" aria-expanded="false"
                     onClick={onComboClick} 
                 >
                     {selectText.value}
                 </button>
-                <div id="menu" className={`dropdown-menu ${elemShowComboBox}`} aria-labelledby="dropdown_coins">
+                <div className={`dropdown-menu ${elemShowComboBox}`} aria-labelledby="dropdown_coins">
                     <form className="px-4 py-2" >
-                        <input type="search" className="form-control" id="searchCoin"
+                        <input type="search" className="form-control" 
                             placeholder={placeholder}
                             onChange={onChangeFilter}
                         />
                     </form>
-                    <div id="menuItems" className="item-combobox" onBlur={onCloseCombobox}>{itemsElem}</div>
-                    <div id="empty" className="dropdown-header">{!itemsArray ? "Items not found" : ""}</div>
+                    <div className="item-combobox" onBlur={onCloseCombobox}>{itemsElem}</div>
+                    <div  className="dropdown-header">{!itemsArray ? "Items not found" : ""}</div>
                 </div>
             </div>
         </div>

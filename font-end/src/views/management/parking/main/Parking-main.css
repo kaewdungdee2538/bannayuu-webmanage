@@ -27,8 +27,25 @@
     font-size: 12px;
     margin: 0 5px;
 }
-
+.btn-back{
+    width: 100%;
+}
+.btn-save-footer{
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
 .form-parking-head{
     background-color: #8e0038;
     color: white;
 }
+.head-card-form{
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
+
+.check-box-edit:hover{
+    cursor: pointer;
+}
+
