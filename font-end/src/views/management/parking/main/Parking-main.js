@@ -33,6 +33,7 @@ function ParkingMain() {
     })
 
     const [cartypesInfoArr, setCartypesInfoArr] = useState([]);
+    const [cartypesInfoForCreateArr, setCartypesInfoForCreateArr] = useState([]);
     //-------------------Show loading spiner
     let loadingmodal = null;
     if (showLoading) {
@@ -56,11 +57,14 @@ function ParkingMain() {
                 if (res.result) {
                     if (res.result.length > 0) {
                         const result = res.result.map((item) => { return { id: item.cartype_id, value: item.cartype_name_th } });
-                        result.unshift({
+                        let cartypeArr = [...result];
+                        let carTypeArr2 = [...result];
+                        setCartypesInfoForCreateArr(cartypeArr);
+                        carTypeArr2.unshift({
                             id: 0,
                             value: "เลือกทั้งหมด"
                         })
-                        setCartypesInfoArr(result);
+                        setCartypesInfoArr(carTypeArr2);
                     }
                     else setCartypesInfoArr([]);
                 } else if (res.statusCode === 401) {
@@ -90,6 +94,7 @@ function ParkingMain() {
             setShowMasterForm={setShowMasterForm}
             setShowHeaderForm={setShowHeaderForm}
             cartypesInfoArr={cartypesInfoArr}
+            cartypesInfoForCreateArr={cartypesInfoForCreateArr}
             setSelectParkingMaster={setSelectParkingMaster}
             setShowMasterEditForm={setShowMasterEditForm}
         />

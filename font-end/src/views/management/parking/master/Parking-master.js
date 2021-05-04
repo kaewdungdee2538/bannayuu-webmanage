@@ -15,12 +15,13 @@ import '../main/Parking-main.css'
 import CIcon from '@coreui/icons-react'
 import swal from 'sweetalert';
 import LoadingModal from '../../component/loading/LoadingModal'
+import ParkingMasterAddModal from '../master/add-modal/Parking-master-add-modal'
 import store, { disAuthenticationLogin } from '../../../../store'
 import ComboBoxSearchItem from '../../component/combobox/ComboBoxSearchItem'
 import { getParkingMasterAll } from './Parking-master-controller'
 import { fields } from '../data/parking-data'
 const cartypeText = {
-    id: 0, value: 'เลือกการจ่ายเงิน'
+    id: 0, value: 'เลือกประเภทรถ'
 }
 function ParkingMaster(props) {
     const history = useHistory();
@@ -30,13 +31,15 @@ function ParkingMaster(props) {
         , setShowMasterForm
         , setShowHeaderForm
         , setSelectParkingMaster
-        , cartypesInfoArr
         , setShowMasterEditForm
+        , cartypesInfoArr
+        , cartypesInfoForCreateArr
     } = props;
     //------------------State
     const [parkingMasterObj, setParkingMasterObj] = useState(null);
     const [resfeshForm, setRefeshForm] = useState(false);
-    
+    const [showModalAdd, setShowModalAdd] = useState(false);
+
     const [cartypeEvent, setCartypeEvent] = useState(cartypeText)
     //--------------Form load
     useEffect(() => {
@@ -103,20 +106,41 @@ function ParkingMaster(props) {
     let comboBoxPaymentArrayElem = null;
     if (cartypesInfoArr.length > 0) {
         comboBoxPaymentArrayElem = <ComboBoxSearchItem
-            title="รายการค่าใช้จ่าย"
+            title="เลือกประเภทรถ"
             text={cartypeEvent}
             placeholder="Enter cartype"
             itemsArray={cartypesInfoArr}
             setText={setCartypeEvent}
         />
     }
+    //------------------Show add master modal
+    let parkingMasterAddModalElem = null;
+    if (showModalAdd) {
+        parkingMasterAddModalElem = <ParkingMasterAddModal
+            showModalAdd={showModalAdd}
+            setShowModalAdd={setShowModalAdd}
+            setRefeshForm={setRefeshForm}
+            setSelectParkingMaster={setSelectParkingMaster}
+            setShowLoading={setShowLoading}
+            cartypesInfoForCreateArr={cartypesInfoForCreateArr}
+        />
+    } else parkingMasterAddModalElem = null;
     //---------------------------------------------
     return (
         <CCol xs="12" lg="12">
+            {parkingMasterAddModalElem}
+            <div className="btn-addparcel">
+                <CButton
+                    className="btn-head"
+                    color="success"
+                    onClick={() => setShowModalAdd(true)}
+                ><span>สร้าง Master Rate</span></CButton>
+            </div>
+            <br></br>
             <CCard>
                 <CCardHeader>
-                    Parking Rate Table
-                    </CCardHeader>
+                    Parking Master Rate Table
+                </CCardHeader>
                 <CCardBody>
                     <CRow>
                         <CCol xs="12" sm="6" md="6">

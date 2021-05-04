@@ -22,7 +22,7 @@ import InputEnable from '../../../component/input/InputEnable'
 import EstampModal from '../modal/Estamp-modal'
 import store,{disAuthenticationLogin} from '../../../../../store'
 
-const fields = ['ประทับตรา', 'ทะเบียนรถ', 'ชื่อ', 'เวลาเข้า', 'estamp']
+const fields = ['ประทับตรา','บ้านเลขที่', 'ทะเบียนรถ', 'ชื่อ', 'เวลาเข้า', 'estamp']
 const getBadge = status => {
     switch (status) {
         case 'YES': return 'success'
@@ -260,6 +260,11 @@ function EstampGetAll(prop) {
                             'ชื่อ': (item) => (
                                 <td>
                                     <span>{item.first_name_th} {item.last_name_th}</span>
+                                </td>
+                            )
+                            , 'บ้านเลขที่': (item) => (
+                                <td>
+                                    <span>{item.home_address}</span>
                                 </td>
                             )
                             , 'ทะเบียนรถ': (item) => (

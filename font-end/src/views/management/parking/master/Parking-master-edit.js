@@ -10,6 +10,8 @@ import {
     CInputCheckbox,
     CFormGroup,
 } from '@coreui/react'
+import CIcon from '@coreui/icons-react'
+import {OuanIconForBtn} from '../../../../containers/function/OuanIcon'
 import { useState, useEffect } from 'react'
 import { useSelector } from 'react-redux'
 import { useHistory } from 'react-router-dom'
@@ -20,15 +22,15 @@ import store, { disAuthenticationLogin } from '../../../../store'
 import InputDisable from '../../component/input/InputDisable'
 import InputEnable from '../../component/input/InputEnable'
 import InputNumberEnable from '../../component/input/InputNumberEnable'
-import { getParkingMasterById } from './Parking-master-edit-controller'
+import { getParkingMasterById, editParkingMasterByCPMID } from './Parking-master-edit-controller'
 import TextAreaDisable from '../../component/textarea/TextAreaDisable'
 import TextArea from '../../component/textarea/TextArea'
-import DatePickerInput from '../../component/datetime/DatePickerInput'
 import moment from 'moment'
 import ComboBoxSearchItem from '../../component/combobox/ComboBoxSearchItem'
 import {
     comboBoxItemForDayTypesArr, getDayTypeId, getDayTypeName
     , getOverNightStatusId, getOverNightStatusName, comboBoxItemForOverNightStatusArr
+    , convertDayTypeIdToDayTypeKeyString, convertOverNightStatusIdToOverNightStatusKeyString
 } from '../data/parking-data'
 import TimeMaterialUi from '../../component/time/TimeMaterialUi'
 import DateMaterialUi from '../../component/datetime/DateMaterialUi'
@@ -58,7 +60,7 @@ function ParkingMasterEdit(props) {
         cpm_stop_date: null,
         cpm_day_type: "SPECIAL",
         cpm_time_for_free: "00:00:00",
-        cpm_overnight_status: "M",
+        cpm_overnight_status: "N",
         cpm_overnight_start: "00:00:00",
         cpm_overnight_stop: "00:00:00",
         cpm_fine_amount: 0,
@@ -122,6 +124,10 @@ function ParkingMasterEdit(props) {
                     setDayTypeStatus({ id: getDayTypeId(result.cpm_day_type), value: getDayTypeName(result.cpm_day_type) })
                     setOverNightStatus({ id: getOverNightStatusId(result.cpm_overnight_status), value: getOverNightStatusName(result.cpm_overnight_status) })
                     setOverNightFine(result.cpm_fine_amount);
+                    const timeFreeMoment = moment(result.cpm_time_for_free, "HH:mm:ss");
+                    setHoursFree(timeFreeMoment.hour());
+                    setMinutesFree(timeFreeMoment.minute());
+                    setSecondsFree(timeFreeMoment.second());
                 } else if (res.statusCode === 401) {
                     isNotAuth = res.error
                 } else swal("Warning!", res.error, "warning");
@@ -133,7 +139,8 @@ function ParkingMasterEdit(props) {
             .finally((value) => {
                 document.body.style.cursor = "default";
                 setRefeshForm(false);
-                setShowLoading(false)
+                setShowLoading(false);
+                setEditInfo(false);
                 if (isNotAuth) {
                     swal("Warning!", isNotAuth, "warning");
                     history.push("/");
@@ -157,7 +164,86 @@ function ParkingMasterEdit(props) {
     }
     //-----------------On save edit click
     function onEditSaveClick(event) {
-
+        if (!editSaveMiddleware())
+            return;
+        setShowLoading(true);
+        const getDayTypeStatus = convertDayTypeIdToDayTypeKeyString(dayTypeStatus.id);
+        const getOverNightStatus = convertOverNightStatusIdToOverNightStatusKeyString(overNightStatus.id);
+        const values = {
+            authStore
+            , valueObj: {
+                cpm_id: parkingMasterObj.cpm_id
+                , name_th: nameTh
+                , name_en: nameEn
+                , cartype_id: parkingMasterObj.cartype_id
+                , start_date: getDayTypeStatus === 'SPECIAL' ? moment(dateStart).format("YYYY-MM-DD") : null
+                , stop_date: getDayTypeStatus === 'SPECIAL' ? moment(dateEnd).format("YYYY-MM-DD") : null
+                , cpm_day_type: getDayTypeStatus
+                , cpm_time_for_free: `${hoursFree}:${minutesFree}:${secondsFree}`
+                , cpm_overnight_status: getOverNightStatus
+                , overnight_start: moment(timeStart).format("HH:mm:ss")
+                , overnight_stop: moment(timeEnd).format("HH:mm:ss")
+                , cpm_fine_amount: overNightFine
+                , remark
+            }
+        }
+        let isNotAuth;
+        editParkingMasterByCPMID(values)
+            .then(res => {
+                if (res.error) {
+                    if (res.statusCode === 401)
+                        isNotAuth = res.error
+                    else swal({
+                        title: "Warning.",
+                        text: res.message,
+                        icon: "warning",
+                        button: "OK",
+                    });
+                } else {
+                    swal({
+                        title: "Success.",
+                        text: "แก้ไข Master rate config เรียบร้อย",
+                        icon: "success",
+                        button: "OK",
+                    });
+                    setRefeshForm(true)
+                }
+            }).catch(err => {
+                console.log(err);
+                history.push("/page500");
+            }).finally(value => {
+                document.body.style.cursor = 'default';
+                setShowLoading(false);
+                if (isNotAuth) {
+                    swal("Warning!", isNotAuth, "warning");
+                    history.push("/");
+                    //clear state global at store 
+                    store.dispatch(disAuthenticationLogin());
+                }
+            })
+    }
+    //-----------------Middleware
+    function editSaveMiddleware() {
+        if (dayTypeStatus.id == 2) {
+            if (!dateStart) {
+                swal({
+                    title: "Warning.",
+                    text: 'กรุณาเลือกช่วงวันที่เริ่มคำนวณพิเศษ',
+                    icon: "warning",
+                    button: "OK",
+                });
+                return false;
+            } else if (!dateEnd) {
+                swal({
+                    title: "Warning.",
+                    text: 'กรุณาเลือกช่วงวันที่สิ้นสุดคำนวณพิเศษ',
+                    icon: "warning",
+                    button: "OK",
+                });
+                return false;
+            }
+        }
+        return true;
     }
     //-----------------Date Handing
     function handdingDateStart(date) {
@@ -305,13 +391,13 @@ function ParkingMasterEdit(props) {
                 </CCol>
             </CRow>
             <CRow>
-                <CCol xs="12" sm="4" md="4">
+                <CCol xs="12" sm="5" md="4">
                     {comboBoxDayTypeArrayElem}
                 </CCol>
             </CRow>
             {dateSelectDayTypeElem}
             <CRow>
-                <CCol xs="12" sm="4" md="4">
+                <CCol xs="12" sm="5" md="4">
                     {comboBoxOverNightArrayElem}
                 </CCol>
             </CRow>
@@ -449,6 +535,17 @@ function ParkingMasterEdit(props) {
     //---------------------------------------------
     return (
         <CCol xs="12" lg="12">
+            <div className="form-goto-header">
+                <div></div>
+                <CButton
+                    className="btn-goto-header-form"
+                // onClick={() => setShowModalAdd(true)}
+                >
+                    <span className="item-btn-goto-header-form">ไปที่หน้า Parking Header Configuration</span>
+                    <div className="item-btn-goto-header-form"><OuanIconForBtn name="FaChevronCircleRight" /></div>
+                </CButton>
+            </div>
+            <br></br>
             <CCard>
                 <CCardHeader className="head-card-form">
                     <div>Parking Master Setting</div>
@@ -456,7 +553,7 @@ function ParkingMasterEdit(props) {
                         <CFormGroup variant="custom-checkbox" inline >
                             <CInputCheckbox custom id="inline-checkbox2" name="inline-checkbox2"
                                 className="check-box-edit"
-                                value={editInfo}
+                                checked={editInfo}
                                 onChange={onEditClick} />
                             <CLabel
                                 variant="custom-checkbox"

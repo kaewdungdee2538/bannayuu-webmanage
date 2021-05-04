@@ -1,7 +1,7 @@
 {
     "config": {
         "url_hosting": "http://192.168.10.227",
-        "url_socket_hosting":"http://cit.bannayuu.com:4070",
+        "url_socket_hosting":"https://cit.bannayuu.com:4070",
         "url_image_line":"https://cit.bannayuu.com/apiline/api/getimage/",
         "url_image_payment":"https://cit.bannayuu.com/api/getimage/bill/",
         "url_web_image":"http://192.168.10.227:4010/webbannayuu/api/image?path=",

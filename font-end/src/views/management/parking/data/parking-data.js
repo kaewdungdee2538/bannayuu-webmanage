@@ -49,6 +49,15 @@ export const comboBoxItemForDayTypesArr = [
     }
 ]
 
+export const convertDayTypeIdToDayTypeKeyString = id =>{
+    switch(id){
+        case '1': return 'N'
+        case '2': return 'SPECIAL'
+        case '3': return 'WEEKEND'
+        case '4': return 'HOLIDAY'
+        default: return null
+    }
+}
 export const getOverNightStatusId = type =>{
     switch(type){
         case 'Y': return '1'
@@ -70,4 +79,10 @@ export const comboBoxItemForOverNightStatusArr = [
         id:2,value:"ไม่เสียค่าปรับค้างคืน"
     }
 ]
-
+export const convertOverNightStatusIdToOverNightStatusKeyString = id =>{
+    switch(id){
+        case '1': return 'Y'
+        case '2': return 'N'
+        default: return null
+    }
+}

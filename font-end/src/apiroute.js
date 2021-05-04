@@ -99,6 +99,8 @@ const ApiRoute ={
     },parking:{
         get_parking_master_all_url:'/webbannayuu/api/parking-config-master/get-all'
         ,get_parking_master_id_url:'/webbannayuu/api/parking-config-master/get-by-id'
+        ,create_paring_master_url:'/webbannayuu/api/parking-config-master/create-master'
+        ,edit_parking_master_url:'/webbannayuu/api/parking-config-master/edit-master'
     }
 }
 export default ApiRoute;

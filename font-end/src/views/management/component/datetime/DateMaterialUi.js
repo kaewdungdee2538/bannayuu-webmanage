@@ -20,7 +20,7 @@ function DateMaterialUi(props) {
     const currentTime = moment(selectedDate);
     return (
         <MuiPickersUtilsProvider utils={DateFnsUtils}>
-            <CLabel>{title}</CLabel>
+            <CLabel>{title}</CLabel><br></br>
             <KeyboardDatePicker
                 format="MM/dd/yyyy"
                 label=""

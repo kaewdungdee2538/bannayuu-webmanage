@@ -49,3 +49,23 @@
     cursor: pointer;
 }
 
+.form-goto-header{
+    width: 100%;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
+.btn-goto-header-form{
+    background-color: #004d40ea;
+    color: white;
+    box-shadow: 2px 4px 5px rgba(0,0,0,0.5);
+    display: block;
+}
+.btn-goto-header-form:hover{
+    background-color: #004d40;
+    color: white;
+}
+.item-btn-goto-header-form{
+    display: inline-block;
+}
+

@@ -27,7 +27,7 @@ function TimeMaterialUi(props) {
     const [date, setDate] = useState(newDate);
     return (
         <MuiPickersUtilsProvider utils={DateFnsUtils}>
-            <CLabel>{title}</CLabel>
+            <CLabel>{title}</CLabel><br></br>
             <KeyboardTimePicker
                 label=""
                 value={date}
