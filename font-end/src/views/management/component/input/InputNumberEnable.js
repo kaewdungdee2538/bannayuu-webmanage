@@ -17,7 +17,7 @@ const InputNumberEnable = (props) => {
             <CInput
                 className="modal-input"
                 placeholder={placeholder}
-                value={text ? text : '0'}
+                value={text ? text : ''}
                 onChange={onTextChange}
                 // onBlur={event=>outFocus(event.target.value)}
                 maxLength={maxLenght}

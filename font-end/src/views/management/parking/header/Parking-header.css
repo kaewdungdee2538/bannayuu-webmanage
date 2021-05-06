@@ -1,0 +1,18 @@
+.card-header-cph{
+    background-color: #004d40ea;
+    color: white;
+}
+
+.checkbox-header-info{
+    height: 30px;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin: 5px 10px 0 0;
+}
+
+.btn-header-info-edit-form{
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}

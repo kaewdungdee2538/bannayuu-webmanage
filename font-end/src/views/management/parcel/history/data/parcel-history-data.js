@@ -3,7 +3,7 @@ export const fields = ['แสดง', 'ที่อยู่', 'รายละ
 export const getBadge = status => {
     switch (status) {
         case 'receive_parcel': return 'light'
-        case 'send_parcel': return 'primary'
+        case 'send_parcel': return 'info'
         case 'receive_vilager': return 'success'
         case 'reject_parcel': return 'warning'
         case 'reject_villager' : return 'danger'

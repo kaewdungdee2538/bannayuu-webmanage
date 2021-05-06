@@ -30,7 +30,7 @@ export class SosService {
         and sos_datetime between $2 and $3`
         if (home_address)
             sql += ` and mh.home_address = '${home_address}'`
-        sql += ` order by mh.home_address,sos_datetime;`
+        sql += ` order by sos_datetime desc;`
 
         const query = {
             text: sql
@@ -128,7 +128,7 @@ export class SosService {
         }
 
 
-        sql += ` order by mh.home_address,sos_datetime;`
+        sql += ` order by sos_datetime desc;`
 
         const query = {
             text: sql

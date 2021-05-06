@@ -13,7 +13,7 @@ const initialState = {
   home_selected: null,
 };
 
-var globalState={
+var globalState = {
   sidebarShow: "responsive"
 };
 
@@ -41,7 +41,46 @@ export const selectHome = (props) => {
 export const unSelectHome = (props) => {
   return {
     type: "UNSELECT_HOME",
-    data: {...props,home_selected: null},
+    data: { ...props, home_selected: null },
+  };
+};
+
+export const selectCPM = (props) => {
+  return {
+    type: "SELECT_CPM",
+    data: props,
+  };
+};
+export const unSelectCPM = (props) => {
+  return {
+    type: "UNSELECT_CPM",
+    data: { ...props, cpm_id: null, cartype_id: null },
+  };
+};
+
+export const selectCPH = (props) => {
+  return {
+    type: "SELECT_CPH",
+    data: props,
+  };
+};
+export const unSelectCPH = (props) => {
+  return {
+    type: "UNSELECT_CPH",
+    data: { ...props, cph_id: null },
+  };
+};
+
+export const selectCPS = (props) => {
+  return {
+    type: "SELECT_CPS",
+    data: props,
+  };
+};
+export const unSelectCPS = (props) => {
+  return {
+    type: "UNSELECT_CPS",
+    data: { ...props, cps_id: null },
   };
 };
 //REDUCER
@@ -53,20 +92,44 @@ const changeState = (state = initialState, { type, ...rest }) => {
       globalState = { ...state, ...rest };
       return { ...state, ...rest };
     case "ENABLE_AUTH":
-      globalState =  { ...state, ...data };
-      localStorage.setItem('authStorage',JSON.stringify(globalState))
+      globalState = { ...state, ...data };
+      localStorage.setItem('authStorage', JSON.stringify(globalState))
       return globalState;
     case "DISABLE_AUTH":
       globalState = initialState;
-      localStorage.setItem('authStorage',JSON.stringify(globalState))
+      localStorage.setItem('authStorage', JSON.stringify(globalState))
       return globalState;
     case "SELECT_HOME":
       globalState = { ...state, ...data };
-      localStorage.setItem('authStorage',JSON.stringify(globalState))
+      localStorage.setItem('authStorage', JSON.stringify(globalState))
       return globalState;
     case "UNSELECT_HOME":
       globalState = { ...state, ...data };
-      localStorage.setItem('authStorage',JSON.stringify(globalState))
+      localStorage.setItem('authStorage', JSON.stringify(globalState))
+      return globalState;
+    case "SELECT_CPM":
+      globalState = { ...state, ...data };
+      // localStorage.setItem('authStorage', JSON.stringify(globalState))
+      return globalState;
+    case "UNSELECT_CPM":
+      globalState = { ...state, ...data };
+      // localStorage.setItem('authStorage', JSON.stringify(globalState))
+      return globalState;
+    case "SELECT_CPH":
+      globalState = { ...state, ...data };
+      // localStorage.setItem('authStorage', JSON.stringify(globalState))
+      return globalState;
+    case "UNSELECT_CPH":
+      globalState = { ...state, ...data };
+      // localStorage.setItem('authStorage', JSON.stringify(globalState))
+      return globalState;
+    case "SELECT_CPS":
+      globalState = { ...state, ...data };
+      // localStorage.setItem('authStorage', JSON.stringify(globalState))
+      return globalState;
+    case "UNSELECT_CPS":
+      globalState = { ...state, ...data };
+      // localStorage.setItem('authStorage', JSON.stringify(globalState))
       return globalState;
     default:
       const localStr = localStorage.getItem('authStorage')

@@ -1,5 +1,6 @@
 import { MiddlewareConsumer, Module } from '@nestjs/common';
 import { DefaultValueMiddleware } from 'src/middleware/default-value/default-value.middleware';
+import { ParkingConfigHeaderGetIdMiddleware } from 'src/middleware/parking/config-header/parking-config-header-get-by-id.middleware';
 import { ParkingConfigHeaderSecondGetIdMiddleware } from 'src/middleware/parking/config-header/parking-config-header-second-get-by-id.middleware';
 import { ParkingConfigSubCreateMiddleware } from 'src/middleware/parking/config-sub/parking-config-sub-create.middleware';
 import { ParkingConfigSubEditMiddleware } from 'src/middleware/parking/config-sub/parking-config-sub-edit.middleware';
@@ -23,16 +24,16 @@ export class ParkingConfigSubModule {
       .apply(DefaultValueMiddleware)
       .forRoutes('webbannayuu/api/parking-config-sub/*');
     consumer
-      .apply(ParkingConfigHeaderSecondGetIdMiddleware)
+      .apply(ParkingConfigHeaderGetIdMiddleware)
       .forRoutes('webbannayuu/api/parking-config-sub/get-all');
     consumer
       .apply(ParkingConfigSubGetByIdInBaseMiddleware)
       .forRoutes('webbannayuu/api/parking-config-sub/get-by-id');
     consumer
-      .apply(ParkingConfigHeaderSecondGetIdMiddleware, IntervalMiddleware, ParkingConfigSubCreateMiddleware)
+      .apply(ParkingConfigHeaderGetIdMiddleware, IntervalMiddleware, ParkingConfigSubCreateMiddleware)
       .forRoutes('webbannayuu/api/parking-config-sub/create-sub');
     consumer
-      .apply(ParkingConfigSubGetByIdInBaseMiddleware, ParkingConfigHeaderSecondGetIdMiddleware, IntervalMiddleware, ParkingConfigSubEditMiddleware, RemarkMiddleware)
+      .apply(ParkingConfigSubGetByIdInBaseMiddleware, ParkingConfigHeaderGetIdMiddleware, IntervalMiddleware, ParkingConfigSubEditMiddleware, RemarkMiddleware)
       .forRoutes('webbannayuu/api/parking-config-sub/edit-sub');
     consumer
       .apply(ParkingConfigSubGetByIdInBaseMiddleware, RemarkMiddleware)

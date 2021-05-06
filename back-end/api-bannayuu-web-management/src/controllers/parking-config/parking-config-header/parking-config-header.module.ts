@@ -29,6 +29,9 @@ export class ParkingConfigHeaderModule {
     consumer
       .apply(DefaultValueMiddleware)
       .forRoutes('webbannayuu/api/parking-config-header/*');
+      consumer
+      .apply(ParkingConfigMasterGetIdMiddleware)
+      .forRoutes('webbannayuu/api/parking-config-header/check-priority');
     consumer
       .apply(ParkingConfigMasterGetIdMiddleware)
       .forRoutes('webbannayuu/api/parking-config-header/get-all');

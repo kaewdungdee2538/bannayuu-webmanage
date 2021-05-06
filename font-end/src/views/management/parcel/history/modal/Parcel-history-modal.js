@@ -192,6 +192,22 @@ const ParcelHistoryModal = ({ showModal, setShowModal, selectedObj, setShowLoadi
                             />
                         </CCol>
                     </CRow>
+                    <hr></hr>
+                    <CRow>
+                        <CCol xs="12" sm="5" md="5">
+                            <InputDisable
+                                title="วันที่ลูกบ้านรับพัสดุ"
+                                text={parcelObj.receive_vilager_datetime}
+                            />
+                        </CCol>
+                        <CCol xs="12" sm="7" md="7">
+                            <InputDisable
+                                title="ผู้ยืนยันรับพัสดุ"
+                                text={parcelObj.receive_vilager_by}
+                            />
+                        </CCol>
+                    </CRow>
+                    <hr></hr>
                     <CRow>
                         <CCol xs="12" sm="12">
                             <CLabel>สถานะ</CLabel>
@@ -201,7 +217,6 @@ const ParcelHistoryModal = ({ showModal, setShowModal, selectedObj, setShowLoadi
                             </CBadge>
                         </CCol>
                     </CRow>
-
                 </CFormGroup>
             </CModalBody>
             <CModalFooter>

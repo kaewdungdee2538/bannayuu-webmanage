@@ -9,20 +9,69 @@ export class ParkingConfigHeaderService {
     constructor(
         private readonly errMessageUtilsTh: ErrMessageUtilsTH,
         private readonly dbconnecttion: dbConnection,
-        private readonly funcUtils:FuncUtils,
+        private readonly funcUtils: FuncUtils,
     ) { }
+
+    async getCheckFirstOrSecondHeaderByCPMID(body: any) {
+        const company_id = body.company_id;
+        const cpm_id = body.cpm_id;
+        let sql = `select cph_id from m_calculate_parking_header mcph
+        where mcph.delete_flag = 'N' 
+        and mcph.company_id = $1 and mcph.cpm_id = $2`
+        const query = {
+            text: sql,
+            values: [company_id, cpm_id]
+        }
+        const res = await this.dbconnecttion.getPgData(query);
+        if (res.error)
+            throw new StatusException(
+                {
+                    error: res.error,
+                    result: null,
+                    message: this.errMessageUtilsTh.messageProcessFail,
+                    statusCode: 200,
+                },
+                200);
+        else if (res.result.length === 0)
+            throw new StatusException(
+                {
+                    error: null,
+                    result: {
+                        priority_no:"FIRST"
+                    },
+                    message: this.errMessageUtilsTh.messageSuccess,
+                    statusCode: 200,
+                },
+                200);
+        else
+            throw new StatusException(
+                {
+                    error: null,
+                    result: {
+                        priority_no:"SECOND"
+                    },
+                    message: this.errMessageUtilsTh.messageSuccess,
+                    statusCode: 200,
+                },
+                200);
+    }
 
     async getParkingConfigHeaderAllByCPMID(body: any) {
         const company_id = body.company_id;
         const cpm_id = body.cpm_id;
         let sql = `select cph_id,cph_code,mcph.cpm_id,cph_name_th,cph_name_en
         ,mc.cartype_name_th
+        ,to_char(time_zone_start::time,'HH24:MI:SS') as time_zone_start
+        ,to_char(time_zone_stop::time,'HH24:MI:SS') as time_zone_stop
+        ,case when cph_priority_no = 1 then 'FIRST'
+        else 'SECOND' end as priority_no
         from m_calculate_parking_header mcph
         left join m_calculate_parking_master mcpm
         on mcph.cpm_id = mcpm.cpm_id
         left join m_cartype mc
         on mcph.cartype_id = mc.cartype_id
-        where mcph.delete_flag = 'N' and mcph.company_id = $1 and mcph.cpm_id = $2`
+        where mcph.delete_flag = 'N' and mcph.company_id = $1 and mcph.cpm_id = $2
+        order by cph_priority_no`
         const query = {
             text: sql,
             values: [company_id, cpm_id]
@@ -51,10 +100,11 @@ export class ParkingConfigHeaderService {
     async getParkingConfigHeaderByCPHID(body: any) {
         const company_id = body.company_id;
         const cph_id = body.cph_id;
-        let sql = `select cph_id,cph_code,mcph.cpm_id,cph_name_th,cph_name_en
+        let sql = `select cph_id,cph_code,mcph.cpm_id,cph_name_th,cph_name_en,mcph.cartype_id
         ,to_char(time_zone_start::time,'HH24:MI:ss') as time_zone_start
         ,to_char(time_zone_stop::time,'HH24:MI:ss') as time_zone_stop
-        ,cph_cal_every_interval,cph_cal_amount_value
+        ,to_char(cph_cal_every_interval::time, 'HH24:MI:ss') as cph_cal_every_interval
+        ,cph_cal_amount_value
         ,cph_status
         ,(select concat(first_name_th,' ',last_name_th) from m_employee where employee_id = mcph.create_by) as create_by
         ,to_char(mcph.create_date,'YYYY-MM-DD HH24:MI:ss') as create_date
@@ -63,6 +113,9 @@ export class ParkingConfigHeaderService {
         ,cpm_name_th,cpm_name_en
         ,mc.cartype_name_th
         ,mcp.company_name
+        ,mcph.cph_remark as remark
+        ,case when cph_priority_no = 1 then 'FIRST'
+        else 'SECOND' end as priority_no
         from m_calculate_parking_header mcph
         left join m_calculate_parking_master mcpm
         on mcph.cpm_id = mcpm.cpm_id
@@ -97,7 +150,7 @@ export class ParkingConfigHeaderService {
                 200);
     }
 
-    async createParkingHeaderFirstRecordByCartype(body: any, req: any){
+    async createParkingHeaderFirstRecordByCartype(body: any, req: any) {
         const company_id = body.company_id;
         const employeeObj = req.user.employee;
         const employee_id = employeeObj.employee_id;
@@ -112,21 +165,21 @@ export class ParkingConfigHeaderService {
         const cph_cal_amount_value = body.amount_value_for_cal ? body.amount_value_for_cal : 0;
         const cph_priority_no = 1;
         const objInput = {
-            company_id,employee_id,cpm_id,cph_ref_id
-            ,cph_name_th,cph_name_en,cartype_id
-            ,time_zone_start,time_zone_stop
-            ,cph_cal_every_interval,cph_cal_amount_value
-            ,cph_priority_no
+            company_id, employee_id, cpm_id, cph_ref_id
+            , cph_name_th, cph_name_en, cartype_id
+            , time_zone_start, time_zone_stop
+            , cph_cal_every_interval, cph_cal_amount_value
+            , cph_priority_no
         }
         return await this.createParkingHeader(objInput);
     }
 
-    async createParkingHeaderSecondRecordByCartype(body: any, req: any){
+    async createParkingHeaderSecondRecordByCartype(body: any, req: any) {
         const company_id = body.company_id;
         const employeeObj = req.user.employee;
         const employee_id = employeeObj.employee_id;
         const cpm_id = body.cpm_id;
-       
+
         const cph_name_th = body.name_th;
         const cph_name_en = body.name_en;
         const cartype_id = body.cartype_id;
@@ -135,21 +188,21 @@ export class ParkingConfigHeaderService {
         const cph_cal_every_interval = body.interval_every ? body.interval_every : "01:00:00";
         const cph_cal_amount_value = body.amount_value_for_cal ? body.amount_value_for_cal : 0;
         const cpmObj = {
-            company_id,cartype_id,cpm_id
+            company_id, cartype_id, cpm_id
         }
         const cph_priority_no = await this.funcUtils.getPriorityNoFromCPHWithCartypeAndCPMID(cpmObj);
         const cph_ref_id = await this.funcUtils.getCphIdRefFromCPH(cpmObj);
         const objInput = {
-            company_id,employee_id,cpm_id,cph_ref_id
-            ,cph_name_th,cph_name_en,cartype_id
-            ,time_zone_start,time_zone_stop
-            ,cph_cal_every_interval,cph_cal_amount_value
-            ,cph_priority_no
+            company_id, employee_id, cpm_id, cph_ref_id
+            , cph_name_th, cph_name_en, cartype_id
+            , time_zone_start, time_zone_stop
+            , cph_cal_every_interval, cph_cal_amount_value
+            , cph_priority_no
         }
         return await this.createParkingHeader(objInput);
     }
 
-    async createParkingHeader(objInput:any) {
+    async createParkingHeader(objInput: any) {
         const company_id = objInput.company_id;
         const employee_id = objInput.employee_id;
         const cpm_id = objInput.cpm_id;
@@ -189,14 +242,14 @@ export class ParkingConfigHeaderService {
         const query = {
             text: sql,
             values: [
-                cpm_id,cph_ref_id
-                ,cph_name_th,cph_name_en
-                ,cartype_id
-                ,time_zone_start,time_zone_stop
-                ,cph_cal_every_interval,cph_cal_amount_value
-                ,employee_id
-                ,company_id
-                ,cph_priority_no
+                cpm_id, cph_ref_id
+                , cph_name_th, cph_name_en
+                , cartype_id
+                , time_zone_start, time_zone_stop
+                , cph_cal_every_interval, cph_cal_amount_value
+                , employee_id
+                , company_id
+                , cph_priority_no
             ]
         }
         const res = await this.dbconnecttion.savePgData([query]);
@@ -217,7 +270,7 @@ export class ParkingConfigHeaderService {
     }
 
 
-    async disableParkingHeaderFirst(body:any,req:any) {
+    async disableParkingHeaderFirst(body: any, req: any) {
         const employeeObj = req.user.employee;
         const employee_id = employeeObj.employee_id;
         const remark = body.remark;
@@ -232,8 +285,8 @@ export class ParkingConfigHeaderService {
             text: sql,
             values: [
                 employee_id
-                ,remark
-                ,company_id,cpm_id
+                , remark
+                , company_id, cpm_id
             ]
         }
         const res = await this.dbconnecttion.savePgData([query]);
@@ -253,7 +306,7 @@ export class ParkingConfigHeaderService {
         }, 200);
     }
 
-    async disableParkingHeaderWithId(body:any,req:any) {
+    async disableParkingHeaderWithId(body: any, req: any) {
         const employeeObj = req.user.employee;
         const employee_id = employeeObj.employee_id;
         const remark = body.remark;
@@ -268,8 +321,8 @@ export class ParkingConfigHeaderService {
             text: sql,
             values: [
                 employee_id
-                ,remark
-                ,company_id,cph_id
+                , remark
+                , company_id, cph_id
             ]
         }
         const res = await this.dbconnecttion.savePgData([query]);
@@ -290,13 +343,13 @@ export class ParkingConfigHeaderService {
     }
 
 
-    async editParkingHeaderFirstRecordByCartype(body:any,req:any){
+    async editParkingHeaderFirstRecordByCartype(body: any, req: any) {
         const employeeObj = req.user.employee;
         const employee_id = employeeObj.employee_id;
         const company_id = body.company_id;
         const cph_id = body.cph_id;
         // const cartype_id = body.cartype_id;
-        const chp_name_th  = body.name_th;
+        const chp_name_th = body.name_th;
         const cph_name_end = body.name_en;
         const cph_cal_every_interval = body.interval_every;
         const cph_cal_amount_value = body.amount_value_for_cal;
@@ -308,12 +361,12 @@ export class ParkingConfigHeaderService {
         where company_id = $7 and cph_id = $8
         ;`;
         const query = {
-            text:sql,
-            values:[
-                chp_name_th,cph_name_end
-                ,cph_cal_every_interval,cph_cal_amount_value
-                ,cph_remark,employee_id
-                ,company_id,cph_id
+            text: sql,
+            values: [
+                chp_name_th, cph_name_end
+                , cph_cal_every_interval, cph_cal_amount_value
+                , cph_remark, employee_id
+                , company_id, cph_id
             ]
         }
         const res = await this.dbconnecttion.savePgData([query]);
@@ -333,7 +386,7 @@ export class ParkingConfigHeaderService {
         }, 200);
     }
 
-    async editParkingHeaderSecondRecordByCartype(body:any,req:any){
+    async editParkingHeaderSecondRecordByCartype(body: any, req: any) {
         const employeeObj = req.user.employee;
         const employee_id = employeeObj.employee_id;
         const company_id = body.company_id;
@@ -341,7 +394,7 @@ export class ParkingConfigHeaderService {
         // const cartype_id = body.cartype_id;
         const time_zone_start = body.start_time_zone
         const time_zone_stop = body.stop_time_zone
-        const chp_name_th  = body.name_th;
+        const chp_name_th = body.name_th;
         const cph_name_end = body.name_en;
         const cph_cal_every_interval = body.interval_every;
         const cph_cal_amount_value = body.amount_value_for_cal;
@@ -354,13 +407,13 @@ export class ParkingConfigHeaderService {
         where company_id = $9 and cph_id = $10
         ;`;
         const query = {
-            text:sql,
-            values:[
-                chp_name_th,cph_name_end
-                ,time_zone_start,time_zone_stop
-                ,cph_cal_every_interval,cph_cal_amount_value
-                ,cph_remark,employee_id
-                ,company_id,cph_id
+            text: sql,
+            values: [
+                chp_name_th, cph_name_end
+                , time_zone_start, time_zone_stop
+                , cph_cal_every_interval, cph_cal_amount_value
+                , cph_remark, employee_id
+                , company_id, cph_id
             ]
         }
         const res = await this.dbconnecttion.savePgData([query]);

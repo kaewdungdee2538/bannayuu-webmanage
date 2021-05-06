@@ -1,13 +1,13 @@
 import React from 'react'
 import {
-  CBadge,
+  // CBadge,
   CDropdown,
   CDropdownItem,
   CDropdownMenu,
   CDropdownToggle,
   CProgress
 } from '@coreui/react'
-import CIcon from '@coreui/icons-react'
+// import CIcon from '@coreui/icons-react'
 import DropDownItem from '../views/management/component/dropdown/DropdownItem'
 import NotificationIcon from '../views/management/component/header/notification-icon/NotificationIcon'
 const TheHeaderDropdownNotif = (props) => {

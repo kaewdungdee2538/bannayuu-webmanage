@@ -15,7 +15,6 @@ function TimeMaterialUi(props) {
     } = props;
     const handleDateChange = (date) => {
         setSelectedDate(date);
-        setDate(date);
     };
     const currentTime = moment(selectedDate,'HH:mm:ss');
     const splitTime = {
@@ -24,13 +23,12 @@ function TimeMaterialUi(props) {
         second: currentTime.get('second')
     }
     const newDate = moment().set(splitTime);
-    const [date, setDate] = useState(newDate);
     return (
         <MuiPickersUtilsProvider utils={DateFnsUtils}>
             <CLabel>{title}</CLabel><br></br>
             <KeyboardTimePicker
                 label=""
-                value={date}
+                value={newDate}
                 onChange={handleDateChange}
                 ampm={false}
             />

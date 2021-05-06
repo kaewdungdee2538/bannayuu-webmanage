@@ -1,11 +1,11 @@
 import React from 'react'
 import {
-  CBadge,
+  // CBadge,
   CDropdown,
   CDropdownItem,
   CDropdownMenu,
   CDropdownToggle,
-  CImg
+  // CImg
 } from '@coreui/react'
 import CIcon from '@coreui/icons-react'
 import { useHistory } from 'react-router-dom'
@@ -15,8 +15,8 @@ const TheHeaderDropdown = () => {
   let history = useHistory();
   function onLogoutClick(event) {
     //set global store
-    store.dispatch(disAuthenticationLogin());
     history.push('/')
+    store.dispatch(disAuthenticationLogin());
   }
 
   function onUserProfileClick(event) {

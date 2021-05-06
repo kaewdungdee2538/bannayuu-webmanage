@@ -328,17 +328,17 @@
 }
 
 .btn-warning {
-  color: #333333;
+  color: #fff;
   background-color: #ffc107;
 }
 
 .btn-warning:hover {
-  color: #333333;
+  color: #fff;
   background-color: #e0a800;
 }
 
 .btn-warning:focus, .btn-warning.focus, .btn-warning:active, .btn-warning.active, .btn-warning.active.focus, .btn-warning.active:focus, .btn-warning:active.focus, .btn-warning:active:focus {
-  color: #333333;
+  color: #fff;
   background-color: #e0a800;
 }
 
@@ -373,7 +373,7 @@
 .btn-warning.pmd-btn-outline:hover, .btn-warning.pmd-btn-outline:focus {
   border-color: #d39e00;
   background-color: #e0a800;
-  color: #333333;
+  color: #fff;
 }
 
 .btn-danger {

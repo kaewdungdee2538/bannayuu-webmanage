@@ -11,14 +11,15 @@ import {
     CFormGroup,
 } from '@coreui/react'
 import CIcon from '@coreui/icons-react'
-import {OuanIconForBtn} from '../../../../containers/function/OuanIcon'
+import { OuanIconForBtn } from '../../../../containers/function/OuanIcon'
 import { useState, useEffect } from 'react'
 import { useSelector } from 'react-redux'
 import { useHistory } from 'react-router-dom'
 import '../main/Parking-main.css'
+import './Parking-master.css'
 import swal from 'sweetalert';
 import LoadingModal from '../../component/loading/LoadingModal'
-import store, { disAuthenticationLogin } from '../../../../store'
+import store, { disAuthenticationLogin, selectCPM, unSelectCPM } from '../../../../store'
 import InputDisable from '../../component/input/InputDisable'
 import InputEnable from '../../component/input/InputEnable'
 import InputNumberEnable from '../../component/input/InputNumberEnable'
@@ -35,17 +36,15 @@ import {
 import TimeMaterialUi from '../../component/time/TimeMaterialUi'
 import DateMaterialUi from '../../component/datetime/DateMaterialUi'
 function ParkingMasterEdit(props) {
-    const _dateState = moment().subtract(7, 'days').set({ hour: 0, minute: 0, second: 0, millisecond: 0 }).format("YYYY-MM-DD");
-    const _dateEnd = moment().add(1, 'days').set({ hour: 0, minute: 0, second: 0, millisecond: 0 }).format("YYYY-MM-DD")
     const _timeStart = moment().set({ hour: 0, minute: 0, second: 0, millisecond: 0 });
     const _timeEnd = moment().set({ hour: 0, minute: 0, second: 0, millisecond: 0 });
     const history = useHistory();
     const authStore = useSelector(state => state)
+    const cpm_id = authStore.cpm_id;
     //------------------Props
     const { setShowLoading
         , setShowMasterForm
         , setShowHeaderForm
-        , selectParkingMaster
         , setShowMasterEditForm
     } = props;
     //------------------State
@@ -96,6 +95,7 @@ function ParkingMasterEdit(props) {
         } else {
             setShowLoading(true);
             refeshForm();
+            
         }
     }, []);
     //--------------Reset form
@@ -103,7 +103,7 @@ function ParkingMasterEdit(props) {
         let isNotAuth;
         document.body.style.cursor = "wait";
         const searchObj = {
-            cpm_id: selectParkingMaster.cpm_id
+            cpm_id
         }
         getParkingMasterById({ authStore, searchObj })
             .then((res) => {
@@ -128,6 +128,14 @@ function ParkingMasterEdit(props) {
                     setHoursFree(timeFreeMoment.hour());
                     setMinutesFree(timeFreeMoment.minute());
                     setSecondsFree(timeFreeMoment.second());
+                    const cartype_id = result.cartype_id;
+                    store.dispatch(selectCPM({
+                         cpm_id, cartype_id, 
+                         cpm_name_th:result.cpm_name_th, 
+                         cpm_name_en:result.cpm_name_en,
+                         cartype_name_th:result.cartype_name_th,
+                         cpm_day_type:result.cpm_day_type
+                        }));
                 } else if (res.statusCode === 401) {
                     isNotAuth = res.error
                 } else swal("Warning!", res.error, "warning");
@@ -156,6 +164,7 @@ function ParkingMasterEdit(props) {
     function onBackClick(event) {
         setShowMasterEditForm(false);
         setShowMasterForm(true);
+        store.dispatch(unSelectCPM());
     }
     //-----------------On edit click
     function onEditClick(event) {
@@ -244,6 +253,12 @@ function ParkingMasterEdit(props) {
             }
         }
         return true;
+    }
+    //-----------------On show header fron click
+    function onNextToHeaderClick() {
+        setShowHeaderForm(true);
+        setShowMasterEditForm(false);
+        setShowMasterForm(false);
     }
     //-----------------Date Handing
     function handdingDateStart(date) {
@@ -539,15 +554,15 @@ function ParkingMasterEdit(props) {
                 <div></div>
                 <CButton
                     className="btn-goto-header-form"
-                // onClick={() => setShowModalAdd(true)}
+                    onClick={onNextToHeaderClick}
                 >
-                    <span className="item-btn-goto-header-form">ไปที่หน้า Parking Header Configuration</span>
+                    <span className="item-btn-goto-header-form">ไปที่หน้า Parking Zone Configuration</span>
                     <div className="item-btn-goto-header-form"><OuanIconForBtn name="FaChevronCircleRight" /></div>
                 </CButton>
             </div>
             <br></br>
             <CCard>
-                <CCardHeader className="head-card-form">
+                <CCardHeader className="head-card-form card-header-cpm">
                     <div>Parking Master Setting</div>
                     <div>
                         <CFormGroup variant="custom-checkbox" inline >

@@ -12,11 +12,12 @@ import { useState, useEffect } from 'react'
 import { useSelector } from 'react-redux'
 import { useHistory } from 'react-router-dom'
 import '../main/Parking-main.css'
+import './Parking-master.css'
 import CIcon from '@coreui/icons-react'
 import swal from 'sweetalert';
 import LoadingModal from '../../component/loading/LoadingModal'
 import ParkingMasterAddModal from '../master/add-modal/Parking-master-add-modal'
-import store, { disAuthenticationLogin } from '../../../../store'
+import store, { disAuthenticationLogin,selectCPM } from '../../../../store'
 import ComboBoxSearchItem from '../../component/combobox/ComboBoxSearchItem'
 import { getParkingMasterAll } from './Parking-master-controller'
 import { fields } from '../data/parking-data'
@@ -30,7 +31,6 @@ function ParkingMaster(props) {
     const { setShowLoading
         , setShowMasterForm
         , setShowHeaderForm
-        , setSelectParkingMaster
         , setShowMasterEditForm
         , cartypesInfoArr
         , cartypesInfoForCreateArr
@@ -94,10 +94,7 @@ function ParkingMaster(props) {
     //---------------Show edit form
     function onViewClick(event) {
         const cpm_id = event.target.getAttribute("cpm_id");
-        const cpm_code = event.target.getAttribute("cpm_code");
-        setSelectParkingMaster({
-            cpm_id, cpm_code
-        })
+        store.dispatch(selectCPM({ cpm_id }));
         setShowMasterEditForm(true);
         setShowMasterForm(false);
     }
@@ -120,7 +117,6 @@ function ParkingMaster(props) {
             showModalAdd={showModalAdd}
             setShowModalAdd={setShowModalAdd}
             setRefeshForm={setRefeshForm}
-            setSelectParkingMaster={setSelectParkingMaster}
             setShowLoading={setShowLoading}
             cartypesInfoForCreateArr={cartypesInfoForCreateArr}
         />
@@ -138,7 +134,7 @@ function ParkingMaster(props) {
             </div>
             <br></br>
             <CCard>
-                <CCardHeader>
+                <CCardHeader className="card-header-cpm">
                     Parking Master Rate Table
                 </CCardHeader>
                 <CCardBody>

@@ -12,6 +12,7 @@ import './Parking-main.css'
 import LoadingModal from '../../component/loading/LoadingModal'
 import ParkingMaster from '../master/Parking-master'
 import ParkingMasterEdit from '../master/Parking-master-edit'
+import ParkingHeader from '../header/Parking-header'
 import { getCartypesInfoAll } from './Parking-main-controller'
 const carTypeText = {
     id: 0, value: 'เลือกประเภทรถ'
@@ -28,9 +29,6 @@ function ParkingMain() {
     const [showSubForm, setShowSubForm] = useState(false);
 
     //--------------------------Object
-    const [selectParkingMaster, setSelectParkingMaster] = useState({
-        cpm_id: "", cpm_code: ""
-    })
 
     const [cartypesInfoArr, setCartypesInfoArr] = useState([]);
     const [cartypesInfoForCreateArr, setCartypesInfoForCreateArr] = useState([]);
@@ -95,7 +93,6 @@ function ParkingMain() {
             setShowHeaderForm={setShowHeaderForm}
             cartypesInfoArr={cartypesInfoArr}
             cartypesInfoForCreateArr={cartypesInfoForCreateArr}
-            setSelectParkingMaster={setSelectParkingMaster}
             setShowMasterEditForm={setShowMasterEditForm}
         />
     } else masterFormElem = null;
@@ -106,10 +103,19 @@ function ParkingMain() {
             setShowLoading={setShowLoading}
             setShowMasterForm={setShowMasterForm}
             setShowHeaderForm={setShowHeaderForm}
-            selectParkingMaster={selectParkingMaster}
             setShowMasterEditForm={setShowMasterEditForm}
         />
     } else masterFormEditElem = null;
+     //--------------------Header Form
+     let headerFormElem = null;
+     if (showHeaderForm) {
+        headerFormElem = <ParkingHeader
+             setShowLoading={setShowLoading}
+             setShowMasterForm={setShowMasterForm}
+             setShowMasterEditForm={setShowMasterEditForm}
+             setShowHeaderForm={setShowHeaderForm}
+         />
+     } else headerFormElem = null;
 
     //---------------------------------------------
     return (
@@ -119,6 +125,7 @@ function ParkingMain() {
             <CCardBody>
                 {masterFormElem}
                 {masterFormEditElem}
+                {headerFormElem}
             </CCardBody>
 
         </CCard>)

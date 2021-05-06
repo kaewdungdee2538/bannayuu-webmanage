@@ -5,6 +5,13 @@ import { ParkingConfigHeaderService } from './parking-config-header.service';
 @Controller('webbannayuu/api/parking-config-header')
 export class ParkingConfigHeaderController {
     constructor(private readonly parkingConfigHeaderService:ParkingConfigHeaderService){}
+    
+    @Post('check-priority')
+    @UseGuards(JwtAuthGuard)
+    async getCheckFirstOrSecondHeaderByCPMID(@Body() body){
+        return await this.parkingConfigHeaderService.getCheckFirstOrSecondHeaderByCPMID(body);
+    }
+    
     @Post('get-all')
     @UseGuards(JwtAuthGuard)
     async getParkingConfigHeaderAllByCPMID(@Body() body){

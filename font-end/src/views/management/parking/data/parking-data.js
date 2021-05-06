@@ -1,20 +1,19 @@
 export const fields = ['จัดการ', 'ประเภทรถ', 'ชื่อ Master Rate', 'ประเภทวัน', 'เริ่ม', 'ถึง']
-export const getBadge = status => {
-    switch (status) {
-        case 'Y': return 'success'
-        case 'N': return 'secondary'
-        case 'pending': return 'warning'
-        case 'cancel': return 'danger'
-        default: return 'primary'
+export const fieldsHeader = ['จัดการ','ประเภทรถ','ชื่อ Zone Rate', 'Start zone', 'Stop zone','สถานะ']
+export const fieldsSub = ['จัดการ', 'เวลาจอดตั้งแต่', 'เวลาจอดสิ้นสุด','ค่าบริการ']
+
+export const getBadgeCph = status => {
+    switch (status.toUpperCase()) {
+        case 'FIRST': return 'success'
+        case 'SECOND': return 'secondary'
+        default: return 'danger'
     }
 }
 
-export const getTextStatus = status => {
-    switch (status) {
-        case 'Y': return 'ตรวจสอบเรียบร้อยแล้ว'
-        case 'N': return 'ยังไม่ได้ตรวจสอบ'
-        case 'pending': return 'warning'
-        case 'cancel': return 'ยกเลิกรายการเรียกเก็บ'
+export const getTextStatusCph = status => {
+    switch (status.toUpperCase()) {
+        case 'FIRST': return 'หลัก'
+        case 'SECOND': return 'รอง'
         default: return 'อื่นๆ'
     }
 }

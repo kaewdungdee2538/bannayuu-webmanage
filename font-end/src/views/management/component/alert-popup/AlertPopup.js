@@ -1,8 +1,6 @@
 import {
-    CHeader,
-    CLabel,
     CAlert,
-    CProgress,
+    // CProgress,
 } from '@coreui/react'
 import { useHistory } from 'react-router-dom'
 import './AlertPopup.css'
@@ -38,8 +36,8 @@ export default function AlertPopup(props) {
                     <img src={img_type(imgIcon)} />
                 </div>
                 <div>
-                    <strong>{title}</strong>
-                    <p>{text}</p>
+                    <h3><strong>{title}</strong></h3>
+                    <h5>{text}</h5>
                 </div>
                 {/* <CProgress
         striped

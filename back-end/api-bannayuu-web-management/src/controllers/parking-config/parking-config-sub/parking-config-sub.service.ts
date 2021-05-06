@@ -16,7 +16,8 @@ export class ParkingConfigSubService {
         const company_id = body.company_id;
         const cph_id = body.cph_id;
         let sql = `select cps_id,cps_code,cph_id
-        ,cps_start_interval,cps_stop_interval
+        ,to_char(cps_start_interval,'HH24:MI:SS') as cps_start_interval
+        ,to_char(cps_stop_interval,'HH24:MI:SS') as cps_stop_interval
         ,cps_amount_value,cps_status
         ,company_name
         from m_calculate_parking_sub mcps

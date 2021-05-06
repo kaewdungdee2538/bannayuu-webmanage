@@ -6,6 +6,5 @@
         "url_image_payment":"https://cit.bannayuu.com/api/getimage/bill/",
         "url_web_image":"https://cit.bannayuu.com/apimanagement/webbannayuu/api/image?path=",
         "url_port": ""
-        
     }
 }

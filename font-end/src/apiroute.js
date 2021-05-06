@@ -65,6 +65,7 @@ const ApiRoute ={
         get_notification_item_all_url:'/webbannayuu/api/notification-item/get-all'
     },sos:{
         get_sos_info_all_url:'/webbannayuu/api/sos/get-all'
+        , get_sos_info_last_record_url:'/webbannayuu/api/sos/get-last'
         ,get_sos_info_by_id_url:'/webbannayuu/api/sos/get-by-id'
         ,get_sos_info_all_history_url:'/webbannayuu/api/sos/get-all-history'
         ,save_sos_corporate_receive_url:'/webbannayuu/api/sos/corporate-receive'
@@ -101,6 +102,15 @@ const ApiRoute ={
         ,get_parking_master_id_url:'/webbannayuu/api/parking-config-master/get-by-id'
         ,create_paring_master_url:'/webbannayuu/api/parking-config-master/create-master'
         ,edit_parking_master_url:'/webbannayuu/api/parking-config-master/edit-master'
+        ,get_parking_header_all_by_cpm_url:'/webbannayuu/api/parking-config-header/get-all'
+        ,get_parking_header_check_priority_cpm_url:'/webbannayuu/api/parking-config-header/check-priority'
+        ,get_parking_header_by_cph_id_url:'/webbannayuu/api/parking-config-header/get-by-id'
+        ,create_parking_header_first_url:'/webbannayuu/api/parking-config-header/create-header-first'
+        ,create_parking_header_second_url:'/webbannayuu/api/parking-config-header/create-header-second'
+        ,edit_parking_header_first_url:'/webbannayuu/api/parking-config-header/edit-header-first'
+        ,edit_parking_header_second_url:'/webbannayuu/api/parking-config-header/edit-header-second'
+        ,get_parking_sub_all_by_cph_url:'/webbannayuu/api/parking-config-sub/get-all'
+        ,create_parking_sub_url:'/webbannayuu/api/parking-config-sub/create-sub'
     }
 }
 export default ApiRoute;
