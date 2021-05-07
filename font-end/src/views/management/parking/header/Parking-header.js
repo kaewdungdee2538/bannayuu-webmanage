@@ -1,27 +1,16 @@
 import {
-    CButton,
-    CCard,
-    CCardBody,
-    CCardHeader,
     CCol,
-    CDataTable,
-    CBadge,
     CRow,
-    CLabel,
 } from '@coreui/react'
 import { useState, useEffect } from 'react'
 import { useSelector } from 'react-redux'
 import { useHistory } from 'react-router-dom'
 import '../main/Parking-main.css'
 import './Parking-header.css'
-import CIcon from '@coreui/icons-react'
 import swal from 'sweetalert';
-import LoadingModal from '../../component/loading/LoadingModal'
 import store, { disAuthenticationLogin, selectCPH } from '../../../../store'
-import ComboBoxSearchItem from '../../component/combobox/ComboBoxSearchItem'
-import { fieldsHeader } from '../data/parking-data'
 import { getParkingHeaderAll } from './Parking-header-controller'
-import { getBadgeCph, getTextStatusCph, getDayTypeName } from '../data/parking-data'
+import { getDayTypeName } from '../data/parking-data'
 import ParkingHeaderAddModal from './add-modal/Parking-header-add-modal'
 import ParkingHeaderTable from './Parking-header-table'
 import ParkingHeaderInfo from './Parking-header-info'
@@ -91,22 +80,22 @@ function ParkingHeader(props) {
         refeshForm();
     }
 
-    //----------------Search
-    function onSearchClick(event) {
-        setShowLoading(true);
-        refeshForm();
-    }
-    //---------------Show edit form
-    function onViewClick(event) {
-        const cph_id = event.target.getAttribute("cph_id");
-        store.dispatch(selectCPH({ cph_id }));
-        setShowHeaderForm(false);
-    }
-    //----------------On Back Click
-    function onBackClick(event) {
-        setShowHeaderForm(false);
-        setShowMasterEditForm(true);
-    }
+    // //----------------Search
+    // function onSearchClick(event) {
+    //     setShowLoading(true);
+    //     refeshForm();
+    // }
+    // //---------------Show edit form
+    // function onViewClick(event) {
+    //     const cph_id = event.target.getAttribute("cph_id");
+    //     store.dispatch(selectCPH({ cph_id }));
+    //     setShowHeaderForm(false);
+    // }
+    // //----------------On Back Click
+    // function onBackClick(event) {
+    //     setShowHeaderForm(false);
+    //     setShowMasterEditForm(true);
+    // }
     //------------------Show add master modal
     let parkingHeaderAddModalElem = null;
     if (showModalAdd) {

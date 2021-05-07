@@ -14,16 +14,12 @@ import {
     CRow,
     CCol,
     CLabel,
-    CInputFile,
     CBadge,
 } from '@coreui/react'
-import CIcon from '@coreui/icons-react'
 import InputDisable from '../../../component/input/InputDisable'
-import TextArea from '../../../component/textarea/TextArea'
 import TextAreaDisable from '../../../component/textarea/TextAreaDisable'
 import { getParcelHistoryBydID } from './Parcel-history-modal-controller'
 import ImageBox from '../../../component/image/ImageBox'
-import ApiRoute from '../../../../../apiroute'
 import { getBadge, getStatus } from '../data/parcel-history-data'
 import store, { disAuthenticationLogin } from '../../../../../store'
 
@@ -39,9 +35,6 @@ const ParcelHistoryModal = ({ showModal, setShowModal, selectedObj, setShowLoadi
         , image_parcel_send: "", receive_vilager_datetime: "", receive_vilager_by: ""
         , receive_vilager_detail: ""
     })
-    const [image, setImage] = useState(null);
-    const [fileName, setFileName] = useState('Choose File');
-    const [remark, setRemark] = useState('')
     const [imageReceive, setImageReceive] = useState(null)
     const [imageSend, setImageSend] = useState(null)
 
@@ -219,9 +212,9 @@ const ParcelHistoryModal = ({ showModal, setShowModal, selectedObj, setShowLoadi
                     </CRow>
                 </CFormGroup>
             </CModalBody>
-            <CModalFooter>
+            <CModalFooter className="modal-footer">
                 <div></div>
-                <div>
+                <div className="modal-footer-item">
                     <CButton className="btn-modal-footer" color="warning" onClick={closeModal}>ยกเลิก</CButton>
                 </div>
             </CModalFooter>

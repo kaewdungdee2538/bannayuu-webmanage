@@ -2,9 +2,6 @@ import React from 'react'
 import './Complaint-success-modal.css'
 import {
     CButton,
-    CCard,
-    CCardBody,
-    CCardHeader,
     CCol,
     CBadge,
     CRow,
@@ -15,19 +12,13 @@ import {
     CFormGroup,
     CModalHeader,
     CModalTitle,
-    CCarousel,
-    CCarouselInner,
-    CCarouselItem,
 } from '@coreui/react'
 import InputDisable from '../../../component/input/InputDisable'
 import TextAreaDisable from '../../../component/textarea/TextAreaDisable'
-import TextArea from '../../../component/textarea/TextArea'
 import { useState, useEffect } from 'react'
 import { useSelector } from 'react-redux'
 import { useHistory } from 'react-router-dom'
-import CIcon from '@coreui/icons-react'
 import swal from 'sweetalert';
-import moment from 'moment'
 import { ComplaintSuccessModalModalController } from './Complaint-success-modal-controller'
 import ApiRoute from '../../../../../apiroute'
 import store, { disAuthenticationLogin } from '../../../../../store'
@@ -54,7 +45,7 @@ export default function ComplaintSuccessModal(props) {
     const history = useHistory();
     const authStore = useSelector(state => state)
     //--------------State
-    const { hci_id, hci_code, showModal, setShowModal, setRefeshForm,setShowLoading } = props;
+    const { hci_id, hci_code, showModal, setShowModal,setShowLoading } = props;
     const [complaintObj, setComplaintObj] = useState({
         hci_id: ""
         , hci_code: ""
@@ -69,7 +60,6 @@ export default function ComplaintSuccessModal(props) {
         , home_address: ""
         , update_date :""
     })
-    const [remark, setRemark] = useState('');
     const [imageComplaint, setImageComplaint] = useState('./image/camera-icon.png')
     //--------------Form Load
     useEffect(() => {
@@ -208,11 +198,8 @@ export default function ComplaintSuccessModal(props) {
                 </CFormGroup>
             </CModalBody>
             <CModalFooter className="modal-footer">
-                <div>
-                  
-                </div>
-                <div>
-                   
+                <div></div>
+                <div className="modal-footer-item">
                     <CButton className="btn-modal-footer" color="warning" onClick={closeModal}>ยกเลิก</CButton>
                 </div>
             </CModalFooter>

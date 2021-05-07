@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from 'react'
+import React, { useState } from 'react'
 import swal from 'sweetalert';
 import './Parking-master-add-modal.css'
 import { useSelector } from 'react-redux'
@@ -42,7 +42,6 @@ const ParkingMasterAddModal = (props) => {
     //--------------------------State
     const [nameTh, setNameTh] = useState("");
     const [nameEn, setNameEn] = useState("");
-    const [remark, setRemark] = useState("");
     const [overNightFine, setOverNightFine] = useState(0);
 
     const [dateStart, setDateStart] = useState(null);
@@ -373,7 +372,7 @@ const ParkingMasterAddModal = (props) => {
             </CModalBody>
             <CModalFooter className="modal-footer">
                 <div></div>
-                <div className="modal-footer-item">
+                <div className="modal-footer-item modal-footer-item-sub">
                     <CButton className="btn-modal-footer" color="success" onClick={addParcelModal}>เพิ่มรายการ</CButton>
                     <CButton className="btn-modal-footer" color="warning" onClick={closeModal}>ยกเลิก</CButton>
                 </div>

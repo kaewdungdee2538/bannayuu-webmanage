@@ -5,7 +5,6 @@ import {
     CCardHeader,
     CCol,
     CDataTable,
-    CBadge,
     CRow,
 } from '@coreui/react'
 import { useState, useEffect } from 'react'
@@ -14,14 +13,13 @@ import { useHistory } from 'react-router-dom'
 import './Common-fee-management-main.css'
 import CIcon from '@coreui/icons-react'
 import swal from 'sweetalert';
-import SelectBox from '../../../component/selectbox/SelectBox'
 import LoadingModal from '../../../component/loading/LoadingModal'
 import store, { disAuthenticationLogin } from '../../../../../store'
 import CommonFeeManagementMainController, { getHomeNotDisableInfo } from './Common-fee-management-main-controller'
 import InputEnable from '../../../component/input/InputEnable'
 import CommonFeeManagementAdd from '../add/Common-fee-management-add'
 import CommonFeeManagementEdit from '../edit/Common-fee-management-edit'
-import {getPaymentEventArray} from '../../../../../utils/getPatmentEvent'
+import { getPaymentEventArray } from '../../../../../utils/getPatmentEvent'
 import { fields } from '../data/common-fee-main-data'
 
 function CommonFeeManagementMain() {
@@ -60,10 +58,10 @@ function CommonFeeManagementMain() {
         }
     }, []);
     //--------------Reset form
-    function refeshForm() {
+    function refeshForm(reset) {
         let isNotAuth;
         document.body.style.cursor = "wait";
-        const searchObj = { home_address: addressSearch }
+        const searchObj = { home_address: reset ? null : addressSearch}
         CommonFeeManagementMainController({ authStore, searchObj })
             .then((res) => {
                 if (res.result) {
@@ -90,7 +88,7 @@ function CommonFeeManagementMain() {
             });
     }
     if (resfeshForm) {
-        refeshForm();
+        refeshForm(true);
     }
     //----------------Get home
     function getHomeAddress() {
@@ -124,7 +122,7 @@ function CommonFeeManagementMain() {
         }
     }
     //----------------Get Event Patment Array
-    function getPaymentEvent(){
+    function getPaymentEvent() {
         if (!authStore.authorization) {
             history.push("/");
         } else {

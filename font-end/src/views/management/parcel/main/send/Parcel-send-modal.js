@@ -14,10 +14,8 @@ import {
     CRow,
     CCol,
     CLabel,
-    CInputFile,
 } from '@coreui/react'
 import CIcon from '@coreui/icons-react'
-import InputEnable from '../../../component/input/InputEnable'
 import InputDisable from '../../../component/input/InputDisable'
 import TextArea from '../../../component/textarea/TextArea'
 import TextAreaDisable from '../../../component/textarea/TextAreaDisable'
@@ -301,8 +299,8 @@ const ParcelSendModal = ({ showEditModal, setShowEditModal, setRefeshForm, selec
                     </CRow>
                 </CFormGroup>
             </CModalBody>
-            <CModalFooter className="form-footer">
-                <div>
+            <CModalFooter className="modal-footer">
+                <div className="modal-footer-item">
                 <CButton className="btn-modal-footer" color="danger" onClick={onClickSaveCancel}>
                         <CIcon
                             name="cil-ban"
@@ -310,7 +308,7 @@ const ParcelSendModal = ({ showEditModal, setShowEditModal, setRefeshForm, selec
                         <span className="btn-icon-footer">ยกเลิกรับพัสดุ</span>
                     </CButton>
                 </div>
-                <div>
+                <div className="modal-footer-item modal-footer-item-sub">
                     <CButton className="btn-modal-footer" color="primary" onClick={sendParcelModal}>
                         <CIcon
                             name="cil-check"

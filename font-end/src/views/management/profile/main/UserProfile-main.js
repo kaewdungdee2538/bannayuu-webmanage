@@ -1,21 +1,15 @@
 import {
-    CButton,
     CCard,
     CCardBody,
     CCardHeader,
     CCol,
-    CDataTable,
-    CBadge,
     CRow,
-    CLabel
 } from '@coreui/react'
 import './UserProfile-main.css'
 import { useState, useEffect } from 'react'
 import { useSelector } from 'react-redux'
 import { useHistory } from 'react-router-dom'
-import CIcon from '@coreui/icons-react'
 import swal from 'sweetalert';
-import moment from 'moment'
 import { GetUserProfileByIDController } from './UserProfile-main-controller'
 import InputDisable from '../../component/input/InputDisable'
 import ImageBoxProfile from '../../component/image/ImageProfile'

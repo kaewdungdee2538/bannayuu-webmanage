@@ -8,7 +8,6 @@ import {
     CLabel,
     CBadge,
     CButton,
-    CHeader,
 } from '@coreui/react'
 import InputDisable from '../../../../component/input/InputDisable'
 import ImageBox from '../../../../component/image/ImageBox'

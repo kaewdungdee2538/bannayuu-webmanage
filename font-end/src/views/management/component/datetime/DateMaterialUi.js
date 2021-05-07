@@ -13,10 +13,11 @@ function DateMaterialUi(props) {
         selectedDate,
         setSelectedDate
     } = props;
-    function filterWeekends(date) {
-        // Return false if Saturday or Sunday
-        return date.getDay() === 0 || date.getDay() === 6;
-      }
+    
+    // function filterWeekends(date) {
+    //     // Return false if Saturday or Sunday
+    //     return date.getDay() === 0 || date.getDay() === 6;
+    // }
     const currentTime = moment(selectedDate);
     return (
         <MuiPickersUtilsProvider utils={DateFnsUtils}>

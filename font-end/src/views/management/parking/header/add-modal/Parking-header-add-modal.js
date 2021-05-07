@@ -21,9 +21,7 @@ import * as moment from 'moment';
 import InputEnable from '../../../component/input/InputEnable'
 import InputNumberEnable from '../../../component/input/InputNumberEnable'
 import TimeMaterialUi from '../../../component/time/TimeMaterialUi'
-import DateMaterialUi from '../../../component/datetime/DateMaterialUi'
 import store, { disAuthenticationLogin } from '../../../../../store'
-import ComboBoxSearchItem from '../../../component/combobox/ComboBoxSearchItem'
 import { getParkingHeaderCheckPriority, addParkingHeaderConfig } from './Parking-header-add-modal-controller'
 
 const ParkingHeaderAddModal = (props) => {
@@ -339,7 +337,7 @@ const ParkingHeaderAddModal = (props) => {
             </CModalBody>
             <CModalFooter className="modal-footer">
                 <div></div>
-                <div className="modal-footer-item">
+                <div className="modal-footer-item modal-footer-item-sub">
                     <CButton className="btn-modal-footer" color="success" onClick={addParkingHeader}>เพิ่มรายการ</CButton>
                     <CButton className="btn-modal-footer" color="warning" onClick={closeModal}>ยกเลิก</CButton>
                 </div>

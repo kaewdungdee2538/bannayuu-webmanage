@@ -3,19 +3,13 @@ import {
     CCard,
     CCardBody,
     CCardHeader,
-    CCol,
     CDataTable,
-    CBadge,
-    CRow,
-    CLabel
 } from '@coreui/react'
 import { useState, useEffect } from 'react'
 import { useSelector } from 'react-redux'
 import { useHistory } from 'react-router-dom'
 import './Estamp-get-by-home.css'
-import CIcon from '@coreui/icons-react'
 import swal from 'sweetalert';
-import moment from 'moment'
 import { EstampGetByHomeController } from './Estamp-get-by-home-controller'
 import EstampGetAll from '../manage-all/Estamp-get-all'
 import store, { disAuthenticationLogin } from '../../../../../store'

@@ -8,7 +8,6 @@ import {
     CDataTable,
     CBadge,
     CRow,
-    CLabel
 } from '@coreui/react'
 import { useState, useEffect } from 'react'
 import { useSelector } from 'react-redux'
@@ -21,7 +20,7 @@ import DatetimePickerInput from '../../../component/datetime/DatetimePickerInput
 import InputEnable from '../../../component/input/InputEnable'
 import LoadingModal from '../../../component/loading/LoadingModal'
 import store, { disAuthenticationLogin } from '../../../../../store'
-import {getBadge,getStatus,fields} from '../data/parcel-change-send-data'
+import { getBadge, getStatus, fields } from '../data/parcel-change-send-data'
 import ParcelChangeSendModal from '../modal/Parcel-change-send-modal'
 
 function ParcelChangeSendMain() {
@@ -32,7 +31,7 @@ function ParcelChangeSendMain() {
     //--------------State
     const [parcelObj, setParcelObj] = useState(null)
 
-    const [showAddModal, setShowAddModal] = useState(false);
+    // const [showAddModal, setShowAddModal] = useState(false);
     const [showEditModal, setShowEditModal] = useState(false);
     const [selectedObj, setSelectedObj] = useState({
         hci_id: "", hci_code: ""
@@ -57,10 +56,10 @@ function ParcelChangeSendMain() {
     }, [])
     //-----------------Refesh Form
     if (refeshForm) {
-        refeshFormFunc();
+        refeshFormFunc(true);
         setRefeshForm(false);
     }
-    function refeshFormFunc() {
+    function refeshFormFunc(reset) {
         if (!authStore.authorization) {
             history.push("/");
         } else {
@@ -68,8 +67,8 @@ function ParcelChangeSendMain() {
             setShowLoading(true);
             document.body.style.cursor = "wait";
             const searchObj = {
-                address,
-                headerText,
+                address: reset ? null : address,
+                headerText: reset ? null : headerText,
                 start_date: moment(dateTimeStart).format("YYYY-MM-DDTHH:mm:ss").toString(),
                 end_date: moment(dateTimeEnd).format("YYYY-MM-DDTHH:mm:ss").toString()
             }
@@ -155,14 +154,14 @@ function ParcelChangeSendMain() {
         }
         return true;
     }
-   
+
     //--------------------------
     return (
         <CCard>
             {loadingmodal}
             {parcelEditModal}
             <CCardHeader className="form-head-parcel-change">ยกเลิกส่งพัสดุ หรือเปลี่ยนบ้าน</CCardHeader>
-            
+
             <CCardBody>
                 <CCol xs="12" lg="12">
                     <CCard>

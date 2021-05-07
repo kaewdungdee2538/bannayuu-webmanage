@@ -111,6 +111,8 @@ const ApiRoute ={
         ,edit_parking_header_second_url:'/webbannayuu/api/parking-config-header/edit-header-second'
         ,get_parking_sub_all_by_cph_url:'/webbannayuu/api/parking-config-sub/get-all'
         ,create_parking_sub_url:'/webbannayuu/api/parking-config-sub/create-sub'
+        ,get_parking_sub_info_by_cps_id_url:'/webbannayuu/api/parking-config-sub/get-by-id'
+        ,edit_parking_sub_info_url:'/webbannayuu/api/parking-config-sub/edit-sub'
     }
 }
 export default ApiRoute;

@@ -11,7 +11,6 @@ import {
 } from '@coreui/react'
 import InputDisable from '../../../../component/input/InputDisable'
 import ImageBox from '../../../../component/image/ImageBox'
-import InputEnable from '../../../../component/input/InputEnable'
 import { getBadge, getTextStatus } from '../../data/villager-payment-management-data'
 import PropTypes from 'prop-types';
 

@@ -5,8 +5,6 @@ import {
     CFormGroup,
     CRow,
     CCol,
-    CLabel,
-    CBadge,
     CButton,
 } from '@coreui/react'
 import InputDisable from '../../../../component/input/InputDisable'
@@ -25,9 +23,9 @@ function VillagerPaymentEditCancel(props) {
         closeModal,
         setRefeshForm, 
         setShowLoading, 
-        setShowInfo,
-        setShowCancel,
-        setShowApprove,
+        // setShowInfo,
+        // setShowCancel,
+        // setShowApprove,
     } = props;
     const history = useHistory();
     const authStore = useSelector(state => state)

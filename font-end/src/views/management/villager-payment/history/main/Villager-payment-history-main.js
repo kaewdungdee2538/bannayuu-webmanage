@@ -7,8 +7,6 @@ import {
     CDataTable,
     CBadge,
     CRow,
-    CSwitch,
-    CLabel,
 } from '@coreui/react'
 import { useState, useEffect } from 'react'
 import { useSelector } from 'react-redux'
@@ -20,7 +18,7 @@ import * as moment from 'moment'
 import LoadingModal from '../../../component/loading/LoadingModal'
 import store, { disAuthenticationLogin } from '../../../../../store'
 import InputEnable from '../../../component/input/InputEnable'
-import { fields, getBadge, getTextStatus } from '../data/villager-payment-history-data'
+import { fields, getBadge } from '../data/villager-payment-history-data'
 import DatePickerInput from '../../../component/datetime/DatePickerInput'
 import ComboBoxSearchItem from '../../../component/combobox/ComboBoxSearchItem'
 import { getPaymentEventArray } from '../../../../../utils/getPatmentEvent'

@@ -2,9 +2,6 @@ import React from 'react'
 import './Complaint-not-approve-modal.css'
 import {
     CButton,
-    CCard,
-    CCardBody,
-    CCardHeader,
     CCol,
     CBadge,
     CRow,
@@ -15,9 +12,6 @@ import {
     CFormGroup,
     CModalHeader,
     CModalTitle,
-    CCarousel,
-    CCarouselInner,
-    CCarouselItem,
 } from '@coreui/react'
 import InputDisable from '../../../component/input/InputDisable'
 import TextAreaDisable from '../../../component/textarea/TextAreaDisable'
@@ -27,7 +21,6 @@ import { useSelector } from 'react-redux'
 import { useHistory } from 'react-router-dom'
 import CIcon from '@coreui/icons-react'
 import swal from 'sweetalert';
-import moment from 'moment'
 import { ComplaintNotApproveModalController } from './Complaint-not-approve-modal-controller'
 import { ComplaintSaveReceiptModalController, ComplaintSaveRejectModalController } from './Complaint-not-approve-modal-controller'
 import ApiRoute from '../../../../../apiroute'
@@ -315,7 +308,7 @@ export default function ComplaintNotApproveModal(props) {
                 </CFormGroup>
             </CModalBody>
             <CModalFooter className="modal-footer">
-                <div>
+                <div className="modal-footer-item">
                     <CButton className="btn-modal-footer" color="danger" onClick={onClickSaveReject}>
                         <CIcon
                             name="cil-ban"
@@ -323,7 +316,7 @@ export default function ComplaintNotApproveModal(props) {
                         <span className="btn-icon">ปฏิเสธคำร้องเรียน</span>
                     </CButton>
                 </div>
-                <div>
+                <div className ="modal-footer-item modal-footer-item-sub">
                     <CButton className="btn-modal-footer" color="info" onClick={onClickSaveReceipt}>
                         <CIcon
                             name="cil-bookmark"

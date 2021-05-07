@@ -7,8 +7,7 @@ import './AlertPopup.css'
 
 export default function AlertPopup(props) {
     const history = useHistory();
-    const { timeShowAlert, setTimeShowAlert, title, text, color, activeClass, imgIcon,link } = props;
-    let showClass = activeClass ? "show-alert" : "hidden-alert"
+    const { setTimeShowAlert, title, text, color, activeClass, imgIcon,link } = props;
     let img_type = (value) => {
         switch (value) {
             case 'sos':

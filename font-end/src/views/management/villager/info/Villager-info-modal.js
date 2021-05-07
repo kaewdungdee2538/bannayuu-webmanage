@@ -9,11 +9,9 @@ import {
   CModalHeader,
   CModalTitle,
   CFormGroup,
-  CLabel,
-  CInput,
   CSwitch,
 } from "@coreui/react";
-import store, { selectHome, unSelectHome, disAuthenticationLogin } from "../../../../store";
+import store, { disAuthenticationLogin } from "../../../../store";
 import { useSelector } from "react-redux";
 import { useHistory } from "react-router-dom";
 import {
@@ -226,7 +224,7 @@ function VillagerInfoModal({ selectedRow, setSelectedRow, setRefeshForm, setShow
         </CFormGroup>
       </CModalBody>
       <CModalFooter className="modal-footer">
-        <div>
+        <div className="modal-footer-item">
           <CSwitch
             className={'mx-2'}
             shape={'pill'}
@@ -238,7 +236,7 @@ function VillagerInfoModal({ selectedRow, setSelectedRow, setRefeshForm, setShow
           />
           <span>สถานะการใช้งาน</span>
         </div>
-        <div>
+        <div className="modal-footer-item modal-footer-item-sub">
           <CButton
             className="btn-modal-footer"
             color="primary"

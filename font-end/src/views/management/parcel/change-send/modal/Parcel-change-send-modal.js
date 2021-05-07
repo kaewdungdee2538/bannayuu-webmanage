@@ -4,26 +4,11 @@ import './Parcel-change-send-modal.css'
 import { useSelector } from 'react-redux'
 import { useHistory } from 'react-router-dom'
 import {
-    CButton,
     CModal,
     CModalHeader,
     CModalTitle,
-    CModalBody,
-    CModalFooter,
-    CFormGroup,
-    CRow,
-    CCol,
-    CLabel,
-    CInputFile,
-    CBadge,
 } from '@coreui/react'
-import CIcon from '@coreui/icons-react'
-import InputDisable from '../../../component/input/InputDisable'
-import TextArea from '../../../component/textarea/TextArea'
-import TextAreaDisable from '../../../component/textarea/TextAreaDisable'
 import { getParcelInfoBydID } from './Parcel-change-send-modal-controller'
-import ImageBox from '../../../component/image/ImageBox'
-import { getBadge, getStatus } from '../data/parcel-change-send-data'
 import store, { disAuthenticationLogin } from '../../../../../store'
 import ParcelChangeSendModalFirst from './Parcel-change-send-modal-first'
 import ParcelChangeSendModalHomeChange from './Parcel-change-send-modal-home-change'

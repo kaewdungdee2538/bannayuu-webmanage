@@ -1,11 +1,7 @@
 import {
-    CButton,
     CCard,
     CCardBody,
     CCardHeader,
-    CCol,
-    CDataTable,
-    CBadge,
     CTabs,
     CNav,
     CNavItem,
@@ -13,19 +9,12 @@ import {
     CTabContent,
     CTabPane
 } from '@coreui/react'
-import { useState, useEffect } from 'react'
-import { useSelector } from 'react-redux'
-import { useHistory } from 'react-router-dom'
+import { useState } from 'react'
 import './EstampMain.css'
-import CIcon from '@coreui/icons-react'
-import swal from 'sweetalert';
 import EstampGetAll from '../manage-all/Estamp-get-all'
 import EstampGetByHome from '../manage-by-home/Estamp-get-by-home'
 import LoadingModal from '../../../component/loading/LoadingModal'
 function EstampMain() {
-    const history = useHistory();
-    const authStore = useSelector(state => state)
-
     //-------------------State
     const [showLoading,setShowLoading] = useState(false);
     //-------------------Show loading spiner

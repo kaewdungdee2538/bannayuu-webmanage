@@ -87,7 +87,7 @@ const VillagerHomeInfo = () => {
   return (
     <CCard>
       {loadingmodal}
-      <CCardHeader className="form-main-header">บ้าน</CCardHeader>
+      <CCardHeader className="form-main-header">จัดการลูกบ้าน</CCardHeader>
       <CCardBody>
         <CCol xs="12" lg="12">
           <CCard>

@@ -7,8 +7,6 @@ import {
     CDataTable,
     CBadge,
     CRow,
-    CSwitch,
-    CLabel,
 } from '@coreui/react'
 import { useState, useEffect } from 'react'
 import { useSelector } from 'react-redux'
@@ -16,12 +14,10 @@ import { useHistory } from 'react-router-dom'
 import './Villager-payment-main.css'
 import CIcon from '@coreui/icons-react'
 import swal from 'sweetalert';
-// import * as moment from 'moment'
 import LoadingModal from '../../../component/loading/LoadingModal'
 import store, { disAuthenticationLogin } from '../../../../../store'
 import InputEnable from '../../../component/input/InputEnable'
 import { fields, getBadge, getTextStatus } from '../data/villager-payment-management-data'
-// import DatetimePickerInput from '../../../component/datetime/DatePickerInput'
 import ComboBoxSearchItem from '../../../component/combobox/ComboBoxSearchItem'
 import { getPaymentEventArray } from '../../../../../utils/getPatmentEvent'
 import {getVillagerPaymentNotApprove} from './Villager-payment-main-controller'

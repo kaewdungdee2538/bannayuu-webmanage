@@ -15,18 +15,9 @@ import swal from 'sweetalert';
 import { getHomeInfo } from './License-home-controller'
 import { useSelector } from 'react-redux'
 import { useHistory } from 'react-router-dom'
-import { convertTZ } from '../../../../utils'
 import store, { disAuthenticationLogin } from '../../../../store'
 import InputEnable from '../../component/input/InputEnable'
-const getBadge = status => {
-    switch (status) {
-        case 'active': return 'success'
-        case 'inactive': return 'secondary'
-        case 'pending': return 'warning'
-        case 'banned': return 'danger'
-        default: return 'primary'
-    }
-}
+
 const fields = ['บ้านเลขที่', 'เลือกบ้าน']
 
 

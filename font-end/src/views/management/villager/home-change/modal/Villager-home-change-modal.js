@@ -7,12 +7,9 @@ import {
     CModalBody,
     CFormGroup,
     CModalFooter,
-    CSwitch,
     CButton,
     CRow,
     CCol,
-    CBadge,
-    CLabel,
     CCard,
     CCardHeader,
     CCardBody,
@@ -224,9 +221,9 @@ export default function VillagerHomeChangeSelectHome(props) {
                 </CFormGroup>
             </CModalBody>
             <CModalFooter className="modal-footer">
-                <div className="switch-footer">
-                </div>
                 <div>
+                </div>
+                <div className="modal-footer-item">
                     {/* <CButton className="btn-modal-footer" color="primary" onClick={onChangeHomeClick}>
                         <CIcon
                             name="cil-fullscreen-exit"

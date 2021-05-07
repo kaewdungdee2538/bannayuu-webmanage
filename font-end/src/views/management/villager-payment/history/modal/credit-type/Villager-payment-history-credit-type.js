@@ -8,7 +8,6 @@ import {
     CLabel,
     CBadge,
     CButton,
-    CHeader,
 } from '@coreui/react'
 import InputDisable from '../../../../component/input/InputDisable'
 import TextAreaDisable from '../../../../component/textarea/TextAreaDisable'
@@ -18,7 +17,7 @@ import PropTypes from 'prop-types';
 function VillagerPaymentHistoryCreditType(props) {
     const {
         villagerPaymentObj,
-        imageBill,
+        // imageBill,
         closeModal,
     } = props;
 

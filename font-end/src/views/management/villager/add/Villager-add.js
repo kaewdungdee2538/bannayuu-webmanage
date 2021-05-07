@@ -8,8 +8,6 @@ import {
   CModalTitle,
   CModalBody,
   CFormGroup,
-  CInput,
-  CLabel,
   CModalFooter,
 } from "@coreui/react";
 import InputDisable from "../../component/input/InputDisable";
@@ -145,9 +143,9 @@ function VillagerAddModal({ showCreate, setShowCreate, setRefeshForm, setShowLoa
           />
         </CFormGroup>
       </CModalBody>
-      <CModalFooter>
+      <CModalFooter className="modal-footer">
         <CButton
-          className="btn-modal-footer"
+          className="btn-modal-footer" 
           color="success"
           onClick={addHomeModal}
         >

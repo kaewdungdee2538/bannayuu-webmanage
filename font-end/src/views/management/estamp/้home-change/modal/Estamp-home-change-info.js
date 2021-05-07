@@ -107,9 +107,9 @@ export default function EstampHomeChangeInfo(props) {
                 </CFormGroup>
             </CModalBody>
             <CModalFooter className="modal-footer">
-                <div className="switch-footer">
-                </div>
                 <div>
+                </div>
+                <div className="modal-footer-item modal-footer-item-sub">
                     <CButton className="btn-modal-footer" color="primary" onClick={onChangeHomeClick}>
                         <CIcon
                             name="cil-fullscreen-exit"

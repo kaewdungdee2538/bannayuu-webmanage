@@ -1,6 +1,5 @@
 import {
     CLabel,
-    CSelect,
 } from '@coreui/react'
 import { useState, } from 'react'
 import './ComboBoxSearchItem.css'

@@ -2,10 +2,7 @@ import {
     CButton,
     CCard,
     CCardBody,
-    CCardHeader,
     CCol,
-    CDataTable,
-    CBadge,
     CRow,
     CLabel,
     CFormGroup,
@@ -18,9 +15,7 @@ import '../main/Parking-main.css'
 import './Parking-header.css'
 import store, { disAuthenticationLogin, unSelectCPH } from '../../../../store'
 import swal from 'sweetalert';
-import moment from 'moment'
-import { fieldsHeader } from '../data/parking-data'
-import { getBadgeCph, getTextStatusCph } from '../data/parking-data'
+import moment from 'moment';
 import { getParkingHeaderByCPHID, editParkingHeaderByCPHID } from './Parking-header-controller'
 import InputDisable from '../../component/input/InputDisable'
 import InputEnable from '../../component/input/InputEnable'

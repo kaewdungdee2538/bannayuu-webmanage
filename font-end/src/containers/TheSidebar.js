@@ -16,12 +16,14 @@ import '../css/style.css'
 
 
 // sidebar nav config
-import navigation from './_nav'
+import GetNavBarItems from './_nav'
 
 const TheSidebar = () => {
   const dispatch = useDispatch()
-  const show = useSelector(state => state.sidebarShow)
-
+  const authStore = useSelector(state => state)
+  const show = authStore.sidebarShow;
+  const navItems = GetNavBarItems(authStore.privilege_info);
+  
   return (
     <CSidebar
       show={show}
@@ -54,7 +56,7 @@ const TheSidebar = () => {
       <CSidebarNav>
 
         <CCreateElement
-          items={navigation}
+          items={navItems}
           components={{
             CSidebarNavDivider,
             CSidebarNavDropdown,

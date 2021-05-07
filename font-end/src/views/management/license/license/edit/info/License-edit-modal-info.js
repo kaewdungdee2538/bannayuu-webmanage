@@ -1,5 +1,5 @@
 import '../modal/License-edit-modal-main.css'
-import React, { useState, useEffect } from 'react'
+import React, { useState } from 'react'
 import swal from 'sweetalert';
 import { useSelector } from 'react-redux'
 import { useHistory } from 'react-router-dom'
@@ -262,7 +262,7 @@ function LicenseEditModalInfo(props) {
                         <span className="btn-icon-footer">เปลี่ยนบ้าน</span>
                     </CButton>
                 </div>
-                <div className="modal-footer-item">
+                <div className="modal-footer-item modal-footer-item-sub">
                     <CButton className="btn-modal-footer" color="success" onClick={onEditClick}>
                         <CIcon
                             name="cil-check"

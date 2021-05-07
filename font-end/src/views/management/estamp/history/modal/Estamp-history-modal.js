@@ -5,7 +5,6 @@ import {
     CModalBody,
     CFormGroup,
     CModalFooter,
-    CSwitch,
     CButton,
     CRow,
     CCol,
@@ -16,7 +15,6 @@ import './Estamp-history-modal.css'
 import { useState, useEffect } from 'react'
 import { useSelector } from 'react-redux'
 import { useHistory } from 'react-router-dom'
-import CIcon from '@coreui/icons-react'
 import swal from 'sweetalert';
 import { getBadge, getTextStatus } from '../data/estamp-history-main-data'
 import InputDisable from '../../../component/input/InputDisable'
@@ -221,7 +219,7 @@ function EstampHistoryModal(props) {
             <CModalFooter className="modal-footer">
                 <div>
                 </div>
-                <div>
+                <div className="modal-footer-item">
                     <CButton className="btn-modal-footer" color="warning" onClick={closeModal}>ยกเลิก</CButton>
                 </div>
             </CModalFooter>

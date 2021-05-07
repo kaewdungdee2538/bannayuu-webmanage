@@ -109,10 +109,18 @@ const ParkingSubAddModal = (props) => {
     }
     //------------------------Middleware
     function addParkingSubMiddleware() {
-        if (!hoursStart && !minutesStart && !secondsStart && !hoursStop && !minutesStop && !secondsStop) {
+        if (!hoursStart && !minutesStart && !secondsStart) {
             swal({
                 title: "Warning.",
-                text: 'กรุณากรอกเวลาจอด',
+                text: 'กรุณากรอกเวลาจอด เริ่มต้น',
+                icon: "warning",
+                button: "OK",
+            });
+            return false;
+        }else if(!hoursStop && !minutesStop && !secondsStop){
+            swal({
+                title: "Warning.",
+                text: 'กรุณากรอกเวลาจอด สิ้นสุด',
                 icon: "warning",
                 button: "OK",
             });
@@ -259,7 +267,7 @@ const ParkingSubAddModal = (props) => {
             </CModalBody>
             <CModalFooter className="modal-footer">
                 <div></div>
-                <div className="modal-footer-item">
+                <div className="modal-footer-item modal-footer-item-sub">
                     <CButton className="btn-modal-footer" color="success" onClick={addParkingSub}>เพิ่มรายการ</CButton>
                     <CButton className="btn-modal-footer" color="warning" onClick={closeModal}>ยกเลิก</CButton>
                 </div>

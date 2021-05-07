@@ -216,7 +216,7 @@ const CommonFeeHistoryModal = ({ selectCommon, showModal, setShowModal, setRefes
             </CModalBody>
             <CModalFooter className="modal-footer">
                 <div></div>
-                <div>
+                <div className="modal-footer-item">
                     <CButton className="btn-modal-footer" color="warning" onClick={closeModal}>ยกเลิก</CButton>
                 </div>
             </CModalFooter>

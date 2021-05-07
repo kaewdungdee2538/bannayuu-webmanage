@@ -1,7 +1,7 @@
 import axios from 'axios';
 import ApiRoute from '../../../../../apiroute'
 const getAnnouceModal = (props) => {
-    const { authStore, announceObj } = props
+    const { authStore } = props
     const company_id = authStore.company_id;
     const config = {
         headers: { Authorization: `Bearer ${authStore.access_token}` }

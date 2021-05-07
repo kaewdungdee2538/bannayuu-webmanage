@@ -1,4 +1,3 @@
-import Moment from 'react-moment';
 import 'moment-timezone';
 export function convertTZ(date, tzString) {
     const newDate = new Date(date);

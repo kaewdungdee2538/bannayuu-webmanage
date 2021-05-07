@@ -1,24 +1,17 @@
 import './Parcel-change-send-modal.css'
-import { fieldsHome, getBadge, getTextStatus } from '../data/parcel-change-send-data'
+import { fieldsHome} from '../data/parcel-change-send-data'
 import {
-    CModal,
-    CModalHeader,
-    CModalTitle,
     CModalBody,
     CFormGroup,
     CModalFooter,
-    CSwitch,
     CButton,
     CRow,
     CCol,
-    CBadge,
-    CLabel,
     CCard,
     CCardHeader,
     CCardBody,
     CDataTable,
 } from '@coreui/react'
-
 import CIcon from '@coreui/icons-react'
 import { useState, useEffect } from 'react'
 import { useSelector } from 'react-redux'
@@ -35,8 +28,9 @@ function ParcelChangeSendModalHomeChange(props) {
     const { closeModal, 
         parcelObj, 
         setShowLoading,
-        setShowFirstModal,
-        setShowHomeChangeModal, } = props;
+        // setShowFirstModal,
+        // setShowHomeChangeModal, 
+    } = props;
     //------------------State
     const [homeInfo, setHomeInfo] = useState(null);
     const [addressSearch, setAddressSearch] = useState('');
@@ -212,7 +206,7 @@ function ParcelChangeSendModalHomeChange(props) {
             <CModalFooter className="modal-footer">
                 <div className="switch-footer">
                 </div>
-                <div>
+                <div className="modal-footer-item">
                     {/* <CButton className="btn-modal-footer" color="primary" onClick={onChangeHomeClick}>
                         <CIcon
                             name="cil-fullscreen-exit"

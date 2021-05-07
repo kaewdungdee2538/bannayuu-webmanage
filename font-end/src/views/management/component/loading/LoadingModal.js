@@ -1,7 +1,3 @@
-import {
-    CModal,
-    CModalBody,
-} from '@coreui/react'
 import './LoadingModal.css'
 export default function LoadingModal(props) {
     const { setShowLoading, showLoading } = props;

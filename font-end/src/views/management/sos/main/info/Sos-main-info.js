@@ -8,7 +8,6 @@ import {
     CDataTable,
     CBadge,
     CRow,
-    CLabel
 } from '@coreui/react'
 import { useState, useEffect } from 'react'
 import { useSelector } from 'react-redux'
@@ -21,7 +20,7 @@ import DatetimePickerInput from '../../../component/datetime/DatetimePickerInput
 import InputEnable from '../../../component/input/InputEnable'
 import LoadingModal from '../../../component/loading/LoadingModal'
 import store, { disAuthenticationLogin } from '../../../../../store'
-import {getBadge,getStatus,fields} from '../data/sos-main-data'
+import { getBadge, getStatus, fields } from '../data/sos-main-data'
 import SosMainModal from '../modal/Sos-modal-info'
 function SosMainInfo() {
     const history = useHistory();
@@ -53,10 +52,10 @@ function SosMainInfo() {
     }, [])
     //-----------------Refesh Form
     if (refeshForm) {
-        refeshFormFunc();
+        refeshFormFunc(true);
         setRefeshForm(false);
     }
-    function refeshFormFunc() {
+    function refeshFormFunc(reset) {
         if (!authStore.authorization) {
             history.push("/");
         } else {
@@ -64,7 +63,7 @@ function SosMainInfo() {
             setShowLoading(true);
             document.body.style.cursor = "wait";
             const searchObj = {
-                address,
+                address: reset ? null : address,
                 start_date: moment(dateTimeStart).format("YYYY-MM-DDTHH:mm:ss").toString(),
                 end_date: moment(dateTimeEnd).format("YYYY-MM-DDTHH:mm:ss").toString()
             }
@@ -93,7 +92,7 @@ function SosMainInfo() {
                 });
         }
     }
-    
+
     //------------------on click show modal
     function onClickShowModal(event) {
         const sos_id = event.target.getAttribute("sos_id")
@@ -102,13 +101,13 @@ function SosMainInfo() {
     }
     //-----------------Show Modal
     let showModal = null;
-    if(showSosModal){
+    if (showSosModal) {
         showModal = <SosMainModal
-        showSosModal={showSosModal}
-        setShowSosModal={setShowSosModal}
-        selectedObj={selectedObj}
-        setShowLoading={setShowLoading}
-        setRefeshForm={setRefeshForm}
+            showSosModal={showSosModal}
+            setShowSosModal={setShowSosModal}
+            selectedObj={selectedObj}
+            setShowLoading={setShowLoading}
+            setRefeshForm={setRefeshForm}
         />
     }
     //-----------------Date Handing
@@ -150,7 +149,7 @@ function SosMainInfo() {
         }
         return true;
     }
-    
+
     //--------------------------
     return (
         <CCard>

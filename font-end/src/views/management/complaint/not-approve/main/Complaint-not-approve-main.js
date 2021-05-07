@@ -8,7 +8,6 @@ import {
     CDataTable,
     CBadge,
     CRow,
-    CLabel
 } from '@coreui/react'
 import { useState, useEffect } from 'react'
 import { useSelector } from 'react-redux'
@@ -21,7 +20,7 @@ import ComplaintNotApproveModal from '../modal/Complaint-not-approve-modal'
 import DatetimePickerInput from '../../../component/datetime/DatetimePickerInput'
 import InputEnable from '../../../component/input/InputEnable'
 import LoadingModal from '../../../component/loading/LoadingModal'
-import store,{disAuthenticationLogin} from '../../../../../store'
+import store, { disAuthenticationLogin } from '../../../../../store'
 
 const getBadge = status => {
     switch (status) {
@@ -53,7 +52,7 @@ function ComplaintNotApproveMain() {
     const [dateTimeEnd, setDateTimeEnd] = useState(dateEnd);
     const [address, setAddress] = useState('');
     const [headerText, setHeaderText] = useState('')
-    const [showLoading,setShowLoading] = useState(false);
+    const [showLoading, setShowLoading] = useState(false);
     //-------------------Show loading spiner
     let loadingmodal = null;
     if (showLoading) {
@@ -68,18 +67,18 @@ function ComplaintNotApproveMain() {
     }, [])
     //-----------------Refesh Form
     if (refeshForm) {
-        refeshFormFunc();
+        refeshFormFunc(true);
         setRefeshForm(false);
     }
-    function refeshFormFunc() {
+    function refeshFormFunc(reset) {
         if (!authStore.authorization) {
             history.push("/");
         } else {
             setShowLoading(true)
             document.body.style.cursor = "wait";
             const searchObj = {
-                address,
-                headerText,
+                address: reset ? null : address,
+                headerText: reset ? null : headerText,
                 start_date: moment(dateTimeStart).format("YYYY-MM-DDTHH:mm:ss").toString(),
                 end_date: moment(dateTimeEnd).format("YYYY-MM-DDTHH:mm:ss").toString()
             }
@@ -91,7 +90,7 @@ function ComplaintNotApproveMain() {
                         setComplaintObj(result);
                     } else if (res.statusCode === 401) {
                         isNotAuth = res.error
-                    }else swal("Warning!", res.error, "warning");
+                    } else swal("Warning!", res.error, "warning");
                 })
                 .catch((err) => {
                     console.log(err);
@@ -161,7 +160,7 @@ function ComplaintNotApproveMain() {
         const timeEnd = moment(dateTimeEnd);
         const time_diff = timeEnd - timeStart
         const getMonth = moment(time_diff).get('month')
-        if(getMonth>1){
+        if (getMonth > 1) {
             swal("Warning!", "เลือกช่วงเวลาห้ามมากกว่า 1 เดือน", "warning");
             return false;
         }

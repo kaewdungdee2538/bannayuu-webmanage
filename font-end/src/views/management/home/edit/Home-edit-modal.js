@@ -9,8 +9,6 @@ import {
     CModalHeader,
     CModalTitle,
     CFormGroup,
-    CLabel,
-    CInput,
     CSwitch
 } from '@coreui/react'
 import HomeAddInput from '../component/Home-add-input'
@@ -35,10 +33,10 @@ function HomeEditModal({ selectedRow, setSelectedRow, authStore, setRefeshForm, 
     const [homeCode, setHomeCode] = useState('');
     const [addressText, setAddressText] = useState('');
     const [remarkText, setRemarkText] = useState('');
-    const [createDate, setCreateDate] = useState('');
-    const [createBy, setCreateBy] = useState('');
-    const [updateDate, setUpdateDate] = useState('');
-    const [updateBy, setUpdateBy] = useState('');
+    // const [createDate, setCreateDate] = useState('');
+    // const [createBy, setCreateBy] = useState('');
+    // const [updateDate, setUpdateDate] = useState('');
+    // const [updateBy, setUpdateBy] = useState('');
     const [companyName, setCompanyName] = useState('')
     //----------------On Load
     useEffect(() => {
@@ -65,19 +63,19 @@ function HomeEditModal({ selectedRow, setSelectedRow, authStore, setRefeshForm, 
                         const home_code = !result.home_code ? '' : result.home_code
                         const home_address = !result.home_address ? '' : result.home_address
                         const home_remark = !result.home_remark ? '' : result.home_remark
-                        const create_date = !result.create_date ? '' : convertTZ(result.create_date).toString()
-                        const create_by = !result.create_by ? '' : result.create_by
-                        const update_date = !result.update_date ? '' : convertTZ(result.update_date)
-                        const update_by = !result.update_by ? '' : result.update_by
+                        // const create_date = !result.create_date ? '' : convertTZ(result.create_date).toString()
+                        // const create_by = !result.create_by ? '' : result.create_by
+                        // const update_date = !result.update_date ? '' : convertTZ(result.update_date)
+                        // const update_by = !result.update_by ? '' : result.update_by
                         const company_name = !result.company_name ? '' : result.company_name
                         const status = result.status === 'active' ? true : false;
                         setHomeCode(home_code)
                         setAddressText(home_address)
                         setRemarkText(home_remark)
-                        setCreateDate(create_date)
-                        setCreateBy(create_by)
-                        setUpdateDate(update_date)
-                        setUpdateBy(update_by)
+                        // setCreateDate(create_date)
+                        // setCreateBy(create_by)
+                        // setUpdateDate(update_date)
+                        // setUpdateBy(update_by)
                         setCompanyName(company_name)
                         setCheck(status)
                     }
@@ -210,7 +208,7 @@ function HomeEditModal({ selectedRow, setSelectedRow, authStore, setRefeshForm, 
                 </CFormGroup>
             </CModalBody>
             <CModalFooter className="modal-footer">
-                <div>
+                <div className="modal-footer-item">
                     <CSwitch
                         className={'mx-2'}
                         shape={'pill'}
@@ -222,7 +220,7 @@ function HomeEditModal({ selectedRow, setSelectedRow, authStore, setRefeshForm, 
                     />
                     <span>สถานะการใช้งาน</span>
                 </div>
-                <div>
+                <div className="modal-footer-item modal-footer-item-sub">
                     <CButton className="btn-modal-footer" color="primary" onClick={editHomeModal}>บันทึก</CButton>
                     <CButton className="btn-modal-footer" color="warning" onClick={closeModal}>ยกเลิก</CButton>
                 </div>

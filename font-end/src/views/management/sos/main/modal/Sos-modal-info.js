@@ -13,11 +13,8 @@ import {
     CFormGroup,
     CRow,
     CCol,
-    CLabel,
-    CInputFile,
 } from '@coreui/react'
 import CIcon from '@coreui/icons-react'
-import InputEnable from '../../../component/input/InputEnable'
 import InputDisable from '../../../component/input/InputDisable'
 import TextArea from '../../../component/textarea/TextArea'
 import TextAreaDisable from '../../../component/textarea/TextAreaDisable'
@@ -290,7 +287,7 @@ const SosMainModal = ({ showSosModal, setShowSosModal, setRefeshForm, selectedOb
                 </CFormGroup>
             </CModalBody>
             <CModalFooter className="form-footer">
-                <div>
+                <div className="modal-footer-item">
                     <CButton className="btn-modal-footer" color="danger" onClick={onClickSaveCancel}>
                         <CIcon
                             name="cil-ban"
@@ -298,7 +295,7 @@ const SosMainModal = ({ showSosModal, setShowSosModal, setRefeshForm, selectedOb
                         <span className="btn-icon-footer">ยกเลิกแจ้งเตือน</span>
                     </CButton>
                 </div>
-                <div>
+                <div className="modal-footer-item modal-footer-item-sub">
                     <CButton className="btn-modal-footer" color="primary" onClick={onSaveReceiveClick}>
                         <CIcon
                             name="cil-check"

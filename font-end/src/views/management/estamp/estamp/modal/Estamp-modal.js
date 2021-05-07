@@ -322,7 +322,7 @@ function EstampModal(props) {
                 </CFormGroup>
             </CModalBody>
             <CModalFooter className="modal-footer">
-                <div className="switch-footer">
+                <div>
                     {/* <CSwitch
                         className={'mx-2 c-switch-lg'}
                         shape={'pill'}
@@ -333,7 +333,7 @@ function EstampModal(props) {
                         onChange={onCheckBoxChange}
                     /><span>ประทับตรา</span> */}
                 </div>
-                <div>
+                <div className="modal-footer-item">
                     {btnEstamp}
                     <CButton className="btn-modal-footer" color="warning" onClick={closeModal}>ยกเลิก</CButton>
                 </div>

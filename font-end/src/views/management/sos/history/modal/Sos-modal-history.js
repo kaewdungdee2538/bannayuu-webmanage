@@ -171,9 +171,9 @@ const SosHistoryModal = ({ showSosModal, setShowSosModal, selectedObj, setShowLo
                     </CRow>
                 </CFormGroup>
             </CModalBody>
-            <CModalFooter>
+            <CModalFooter className="modal-footer">
                 <div></div>
-                <div>
+                <div className="modal-footer-item">
                     <CButton className="btn-modal-footer" color="warning" onClick={closeModal}>ยกเลิก</CButton>
                 </div>
             </CModalFooter>

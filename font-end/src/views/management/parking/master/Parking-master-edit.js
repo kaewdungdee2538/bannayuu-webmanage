@@ -10,7 +10,6 @@ import {
     CInputCheckbox,
     CFormGroup,
 } from '@coreui/react'
-import CIcon from '@coreui/icons-react'
 import { OuanIconForBtn } from '../../../../containers/function/OuanIcon'
 import { useState, useEffect } from 'react'
 import { useSelector } from 'react-redux'
@@ -18,7 +17,6 @@ import { useHistory } from 'react-router-dom'
 import '../main/Parking-main.css'
 import './Parking-master.css'
 import swal from 'sweetalert';
-import LoadingModal from '../../component/loading/LoadingModal'
 import store, { disAuthenticationLogin, selectCPM, unSelectCPM } from '../../../../store'
 import InputDisable from '../../component/input/InputDisable'
 import InputEnable from '../../component/input/InputEnable'

@@ -4,16 +4,10 @@ import {
     CCard,
     CCardHeader,
 } from '@coreui/react'
-import swal from 'sweetalert';
-import { useSelector } from 'react-redux'
-import { useHistory } from 'react-router-dom'
 import LoadingModal from '../../component/loading/LoadingModal'
-import store, { disAuthenticationLogin } from '../../../../store'
 import LicenseHome from '../home/License-home'
 import LicenseLicense from '../license/main/License-license'
 const LicenseMain = () => {
-    const history = useHistory();
-    const authStore = useSelector(store => store);
     //-------------------State
     const [showLoading, setShowLoading] = useState(false);
     const [showHomeForm, setShowHomeForm] = useState(true);

@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from 'react'
+import React, { useState } from 'react'
 import swal from 'sweetalert';
 import './License-lincese-modal-add.css'
 import { useSelector } from 'react-redux'
@@ -173,9 +173,9 @@ const LicenseModalAdd = ({ showAddModal, setShowAddModal, setRefeshForm, setShow
                     </CRow>
                 </CFormGroup>
             </CModalBody>
-            <CModalFooter>
+            <CModalFooter className="modal-footer">
                 <div></div>
-                <div>
+                <div className = "modal-footer-item modal-footer-item-sub">
                     <CButton className="btn-modal-footer" color="success" onClick={addLicenseModal}>เพิ่มรายการ</CButton>
                     <CButton className="btn-modal-footer" color="warning" onClick={closeModal}>ยกเลิก</CButton>
                 </div>

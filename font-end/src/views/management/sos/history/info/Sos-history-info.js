@@ -8,7 +8,6 @@ import {
     CDataTable,
     CBadge,
     CRow,
-    CLabel
 } from '@coreui/react'
 import { useState, useEffect } from 'react'
 import { useSelector } from 'react-redux'

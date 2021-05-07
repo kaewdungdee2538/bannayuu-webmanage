@@ -4,22 +4,11 @@ import {
     CModal,
     CModalHeader,
     CModalTitle,
-    CModalBody,
-    CModalFooter,
-    CFormGroup,
-    CRow,
-    CCol,
-    CLabel,
-    CBadge,
-    CButton,
 } from '@coreui/react'
 import swal from 'sweetalert';
 import { useSelector } from 'react-redux'
 import { useHistory } from 'react-router-dom'
 import store, { disAuthenticationLogin } from '../../../../../store'
-import InputDisable from '../../../component/input/InputDisable'
-import ImageBox from '../../../component/image/ImageBox'
-import { getBadge } from '../data/villager-payment-history-data'
 import PropTypes from 'prop-types';
 import { getVillagerPaymentHistoryByID } from './Villager-payment-history-modal-controller'
 import ApiRoute from '../../../../../apiroute'

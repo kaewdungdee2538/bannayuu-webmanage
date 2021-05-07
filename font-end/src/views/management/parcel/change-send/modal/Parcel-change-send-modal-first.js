@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from 'react'
+import React, { useState } from 'react'
 import swal from 'sweetalert';
 import './Parcel-change-send-modal.css'
 import { useSelector } from 'react-redux'
@@ -6,16 +6,12 @@ import { useHistory } from 'react-router-dom'
 import CIcon from '@coreui/icons-react'
 import {
     CButton,
-    CModal,
-    CModalHeader,
-    CModalTitle,
     CModalBody,
     CModalFooter,
     CFormGroup,
     CRow,
     CCol,
     CLabel,
-    CInputFile,
     CBadge,
 } from '@coreui/react'
 import store, { disAuthenticationLogin } from '../../../../../store'
@@ -235,8 +231,8 @@ function ParcelChangeSendModalFirst(props) {
                     </CRow>
                 </CFormGroup>
             </CModalBody>
-            <CModalFooter className="form-footer">
-                <div>
+            <CModalFooter className="modal-footer">
+                <div className="modal-footer-item">
                     <CButton className="btn-modal-footer" color="danger" onClick={onClickSaveCancel}>
                         <CIcon
                             name="cil-ban"
@@ -244,7 +240,7 @@ function ParcelChangeSendModalFirst(props) {
                         <span className="btn-icon-footer">ยกเลิกการส่งพัสดุ</span>
                     </CButton>
                 </div>
-                <div>
+                <div className="modal-footer-item modal-footer-item-sub">
                     <CButton className="btn-modal-footer" color="primary" onClick={onChangeHomeClick}>
                         <CIcon
                             name="cil-fullscreen-exit"

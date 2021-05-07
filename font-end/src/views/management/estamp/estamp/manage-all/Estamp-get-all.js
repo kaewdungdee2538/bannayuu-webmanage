@@ -7,7 +7,6 @@ import {
     CDataTable,
     CBadge,
     CRow,
-    CLabel
 } from '@coreui/react'
 import { useState, useEffect } from 'react'
 import { useSelector } from 'react-redux'
@@ -57,7 +56,6 @@ function EstampGetAll(prop) {
     const [dateTimeStart, setDateTimeStart] = useState(dateState);
     const [dateTimeEnd, setDateTimeEnd] = useState(dateEnd);
     const [license_plate, setLicense_plate] = useState("");
-    const [home_id, setHome_id] = useState("");
     const [f_name, setF_Name] = useState("");
     const [l_name, setL_Name] = useState("");
 

@@ -5,7 +5,6 @@ import {
     CCardHeader,
     CCol,
     CDataTable,
-    CBadge,
     CRow,
 } from '@coreui/react'
 import { useState, useEffect } from 'react'
@@ -13,9 +12,7 @@ import { useSelector } from 'react-redux'
 import { useHistory } from 'react-router-dom'
 import '../main/Parking-main.css'
 import './Parking-master.css'
-import CIcon from '@coreui/icons-react'
 import swal from 'sweetalert';
-import LoadingModal from '../../component/loading/LoadingModal'
 import ParkingMasterAddModal from '../master/add-modal/Parking-master-add-modal'
 import store, { disAuthenticationLogin,selectCPM } from '../../../../store'
 import ComboBoxSearchItem from '../../component/combobox/ComboBoxSearchItem'
@@ -30,7 +27,7 @@ function ParkingMaster(props) {
     //------------------Props
     const { setShowLoading
         , setShowMasterForm
-        , setShowHeaderForm
+        // , setShowHeaderForm
         , setShowMasterEditForm
         , cartypesInfoArr
         , cartypesInfoForCreateArr

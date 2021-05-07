@@ -13,8 +13,6 @@ import {
     CFormGroup,
     CRow,
     CCol,
-    CLabel,
-    CInputFile,
 } from '@coreui/react'
 import InputEnable from '../../../component/input/InputEnable'
 import InputDisable from '../../../component/input/InputDisable'
@@ -476,7 +474,7 @@ const CommonFeeManagementEdit = ({ selectCommon, showEditModal, setShowEditModal
                 </CFormGroup>
             </CModalBody>
             <CModalFooter className="modal-footer">
-                <div>
+                <div className = "modal-footer-item">
                     <CButton className="btn-modal-footer" color="danger" onClick={onClickSaveCancel}>
                         <CIcon
                             name="cil-ban"
@@ -484,7 +482,7 @@ const CommonFeeManagementEdit = ({ selectCommon, showEditModal, setShowEditModal
                         <span className="btn-icon-footer">ยกเลิกการเรียกเก็บ</span>
                     </CButton>
                 </div>
-                <div>
+                <div className ="modal-footer-item modal-footer-item-sub">
                     <CButton className="btn-modal-footer" color="primary" onClick={editCommonFeeModal}>แก้ไข</CButton>
                     <CButton className="btn-modal-footer" color="warning" onClick={closeModal}>ยกเลิก</CButton>
                 </div>

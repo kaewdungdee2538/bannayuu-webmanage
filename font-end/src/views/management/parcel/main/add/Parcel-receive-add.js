@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from 'react'
+import React, { useState } from 'react'
 import swal from 'sweetalert';
 import './Parcel-receive-add.css'
 import { useSelector } from 'react-redux'
@@ -14,7 +14,6 @@ import {
     CRow,
     CCol,
     CLabel,
-    CInputFile,
 } from '@coreui/react'
 import InputEnable from '../../../component/input/InputEnable'
 import InputDisable from '../../../component/input/InputDisable'
@@ -189,9 +188,9 @@ const ParcelReceiveAdd = ({ showAddModal, setShowAddModal, setRefeshForm, setSho
                     </CRow>
                 </CFormGroup>
             </CModalBody>
-            <CModalFooter>
+            <CModalFooter className="modal-footer">
                 <div></div>
-                <div>
+                <div className="modal-footer-item modal-footer-item-sub">
                     <CButton className="btn-modal-footer" color="success" onClick={addParcelModal}>เพิ่มรายการ</CButton>
                     <CButton className="btn-modal-footer" color="warning" onClick={closeModal}>ยกเลิก</CButton>
                 </div>

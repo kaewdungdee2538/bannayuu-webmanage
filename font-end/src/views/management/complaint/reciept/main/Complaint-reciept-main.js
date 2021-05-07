@@ -8,7 +8,6 @@ import {
     CDataTable,
     CBadge,
     CRow,
-    CLabel
 } from '@coreui/react'
 import { useState, useEffect } from 'react'
 import { useSelector } from 'react-redux'
@@ -71,10 +70,10 @@ function ComplaintRecieptMain() {
     }, [])
     //-----------------Refesh Form
     if (refeshForm) {
-        refeshFormFunc();
+        refeshFormFunc(true);
         setRefeshForm(false);
     }
-    function refeshFormFunc() {
+    function refeshFormFunc(reset) {
         if (!authStore.authorization) {
             history.push("/");
         } else {
@@ -82,8 +81,8 @@ function ComplaintRecieptMain() {
             setShowLoading(true)
             document.body.style.cursor = "wait";
             const searchObj = {
-                address,
-                headerText,
+                address: reset ? null : address,
+                headerText: reset ? null : headerText,
                 start_date: moment(dateTimeStart).format("YYYY-MM-DDTHH:mm:ss").toString(),
                 end_date: moment(dateTimeEnd).format("YYYY-MM-DDTHH:mm:ss").toString()
             }

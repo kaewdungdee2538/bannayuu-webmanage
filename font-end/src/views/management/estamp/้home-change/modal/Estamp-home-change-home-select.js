@@ -1,24 +1,17 @@
 import '../main/Estamp-home-change.css'
-import { fieldsHome, getBadge, getTextStatus } from '../data/estamp-home-change-data'
+import { fieldsHome} from '../data/estamp-home-change-data'
 import {
-    CModal,
-    CModalHeader,
-    CModalTitle,
     CModalBody,
     CFormGroup,
     CModalFooter,
-    CSwitch,
     CButton,
     CRow,
     CCol,
-    CBadge,
-    CLabel,
     CCard,
     CCardHeader,
     CCardBody,
     CDataTable,
 } from '@coreui/react'
-import InputDisable from '../../../component/input/InputDisable'
 import CIcon from '@coreui/icons-react'
 import { useState, useEffect } from 'react'
 import { useSelector } from 'react-redux'
@@ -205,9 +198,9 @@ export default function EstampHomeChangeSelectHome(props) {
                 </CFormGroup>
             </CModalBody>
             <CModalFooter className="modal-footer">
-                <div className="switch-footer">
-                </div>
                 <div>
+                </div>
+                <div className="modal-footer-item">
                     {/* <CButton className="btn-modal-footer" color="primary" onClick={onChangeHomeClick}>
                         <CIcon
                             name="cil-fullscreen-exit"

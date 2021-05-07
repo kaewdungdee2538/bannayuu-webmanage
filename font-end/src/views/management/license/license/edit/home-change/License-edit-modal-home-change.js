@@ -1,18 +1,12 @@
 import '../modal/License-edit-modal-main.css'
 import { fieldsHome } from '../data/license-change-send.data'
 import {
-    CModal,
-    CModalHeader,
-    CModalTitle,
     CModalBody,
     CFormGroup,
     CModalFooter,
-    CSwitch,
     CButton,
     CRow,
     CCol,
-    CBadge,
-    CLabel,
     CCard,
     CCardHeader,
     CCardBody,
@@ -35,9 +29,9 @@ function LicenseEditModalHomeChange(props) {
     const { closeModal,
         CarObj,
         setShowLoading,
-        setRefeshForm,
-        setShowFirstModal,
-        setShowHomeChangeModal,
+        // setRefeshForm,
+        // setShowFirstModal,
+        // setShowHomeChangeModal,
     } = props;
     //------------------State
     const [homeInfo, setHomeInfo] = useState(null);

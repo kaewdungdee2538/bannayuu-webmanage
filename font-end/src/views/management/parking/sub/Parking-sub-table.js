@@ -3,11 +3,7 @@ import {
     CCard,
     CCardBody,
     CCardHeader,
-    CCol,
     CDataTable,
-    CBadge,
-    CRow,
-    CLabel,
 } from '@coreui/react'
 import { useSelector } from 'react-redux'
 import { useHistory } from 'react-router-dom'

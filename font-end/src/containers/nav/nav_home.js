@@ -18,7 +18,7 @@ export const nav_home_item = {
         },
         {
             _tag: 'CSidebarNavItem',
-            name: 'จัดการลูกบ้าน',
+            name: 'ลูกบ้าน',
             route: '/icons',
             to: '/villager'
         },

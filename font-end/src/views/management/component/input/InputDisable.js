@@ -1,4 +1,3 @@
-import { useEffect } from 'react'
 import './InputDisable.css'
 import {
     CInput,

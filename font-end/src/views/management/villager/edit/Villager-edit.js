@@ -13,11 +13,11 @@ import swal from "sweetalert";
 import CIcon from "@coreui/icons-react";
 import VillagerInfoModal from "../info/Villager-info-modal";
 import VillagerAddModal from "../add/Villager-add";
-import store, { disAuthenticationLogin, selectHome, unSelectHome } from "../../../../store";
+import store, { disAuthenticationLogin } from "../../../../store";
 import { useSelector } from "react-redux";
 import { useHistory } from "react-router-dom";
-import { getVillagerInfo, editVillager } from "./Villager-edit-controller";
-import { deleteVillager } from "../delete/Villager-delete-controller";
+import { getVillagerInfo } from "./Villager-edit-controller";
+// import { deleteVillager } from "../delete/Villager-delete-controller";
 import LoadingModal from '../../component/loading/LoadingModal';
 import VillagerHomeChangeSelectHome from '../home-change/modal/Villager-home-change-modal'
 const fields = ["แก้ไข", "เปลี่ยนบ้าน", "ชื่อ-สกุล", "เบอร์โทรศัพท์", "สถานะ"];
@@ -143,65 +143,65 @@ const CoreUILineHomeEdit = (props) => {
     />
   } else elemModalHomeChange = null;
   //------------------------------Delete villager
-  function deleteVillagerInfo(event) {
-    const home_id = event.target.getAttribute("home_id");
-    const home_line_id = event.target.getAttribute("home_line_id");
-    const home_line_code = event.target.getAttribute("home_line_code");
-    const home_line_name = event.target.getAttribute("home_line_name");
-    if (home_id) {
-      swal({
-        title: "Are you sure?",
-        text: `คุณต้องการลบ ${home_line_name} หรือไม่!`,
-        icon: "warning",
-        buttons: true,
-        dangerMode: true,
-      })
-        .then((willDelete) => {
-          if (willDelete) {
-            swal({
-              title: "Delete!",
-              text: "ต้องการลบลูกบ้านจริง หรือไม่!",
-              icon: "warning",
-              buttons: true,
-              dangerMode: true,
-            })
-              .then((willDelete) => {
-                if (willDelete) {
-                  const villagerObj = {
-                    home_id
-                    , home_line_id
-                  }
-                  console.log(villagerObj)
-                  document.body.style.cursor = 'wait';
-                  deleteVillager({ authStore, villagerObj })
-                    .then(res => {
-                      if (res.error) swal({
-                        title: "Waring.",
-                        text: res.message,
-                        icon: "warning",
-                        button: "OK",
-                      })
-                      else {
-                        swal("ลบลูกบ้านเรียนร้อย", {
-                          icon: "success",
-                        });
-                        setRefeshForm(true);
-                      }
-                    }).catch(err => {
-                      console.log(err)
-                      history.push('/page500')
-                    }).finally(value => {
-                      document.body.style.cursor = 'default';
-                    })
-                } else {
+  // function deleteVillagerInfo(event) {
+  //   const home_id = event.target.getAttribute("home_id");
+  //   const home_line_id = event.target.getAttribute("home_line_id");
+  //    const home_line_code = event.target.getAttribute("home_line_code");
+  //   const home_line_name = event.target.getAttribute("home_line_name");
+  //   if (home_id) {
+  //     swal({
+  //       title: "Are you sure?",
+  //       text: `คุณต้องการลบ ${home_line_name} หรือไม่!`,
+  //       icon: "warning",
+  //       buttons: true,
+  //       dangerMode: true,
+  //     })
+  //       .then((willDelete) => {
+  //         if (willDelete) {
+  //           swal({
+  //             title: "Delete!",
+  //             text: "ต้องการลบลูกบ้านจริง หรือไม่!",
+  //             icon: "warning",
+  //             buttons: true,
+  //             dangerMode: true,
+  //           })
+  //             .then((willDelete) => {
+  //               if (willDelete) {
+  //                 const villagerObj = {
+  //                   home_id
+  //                   , home_line_id
+  //                 }
+  //                 console.log(villagerObj)
+  //                 document.body.style.cursor = 'wait';
+  //                 deleteVillager({ authStore, villagerObj })
+  //                   .then(res => {
+  //                     if (res.error) swal({
+  //                       title: "Waring.",
+  //                       text: res.message,
+  //                       icon: "warning",
+  //                       button: "OK",
+  //                     })
+  //                     else {
+  //                       swal("ลบลูกบ้านเรียนร้อย", {
+  //                         icon: "success",
+  //                       });
+  //                       setRefeshForm(true);
+  //                     }
+  //                   }).catch(err => {
+  //                     console.log(err)
+  //                     history.push('/page500')
+  //                   }).finally(value => {
+  //                     document.body.style.cursor = 'default';
+  //                   })
+  //               } else {
 
-                }
-              });
-          } else {
-          }
-        });
-    }
-  }
+  //               }
+  //             });
+  //         } else {
+  //         }
+  //       });
+  //   }
+  // }
   //-------------------------------------------------
   return (
     <CCard>
@@ -209,7 +209,7 @@ const CoreUILineHomeEdit = (props) => {
       {selectedrow}
       {showCreateModal}
       {elemModalHomeChange}
-      <CCardHeader className="villager-head">ลูกบ้าน</CCardHeader>
+      <CCardHeader className="villager-head">จัดการลูกบ้าน</CCardHeader>
       <div className="btn-addhome">
         <CButton
           className="btn-class btn-head"

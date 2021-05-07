@@ -6,11 +6,7 @@ import {
     CCol,
     CDataTable,
     CBadge,
-    CRow,
-    CLabel,
 } from '@coreui/react'
-import { useSelector } from 'react-redux'
-import { useHistory } from 'react-router-dom'
 import '../main/Parking-main.css'
 import './Parking-header.css'
 import store, { selectCPH } from '../../../../store'
@@ -18,11 +14,9 @@ import { fieldsHeader } from '../data/parking-data'
 import { getBadgeCph, getTextStatusCph } from '../data/parking-data'
 
 function ParkingHeaderTable(props) {
-    const history = useHistory();
-    const authStore = useSelector(state => state)
-    const cpm_id = authStore.cpm_id;
     //------------------Props
-    const { setShowLoading
+    const { 
+        setShowLoading
         , setShowMasterForm
         , setShowHeaderForm
         , setShowMasterEditForm

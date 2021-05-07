@@ -1,0 +1,48 @@
+<===========================================>
+WEB Management
+<-------------------------------------------------------------------------------------------->
+ADMINISTRATOR:
+STANDARD:{
+    "estamp": {"status": true,"items": []},
+    "home": {"status": true,"items": []},
+    "annoince": {"status": true,"items": []},
+    "parcel": {"status": false,"items": []},
+    "sos": {"status": false,"items": []},
+    "complaint": {"status": false,"items": []},
+    "payment": {"status": false,"items": []},
+    "parking": {"status": false,"items": []}
+}
+PRO:{
+    "estamp": {"status": true,"items": []},
+    "home": {"status": true,"items": []},
+    "annoince": {"status": true,"items": []},
+    "parcel": {"status": true,"items": []},
+    "sos": {"status": true,"items": []},
+    "complaint": {"status": true,"items": []},
+    "payment": {"status": false,"items": []},
+    "parking": {"status": false,"items": []}
+}
+PROPLUS:{
+    "estamp": {"status": true,"items": []},
+    "home": {"status": true,"items": []},
+    "annoince": {"status": true,"items": []},
+    "parcel": {"status": true,"items": []},
+    "sos": {"status": true,"items": []},
+    "complaint": {"status": true,"items": []},
+    "payment": {"status": true,"items": []},
+    "parking": {"status": true,"items": []}
+}
+<-------------------------------------------------------------------------------------------->
+USER:
+PROPLUS:{
+    "estamp": {"status": true,"items": []},
+    "home": {"status": true,"items": []},
+    "annoince": {"status": true,"items": []},
+    "parcel": {"status": true,"items": []},
+    "sos": {"status": true,"items": []},
+    "complaint": {"status": true,"items": []},
+    "payment": {"status": false,"items": []},
+    "parking": {"status": false,"items": []}
+}
+<-------------------------------------------------------------------------------------------->
+<===========================================>

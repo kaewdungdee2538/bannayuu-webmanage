@@ -1,4 +1,3 @@
-import {useEffect} from 'react'
 import '../add/Home-add.css'
 import {
     CInput,

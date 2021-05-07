@@ -91,7 +91,7 @@ export class ParkingConfigSubService {
             throw new StatusException(
                 {
                     error: null,
-                    result: res.result,
+                    result: res.result[0],
                     message: this.errMessageUtilsTh.messageSuccess,
                     statusCode: 200,
                 },

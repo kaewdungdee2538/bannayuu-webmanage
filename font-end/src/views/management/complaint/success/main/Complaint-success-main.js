@@ -8,7 +8,6 @@ import {
     CDataTable,
     CBadge,
     CRow,
-    CLabel
 } from '@coreui/react'
 import { useState, useEffect } from 'react'
 import { useSelector } from 'react-redux'
@@ -74,10 +73,10 @@ function ComplaintSuccessMain() {
     }, [])
     //-----------------Refesh Form
     if (refeshForm) {
-        refeshFormFunc();
+        refeshFormFunc(true);
         setRefeshForm(false);
     }
-    function refeshFormFunc() {
+    function refeshFormFunc(reset) {
         if (!authStore.authorization) {
             history.push("/");
         } else {
@@ -85,8 +84,8 @@ function ComplaintSuccessMain() {
             let isNotAuth;
             document.body.style.cursor = "wait";
             const searchObj = {
-                address,
-                headerText,
+                address: reset ? null : address,
+                headerText: reset ? null : headerText,
                 start_date: moment(dateTimeStart).format("YYYY-MM-DDTHH:mm:ss").toString(),
                 end_date: moment(dateTimeEnd).format("YYYY-MM-DDTHH:mm:ss").toString()
             }
@@ -123,7 +122,6 @@ function ComplaintSuccessMain() {
             hci_code={selectedObj.hci_code}
             showModal={showModal}
             setShowModal={setShowModal}
-            setRefeshForm={setRefeshForm}
             setShowLoading={setShowLoading}
         />
     } else complatintModal = null;

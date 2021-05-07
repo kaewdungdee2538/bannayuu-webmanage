@@ -5,7 +5,6 @@ import {
     CCard,
     CCardBody,
     CCardHeader,
-    CRow,
     CCol,
     CDataTable,
     CBadge

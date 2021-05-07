@@ -5,9 +5,7 @@ import {
     CFormGroup,
     CRow,
     CCol,
-    CLabel,
     CButton,
-    CInputRadio,
 } from '@coreui/react'
 import swal from 'sweetalert'
 import InputDisable from '../../../../component/input/InputDisable'
@@ -25,15 +23,15 @@ function VillagerPaymentEditApprove(props) {
         closeModal,
         setRefeshForm, 
         setShowLoading,
-        setShowInfo,
-        setShowCancel,
-        setShowApprove,
+        // setShowInfo,
+        // setShowCancel,
+        // setShowApprove,
     } = props;
     const history = useHistory();
     const authStore = useSelector(state => state)
     //-------------------State
     const [villagerAmount, setVillagerAmount] = useState(null);
-    const [paymentStatus, setPaymentStatus] = useState(null);
+
     //-------------------On Approve
     function onApproveClick(event) {
         if (approveMiddleware()) {

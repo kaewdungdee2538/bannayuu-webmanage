@@ -14,9 +14,7 @@ import ParkingMaster from '../master/Parking-master'
 import ParkingMasterEdit from '../master/Parking-master-edit'
 import ParkingHeader from '../header/Parking-header'
 import { getCartypesInfoAll } from './Parking-main-controller'
-const carTypeText = {
-    id: 0, value: 'เลือกประเภทรถ'
-}
+
 function ParkingMain() {
     const history = useHistory();
     const authStore = useSelector(state => state)
@@ -26,7 +24,7 @@ function ParkingMain() {
     const [showMasterForm, setShowMasterForm] = useState(true);
     const [showMasterEditForm, setShowMasterEditForm] = useState(false);
     const [showHeaderForm, setShowHeaderForm] = useState(false);
-    const [showSubForm, setShowSubForm] = useState(false);
+    // const [showSubForm, setShowSubForm] = useState(false);
 
     //--------------------------Object
 

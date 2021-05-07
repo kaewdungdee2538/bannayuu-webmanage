@@ -1,5 +1,5 @@
 import React, { useState } from 'react'
-import { Link, useHistory } from 'react-router-dom'
+import { useHistory } from 'react-router-dom'
 import {
   CButton,
   CCard,
@@ -60,7 +60,7 @@ const Login = () => {
             button: "OK",
           });
         } else {
-          const result = response.result
+          const result = response.result;
           const employee = {
             authorization: true
             , access_token: result.access_token
@@ -69,6 +69,7 @@ const Login = () => {
             , employee_id: result.employee.employee_id
             , first_name_th: result.employee.first_name_th
             , last_name_th: result.employee.last_name_th
+            , privilege_info: result.employee.privilege_info
           }
           //set global store
           store.dispatch(enaAuthenticationLogin(employee));

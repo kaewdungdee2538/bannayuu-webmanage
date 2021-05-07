@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from 'react'
+import React, { useState } from 'react'
 import swal from 'sweetalert';
 import { useHistory } from 'react-router-dom'
 import './Home-add.css'
@@ -111,7 +111,7 @@ const CoreUIHomeAdd = ({ showCreateAdd, setShowCreateAdd, setRefeshForm, setShow
                     />
                 </CFormGroup>
             </CModalBody>
-            <CModalFooter>
+            <CModalFooter className=".modal-footer">
                 <CButton className="btn-modal-footer" color="success" onClick={addHomeModal}>เพิ่มข้อมูล</CButton>
                 <CButton className="btn-modal-footer" color="warning" onClick={closeModal}>ยกเลิก</CButton>
             </CModalFooter>

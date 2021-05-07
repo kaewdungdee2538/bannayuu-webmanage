@@ -16,12 +16,15 @@ import {
     CLabel,
     CCardBody,
     CCard,
-    
+
 } from '@coreui/react'
 import * as moment from 'moment';
 import InputNumberEnable from '../../../component/input/InputNumberEnable'
 import InputDisable from '../../../component/input/InputDisable'
-import store, { disAuthenticationLogin,unSelectCPS } from '../../../../../store'
+import TextArea from '../../../component/textarea/TextArea'
+
+import store, { disAuthenticationLogin, unSelectCPS } from '../../../../../store'
+import { getParkingSubInfoByCPSID,editParkingSubInfo } from './Parking-sub-edit-modal-controller'
 
 const ParkingSubEditModal = (props) => {
     const {
@@ -34,6 +37,7 @@ const ParkingSubEditModal = (props) => {
     const history = useHistory();
     const authStore = useSelector(state => state)
     const cph_id = authStore.cph_id;
+    const cps_id = authStore.cps_id;
     const cartype_id = authStore.cartype_id;
     //--------------------------State
     const [parkingPrice, setParkingPrice] = useState("0");
@@ -43,13 +47,94 @@ const ParkingSubEditModal = (props) => {
     const [hoursStop, setHoursStop] = useState("0");
     const [minutesStop, setMinutesStop] = useState("0");
     const [secondsStop, setSecondsStop] = useState("0");
+    const [remark, setRemark] = useState("");
+    const [parkingSubInfo, setParkingSubInfo] = useState({
+        cps_id: null,
+        cps_code: null,
+        cpm_id: null,
+        cpm_name_th: null,
+        cpm_name_en: null,
+        cph_id: null,
+        cph_name_th: null,
+        cph_name_en: null,
+        cps_start_interval: {
+            hours: 0,
+            minutes: 0,
+            seconds: 1
+        },
+        cps_stop_interval: {
+            hours: 0,
+            minutes: 0,
+            seconds: 1
+        },
+        cps_amount_value: 0,
+        cps_status: null,
+        cps_remark: null,
+        create_by: null,
+        create_date: null,
+        update_by: null,
+        update_date: null,
+        company_name: null
+    });
     //----------------------Combobox value
     //--------------Form load
     useEffect(() => {
         if (!authStore.authorization) {
             history.push("/");
+        } else {
+            setShowLoading(true);
+            getParkingSubInfo();
         }
     }, []);
+    //--------------------------Get parking sub info
+    function getParkingSubInfo() {
+        let isNotAuth;
+        document.body.style.cursor = "wait";
+        const searchObj = {
+            cps_id
+        }
+        getParkingSubInfoByCPSID({ authStore, searchObj })
+            .then((res) => {
+                if (res.result) {
+                    const result = res.result;
+                    setParkingSubInfo(result);
+                    setParkingPrice(result.cps_amount_value);
+                    const hStart = result.cps_start_interval.hours ? result.cps_start_interval.hours : "0"
+                    const mStart = result.cps_start_interval.minutes ? result.cps_start_interval.minutes : "0"
+                    const sStart = result.cps_start_interval.seconds ? result.cps_start_interval.seconds : "0"
+                    const hStop = result.cps_stop_interval.hours ? result.cps_stop_interval.hours : "0"
+                    const mStop = result.cps_stop_interval.minutes ? result.cps_stop_interval.minutes : "0"
+                    const sStop = result.cps_stop_interval.seconds ? result.cps_stop_interval.seconds : "0"
+                    setHoursStart(hStart);
+                    setMinutesStart(mStart);
+                    setSecondsStart(sStart);
+                    setHoursStop(hStop);
+                    setMinutesStop(mStop);
+                    setSecondsStop(sStop);
+                    setRemark(result.cps_remark);
+                } else if (res.statusCode === 401) {
+                    isNotAuth = res.error
+                } else {
+                    swal("Warning!", res.error, "warning");
+                    setShowModalEdit(false);
+                }
+            })
+            .catch((err) => {
+                console.log(err);
+                history.push("/page500");
+            })
+            .finally((value) => {
+                document.body.style.cursor = "default";
+                setShowLoading(false)
+                if (isNotAuth) {
+                    swal("Warning!", isNotAuth, "warning");
+                    history.push("/");
+                    //clear state global at store 
+                    store.dispatch(disAuthenticationLogin());
+                    setShowModalEdit(false);
+                }
+            });
+    }
     //--------------------------Close Modal
     function closeModal(event) {
         setShowModalEdit(false);
@@ -66,56 +151,64 @@ const ParkingSubEditModal = (props) => {
         const values = {
             authStore
             , valuesObj: {
-                cph_id,
-                cartype_id,
-                start_interval: `${hoursStart ? hoursStart : 0}:${minutesStart ? minutesStart : 0}:${secondsStart ? secondsStart : 0}`,
-                stop_interval: `${hoursStop ? hoursStop : 0}:${minutesStop ? minutesStop : 0}:${secondsStop ? secondsStop : 0}`,
-                amount_value: parkingPrice ? parkingPrice : 0
+                cph_id,cps_id
+                ,start_interval:`${hoursStart}:${minutesStart}:${secondsStart}`
+                ,stop_interval:`${hoursStop}:${minutesStop}:${secondsStop}`
+                ,amount_value:parkingPrice
+                ,remark
             }
         }
         let isNotAuth;
-        // addParkingSubConfig(values).then(res => {
-        //     if (res.error) {
-        //         if (res.statusCode === 401)
-        //             isNotAuth = res.error
-        //         else swal({
-        //             title: "Warning.",
-        //             text: res.message,
-        //             icon: "warning",
-        //             button: "OK",
-        //         });
+        editParkingSubInfo(values).then(res => {
+            if (res.error) {
+                if (res.statusCode === 401)
+                    isNotAuth = res.error
+                else swal({
+                    title: "Warning.",
+                    text: res.message,
+                    icon: "warning",
+                    button: "OK",
+                });
 
-        //     } else {
-        //         swal({
-        //             title: "Success.",
-        //             text: "แก้ไขค่าบริการ เรียบร้อย",
-        //             icon: "success",
-        //             button: "OK",
-        //         });
-        //         setRefeshForm(true)
-        //         closeModal();
-        //     }
+            } else {
+                swal({
+                    title: "Success.",
+                    text: "แก้ไขค่าบริการ เรียบร้อย",
+                    icon: "success",
+                    button: "OK",
+                });
+                setRefeshForm(true)
+                closeModal();
+            }
 
-        // }).catch(err => {
-        //     console.log(err);
-        //     history.push("/page500");
-        // }).finally(value => {
-        //     document.body.style.cursor = 'default';
-        //     setShowLoading(false);
-        //     if (isNotAuth) {
-        //         swal("Warning!", isNotAuth, "warning");
-        //         history.push("/");
-        //         //clear state global at store 
-        //         store.dispatch(disAuthenticationLogin());
-        //     }
-        // })
+        }).catch(err => {
+            console.log(err);
+            history.push("/page500");
+        }).finally(value => {
+            document.body.style.cursor = 'default';
+            setShowLoading(false);
+            if (isNotAuth) {
+                swal("Warning!", isNotAuth, "warning");
+                history.push("/");
+                //clear state global at store 
+                store.dispatch(disAuthenticationLogin());
+            }
+        })
     }
     //------------------------Middleware
     function editParkingSubMiddleware() {
-        if (!hoursStart && !minutesStart && !secondsStart && !hoursStop && !minutesStop && !secondsStop) {
+        if (!hoursStart && !minutesStart && !secondsStart) {
             swal({
                 title: "Warning.",
-                text: 'กรุณากรอกเวลาจอด',
+                text: 'กรุณากรอกเวลาจอด เริ่มต้น',
+                icon: "warning",
+                button: "OK",
+            });
+            return false;
+        }else if(!hoursStop && !minutesStop && !secondsStop){
+            swal({
+                title: "Warning.",
+                text: 'กรุณากรอกเวลาจอด สิ้นสุด',
                 icon: "warning",
                 button: "OK",
             });
@@ -173,13 +266,13 @@ const ParkingSubEditModal = (props) => {
                         <CCol xs="12" sm="5" md="5">
                             <InputDisable
                                 title="สร้างโดย"
-                                text=""
+                                text={parkingSubInfo.create_by}
                             />
                         </CCol>
                         <CCol xs="12" sm="7" md="7">
                             <InputDisable
                                 title="สร้างเมื่อ"
-                                text=""
+                                text={parkingSubInfo.create_date}
                             />
                         </CCol>
                     </CRow>
@@ -187,13 +280,13 @@ const ParkingSubEditModal = (props) => {
                         <CCol xs="12" sm="5" md="5">
                             <InputDisable
                                 title="แก้ไขล่าสุดโดย"
-                                text=""
+                                text={parkingSubInfo.update_by}
                             />
                         </CCol>
                         <CCol xs="12" sm="7" md="7">
                             <InputDisable
                                 title="แก้ไขล่าสุดเมื่อ"
-                                text=""
+                                text={parkingSubInfo.update_date}
                             />
                         </CCol>
                     </CRow>
@@ -286,11 +379,23 @@ const ParkingSubEditModal = (props) => {
                             />
                         </CCol>
                     </CRow>
+                    <CRow>
+                        <CCol xs="12" sm="12" md="12">
+                            <TextArea
+                                title="หมายเหตุ"
+                                rows="3"
+                                maxLength="250"
+                                placeholder="Enter remark"
+                                text={remark}
+                                setText={setRemark}
+                            />
+                        </CCol>
+                    </CRow>
                 </CFormGroup>
             </CModalBody>
             <CModalFooter className="modal-footer">
                 <div></div>
-                <div className="modal-footer-item">
+                <div className="modal-footer-item modal-footer-item-sub">
                     <CButton className="btn-modal-footer" color="primary" onClick={editParkingSub}>บันทึก</CButton>
                     <CButton className="btn-modal-footer" color="warning" onClick={closeModal}>ยกเลิก</CButton>
                 </div>
