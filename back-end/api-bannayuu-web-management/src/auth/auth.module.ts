@@ -1,5 +1,6 @@
 import { MiddlewareConsumer, Module } from '@nestjs/common';
 import { JwtModule } from '@nestjs/jwt';
+import { DefaultValueMiddleware } from 'src/middleware/default-value/default-value.middleware';
 import { dbConnection } from 'src/pg_database/pg.database';
 import { ErrMessageUtilsTH } from 'src/utils/err_message_th.utils';
 import { FormatDataUtils } from 'src/utils/format_data.utils';
@@ -15,7 +16,7 @@ import { JwtStrategy } from './jwt.strategy';
     // signOptions: { expiresIn: '1s' },
   }),dbConnection],
   controllers: [AuthController],
-  providers: [AuthService,JwtStrategy,dbConnection,ErrMessageUtilsTH,FormatDataUtils],
+  providers: [AuthService,JwtStrategy,dbConnection,ErrMessageUtilsTH,FormatDataUtils,DefaultValueMiddleware],
   exports:[AuthService, JwtModule]
 })
 export class AuthModule {

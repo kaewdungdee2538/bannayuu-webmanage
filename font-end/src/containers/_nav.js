@@ -6,6 +6,7 @@ import { nav_complaint_head, nav_complaint_item } from './nav/nav_complaint'
 import { nav_announce_head, nav_announce_item } from './nav/nav_announce'
 import { nav_sos_head, nav_sos_item } from './nav/nav_sos'
 import { nav_parking_head, nav_parking_item } from './nav/nav_parking'
+import { nav_cartype_head, nav_cartype_item} from './nav/nav_cartype'
 
 function GetNavBarItems(privilege_info) {
     const _nav = []
@@ -18,6 +19,10 @@ function GetNavBarItems(privilege_info) {
     if (privilege_info.parcel.status) {
         _nav.push(nav_parcel_head)
         _nav.push(nav_parcel_item)
+    }
+    if(privilege_info.cartype.status){
+        _nav.push(nav_cartype_head)
+        _nav.push(nav_cartype_item)
     }
     if (privilege_info.home.status) {
         _nav.push(nav_home_head)

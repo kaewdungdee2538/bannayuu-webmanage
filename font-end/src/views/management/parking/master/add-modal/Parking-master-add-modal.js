@@ -37,6 +37,8 @@ const ParkingMasterAddModal = (props) => {
     } = props;
     const _timeStart = moment().set({ hour: 0, minute: 0, second: 0, millisecond: 0 });
     const _timeEnd = moment().set({ hour: 0, minute: 0, second: 0, millisecond: 0 });
+    const _dateStart = moment().set({ hour: 0, minute: 0, second: 0, millisecond: 0 });
+    const _dateEnd = moment().add(1, 'days').set({ hour: 0, minute: 0, second: 0, millisecond: 0 });
     const history = useHistory();
     const authStore = useSelector(state => state)
     //--------------------------State
@@ -44,8 +46,8 @@ const ParkingMasterAddModal = (props) => {
     const [nameEn, setNameEn] = useState("");
     const [overNightFine, setOverNightFine] = useState(0);
 
-    const [dateStart, setDateStart] = useState(null);
-    const [dateEnd, setDateEnd] = useState(null);
+    const [dateStart, setDateStart] = useState(_dateStart);
+    const [dateEnd, setDateEnd] = useState(_dateEnd);
     const [timeStart, setTimeStart] = useState(_timeStart);
     const [timeEnd, setTimeEnd] = useState(_timeEnd);
     const [hoursFree, setHoursFree] = useState(0);
@@ -125,7 +127,7 @@ const ParkingMasterAddModal = (props) => {
     }
     //------------------------Middleware
     function addParcelMiddleware() {
-        
+
         if (carTypeStatus.id == 0) {
             swal({
                 title: "Warning.",

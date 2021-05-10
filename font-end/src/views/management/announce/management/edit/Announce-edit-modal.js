@@ -214,7 +214,7 @@ function AnnouceEditModal({ showEdit, setShowEdit, setRefeshForm, editObj, setSh
             <CModalBody>
                 <CFormGroup>
                     <InputDisable
-                        title="ชื่อหมู่บ้าน"
+                        title="ชื่อโครงการ"
                         text={company_name}
                     />
                     <InputDisable

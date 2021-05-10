@@ -3,6 +3,7 @@ const format = /[ `!@#$%^&*()_+\-=\[\]{};':"\\|,.<>\/?~]/;
 const formatuuid = /[ `!@#$%^&*()_+\=\[\]{};':"\\|,.<>\/?~]/;
 const formathome = /[`@#$%^&*;'|<>~]/;
 const formatname = /[`!@#$%^&*()_+\-=\[\]{};':"\\|,.<>\/?~]/;
+const formatEng = /[^a-zA-Z]/;
 
 export class FormatDataUtils {
     HaveSpecialFormat(input: string) {
@@ -25,6 +26,12 @@ export class FormatDataUtils {
 
     HaveSpecialNameFormat(input: string) {
         if (formatname.test(input))
+            return true;
+        return false;
+    }
+
+    isNotCharacterEng(input:string){
+        if (formatEng.test(input))
             return true;
         return false;
     }

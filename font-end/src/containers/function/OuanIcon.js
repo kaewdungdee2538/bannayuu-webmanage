@@ -13,6 +13,7 @@ import {
     FaBullhorn,
     FaParking,
     FaChevronCircleRight,
+    FaShippingFast,
 } from "react-icons/fa";
 import './OuanIcon.css'
 const OuanIcon = (props) => {
@@ -53,6 +54,8 @@ const iconName = (name) => {
             return <FaParking className="ouan-icon c-sidebar-nav-icon" />
         case 'FaChevronCircleRight':
             return <FaChevronCircleRight className="ouan-icon c-sidebar-nav-icon" />
+        case 'FaShippingFast':
+            return <FaShippingFast className="ouan-icon c-sidebar-nav-icon" />
         default:
             return <FaRegWindowClose className="ouan-icon c-sidebar-nav-icon" />
     }
@@ -95,6 +98,8 @@ const iconNameForBtn = (name) => {
             return <FaParking className="ouan-icon-for-btn" />
         case 'FaChevronCircleRight':
             return <FaChevronCircleRight className="ouan-icon-for-btn" />
+        case 'FaShippingFast':
+            return <FaShippingFast className="ouan-icon-for-btn" />
         default:
             return <FaRegWindowClose className="ouan-icon-for-btn" />
     }

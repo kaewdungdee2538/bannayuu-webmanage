@@ -65,6 +65,8 @@ const LicenseMain = React.lazy(()=>import('./views/management/license/main/Licen
 const VillagerPaymentMain = React.lazy(()=>import('./views/management/villager-payment/management/main/Villager-payment-main'))
 const VillagerPaymentHistoryMain = React.lazy(()=>import('./views/management/villager-payment/history/main/Villager-payment-history-main'))
 const ParkingMain = React.lazy(()=>import('./views/management/parking/main/Parking-main'))
+const CartypeMain = React.lazy(()=>import('./views/management/cartype/main/Cartype-main'))
+const CartypeCategoryMain = React.lazy(()=>import('./views/management/cartype-category/main/Cartype-category-main'))
 const routes = [
   { path: '/', exact: true, name: 'Home',component:MainForm },
   { path: '/main', exact: true, name: 'Home',component:MainForm },
@@ -132,7 +134,9 @@ const routes = [
   { path: '/home-licenseplate', exact: true, name: 'Home license plate', component: LicenseMain }, 
   { path: '/villager-payment-management', exact: true, name: 'Villager payment', component: VillagerPaymentMain }, 
   { path: '/villager-payment-history', exact: true, name: 'Villager history', component: VillagerPaymentHistoryMain },  
-  { path: '/parking', exact: true, name: 'Parking Rate', component: ParkingMain },      
+  { path: '/parking', exact: true, name: 'Parking Rate', component: ParkingMain }, 
+  { path: '/cartype', exact: true, name: 'Cartype', component: CartypeMain },           
+  { path: '/cartype-category', exact: true, name: 'Cartype Category', component: CartypeCategoryMain },           
   { path: '*', name: 'Not Found', component: page404 },
 ];
 

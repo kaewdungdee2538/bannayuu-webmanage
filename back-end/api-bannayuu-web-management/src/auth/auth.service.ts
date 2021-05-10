@@ -1,5 +1,6 @@
 import { Injectable } from '@nestjs/common';
 import { JwtService } from '@nestjs/jwt';
+import { DefaultValueMiddleware } from 'src/middleware/default-value/default-value.middleware';
 import { dbConnection } from 'src/pg_database/pg.database';
 import { StatusException } from 'src/utils/callback.status';
 import { ErrMessageUtilsTH } from 'src/utils/err_message_th.utils';
@@ -9,9 +10,10 @@ export class AuthService {
     constructor(
         private readonly errMessageUtilsTh: ErrMessageUtilsTH,
         private readonly jwtService: JwtService,
-        private readonly dbconnecttion: dbConnection) { }
+        private readonly dbconnecttion: dbConnection,
+        private readonly defaultValueMiddleware: DefaultValueMiddleware) { }
 
-    async validateUser(user:any): Promise<any> {
+    async validateUser(user: any): Promise<any> {
         console.log(user.username + user.password)
         let sql = `select employee_id, employee_code,first_name_th,last_name_th,username,(passcode = crypt($2, passcode)) as password_status `
         sql += `,me.company_id,mep.login_maintenance_data as privilege_info`
@@ -30,7 +32,6 @@ export class AuthService {
     async login(user: any) {
         const response = await this.validateUser(user);
         console.log(response);
-        console.log(await response.result.length);
         if (await response.error) {
             throw new StatusException({
                 error: this.errMessageUtilsTh.errLoginFail,
@@ -46,16 +47,25 @@ export class AuthService {
                 statusCode: 200
             }, 200);
         } else if (await response.result[0].password_status) {
+            //Check Company
+            const checkCompant = await this.defaultValueMiddleware.CheckCompanyInBase({ company_id: response.result[0].company_id })
+            if (checkCompant) throw new StatusException({
+                error: checkCompant,
+                result: null,
+                message: checkCompant,
+                statusCode: 200
+            }, 200);
+            //-----if can use company and login set payload to jwt data token
             const payload = { employee: response.result[0] };
             console.log(payload);
             const access_token = this.jwtService.sign(
                 payload, { expiresIn: '30 days' })
-            console.log('login : ' + JSON.stringify(payload) + 'access_token : ' + access_token);
             throw new StatusException({
                 error: null,
-                result: { 
+                result: {
                     access_token
-                    , employee: response.result[0] },
+                    , employee: response.result[0]
+                },
                 message: this.errMessageUtilsTh.messageSuccess,
                 statusCode: 200
             }, 200);

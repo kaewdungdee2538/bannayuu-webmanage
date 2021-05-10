@@ -5,6 +5,7 @@ ADMINISTRATOR:
 STANDARD:{
     "estamp": {"status": true,"items": []},
     "home": {"status": true,"items": []},
+    "cartype": {"status": true,"items": []},
     "annoince": {"status": true,"items": []},
     "parcel": {"status": false,"items": []},
     "sos": {"status": false,"items": []},
@@ -15,6 +16,7 @@ STANDARD:{
 PRO:{
     "estamp": {"status": true,"items": []},
     "home": {"status": true,"items": []},
+    "cartype": {"status": true,"items": []},
     "annoince": {"status": true,"items": []},
     "parcel": {"status": true,"items": []},
     "sos": {"status": true,"items": []},
@@ -25,6 +27,7 @@ PRO:{
 PROPLUS:{
     "estamp": {"status": true,"items": []},
     "home": {"status": true,"items": []},
+    "cartype": {"status": true,"items": []},
     "annoince": {"status": true,"items": []},
     "parcel": {"status": true,"items": []},
     "sos": {"status": true,"items": []},
@@ -37,6 +40,7 @@ USER:
 PROPLUS:{
     "estamp": {"status": true,"items": []},
     "home": {"status": true,"items": []},
+    "cartype": {"status": true,"items": []},
     "annoince": {"status": true,"items": []},
     "parcel": {"status": true,"items": []},
     "sos": {"status": true,"items": []},

@@ -18,6 +18,11 @@ export class ErrMessageUtilsTH {
     errCompanyIDProhibitSpecial = 'รหัสหมู่บ้านห้ามมีอักขระพิเศษ หรือช่องว่าง'
     errCompanyCodeProhibitSpecial = 'โค้ดหมู่บ้านห้ามีอักขระพิเศษ หรือช่องว่าง'
     errCompanyNotInBase = 'ไม่พบหมู่บ้านในระบบ'
+    errCompanyStartDateNotFound = 'ไม่พบวันเปิดให้บริการของโครงการนี้'
+    errCompanyExpireDateNotFound = 'ไม่พบวันหมดอายุการให้บริการของโครงการนี้'
+    errCompanyNotStart = 'โครงการนี้ยังไม่เปิดให้บริการ'
+    errCompanyIsExpire = 'โครงการนี้ หมดสัญญาการให้บริการ'
+   
     errGuardHouseIDNotFound = 'ไม่พบรหัสป้อม'
     errGuardHouseIDNotNumber = 'รหัสป้อมต้องเป็นตัวเลขเท่านั้น'
     errGuardHouseIDProhibitSpecial = 'รหัสป้อมห้ามมีอักชระพิเศษ หรือช่องว่าง'
@@ -358,8 +363,21 @@ export class ErrMessageUtilsTH {
     errHomeCarIdProhitbitSpecial = 'รหัสข้อมูลรถลูกบ้าน ห้ามมีอักขระพิเศษ หรือช่องว่าง'
     errHomeCarIdNotNumber = 'รหัสข้อมูลรถลูกบ้าน ต้องเป็นตัวเลขเท่านั้น'
 
+    errNameThNotFound = 'ไม่พบชื่อภาษาไทย'
     errNameThProhitbitSpecial = 'ชื่อภาษาไทย ห้ามมีอักขระพิเศษ'
+    errNameEnNotFound = 'ไม่พบชื่อภาษาอังกฤษ'
     errNameEnProhitbitSpecial = 'ชื่อภาษาอังกฤษ ห้ามมีอักขระพิเศษ'
+    errNameContractionNotFound = 'ไม่พบชื่อย่อ'
+    errNameContractionProhitbitSpecial = 'ชื่อย่อ ห้ามมีอักขระพิเศษ หรือช่องว่าง'
+    errNameContractionIsOver4Digit = 'ชื่อย่อ ห้ามมีตัวอักษรเกิน 4 ตัว'
+    errNameContractionIsNotEng = 'ชื่อย่อ ต้องเป็นภาษาอังกฤษเท่านั้น'
+    errCartypeContactionIsDuplicateInBase = 'ชื่อย่อของประเภทรถ ซ้ำในระบบ'
+
+    errCartypeCategoryIDNotFound = 'ไม่พบรหัสหมวดหมู่รถ'
+    errCartypeCategoryIDProhitbitSpecial = 'หมวดหมู่รถ ห้ามมีอักขระพิเศษ หรือช่องว่าง'
+    errCartypeCategoryIDNotNumber = 'หมวดหมู่รถ ต้องเป็นตัวเลขเท่านั้น'
+    errCartypeCategoryIDNotInBase = 'ไม่พบหมวดหมู่รถในระบบ'
+    errCartypeCategoryContactionIsDuplicateInBase = 'ชื่อย่อหมวดหมู่รถ ซ้ำในระบบ'
 
     errDateStartNotFount = 'ไม่พบวันที่เริ่ม'
     errDateStartNotTimeFormat = 'รูปแบบวันที่เริ่มไม่ถูกต้อง'
@@ -398,7 +416,7 @@ export class ErrMessageUtilsTH {
 
     errIntervalEveryNotFound = 'ไม่พบช่วงเวลาที่ใช้ในการคำนวณ'
     errIntercalEveryNotFormat = 'รูปแบบช่วงเวลาที่ใช้ในการคำนวณไม่ถูกต้อง'
-    
+
 
     errAmountValueForCalculateNotFound = 'ไม่พบจำนวนเงินที่ใช้ในการคำนวณค่าจอดพื้นฐาน'
     errAmountValueForCalculateProhibitSpecial = 'จำนวนเงินที่ใช้ในการคำนวณค่าจอดพื้นฐาน ห้ามมีขระพิเศษ หรือช่องว่าง'
