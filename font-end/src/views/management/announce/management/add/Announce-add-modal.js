@@ -15,6 +15,9 @@ import {
     CModalBody,
     CModalFooter,
     CFormGroup,
+    CRow,
+    CCol,
+    CLabel,
 } from '@coreui/react'
 import moment from 'moment'
 import store, { disAuthenticationLogin } from '../../../../../store'
@@ -25,6 +28,8 @@ function AnnouceAddModal({ showAddAnnouce, setShowAddAnnouce, setRefeshForm, set
     const dateState = moment().format("YYYY-MM-DDTHH:mm");
     const dateEnd = moment().add(1, 'days').format("YYYY-MM-DDTHH:mm")
     //-------------State
+    const [image, setImage] = useState(null);
+    const [fileName, setFileName] = useState('Choose image');
     const [announceName, setAnnounceName] = useState('');
     const [announceHead, setAnnounceHead] = useState('');
     const [announceRemark, setAnnounceRemark] = useState('');
@@ -51,6 +56,7 @@ function AnnouceAddModal({ showAddAnnouce, setShowAddAnnouce, setRefeshForm, set
                 , hni_link_text: announceLink
                 , hni_remark: announceRemark
                 , ref_hni_id: null
+                , image
             }
             let isNotAuth;
             setShowLoading(true)
@@ -66,6 +72,7 @@ function AnnouceAddModal({ showAddAnnouce, setShowAddAnnouce, setRefeshForm, set
                             icon: "warning",
                             button: "OK",
                         });
+                        setShowLoading(false)
                     } else {
                         swal({
                             title: "Success.",
@@ -96,7 +103,7 @@ function AnnouceAddModal({ showAddAnnouce, setShowAddAnnouce, setRefeshForm, set
 
     function addAnnouceMiddleware() {
         if (dateTimeStart >= dateTimeEnd)
-            return 'ช่วงเวลาประกาศจำต้องไม่เท่ากัน'
+            return 'ช่วงเวลาประกาศจะต้องไม่เท่ากัน'
         else if (!announceName)
             return 'กรุณากรอกชื่อเรื่อง'
         else if (!announceHead)
@@ -158,7 +165,7 @@ function AnnouceAddModal({ showAddAnnouce, setShowAddAnnouce, setRefeshForm, set
                         maxLenght="250"
                         text={announceDetail}
                         setText={setAnnounceDetail}
-                        rows="6"
+                        rows="3"
                     />
                     <InputEnable
                         title="หมายเหตุ"
@@ -174,6 +181,23 @@ function AnnouceAddModal({ showAddAnnouce, setShowAddAnnouce, setRefeshForm, set
                         text={announceLink}
                         setText={setAnnounceLink}
                     />
+                    <br></br>
+                    <CRow>
+                        <CCol xs="12" md="12">
+                            <CLabel>เลือกรูปภาพ</CLabel>
+                            <div className="custom-file mb-3">
+                                <input type="file" className="custom-file-input" id="customFile" name="filename"
+                                    accept="image/*"
+                                    onChange={async (event) => {
+                                        const file = event.target.files.item(0);
+                                        setImage(file)
+                                        setFileName(file.name)
+                                    }
+                                    } />
+                                <label className="custom-file-label" htmlFor="customFile">{fileName}</label>
+                            </div>
+                        </CCol>
+                    </CRow>
                 </CFormGroup>
 
                 <CFormGroup className="time-block">

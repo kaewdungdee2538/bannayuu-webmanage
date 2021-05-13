@@ -13,10 +13,11 @@ import { useHistory } from 'react-router-dom'
 import { useState, useEffect } from 'react'
 import '../main/Parking-main.css'
 import './Parking-header.css'
+import CIcon from '@coreui/icons-react'
 import store, { disAuthenticationLogin, unSelectCPH } from '../../../../store'
 import swal from 'sweetalert';
 import moment from 'moment';
-import { getParkingHeaderByCPHID, editParkingHeaderByCPHID } from './Parking-header-controller'
+import { getParkingHeaderByCPHID, editParkingHeaderByCPHID, disableParkingHeaderByCPHID } from './Parking-header-controller'
 import InputDisable from '../../component/input/InputDisable'
 import InputEnable from '../../component/input/InputEnable'
 import TimeMaterialUi from '../../component/time/TimeMaterialUi'
@@ -34,10 +35,11 @@ function ParkingHeaderInfo(props) {
     const { setShowLoading
         , setShowParkingHeaderTable
         , setShowParkingHeaderInfo
+        , setRefeshForm
     } = props;
 
     //--------------State
-    const [resfeshForm, setRefeshForm] = useState(false);
+    const [resfeshInfoForm, setRefeshInfoForm] = useState(false);
     const [parkingHeaderInfo, setParkingHeaderInfo] = useState({
         cph_id: "",
         cph_code: "",
@@ -119,7 +121,7 @@ function ParkingHeaderInfo(props) {
             })
             .finally((value) => {
                 document.body.style.cursor = "default";
-                setRefeshForm(false);
+                setRefeshInfoForm(false);
                 setShowLoading(false)
                 if (isNotAuth) {
                     swal("Warning!", isNotAuth, "warning");
@@ -129,7 +131,7 @@ function ParkingHeaderInfo(props) {
                 }
             });
     }
-    if (resfeshForm) {
+    if (resfeshInfoForm) {
         refeshForm();
     }
 
@@ -185,7 +187,7 @@ function ParkingHeaderInfo(props) {
                     icon: "success",
                     button: "OK",
                 });
-                setRefeshForm(true);
+                setRefeshInfoForm(true);
                 setHeaderInfoEdit(false);
             }
 
@@ -276,6 +278,80 @@ function ParkingHeaderInfo(props) {
         else
             setTimeEnd(time)
     }
+    //----------------On Disable click
+    function onDisableClick() {
+        swal("หมายเหตุ:", {
+            content: "input",
+        })
+            .then((value) => {
+                if (!value)
+                    swal({
+                        title: "Warning.",
+                        text: `กรุณากรอกหมายเหตุ`,
+                        icon: "warning",
+                        button: "OK",
+                    });
+                else swal({
+                    title: "Are you sure?",
+                    text: "ต้องการลบโซน หรือไม่!",
+                    icon: "warning",
+                    buttons: true,
+                    dangerMode: true,
+                }).then((willDelete) => {
+                    if (willDelete) {
+                        onDisableSaveClick(value);
+                    }
+                });
+            });
+    }
+    function onDisableSaveClick(remarkInput) {
+        document.body.style.cursor = 'wait';
+        setShowLoading(true);
+        const values = {
+            authStore
+            , valuesObj: {
+                cph_id: parkingHeaderInfo.cph_id
+                , remark: remarkInput
+            }
+        }
+        let isNotAuth;
+        disableParkingHeaderByCPHID(values).then(res => {
+            if (res.error) {
+                if (res.statusCode === 401)
+                    isNotAuth = res.error
+                else swal({
+                    title: "Warning.",
+                    text: res.message,
+                    icon: "warning",
+                    button: "OK",
+                });
+
+            } else {
+                swal({
+                    title: "Success.",
+                    text: "ลบ Zone Rate เรียบร้อย",
+                    icon: "success",
+                    button: "OK",
+                });
+                setShowParkingHeaderTable(true);
+                setShowParkingHeaderInfo(false);
+                setRefeshForm(true);
+            }
+
+        }).catch(err => {
+            console.log(err);
+            history.push("/page500");
+        }).finally(value => {
+            document.body.style.cursor = 'default';
+            setShowLoading(false);
+            if (isNotAuth) {
+                swal("Warning!", isNotAuth, "warning");
+                history.push("/");
+                //clear state global at store 
+                store.dispatch(disAuthenticationLogin());
+            }
+        })
+    }
     //----------------Show Time zone select
     let timeZoneSelectElem = null;
     if (priority.toUpperCase() === "SECOND") {
@@ -328,6 +404,7 @@ function ParkingHeaderInfo(props) {
                 <CRow>
                     <CCol xs="12" sm="12" md="12">
                         <CLabel>ช่วงเวลาที่ใช้ในการคำนวณค่าจอด</CLabel>
+                        <span style={{ color: "red" }}> เช่น คำนวณทุกๆ 1 ชั่วโมง เป็นต้น</span>
                         <CCard>
                             <CCardBody>
                                 <CRow>
@@ -360,9 +437,17 @@ function ParkingHeaderInfo(props) {
                             title="ค่าบริการจอดรถ (บาท/หน่วย)"
                             text={parkingService}
                             setText={setParkingService}
-                            placeholder="Enter parking service"
+                            placeholder="Enter Parking Service"
                             maxLenght={4}
                         />
+                    </CCol>
+                </CRow>
+                <CRow>
+                    <CCol xs="12" sm="12" md="12">
+                        <span style={{ color: "red" }}>
+                            ***เป็นจำนวนเงินที่จะนำไปคูณกับ
+                            ช่วงเวลาจอดด้านบน เช่น จอดครบ 1 ชั่วโมง
+                        จะถูกนำมาคูณกับจำนวนเงินที่ระบุไว้</span>
                     </CCol>
                 </CRow>
                 <CRow>
@@ -379,18 +464,30 @@ function ParkingHeaderInfo(props) {
                 </CRow>
                 <br></br>
                 <div className="btn-header-info-edit-form">
-                    <div></div>
-                    <CButton
-                        onClick={onEditSaveClick}
-                        className="btn-class btn-edit"
-                        color="success">
-                        {/* <CIcon
+                    <div className="modal-footer-item">
+                        <CButton className="btn-class btn-modal-footer"
+                            color="danger"
+                            onClick={onDisableClick}
+                        >
+                            <CIcon
+                                name="cil-ban"
+                                color="info" />
+                            <span className="btn-icon-footer">ลบค่าบริการ</span>
+                        </CButton>
+                    </div>
+                    <div className="modal-footer-item">
+                        <CButton
+                            onClick={onEditSaveClick}
+                            className="btn-class btn-modal-footer"
+                            color="success">
+                            {/* <CIcon
                     cpm_id={item.cpm_id}
                     cpm_code={item.cpm_code}
                     name="cil-magnifying-glass"
                     color="info" /> */}
-                        <span
-                            className="btn-icon">บันทึก</span></CButton>
+                            <span
+                                className="btn-icon">บันทึก</span></CButton>
+                    </div>
                 </div>
 
             </CCol>
@@ -449,7 +546,6 @@ function ParkingHeaderInfo(props) {
         parkingSubListElem = <ParkingSubTable
             setShowLoading={setShowLoading}
         />
-
     }
     //---------------------------------------------
     return (
@@ -475,14 +571,13 @@ function ParkingHeaderInfo(props) {
             </CCard>
             <hr></hr>
             <h3>ตารางค่าบริการจอดรถ</h3>
-                <CCardBody>
-                    {parkingSubListElem}
-                </CCardBody>
-            
+            <CCardBody>
+                {parkingSubListElem}
+            </CCardBody>
             <CButton
                 onClick={onBackClick}
                 className="btn-class btn-back"
-                color="danger">
+                color="warning">
                 <span
                     className="btn-icon">ย้อนกลับ</span></CButton>
         </CCol>

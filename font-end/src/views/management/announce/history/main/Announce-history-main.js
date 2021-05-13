@@ -3,6 +3,7 @@ import {
     CCard,
     CCardBody,
     CCardHeader,
+    CRow,
     CCol,
     CDataTable,
     CBadge
@@ -13,12 +14,13 @@ import { useHistory } from 'react-router-dom'
 import './Announce-history-main.css'
 import CIcon from '@coreui/icons-react'
 import swal from 'sweetalert';
-import SelectBox from '../../../component/selectbox/SelectBox'
+import DateMaterialUi from '../../../component/datetime/DateMaterialUi'
 import HistorySelectObject from './itemForSearch'
 import AnnounceHistoryMainController from './Announce-history-main-controller'
 import AnnounceHistoryModal from '../modal/Announce-history-modal'
 import LoadingModal from '../../../component/loading/LoadingModal'
 import store, { disAuthenticationLogin } from '../../../../../store'
+import * as moment from 'moment';
 
 const fields = ['แสดง', 'ชื่อ-สกุล', 'เรื่อง', 'วันที่ประกาศ', 'สถานะ']
 const getBadge = status => {
@@ -32,15 +34,14 @@ const getBadge = status => {
 }
 
 function AnnounceHistoryMain() {
+    const _dateStart = moment().subtract(30, 'days').set({ hour: 0, minute: 0, second: 0, millisecond: 0 });
+    const _dateEnd = moment().set({ hour: 23, minute: 59, second: 59, millisecond: 0 });
     const history = useHistory();
     const authStore = useSelector(state => state)
     const [announceObj, setAnnounceObj] = useState(null);
     const [resfeshForm, setRefeshForm] = useState(false);
-    const [selected, setSelected] = useState(
-        {
-            value: HistorySelectObject[0].value
-            , type: HistorySelectObject[0].type
-        });
+    const [dateStart, setDateStart] = useState(_dateStart);
+    const [dateEnd, setDateEnd] = useState(_dateEnd);
     const [showHistory, setShowHistory] = useState(false);
     const [selectHistory, setSelectHistory] = useState({
         hni_id: "", hni_code: ""
@@ -67,7 +68,11 @@ function AnnounceHistoryMain() {
         let isNotAuth;
         setShowLoading(true);
         document.body.style.cursor = "wait";
-        AnnounceHistoryMainController({ authStore, selected })
+        const valuesObj = {
+            start_date: moment(dateStart).format("YYYY-MM-DD HH:mm:ss")
+            , stop_date: moment(dateEnd).format("YYYY-MM-DD HH:mm:ss")
+        }
+        AnnounceHistoryMainController({ authStore, valuesObj })
             .then((res) => {
                 if (res.result) {
                     if (res.result.length > 0) setAnnounceObj(res.result);
@@ -93,6 +98,25 @@ function AnnounceHistoryMain() {
     }
     if (resfeshForm) {
         refeshForm();
+    }
+    //-----------------Date Handing
+    function handdingDateStart(date) {
+        if (moment(date) > moment(dateEnd)) {
+            const newMoment = moment(date).add(1, 'days')
+            setDateStart(date)
+            setDateEnd(newMoment)
+        }
+        else
+            setDateStart(date)
+    }
+    function handdingDateEnd(date) {
+        if (moment(date) < moment(dateStart)) {
+            const newMoment = moment(date).subtract(1, 'days')
+            setDateStart(newMoment)
+            setDateEnd(date);
+        }
+        else
+            setDateEnd(date)
     }
     //----------------Search
     function onSearchClick(event) {
@@ -128,12 +152,23 @@ function AnnounceHistoryMain() {
                         Annouce Table
                     </CCardHeader>
                     <CCardBody>
-                        <SelectBox
-                            title="เลือกช่วงเวลาย้อนหลัง"
-                            name="selecttime"
-                            items={HistorySelectObject}
-                            setSelected={setSelected}
-                        />
+                        <CRow>
+                            <CCol xs="12" sm="6" md="6">
+                                <DateMaterialUi
+                                    title="วันที่ค้นหาเริ่มต้น"
+                                    selectedDate={dateStart}
+                                    setSelectedDate={handdingDateStart}
+                                />
+                            </CCol>
+                            <CCol xs="12" sm="6" md="6">
+                                <DateMaterialUi
+                                    title="วันที่ค้นหาสิ้นสุด"
+                                    selectedDate={dateEnd}
+                                    setSelectedDate={handdingDateEnd}
+                                />
+                            </CCol>
+                        </CRow>
+                        <br></br>
                         <div className="head">
                             <CButton
                                 className="btn-class btn-head"

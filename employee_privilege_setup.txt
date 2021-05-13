@@ -4,6 +4,7 @@ WEB Management
 ADMINISTRATOR:
 STANDARD:{
     "estamp": {"status": true,"items": []},
+    "card": {"status": true,"items": []},   
     "home": {"status": true,"items": []},
     "cartype": {"status": true,"items": []},
     "annoince": {"status": true,"items": []},
@@ -15,6 +16,7 @@ STANDARD:{
 }
 PRO:{
     "estamp": {"status": true,"items": []},
+    "card": {"status": true,"items": []}, 
     "home": {"status": true,"items": []},
     "cartype": {"status": true,"items": []},
     "annoince": {"status": true,"items": []},
@@ -26,6 +28,7 @@ PRO:{
 }
 PROPLUS:{
     "estamp": {"status": true,"items": []},
+    "card": {"status": true,"items": []}, 
     "home": {"status": true,"items": []},
     "cartype": {"status": true,"items": []},
     "annoince": {"status": true,"items": []},
@@ -39,6 +42,7 @@ PROPLUS:{
 USER:
 PROPLUS:{
     "estamp": {"status": true,"items": []},
+    "card": {"status": true,"items": []}, 
     "home": {"status": true,"items": []},
     "cartype": {"status": true,"items": []},
     "annoince": {"status": true,"items": []},

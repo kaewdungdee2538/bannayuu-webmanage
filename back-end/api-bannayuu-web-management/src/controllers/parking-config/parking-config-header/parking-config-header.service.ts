@@ -312,20 +312,37 @@ export class ParkingConfigHeaderService {
         const remark = body.remark;
         const company_id = body.company_id;
         const cph_id = body.cph_id;
-        let sql = `update m_calculate_parking_header set
+        let sql1 = `update m_calculate_parking_header set
         delete_flag = 'Y',delete_date = current_timestamp,delete_by = $1
         ,cph_remark = $2
         where company_id = $3 and cph_id = $4
         ;`
-        const query = {
-            text: sql,
+        const query1 = {
+            text: sql1,
             values: [
                 employee_id
                 , remark
                 , company_id, cph_id
             ]
         }
-        const res = await this.dbconnecttion.savePgData([query]);
+        let sql2 =  `update m_calculate_parking_sub set
+        delete_flag = 'Y'
+        ,cps_remark = $1
+        ,delete_by = $2,delete_date = current_timestamp
+        where company_id = $3 and cph_id = $4
+        ;`
+        const query2 = {
+            text: sql2,
+            values: [
+                remark
+                ,employee_id
+                ,company_id,cph_id
+            ]
+        }
+
+        const querys = [query1,query2]
+        
+        const res = await this.dbconnecttion.savePgData(querys);
         if (res.error) {
             console.log(res.error)
             throw new StatusException({

@@ -52,22 +52,25 @@ export class AnnounceService {
                 },
                 200);
     }
-    async addAnnounce(body: any, req: any) {
+    async addAnnounce(body: any, req: any,image_path:string) {
         const employeeObj = req.user.employee
         const hni_name = body.hni_name
-        const ref_hni_id = body.ref_hni_id
+        const image_hni = {
+            image_hni:image_path[0]
+        }
+        // const ref_hni_id = body.ref_hni_id ? body.ref_hni_id : null;
         const hni_start_datetime = body.hni_start_datetime
         const hni_end_datetime = body.hni_end_datetime
         const hni_header_text = body.hni_header_text
         const hni_detail_text = body.hni_detail_text
         const hni_link_text = body.hni_link_text
-        const hni_data = body.hni_data
+        const hni_data = image_hni
         const hni_remark = body.hni_remark
         const employee_id = employeeObj.employee_id
         const company_id = body.company_id
+        
         let sql = `insert into h_notification_info(
             hni_code
-            ,ref_hni_id
             ,hni_name,hni_header_text
             ,hni_detail_text,hni_link_text,hni_remark
             ,hni_data
@@ -76,22 +79,20 @@ export class AnnounceService {
             ,company_id
         ) values(
             fun_generate_uuid('NT'||trim(to_char(${company_id},'000')),5)
-            ,$1
-            ,$2,$3
-            ,$4,$5,$6
-            ,$7
-            ,$8,$9
-            ,$10,current_timestamp
-            ,$11
+            ,$1,$2
+            ,$3,$4,$5
+            ,$6
+            ,$7,$8
+            ,$9,current_timestamp
+            ,$10
         );`
 
         const query = {
             text: sql
             , values: [
-                ref_hni_id
-                , hni_name, hni_header_text
+                 hni_name, hni_header_text
                 , hni_detail_text, hni_link_text, hni_remark
-                , hni_data
+                 ,hni_data
                 , hni_start_datetime, hni_end_datetime
                 , employee_id
                 , company_id
@@ -155,37 +156,40 @@ export class AnnounceService {
                 200);
     }
 
-    async editAnnounce(body:any,req:any){
+    async editAnnounce(body:any,req:any,image_path:string){
+        const image_hni = image_path ? {
+            image_hni: image_path[0]
+        } : null;
         const employeeObj = req.user.employee
         const company_id = body.company_id
         const hni_id = body.hni_id;
         const hni_name = body.hni_name
-        const ref_hni_id = body.ref_hni_id
+        // const ref_hni_id = body.ref_hni_id
         const hni_start_datetime = body.hni_start_datetime
         const hni_end_datetime = body.hni_end_datetime
         const hni_header_text = body.hni_header_text
         const hni_detail_text = body.hni_detail_text
         const hni_link_text = body.hni_link_text
-        const hni_data = !body.hni_data ? null : body.hni_data
+        const data = body.hni_data ? body.hni_data : '';
+        const hni_data = image_hni ? image_hni : data;
         const hni_remark = body.hni_remark
         const employee_id = employeeObj.employee_id
-        console.log({body})
         let sql = `update h_notification_info set
-        hni_name = $1, ref_hni_id = $2
-        ,hni_start_datetime = $3,hni_end_datetime = $4
-        ,hni_header_text = $5,hni_detail_text = $6
-        ,hni_link_text = $7,hni_data = $8
-        ,hni_remark = $9
-        ,update_by = $10,update_date = current_timestamp
+        hni_name = $1
+        ,hni_start_datetime = $2,hni_end_datetime = $3
+        ,hni_header_text = $4,hni_detail_text = $5
+        ,hni_link_text = $6,hni_data = $7
+        ,hni_remark = $8
+        ,update_by = $9,update_date = current_timestamp
         where delete_flag = 'N'
-        and hni_id = $11
-        and company_id = $12
+        and hni_id = $10
+        and company_id = $11
         ;`
 
         const query = {
             text: sql
             , values: [
-                hni_name,ref_hni_id
+                hni_name
                 ,hni_start_datetime,hni_end_datetime
                 ,hni_header_text,hni_detail_text
                 ,hni_link_text,hni_data
@@ -195,6 +199,8 @@ export class AnnounceService {
                 ,company_id
             ]
         }
+        console.log("data : "+JSON.stringify(data));
+        console.log("hni_data : "+JSON.stringify(hni_data));
         const res = await this.dbconnecttion.savePgData([query]);
         if (res.error) throw new StatusException({
             error: res.error,

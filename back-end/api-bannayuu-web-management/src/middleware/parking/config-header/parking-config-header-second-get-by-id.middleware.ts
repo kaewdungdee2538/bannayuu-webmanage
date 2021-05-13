@@ -41,7 +41,7 @@ export class ParkingConfigHeaderSecondGetIdMiddleware implements NestMiddleware 
         const company_id = body.company_id;
         const cph_id = body.cph_id;
         let sql = `select cph_id from m_calculate_parking_header
-        where delete_flag = 'N' and cph_priority_no != 1
+        where delete_flag = 'N' 
         and company_id = $1 and cph_id = $2 ;`
         const query = {
             text: sql

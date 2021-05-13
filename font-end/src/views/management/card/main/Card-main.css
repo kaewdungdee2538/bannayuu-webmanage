@@ -1,0 +1,38 @@
+.btn-add{
+    width: 95%;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    margin-top: 15px;
+    margin-left: auto;
+    margin-right: auto;
+}
+.btn-class{
+    width: 100%;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    box-shadow: 2px 4px 5px rgba(0,0,0,0.5);
+}
+.btn-head{
+    font-size: 20px;
+    width: 100%;
+    box-shadow: 2px 4px 5px rgba(0,0,0,0.5);
+}
+.btn-edit{
+    max-width: 120px;
+}
+.btn-delete{
+    max-width: 80px;
+}
+tr{
+    vertical-align: middle;
+}
+.btn-icon{
+    font-size: 12px;
+    margin: 0 5px;
+}
+.form-head-card{
+    background-color: #263238;
+    color: white;
+}

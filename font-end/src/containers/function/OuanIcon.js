@@ -14,6 +14,7 @@ import {
     FaParking,
     FaChevronCircleRight,
     FaShippingFast,
+    FaIdCardAlt,
 } from "react-icons/fa";
 import './OuanIcon.css'
 const OuanIcon = (props) => {
@@ -56,6 +57,8 @@ const iconName = (name) => {
             return <FaChevronCircleRight className="ouan-icon c-sidebar-nav-icon" />
         case 'FaShippingFast':
             return <FaShippingFast className="ouan-icon c-sidebar-nav-icon" />
+        case 'FaIdCardAlt':
+            return <FaIdCardAlt className="ouan-icon c-sidebar-nav-icon" />
         default:
             return <FaRegWindowClose className="ouan-icon c-sidebar-nav-icon" />
     }

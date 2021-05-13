@@ -65,3 +65,23 @@ export const editParkingHeaderByCPHID = (props) => {
         , config
     ).then((res) => { return res.data.response })
 }
+
+export const disableParkingHeaderByCPHID = (props) => {
+    const { authStore, valuesObj } = props;
+    const company_id = authStore.company_id;
+    const cph_id = valuesObj.cph_id ? valuesObj.cph_id : null;
+    const remark = valuesObj.remark;
+    //-------------------------URL
+    const url_path = `${ApiRoute.main_url}${ApiRoute.port}${ApiRoute.parking.disable_parking_header_url}`;
+    const config = {
+        headers: { Authorization: `Bearer ${authStore.access_token}` }
+    }
+    const bodyParameters = {
+        company_id,cph_id
+        ,remark
+    }
+    return axios.post(url_path
+        , bodyParameters
+        , config
+    ).then((res) => { return res.data.response })
+}

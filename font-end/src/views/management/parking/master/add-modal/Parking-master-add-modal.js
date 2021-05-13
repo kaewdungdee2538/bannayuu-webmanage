@@ -44,15 +44,15 @@ const ParkingMasterAddModal = (props) => {
     //--------------------------State
     const [nameTh, setNameTh] = useState("");
     const [nameEn, setNameEn] = useState("");
-    const [overNightFine, setOverNightFine] = useState(0);
+    const [overNightFine, setOverNightFine] = useState("0");
 
     const [dateStart, setDateStart] = useState(_dateStart);
     const [dateEnd, setDateEnd] = useState(_dateEnd);
     const [timeStart, setTimeStart] = useState(_timeStart);
     const [timeEnd, setTimeEnd] = useState(_timeEnd);
-    const [hoursFree, setHoursFree] = useState(0);
-    const [minutesFree, setMinutesFree] = useState(0);
-    const [secondsFree, setSecondsFree] = useState(0);
+    const [hoursFree, setHoursFree] = useState("0");
+    const [minutesFree, setMinutesFree] = useState("0");
+    const [secondsFree, setSecondsFree] = useState("0");
     //----------------------Combobox value
     const [carTypeStatus, setCarTypeStatus] = useState({ id: 0, value: "เลือกประเภทรถ" })
     const [dayTypeStatus, setDayTypeStatus] = useState({ id: 0, value: "เลือกประเภทวัน" })
@@ -328,18 +328,18 @@ const ParkingMasterAddModal = (props) => {
                         </CCol>
                     </CRow>
                     <CRow>
-                        <CCol xs="12" sm="5" md="4">
+                        <CCol xs="12" sm="12" md="12">
                             {comboBoxCarTypeArrayElem}
                         </CCol>
                     </CRow>
                     <CRow>
-                        <CCol xs="12" sm="5" md="4">
+                        <CCol xs="12" sm="12" md="12">
                             {comboBoxDayTypeArrayElem}
                         </CCol>
                     </CRow>
                     {dateSelectDayTypeElem}
                     <CRow>
-                        <CCol xs="12" sm="5" md="4">
+                        <CCol xs="12" sm="12" md="12">
                             {comboBoxOverNightArrayElem}
                         </CCol>
                     </CRow>

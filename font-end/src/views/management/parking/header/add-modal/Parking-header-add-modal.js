@@ -219,16 +219,18 @@ const ParkingHeaderAddModal = (props) => {
     //----------------Handle time
     function handleTimeStart(time) {
         if (moment(time) > moment(timeEnd)) {
-            swal("Warning!", "Zone Start ห้ามมากกว่า Zone Stop", "warning");
-            setTimeStart(moment(timeStart))
+            // swal("Warning!", "Zone Start ห้ามมากกว่า Zone Stop", "warning");
+            setTimeStart(time)
+            setTimeEnd(moment(time))
         }
         else
             setTimeStart(time)
     }
     function handleTimeEnd(time) {
         if (moment(time) < moment(timeStart)) {
-            swal("Warning!", "Zone Stop ห้ามน้อยกว่า Zone Start", "warning");
-            setTimeEnd(moment(timeEnd))
+            // swal("Warning!", "Zone Stop ห้ามน้อยกว่า Zone Start", "warning");
+            setTimeEnd(time)
+            setTimeStart(moment(time))
         }
         else
             setTimeEnd(time)
@@ -328,9 +330,17 @@ const ParkingHeaderAddModal = (props) => {
                                 title="ค่าบริการจอดรถ (บาท/หน่วย)"
                                 text={parkingPrice}
                                 setText={setParkingPrice}
-                                placeholder="Enter Over Night Fine"
+                                placeholder="Enter Parking Service"
                                 maxLenght={4}
                             />
+                        </CCol>
+                    </CRow>
+                    <CRow>
+                        <CCol xs="12" sm="12" md="12">
+                            <span style={{ color: "red" }}>
+                                ***เป็นจำนวนเงินที่จะนำไปคูณกับ
+                        ช่วงเวลาจอดด้านบน เช่น จอดครบ 1 ชั่วโมง 
+                        จะถูกนำมาคูณกับจำนวนเงินที่ระบุไว้</span>
                         </CCol>
                     </CRow>
                 </CFormGroup>

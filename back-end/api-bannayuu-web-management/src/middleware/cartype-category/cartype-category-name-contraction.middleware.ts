@@ -35,7 +35,7 @@ export class CartypeCategoryNameContractionCreateMiddleware implements NestMiddl
         else if (body.name_contraction.length > 4)
             return this.errMessageUrilTh.errNameContractionIsOver4Digit;
         else if(this.formatDataUtils.isNotCharacterEng(body.name_contraction))
-            return this.errMessageUrilTh.errNameContractionIsNotEng;
+            return this.errMessageUrilTh.errNameContractionIsNotEngOrNumber;
         return await this.checkContractionCategoryInBase(body);
     }
 

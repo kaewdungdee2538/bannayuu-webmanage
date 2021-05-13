@@ -2,3 +2,29 @@
     background-color: #0277bd;
     color: white;
 }
+.modal-footer{
+    display: flex;
+    width: 100%;
+    justify-content: space-between;
+}
+
+@media screen and (max-width: 600px) {
+    .modal-footer{
+        display: flex;
+        justify-content: center;
+        flex-direction: column;
+        width: 100%;
+    }
+    .modal-footer-item{
+        width: 100%;
+    }
+    .btn-modal-footer{
+        margin-left: 0px;
+        width: 100%;
+        margin: 5px 0;
+    }
+    .modal-footer-item-sub{
+        display: flex;
+        flex-direction: column;
+    }
+}

@@ -7,6 +7,7 @@ import { nav_announce_head, nav_announce_item } from './nav/nav_announce'
 import { nav_sos_head, nav_sos_item } from './nav/nav_sos'
 import { nav_parking_head, nav_parking_item } from './nav/nav_parking'
 import { nav_cartype_head, nav_cartype_item} from './nav/nav_cartype'
+import { nav_card_head, nav_card_item} from './nav/nav_card'
 
 function GetNavBarItems(privilege_info) {
     const _nav = []
@@ -49,6 +50,10 @@ function GetNavBarItems(privilege_info) {
     if (privilege_info.annoince.status) {
         _nav.push(nav_announce_head)
         _nav.push(nav_announce_item)
+    }
+    if(privilege_info.card.status){
+        _nav.push(nav_card_head)
+        _nav.push(nav_card_item)
     }
     return _nav;
 }

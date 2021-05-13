@@ -6,15 +6,13 @@ import {
     CCardHeader,
     CCol,
     CDataTable,
-    CBadge,
-    CRow,
 } from '@coreui/react'
 import swal from 'sweetalert';
 import { useState, useEffect } from 'react'
 import { useSelector } from 'react-redux'
 import { useHistory } from 'react-router-dom'
 import CIcon from '@coreui/icons-react'
-import store, { disAuthenticationLogin } from '../../../../store'
+import store, { disAuthenticationLogin,selectCartype } from '../../../../store'
 import { cartypeFields } from '../data/cartype-category-data'
 import {getCartypeAll} from './Cartype-category-main-controller'
 
@@ -23,25 +21,25 @@ function CartypeCategoryCartypeInfo(props) {
         setSelectedCartypeObj,
         setShowLoading,
         setShowCartypeList,
-        setShowCategoryList
+        setShowCategoryList,
+        refeshFormCartype,
+        setRefeshFormCartype
     } = props;
     const history = useHistory();
     const authStore = useSelector(state => state)
-
     //--------------State
     const [cartypeObj,setCartypeObj] = useState([]);
-  
-    const [refeshForm, setRefeshForm] = useState(false);
     //---------------Form load
     useEffect(() => {
+        
         setShowLoading(true);
         refeshFormFunc();
     }, [])
 
     //-----------------Refesh Form
-    if (refeshForm) {
+    if (refeshFormCartype) {
         refeshFormFunc(true);
-        setRefeshForm(false);
+        setRefeshFormCartype(false);
     }
     function refeshFormFunc(reset) {
         if (!authStore.authorization) {
@@ -79,15 +77,13 @@ function CartypeCategoryCartypeInfo(props) {
 
     function onClickSelectCartype(event){
         const cartype_id = event.target.getAttribute("cartype_id")
-        const cartype_code = event.target.getAttribute("cartype_code")
-        setSelectedCartypeObj({ cartype_id, cartype_code })
+        // const cartype_code = event.target.getAttribute("cartype_code")
+        store.dispatch(selectCartype({cartype_id}))
         setShowCartypeList(false);
         setShowCategoryList(true);
     }
     //--------------------------
     return (
-        <div>
-            <CCardBody>
                 <CCol xs="12" lg="12">
                     <CCard>
                         <CCardHeader>
@@ -144,8 +140,6 @@ function CartypeCategoryCartypeInfo(props) {
                         </CCardBody>
                     </CCard>
                 </CCol>
-            </CCardBody>
-        </div>
     )
 }
 

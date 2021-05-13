@@ -10,7 +10,7 @@ export class ParkingConfigMasterService {
         private readonly dbconnecttion: dbConnection,
     ) { }
 
-    
+
 
     async getParkingConfigMasterAll(body: any) {
         const company_id = body.company_id;
@@ -162,22 +162,50 @@ export class ParkingConfigMasterService {
         }, 200);
     }
 
-    async disableParkingConfigMaster(body:any,req:any){
+    async disableParkingConfigMaster(body: any, req: any) {
         const company_id = body.company_id;
         const employeeObj = req.user.employee;
         const employee_id = employeeObj.employee_id;
         const cpm_id = body.cpm_id;
-        let sql = `update m_calculate_parking_master set
+        const remark = body.remark;
+        let sql1 = `update m_calculate_parking_master set
         delete_flag = 'Y',delete_date = current_timestamp
+        ,cpm_remark = $4
         ,delete_by = $1
         where cpm_id = $2 and company_id = $3;`;
-        const query = {
-            text:sql,
-            values:[
-                employee_id,cpm_id,company_id
+        const query1 = {
+            text: sql1,
+            values: [
+                employee_id, cpm_id, company_id, remark
             ]
         }
-        const res = await this.dbconnecttion.savePgData([query]);
+        let sql2 = `update m_calculate_parking_header set
+        delete_flag = 'Y',delete_date = current_timestamp
+        ,cph_remark = $4
+        ,delete_by = $1
+        where cpm_id = $2 and company_id = $3;`;
+        const query2 = {
+            text: sql2,
+            values: [
+                employee_id, cpm_id, company_id, remark
+            ]
+        }
+        let sql3 = `update m_calculate_parking_sub set
+        delete_flag = 'Y',delete_date = current_timestamp
+        ,cps_remark = $4
+        ,delete_by = $1
+        where cph_id in 
+        (select cph_id from m_calculate_parking_header where cpm_id = $2 and company_id = $3)
+        and company_id = $3;`;
+        const query3 = {
+            text: sql3,
+            values: [
+                employee_id, cpm_id, company_id, remark
+            ]
+        }
+
+        const querys = [query1, query2, query3];
+        const res = await this.dbconnecttion.savePgData(querys);
         if (res.error) throw new StatusException({
             error: res.error,
             result: null,
@@ -220,13 +248,13 @@ export class ParkingConfigMasterService {
         const query = {
             text: sql,
             values: [
-                cpm_name_th,cpm_name_en
-                ,cpm_start_date,cpm_stop_date
-                ,cpm_day_type,cpm_time_for_free
-                ,cpm_overnight_status,cpm_overnight_start,cpm_overnight_stop
-                ,cpm_fine_amount,employee_id
-                ,remark
-                ,company_id,cpm_id
+                cpm_name_th, cpm_name_en
+                , cpm_start_date, cpm_stop_date
+                , cpm_day_type, cpm_time_for_free
+                , cpm_overnight_status, cpm_overnight_start, cpm_overnight_stop
+                , cpm_fine_amount, employee_id
+                , remark
+                , company_id, cpm_id
             ]
         }
         const res = await this.dbconnecttion.savePgData([query]);

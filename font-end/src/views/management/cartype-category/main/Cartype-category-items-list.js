@@ -6,32 +6,35 @@ import {
     CCardHeader,
     CCol,
     CDataTable,
-    CBadge,
-    CRow,
 } from '@coreui/react'
 import swal from 'sweetalert';
 import { useState, useEffect } from 'react'
 import { useSelector } from 'react-redux'
 import { useHistory } from 'react-router-dom'
 import CIcon from '@coreui/icons-react'
-import store, { disAuthenticationLogin } from '../../../../store'
-import { cartypeFields } from '../data/cartype-category-data'
-import {getCartypeAll} from './Cartype-category-main-controller'
+import store, { disAuthenticationLogin, unSelectCartype } from '../../../../store'
+import CartypeCategoryAddModal from '../add/Cartype-category-add-modal'
+import CartypeCategoryEditModal from '../edit/Cartype-category-edit'
+import { categoryFields } from '../data/cartype-category-data'
+import { getCartypeCategoryAllById } from './Cartype-category-main-controller'
 
 function CartypeCategoryInfoItemsList(props) {
     const {
-        setSelectedCartypeObj,
         setShowLoading,
         setShowCartypeList,
-        setShowCategoryList
+        setShowCategoryList,
     } = props;
     const history = useHistory();
     const authStore = useSelector(state => state)
-
+    const cartype_id = authStore.cartype_id;
     //--------------State
-    const [cartypeObj,setCartypeObj] = useState([]);
-  
-    const [refeshForm, setRefeshForm] = useState(false);
+    const [refeshFormCartypeCategory, setRefeshFormCartypeCategory] = useState(false);
+    const [cartypeCategoryObj, setCartypeCategoryObj] = useState([]);
+    const [showAddModal, setShowAddModal] = useState(false);
+    const [showEditModal, setShowEditModal] = useState(false);
+    const [selectCategory,setSelectCategory] = useState({
+        cartype_category_id:"",cartype_category_code:""
+    })
     //---------------Form load
     useEffect(() => {
         setShowLoading(true);
@@ -39,9 +42,9 @@ function CartypeCategoryInfoItemsList(props) {
     }, [])
 
     //-----------------Refesh Form
-    if (refeshForm) {
+    if (refeshFormCartypeCategory) {
         refeshFormFunc(true);
-        setRefeshForm(false);
+        setRefeshFormCartypeCategory(false);
     }
     function refeshFormFunc(reset) {
         if (!authStore.authorization) {
@@ -49,13 +52,16 @@ function CartypeCategoryInfoItemsList(props) {
         } else {
             let isNotAuth;
             document.body.style.cursor = "wait";
-            getCartypeAll({ authStore })
+            const searchObj = {
+                cartype_id
+            }
+            getCartypeCategoryAllById({ authStore, searchObj })
                 .then((res) => {
                     if (res.result) {
                         const result = res.result;
                         if (result.length > 0)
-                            setCartypeObj(result);
-                        else setCartypeObj([]);
+                            setCartypeCategoryObj(result);
+                        else setCartypeCategoryObj([]);
                     } else if (res.statusCode === 401) {
                         isNotAuth = res.error;
                     } else swal("Warning!", res.error, "warning");
@@ -77,75 +83,121 @@ function CartypeCategoryInfoItemsList(props) {
         }
     }
 
-    function onClickSelectCartype(event){
-        const cartype_id = event.target.getAttribute("cartype_id")
-        const cartype_code = event.target.getAttribute("cartype_code")
-        setSelectedCartypeObj({ cartype_id, cartype_code })
-        setShowCartypeList(false);
-        setShowCategoryList(true);
+    function onClickSelectCartype(event) {
+        const cartype_category_id = event.target.getAttribute("cartype_category_id")
+        const cartype_category_code = event.target.getAttribute("cartype_category_code")
+        setSelectCategory({cartype_category_id,cartype_category_code});
+        setShowEditModal(true);
+    }
+    //--------------------------On add cartype category click
+    function onAddCartypeCategoryClick() {
+        setShowAddModal(true);
+    }
+    //--------------------------ฺOn back to form before
+    function onBackClick() {
+        setShowCartypeList(true);
+        setShowCategoryList(false);
+        store.dispatch(unSelectCartype())
+    }
+    //-----------------Set Show edit Modal
+    let cartypeEditModal = null;
+    if (showEditModal) {
+        cartypeEditModal = <CartypeCategoryEditModal
+            showEditModal={showEditModal}
+            setShowEditModal={setShowEditModal}
+            setRefeshFormCartypeCategory={setRefeshFormCartypeCategory}
+            selectCategory={selectCategory}
+            setShowLoading={setShowLoading}
+        />
+    } else cartypeEditModal = null;
+
+    //------------------set show add modal
+    let cartypeAddModal = null;
+    if (showAddModal) {
+        cartypeAddModal = <CartypeCategoryAddModal
+            showAddModal={showAddModal}
+            setShowAddModal={setShowAddModal}
+            setRefeshFormCartypeCategory={setRefeshFormCartypeCategory}
+            setShowLoading={setShowLoading}
+        />
     }
     //--------------------------
     return (
-        <div>
-            <CCardBody>
-                <CCol xs="12" lg="12">
-                    <CCard>
-                        <CCardHeader>
-                            Cartype Table
+        <CCol xs="12" lg="12">
+            {cartypeEditModal}
+            {cartypeAddModal}
+            <div className="btn-add">
+                <CButton
+                    className="btn-head"
+                    color="success"
+                    onClick={() => onAddCartypeCategoryClick(true)}
+                ><span>สร้างหมวดหมู่รถ</span></CButton>
+            </div>
+            <br></br>
+            <CCol xs="12" lg="12">
+                <CCard>
+                    <CCardHeader>
+                        Cartype Category Table
                     </CCardHeader>
-                        <CCardBody>
-                            <CDataTable
-                                // onRowClick={onEditRowClick}
-                                className="tb-modal-td"
-                                items={cartypeObj}
-                                fields={cartypeFields}
-                                striped
-                                itemsPerPage={10}
-                                pagination
-                                scopedSlots={{
-                                    'แก้ไข':
-                                        (item) => (
-                                            <td>
-                                                <CButton
-                                                    cartype_id={item.cartype_id}
-                                                    cartype_code={item.cartype_code}
-                                                    onClick={onClickSelectCartype}
-                                                    className="btn-class btn-edit"
-                                                    color="primary">
-                                                    <CIcon
-                                                        cartype_id={item.cartype_id}
-                                                        cartype_code={item.cartype_code}
-                                                        name="cil-pencil"
-                                                        color="danger" />
-                                                    <span
-                                                        cartype_id={item.cartype_id}
-                                                        cartype_code={item.cartype_code}
-                                                        className="btn-icon">เลือก</span></CButton>
-                                            </td>
-                                        ), 'ประเภทรถ(ไทย)': (item) => (
-                                            <td>
-                                                <span>
-                                                    {item.cartype_name_th}
-                                                </span>
-                                            </td>
-                                        ), 'ประเภทรถ(Eng)': (item) => (
-                                            <td>
-                                                <span> {item.cartype_name_en}</span>
-                                            </td>
-                                        )
-                                    , 'ชื่อย่อ': (item) => (
+                    <CCardBody>
+                        <CDataTable
+                            // onRowClick={onEditRowClick}
+                            className="tb-modal-td"
+                            items={cartypeCategoryObj}
+                            fields={categoryFields}
+                            striped
+                            itemsPerPage={10}
+                            pagination
+                            scopedSlots={{
+                                'แก้ไข':
+                                    (item) => (
                                         <td>
-                                            <span> {item.cartype_name_contraction}</span>
+                                            <CButton
+                                                cartype_category_id={item.cartype_category_id}
+                                                cartype_category_code={item.cartype_category_code}
+                                                onClick={onClickSelectCartype}
+                                                className="btn-class btn-edit"
+                                                color="primary">
+                                                <CIcon
+                                                    cartype_category_id={item.cartype_category_id}
+                                                    cartype_category_code={item.cartype_category_code}
+                                                    name="cil-pencil"
+                                                    color="danger" />
+                                                <span
+                                                    cartype_category_id={item.cartype_category_id}
+                                                    cartype_category_code={item.cartype_category_code}
+                                                    className="btn-icon">แก้ไข</span></CButton>
+                                        </td>
+                                    ), 'หมวดหมู่รถ(ไทย)': (item) => (
+                                        <td>
+                                            <span>
+                                                {item.cartype_category_name_th}
+                                            </span>
+                                        </td>
+                                    ), 'หมวดหมู่รถ(Eng)': (item) => (
+                                        <td>
+                                            <span> {item.cartype_category_name_en}</span>
                                         </td>
                                     )
-                                }
-                                }
-                            />
-                        </CCardBody>
-                    </CCard>
-                </CCol>
-            </CCardBody>
-        </div>
+                                , 'ชื่อย่อ': (item) => (
+                                    <td>
+                                        <span> {item.cartype_category_name_contraction}</span>
+                                    </td>
+                                )
+                            }
+                            }
+                        />
+                    </CCardBody>
+                </CCard>
+            </CCol>
+            <CButton
+                onClick={onBackClick}
+                className="btn-class btn-back"
+                color="danger">
+                <span
+                    className="btn-icon">ย้อนกลับ</span>
+            </CButton>
+        </CCol>
     )
 }
 

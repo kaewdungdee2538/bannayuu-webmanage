@@ -113,12 +113,27 @@ const ApiRoute ={
         ,create_parking_sub_url:'/webbannayuu/api/parking-config-sub/create-sub'
         ,get_parking_sub_info_by_cps_id_url:'/webbannayuu/api/parking-config-sub/get-by-id'
         ,edit_parking_sub_info_url:'/webbannayuu/api/parking-config-sub/edit-sub'
+        ,disable_parking_sub_url:'/webbannayuu/api/parking-config-sub/disable-sub'
+        ,disable_parking_header_url:'/webbannayuu/api/parking-config-header/disable-header-by-id'
+        ,disable_parking_master_url:'/webbannayuu/api/parking-config-master/disable-master'
     },cartype:{
         get_cartype_all_url:'/webbannayuu/api/car-type/get-all'
         ,get_cartype_by_id_url:'/webbannayuu/api/car-type/get-by-id'
         ,create_cartype_url:'/webbannayuu/api/car-type/create-cartype'
         ,edit_cartype_url:'/webbannayuu/api/car-type/edit-cartype'
         ,disable_cartype_utl:'/webbannayuu/api/car-type/disable-cartype'
+    },cartype_category:{
+        get_cartype_category_all_url:'/webbannayuu/api/car-type-category/get-all'
+        ,get_cartype_category_by_id_url:'/webbannayuu/api/car-type-category/get-by-id'
+        ,create_cartype_category_url:'/webbannayuu/api/car-type-category/create-category'
+        ,edit_cartype_category_url:'/webbannayuu/api/car-type-category/edit-category'
+        ,disable_cartype_category_url:'/webbannayuu/api/car-type-category/disable-category'
+    },card:{
+        get_card_all_url:'/webbannayuu/api/card/get-all'
+        ,get_card_info_by_id_url:'/webbannayuu/api/card/get-by-id'
+        ,add_card_rfid_url:'/webbannayuu/api/card/create-card'
+        ,edit_card_rfid_url:'/webbannayuu/api/card/edit-card'
+        ,disable_card_rfid_url:'/webbannayuu/api/card/disable-card'
     }
 }
 export default ApiRoute;

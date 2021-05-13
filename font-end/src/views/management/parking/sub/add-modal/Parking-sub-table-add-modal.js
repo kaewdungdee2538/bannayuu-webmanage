@@ -117,7 +117,7 @@ const ParkingSubAddModal = (props) => {
                 button: "OK",
             });
             return false;
-        }else if(!hoursStop && !minutesStop && !secondsStop){
+        } else if (!hoursStop && !minutesStop && !secondsStop) {
             swal({
                 title: "Warning.",
                 text: 'กรุณากรอกเวลาจอด สิ้นสุด',
@@ -125,7 +125,7 @@ const ParkingSubAddModal = (props) => {
                 button: "OK",
             });
             return false;
-        } else if (moment(`${hoursStart}:${minutesStart}:${secondsStart}`,"HH:mm:ss") >= moment(`${hoursStop}:${minutesStop}:${secondsStop}`,"HH:mm:ss")) {
+        } else if (moment(`${hoursStart}:${minutesStart}:${secondsStart}`, "HH:mm:ss") >= moment(`${hoursStop}:${minutesStop}:${secondsStop}`, "HH:mm:ss")) {
             swal({
                 title: "Warning.",
                 text: 'เวลาจอดเริ่มต้นห้ามมากกว่า หรือเท่ากับเวลาจอดสิ้นสุด',
@@ -258,9 +258,16 @@ const ParkingSubAddModal = (props) => {
                                 title="ค่าบริการจอดรถ"
                                 text={parkingPrice}
                                 setText={setParkingPrice}
-                                placeholder="Enter Over Night Fine"
+                                placeholder="Enter Parking Price"
                                 maxLenght={4}
                             />
+                        </CCol>
+                    </CRow>
+                    <CRow>
+                        <CCol xs="12" sm="12" md="12">
+                            <span style={{ color: "red" }}>
+                                ***เป็นค่าบริการจอดรถภายในช่วงเวลาเวลาจอดรถที่กำหนดไว้ด้านบน
+                            </span>
                         </CCol>
                     </CRow>
                 </CFormGroup>

@@ -16,15 +16,14 @@ import {
     CLabel,
     CCardBody,
     CCard,
-
 } from '@coreui/react'
 import * as moment from 'moment';
 import InputNumberEnable from '../../../component/input/InputNumberEnable'
 import InputDisable from '../../../component/input/InputDisable'
 import TextArea from '../../../component/textarea/TextArea'
-
+import CIcon from '@coreui/icons-react'
 import store, { disAuthenticationLogin, unSelectCPS } from '../../../../../store'
-import { getParkingSubInfoByCPSID,editParkingSubInfo } from './Parking-sub-edit-modal-controller'
+import { getParkingSubInfoByCPSID, editParkingSubInfo, disableParkingSubInfo } from './Parking-sub-edit-modal-controller'
 
 const ParkingSubEditModal = (props) => {
     const {
@@ -98,7 +97,7 @@ const ParkingSubEditModal = (props) => {
                 if (res.result) {
                     const result = res.result;
                     setParkingSubInfo(result);
-                    setParkingPrice(result.cps_amount_value);
+                    setParkingPrice(result.cps_amount_value ? result.cps_amount_value : "0");
                     const hStart = result.cps_start_interval.hours ? result.cps_start_interval.hours : "0"
                     const mStart = result.cps_start_interval.minutes ? result.cps_start_interval.minutes : "0"
                     const sStart = result.cps_start_interval.seconds ? result.cps_start_interval.seconds : "0"
@@ -151,11 +150,11 @@ const ParkingSubEditModal = (props) => {
         const values = {
             authStore
             , valuesObj: {
-                cph_id,cps_id
-                ,start_interval:`${hoursStart}:${minutesStart}:${secondsStart}`
-                ,stop_interval:`${hoursStop}:${minutesStop}:${secondsStop}`
-                ,amount_value:parkingPrice
-                ,remark
+                cph_id, cps_id
+                , start_interval: `${hoursStart}:${minutesStart}:${secondsStart}`
+                , stop_interval: `${hoursStop}:${minutesStop}:${secondsStop}`
+                , amount_value: parkingPrice
+                , remark
             }
         }
         let isNotAuth;
@@ -205,7 +204,7 @@ const ParkingSubEditModal = (props) => {
                 button: "OK",
             });
             return false;
-        }else if(!hoursStop && !minutesStop && !secondsStop){
+        } else if (!hoursStop && !minutesStop && !secondsStop) {
             swal({
                 title: "Warning.",
                 text: 'กรุณากรอกเวลาจอด สิ้นสุด',
@@ -241,6 +240,84 @@ const ParkingSubEditModal = (props) => {
             swal({
                 title: "Warning.",
                 text: 'ไม่พบรหัสประเภทรถ กรุณากลับไปหน้าแรก แล้วใหม่อีกครั้ง',
+                icon: "warning",
+                button: "OK",
+            });
+            return false;
+        }
+        return true;
+    }
+    //------------------------On Disable Click
+    function onDisableClick() {
+        if (disableParkingSubMiddleware()) {
+            swal({
+                title: "Are you sure?",
+                text: "ต้องการลบค่าบริการ หรือไม่!",
+                icon: "warning",
+                buttons: true,
+                dangerMode: true,
+            }).then((willDelete) => {
+                if (willDelete) {
+                    disableParkingSub();
+                }
+            });
+        }
+    }
+    //------------------------Disable
+    function disableParkingSub() {
+        document.body.style.cursor = 'wait';
+        setShowLoading(true);
+
+        const values = {
+            authStore
+            , valuesObj: {
+                cps_id
+                , remark
+            }
+        }
+        let isNotAuth;
+        disableParkingSubInfo(values).then(res => {
+            if (res.error) {
+                if (res.statusCode === 401)
+                    isNotAuth = res.error
+                else swal({
+                    title: "Warning.",
+                    text: res.message,
+                    icon: "warning",
+                    button: "OK",
+                });
+
+            } else {
+                swal({
+                    title: "Success.",
+                    text: "ลบค่าบริการ เรียบร้อย",
+                    icon: "success",
+                    button: "OK",
+                });
+                setRefeshForm(true)
+                closeModal();
+            }
+
+        }).catch(err => {
+            console.log(err);
+            history.push("/page500");
+        }).finally(value => {
+            document.body.style.cursor = 'default';
+            setShowLoading(false);
+            if (isNotAuth) {
+                swal("Warning!", isNotAuth, "warning");
+                history.push("/");
+                //clear state global at store 
+                store.dispatch(disAuthenticationLogin());
+            }
+        })
+    }
+    //------------------------Disable middleware
+    function disableParkingSubMiddleware() {
+        if (!remark) {
+            swal({
+                title: "Warning.",
+                text: 'กรุณากรอกหมายเหตุ',
                 icon: "warning",
                 button: "OK",
             });
@@ -374,9 +451,16 @@ const ParkingSubEditModal = (props) => {
                                 title="ค่าบริการจอดรถ"
                                 text={parkingPrice}
                                 setText={setParkingPrice}
-                                placeholder="Enter Over Night Fine"
+                                placeholder="Enter Parking Price"
                                 maxLenght={4}
                             />
+                        </CCol>
+                    </CRow>
+                    <CRow>
+                        <CCol xs="12" sm="12" md="12">
+                            <span style={{ color: "red" }}>
+                                ***เป็นค่าบริการจอดรถภายในช่วงเวลาเวลาจอดรถที่กำหนดไว้ด้านบน
+                            </span>
                         </CCol>
                     </CRow>
                     <CRow>
@@ -385,7 +469,7 @@ const ParkingSubEditModal = (props) => {
                                 title="หมายเหตุ"
                                 rows="3"
                                 maxLength="250"
-                                placeholder="Enter remark"
+                                placeholder="Enter Remark"
                                 text={remark}
                                 setText={setRemark}
                             />
@@ -394,7 +478,17 @@ const ParkingSubEditModal = (props) => {
                 </CFormGroup>
             </CModalBody>
             <CModalFooter className="modal-footer">
-                <div></div>
+                <div className="modal-footer-item">
+                    <CButton className="btn-modal-footer"
+                        color="danger"
+                        onClick={onDisableClick}
+                    >
+                        <CIcon
+                            name="cil-ban"
+                            color="info" />
+                        <span className="btn-icon-footer">ลบค่าบริการ</span>
+                    </CButton>
+                </div>
                 <div className="modal-footer-item modal-footer-item-sub">
                     <CButton className="btn-modal-footer" color="primary" onClick={editParkingSub}>บันทึก</CButton>
                     <CButton className="btn-modal-footer" color="warning" onClick={closeModal}>ยกเลิก</CButton>

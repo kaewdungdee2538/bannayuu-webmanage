@@ -128,6 +128,7 @@ function ParkingHeader(props) {
         setShowLoading={setShowLoading}
         setShowParkingHeaderTable={setShowParkingHeaderTable}
         setShowParkingHeaderInfo = {setShowParkingHeaderInfo}
+        setRefeshForm={setRefeshForm}
         />
     }else parkingHeaderInfoElem = null;
     //---------------------------------------------

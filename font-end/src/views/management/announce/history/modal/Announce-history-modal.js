@@ -10,11 +10,14 @@ import {
     CModalBody,
     CModalFooter,
     CFormGroup,
+    CRow,
+    CCol,
 } from '@coreui/react'
 import InputDisable from '../../../component/input/InputDisable'
 import TextAreaDisable from '../../../component/textarea/TextAreaDisable'
 import StatusItem from '../../../component/status-item/StatusItem'
 import AnnounceHistoryModalController from './Announce-history-modal-controller'
+import ImageBox from '../../../component/image/ImageBox'
 import { useHistory } from 'react-router-dom'
 import store, { disAuthenticationLogin } from '../../../../../store'
 
@@ -33,6 +36,7 @@ const AnnounceHistoryModal = ({ showHistory, setShowHistory, selectHistory, setS
         , hni_status: ""
         , company_name: ""
     })
+    const [imageHni, setImageHni] = useState(null);
     //------------------------Load form 
     useEffect(() => {
         let isNotAuth;
@@ -63,6 +67,8 @@ const AnnounceHistoryModal = ({ showHistory, setShowHistory, selectHistory, setS
                         , hni_status: !result.status ? "none" : result.status
                         , company_name: result.company_name
                     })
+                    const img_path = result.hni_data.image_hni ?  result.hni_data.image_hni : null;
+                    setImageHni(img_path)
                 }
             }).catch(err => {
                 console.log(err)
@@ -111,11 +117,6 @@ const AnnounceHistoryModal = ({ showHistory, setShowHistory, selectHistory, setS
                         title="หัวข้อประกาศ"
                         text={itemsObj.hni_header_text}
                     />
-                    <TextAreaDisable
-                        title="รายละเอียดประกาศ"
-                        text={itemsObj.hni_detail_text}
-                        rows="6"
-                    />
                     <InputDisable
                         title="หมายเหตุ"
                         text={itemsObj.hni_remark}
@@ -132,6 +133,19 @@ const AnnounceHistoryModal = ({ showHistory, setShowHistory, selectHistory, setS
                         title="เวลาสิ้นสุดประกาศ"
                         text={itemsObj.hni_end_datetime}
                     />
+                     <TextAreaDisable
+                        title="รายละเอียดประกาศ"
+                        text={itemsObj.hni_detail_text}
+                        rows="3"
+                    />
+                    <CRow>
+                        <CCol xs="12" sm="12">
+                            <ImageBox
+                                title="รูปภาพแนบประกาศ"
+                                link={imageHni}
+                            />
+                        </CCol>
+                    </CRow>
                     <StatusItem
                         title="สถานะของประกาศ"
                         text={itemsObj.hni_status}

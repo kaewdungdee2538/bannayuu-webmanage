@@ -40,3 +40,21 @@ export const editParkingSubInfo = (props) => {
         , config
     ).then((res) => { return res.data.response })
 }
+
+export const disableParkingSubInfo = (props) => {
+    const { authStore, valuesObj } = props;
+    const company_id = authStore.company_id;
+    const cps_id = valuesObj.cps_id ? valuesObj.cps_id : null;
+    const remark = valuesObj.remark  ? valuesObj.remark  :null;
+    const config = {
+        headers: { Authorization: `Bearer ${authStore.access_token}` }
+    }
+    const bodyParameters = {
+        company_id,
+        cps_id,remark
+    }
+    return axios.post(`${ApiRoute.main_url}${ApiRoute.port}${ApiRoute.parking.disable_parking_sub_url}`
+        , bodyParameters
+        , config
+    ).then((res) => { return res.data.response })
+}

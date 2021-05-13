@@ -11,6 +11,7 @@
 }
 .dropdown-menu{
     background-color: rgb(243, 243, 243);
+    width: 100%;
 }
 .btn-drop{
     width: 100%;

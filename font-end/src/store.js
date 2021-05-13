@@ -83,6 +83,19 @@ export const unSelectCPS = (props) => {
     data: { ...props, cps_id: null },
   };
 };
+
+export const selectCartype = (props) => {
+  return {
+    type: "SELECT_CARTYPE",
+    data: props,
+  };
+};
+export const unSelectCartype = (props) => {
+  return {
+    type: "UNSELECT_CARTYPE",
+    data: { ...props, cartype_id: null },
+  };
+};
 //REDUCER
 
 const changeState = (state = initialState, { type, ...rest }) => {
@@ -128,6 +141,14 @@ const changeState = (state = initialState, { type, ...rest }) => {
       // localStorage.setItem('authStorage', JSON.stringify(globalState))
       return globalState;
     case "UNSELECT_CPS":
+      globalState = { ...state, ...data };
+      // localStorage.setItem('authStorage', JSON.stringify(globalState))
+      return globalState;
+    case "SELECT_CARTYPE":
+      globalState = { ...state, ...data };
+      // localStorage.setItem('authStorage', JSON.stringify(globalState))
+      return globalState;
+    case "UNSELECT_CARTYPE":
       globalState = { ...state, ...data };
       // localStorage.setItem('authStorage', JSON.stringify(globalState))
       return globalState;

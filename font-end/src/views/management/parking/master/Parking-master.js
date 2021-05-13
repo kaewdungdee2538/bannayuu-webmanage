@@ -34,7 +34,7 @@ function ParkingMaster(props) {
     } = props;
     //------------------State
     const [parkingMasterObj, setParkingMasterObj] = useState(null);
-    const [resfeshForm, setRefeshForm] = useState(false);
+    const [resfeshMasterForm, setRefeshMasterForm] = useState(false);
     const [showModalAdd, setShowModalAdd] = useState(false);
 
     const [cartypeEvent, setCartypeEvent] = useState(cartypeText)
@@ -69,7 +69,7 @@ function ParkingMaster(props) {
             })
             .finally((value) => {
                 document.body.style.cursor = "default";
-                setRefeshForm(false);
+                setRefeshMasterForm(false);
                 setShowLoading(false)
                 if (isNotAuth) {
                     swal("Warning!", isNotAuth, "warning");
@@ -79,7 +79,7 @@ function ParkingMaster(props) {
                 }
             });
     }
-    if (resfeshForm) {
+    if (resfeshMasterForm) {
         refeshForm();
     }
 
@@ -113,7 +113,7 @@ function ParkingMaster(props) {
         parkingMasterAddModalElem = <ParkingMasterAddModal
             showModalAdd={showModalAdd}
             setShowModalAdd={setShowModalAdd}
-            setRefeshForm={setRefeshForm}
+            setRefeshForm={setRefeshMasterForm}
             setShowLoading={setShowLoading}
             cartypesInfoForCreateArr={cartypesInfoForCreateArr}
         />

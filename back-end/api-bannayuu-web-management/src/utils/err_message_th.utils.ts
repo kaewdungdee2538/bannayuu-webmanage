@@ -13,16 +13,16 @@ export class ErrMessageUtilsTH {
 
     errRecordInNotFound = 'ไม่พบข้อมูลการทำรายการเข้า'
 
-    errCompanyIDNotFound = 'ไม่พบรหัสหมู่บ้าน'
-    errCompanyIDNotNumber = 'รหัสหมู่บ้านต้องเป็นตัวเลขเท่านั้น'
-    errCompanyIDProhibitSpecial = 'รหัสหมู่บ้านห้ามมีอักขระพิเศษ หรือช่องว่าง'
-    errCompanyCodeProhibitSpecial = 'โค้ดหมู่บ้านห้ามีอักขระพิเศษ หรือช่องว่าง'
-    errCompanyNotInBase = 'ไม่พบหมู่บ้านในระบบ'
+    errCompanyIDNotFound = 'ไม่พบรหัสโครงการ'
+    errCompanyIDNotNumber = 'รหัสโครงการต้องเป็นตัวเลขเท่านั้น'
+    errCompanyIDProhibitSpecial = 'รหัสโครงการห้ามมีอักขระพิเศษ หรือช่องว่าง'
+    errCompanyCodeProhibitSpecial = 'โค้ดโครงการห้ามีอักขระพิเศษ หรือช่องว่าง'
+    errCompanyNotInBase = 'ไม่พบโครงการในระบบ'
     errCompanyStartDateNotFound = 'ไม่พบวันเปิดให้บริการของโครงการนี้'
     errCompanyExpireDateNotFound = 'ไม่พบวันหมดอายุการให้บริการของโครงการนี้'
     errCompanyNotStart = 'โครงการนี้ยังไม่เปิดให้บริการ'
     errCompanyIsExpire = 'โครงการนี้ หมดสัญญาการให้บริการ'
-   
+
     errGuardHouseIDNotFound = 'ไม่พบรหัสป้อม'
     errGuardHouseIDNotNumber = 'รหัสป้อมต้องเป็นตัวเลขเท่านั้น'
     errGuardHouseIDProhibitSpecial = 'รหัสป้อมห้ามมีอักชระพิเศษ หรือช่องว่าง'
@@ -370,7 +370,7 @@ export class ErrMessageUtilsTH {
     errNameContractionNotFound = 'ไม่พบชื่อย่อ'
     errNameContractionProhitbitSpecial = 'ชื่อย่อ ห้ามมีอักขระพิเศษ หรือช่องว่าง'
     errNameContractionIsOver4Digit = 'ชื่อย่อ ห้ามมีตัวอักษรเกิน 4 ตัว'
-    errNameContractionIsNotEng = 'ชื่อย่อ ต้องเป็นภาษาอังกฤษเท่านั้น'
+    errNameContractionIsNotEngOrNumber = 'ชื่อย่อ ต้องเป็นภาษาอังกฤษ หรือตัวเลขเท่านั้น'
     errCartypeContactionIsDuplicateInBase = 'ชื่อย่อของประเภทรถ ซ้ำในระบบ'
 
     errCartypeCategoryIDNotFound = 'ไม่พบรหัสหมวดหมู่รถ'
@@ -425,4 +425,19 @@ export class ErrMessageUtilsTH {
     errAmountParkingNotFound = 'ไม่พบค่าจอดรถ'
     errAmountParkingProhibitSpecial = 'ค่าจอดรถ ห้ามมีอักขระพิเศษ หรือช่องว่าง'
     errAmountParkingNumber = 'ค่าจอดรถ ต้องเป็นตัวเลขเท่านั้น'
+
+    errCardNotInBase = 'ไม่พบบัตรในระบบ'
+    errCardIsProblem = 'บัตรใบนี้มีสถานะเป็นบัตรหาย หรือบัตรเสีย'
+    errCardIdNotFound = 'ไม่พบไอดีบัตร'
+    errCardIdIsProhibitSpecial = 'ไอดีบัตร ห้ามมีอักขระพิเศษ หรือช่องว่าง'
+    errCardIdIsNotNumber = 'ไอดีบัตร ต้องเป็นตัวเลขเท่านั้น'
+    errCardCodeNotFound = 'ไม่พบรหัสบัตร'
+    errCardCodeProhibitSpecial = 'รหัสบัตร ห้ามมีอักขระพิเศษ หรือช่องว่าง'
+    errCardCodeNotNumber = 'รหัสบัตร ต้องเป็นตัวเลขเท่าน้ัน'
+    errCardCodeIsDuplicateInBase = 'รหัสบัตรซ้ำในระบบ'
+    errCardNameNotFound = 'ไม่พบเลขหน้าบัตร'
+    errCardNameProhibitSpecial = 'เลขหน้าบัตร ห้ามมีอักขระพิเศษ หรือช่องว่าง'
+    errCardNameIsNotEngOrNumber = 'เลขหน้าบัตร ต้องเป็นอักษรภาษาอังกฤษ หรือตัวเลขเท่านั้น'
+    errCardNameIsDuplicateInBase = 'เลขหน้าบัตร ซ้ำในระบบ'
+    errCardIsUsing = 'บัตรใบนี้ถูกใช้งานอยู่ไม่สามารถลบบัตรได้ \nกรุณาทำรายการออกบัตรดังกล่าวก่อน'
 }

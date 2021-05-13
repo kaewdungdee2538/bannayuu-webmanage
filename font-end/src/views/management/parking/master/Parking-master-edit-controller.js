@@ -71,3 +71,23 @@ function editParkingMasterMiddleware(valueObj) {
     // valueObj.remark;
     return null;
 }
+
+export const disableParkingMasterByCPMID = (props) => {
+    const { authStore, valuesObj } = props;
+    const company_id = authStore.company_id;
+    const cpm_id = valuesObj.cpm_id ? valuesObj.cpm_id : null;
+    const remark = valuesObj.remark;
+    //-------------------------URL
+    const url_path = `${ApiRoute.main_url}${ApiRoute.port}${ApiRoute.parking.disable_parking_master_url}`;
+    const config = {
+        headers: { Authorization: `Bearer ${authStore.access_token}` }
+    }
+    const bodyParameters = {
+        company_id,cpm_id
+        ,remark
+    }
+    return axios.post(url_path
+        , bodyParameters
+        , config
+    ).then((res) => { return res.data.response })
+}

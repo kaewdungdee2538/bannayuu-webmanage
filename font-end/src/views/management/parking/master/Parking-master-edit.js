@@ -17,11 +17,15 @@ import { useHistory } from 'react-router-dom'
 import '../main/Parking-main.css'
 import './Parking-master.css'
 import swal from 'sweetalert';
+import CIcon from '@coreui/icons-react'
 import store, { disAuthenticationLogin, selectCPM, unSelectCPM } from '../../../../store'
 import InputDisable from '../../component/input/InputDisable'
 import InputEnable from '../../component/input/InputEnable'
 import InputNumberEnable from '../../component/input/InputNumberEnable'
-import { getParkingMasterById, editParkingMasterByCPMID } from './Parking-master-edit-controller'
+import { getParkingMasterById, 
+    editParkingMasterByCPMID,
+    disableParkingMasterByCPMID
+ } from './Parking-master-edit-controller'
 import TextAreaDisable from '../../component/textarea/TextAreaDisable'
 import TextArea from '../../component/textarea/TextArea'
 import moment from 'moment'
@@ -93,7 +97,7 @@ function ParkingMasterEdit(props) {
         } else {
             setShowLoading(true);
             refeshForm();
-            
+
         }
     }, []);
     //--------------Reset form
@@ -128,12 +132,12 @@ function ParkingMasterEdit(props) {
                     setSecondsFree(timeFreeMoment.second());
                     const cartype_id = result.cartype_id;
                     store.dispatch(selectCPM({
-                         cpm_id, cartype_id, 
-                         cpm_name_th:result.cpm_name_th, 
-                         cpm_name_en:result.cpm_name_en,
-                         cartype_name_th:result.cartype_name_th,
-                         cpm_day_type:result.cpm_day_type
-                        }));
+                        cpm_id, cartype_id,
+                        cpm_name_th: result.cpm_name_th,
+                        cpm_name_en: result.cpm_name_en,
+                        cartype_name_th: result.cartype_name_th,
+                        cpm_day_type: result.cpm_day_type
+                    }));
                 } else if (res.statusCode === 401) {
                     isNotAuth = res.error
                 } else swal("Warning!", res.error, "warning");
@@ -300,6 +304,81 @@ function ParkingMasterEdit(props) {
             setText={setOverNightStatus}
         />
     }
+    //----------------On disable click
+    function onDisableClick() {
+        swal("หมายเหตุ:", {
+            content: "input",
+        })
+            .then((value) => {
+                if (!value)
+                    swal({
+                        title: "Warning.",
+                        text: `กรุณากรอกหมายเหตุ`,
+                        icon: "warning",
+                        button: "OK",
+                    });
+                else swal({
+                    title: "Are you sure?",
+                    text: "ต้องการลบ Master หรือไม่!",
+                    icon: "warning",
+                    buttons: true,
+                    dangerMode: true,
+                }).then((willDelete) => {
+                    if (willDelete) {
+                        disableSaveClick(value);
+                    }
+                });
+            });
+    }
+    function disableSaveClick(remarkInput) {
+        document.body.style.cursor = 'wait';
+        setShowLoading(true);
+        const values = {
+            authStore
+            , valuesObj: {
+                cpm_id
+                , remark: remarkInput
+            }
+        }
+        let isNotAuth;
+        disableParkingMasterByCPMID(values).then(res => {
+            if (res.error) {
+                if (res.statusCode === 401)
+                    isNotAuth = res.error
+                else swal({
+                    title: "Warning.",
+                    text: res.message,
+                    icon: "warning",
+                    button: "OK",
+                });
+
+            } else {
+                swal({
+                    title: "Success.",
+                    text: "ลบ Master เรียบร้อย",
+                    icon: "success",
+                    button: "OK",
+                });
+                setShowMasterEditForm(false);
+                setShowMasterForm(true);
+                store.dispatch(unSelectCPM());
+                setRefeshForm(true);
+            }
+
+        }).catch(err => {
+            console.log(err);
+            history.push("/page500");
+        }).finally(value => {
+            document.body.style.cursor = 'default';
+            setShowLoading(false);
+            if (isNotAuth) {
+                swal("Warning!", isNotAuth, "warning");
+                history.push("/");
+                //clear state global at store 
+                store.dispatch(disAuthenticationLogin());
+            }
+        })
+    }
     //----------------if select day type is special day
     let dateSelectDayTypeElem = null;
     if (dayTypeStatus.id == 2) {
@@ -330,17 +409,32 @@ function ParkingMasterEdit(props) {
     let btnEditElem = null;
     if (editInfo) {
         //=========================================================
-        btnEditElem = <CButton
-            onClick={onEditSaveClick}
-            className="btn-class btn-edit"
-            color="success">
-            {/* <CIcon
+        btnEditElem = <div className="modal-footer">
+            <div className="modal-footer-item">
+                <CButton className="btn-class btn-modal-footer"
+                    color="danger"
+                    onClick={onDisableClick}
+                >
+                    <CIcon
+                        name="cil-ban"
+                        color="info" />
+                    <span className="btn-icon-footer">ลบค่าบริการ</span>
+                </CButton>
+            </div>
+            <div className="modal-footer-item">
+                <CButton
+                    onClick={onEditSaveClick}
+                    className="btn-class"
+                    color="success">
+                    {/* <CIcon
                     cpm_id={item.cpm_id}
                     cpm_code={item.cpm_code}
                     name="cil-magnifying-glass"
                     color="info" /> */}
-            <span
-                className="btn-icon">บันทึก</span></CButton>
+                    <span
+                        className="btn-icon">บันทึก</span></CButton>
+            </div>
+        </div>
         //=========================================================
         editFormElem = <div>
             <CRow>
@@ -643,7 +737,7 @@ function ParkingMasterEdit(props) {
             <CButton
                 onClick={onBackClick}
                 className="btn-class btn-back"
-                color="danger">
+                color="warning">
                 <span
                     className="btn-icon">ย้อนกลับ</span></CButton>
         </CCol>

@@ -115,7 +115,7 @@ function ParkingHeaderTable(props) {
             <CButton
                 onClick={onBackClick}
                 className="btn-class btn-back"
-                color="danger">
+                color="warning">
                 <span
                     className="btn-icon">ย้อนกลับ</span></CButton>
         </CCol>

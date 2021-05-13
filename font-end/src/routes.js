@@ -67,6 +67,7 @@ const VillagerPaymentHistoryMain = React.lazy(()=>import('./views/management/vil
 const ParkingMain = React.lazy(()=>import('./views/management/parking/main/Parking-main'))
 const CartypeMain = React.lazy(()=>import('./views/management/cartype/main/Cartype-main'))
 const CartypeCategoryMain = React.lazy(()=>import('./views/management/cartype-category/main/Cartype-category-main'))
+const CardMain = React.lazy(()=>import('./views/management/card/main/Card-main'))
 const routes = [
   { path: '/', exact: true, name: 'Home',component:MainForm },
   { path: '/main', exact: true, name: 'Home',component:MainForm },
@@ -136,7 +137,8 @@ const routes = [
   { path: '/villager-payment-history', exact: true, name: 'Villager history', component: VillagerPaymentHistoryMain },  
   { path: '/parking', exact: true, name: 'Parking Rate', component: ParkingMain }, 
   { path: '/cartype', exact: true, name: 'Cartype', component: CartypeMain },           
-  { path: '/cartype-category', exact: true, name: 'Cartype Category', component: CartypeCategoryMain },           
+  { path: '/cartype-category', exact: true, name: 'Cartype Category', component: CartypeCategoryMain },    
+  { path: '/card', exact: true, name: 'Card', component: CardMain },                    
   { path: '*', name: 'Not Found', component: page404 },
 ];
 

@@ -54,7 +54,7 @@ export class CarTypeCategoryService {
         ,to_char(mcc.create_date,'YYYY-MM-DD HH24:MI:SS') as create_date
         ,(select concat(first_name_th,' ',last_name_th) from m_employee where employee_id = mcc.update_by::integer) as update_by
         ,to_char(mcc.update_date,'YYYY-MM-DD HH24:MI:SS') as update_date
-        ,company_name
+        ,company_name,cartype_category_remark as remark
         from m_cartype_category mcc
         left join m_cartype mc
         on mcc.cartype_id = mc.cartype_id
@@ -110,7 +110,7 @@ export class CarTypeCategoryService {
             text: sql,
             values: [
                 name_th, name_en
-                , name_contraction, employee_id
+                , name_contraction, cartype_id
                 , employee_id, company_id
             ]
         }

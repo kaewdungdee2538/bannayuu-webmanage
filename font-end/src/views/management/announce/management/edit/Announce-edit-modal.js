@@ -14,10 +14,14 @@ import {
     CModalBody,
     CModalFooter,
     CFormGroup,
+    CRow,
+    CCol,
+    CLabel,
 } from '@coreui/react'
 import moment from 'moment'
 import { getAnnouceByIdModal, editAnnouceModal } from './Announce-edit-modal-controller'
 import InputDisable from '../../../component/input/InputDisable'
+import ImageBox from '../../../component/image/ImageBox'
 import store, { disAuthenticationLogin } from '../../../../../store'
 
 function AnnouceEditModal({ showEdit, setShowEdit, setRefeshForm, editObj, setShowLoading }) {
@@ -38,6 +42,9 @@ function AnnouceEditModal({ showEdit, setShowEdit, setRefeshForm, editObj, setSh
     const [dateTimeStart, setDateTimeStart] = useState(dateState);
     const [dateTimeEnd, setDateTimeEnd] = useState(dateEnd);
     const [company_name, setCompany_name] = useState('');
+    const [imageHni, setImageHni] = useState(null);
+    const [image, setImage] = useState(null);
+    const [fileName, setFileName] = useState('Choose new image');
     //-------------Form load
     useEffect(() => {
         const announceObj = {
@@ -67,7 +74,7 @@ function AnnouceEditModal({ showEdit, setShowEdit, setRefeshForm, editObj, setSh
                         const hni_header_text = !res.result.hni_header_text ? '' : res.result.hni_header_text
                         const hni_detail_text = !res.result.hni_detail_text ? '' : res.result.hni_detail_text
                         const hni_link_text = !res.result.hni_link_text ? '' : res.result.hni_link_text
-                        const hni_data = !res.result.hni_data ? '' : res.result.hni_data
+                        const hni_data = !res.result.hni_data ? '' : JSON.stringify(res.result.hni_data)
                         const hni_remark = !res.result.hni_remark ? '' : res.result.hni_remark
                         const hni_start_datetime = res.result.hni_start_datetime
                         const hni_end_datetime = res.result.hni_end_datetime
@@ -84,6 +91,8 @@ function AnnouceEditModal({ showEdit, setShowEdit, setRefeshForm, editObj, setSh
                         setDateTimeStart(moment(hni_start_datetime).format("YYYY-MM-DDTHH:mm"))
                         setDateTimeEnd(moment(hni_end_datetime).format("YYYY-MM-DDTHH:mm"))
                         setCompany_name(company_name)
+                        const img_path = res.result.hni_data.image_hni ?  res.result.hni_data.image_hni : null;
+                        setImageHni(img_path)
                     }
                 } else if (res.statusCode === 401) {
                     isNotAuth = res.error
@@ -126,6 +135,7 @@ function AnnouceEditModal({ showEdit, setShowEdit, setRefeshForm, editObj, setSh
                 , hni_link_text: announceLink
                 , hni_remark: announceRemark
                 , hni_data
+                , image
             }
             let isNotAuth;
             setShowLoading(true)
@@ -241,7 +251,7 @@ function AnnouceEditModal({ showEdit, setShowEdit, setRefeshForm, editObj, setSh
                         maxLenght="250"
                         text={announceDetail}
                         setText={setAnnounceDetail}
-                        rows="6"
+                        rows="3"
                     />
                     <InputEnable
                         title="หมายเหตุ"
@@ -257,6 +267,31 @@ function AnnouceEditModal({ showEdit, setShowEdit, setRefeshForm, editObj, setSh
                         text={announceLink}
                         setText={setAnnounceLink}
                     />
+                    <CRow>
+                        <CCol xs="12" sm="12">
+                            <ImageBox
+                                title="รูปภาพแนบประกาศ"
+                                link={imageHni}
+                            />
+                        </CCol>
+                    </CRow>
+                    <br></br>
+                    <CRow>
+                        <CCol xs="12" md="12">
+                            <CLabel>เลือกรูปภาพใหม่</CLabel>
+                            <div className="custom-file mb-3">
+                                <input type="file" className="custom-file-input" id="customFile" name="filename"
+                                    accept="image/*"
+                                    onChange={async (event) => {
+                                        const file = event.target.files.item(0);
+                                        setImage(file)
+                                        setFileName(file.name)
+                                    }
+                                    } />
+                                <label className="custom-file-label" htmlFor="customFile">{fileName}</label>
+                            </div>
+                        </CCol>
+                    </CRow>
                 </CFormGroup>
 
                 <CFormGroup className="time-block">

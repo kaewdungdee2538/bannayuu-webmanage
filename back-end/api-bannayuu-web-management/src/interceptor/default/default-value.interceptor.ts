@@ -17,7 +17,7 @@ export class DefaultInterceptor implements NestInterceptor {
     async intercept(context: ExecutionContext, next: CallHandler): Promise<Observable<any>> {
         const ctx = context.switchToHttp();
         const request = ctx.getRequest();
-       
+       console.log(request)
         const errMessage = await this.checkInputValues(request);
         if (errMessage) throw new StatusException(
             {

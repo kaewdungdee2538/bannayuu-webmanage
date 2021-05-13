@@ -29,19 +29,31 @@ export const editAnnouceModal = (props) => {
     const hni_detail_text = announceObj.hni_detail_text
     const hni_link_text = announceObj.hni_link_text
     const hni_remark = announceObj.hni_remark
-    const hni_data =announceObj.hni_data
+    const hni_data = announceObj.hni_data ? announceObj.hni_data : ''
+    const image = announceObj.image ? announceObj.image : ''
+    var bodyFormData = new FormData();
     const config = {
-        headers: { Authorization: `Bearer ${authStore.access_token}` }
-    }
-    const bodyParameters = {
-        company_id,hni_id,hni_name,ref_hni_id
-        ,hni_start_datetime,hni_end_datetime
-        ,hni_header_text,hni_detail_text
-        ,hni_link_text,hni_remark
-        ,hni_data
-    }
-    return axios.post(`${ApiRoute.main_url}${ApiRoute.port}${ApiRoute.announce.edit_announce_url}`
-        , bodyParameters
-        , config
-    ).then((res) => { return res.data.response })
+        headers: { Authorization: `Bearer ${authStore.access_token}`, "Content-Type": "multipart/form-data" },
+    };
+    bodyFormData.append('company_id', company_id);
+    bodyFormData.append('hni_name', hni_name);
+    bodyFormData.append('hni_id', hni_id);
+    bodyFormData.append('ref_hni_id', ref_hni_id);
+    bodyFormData.append('hni_start_datetime', hni_start_datetime);
+    bodyFormData.append('hni_end_datetime', hni_end_datetime);
+    bodyFormData.append('hni_header_text', hni_header_text);
+    bodyFormData.append('hni_detail_text', hni_detail_text);
+    bodyFormData.append('hni_link_text', hni_link_text);
+    bodyFormData.append('hni_data', hni_data);
+    bodyFormData.append('hni_remark', hni_remark);
+    bodyFormData.append('image_hni', image);
+    return axios
+        .post(
+            `${ApiRoute.main_url}${ApiRoute.port}${ApiRoute.announce.edit_announce_url}`,
+            bodyFormData,
+            config
+        )
+        .then((res) => {
+            return res.data.response;
+        });
 }

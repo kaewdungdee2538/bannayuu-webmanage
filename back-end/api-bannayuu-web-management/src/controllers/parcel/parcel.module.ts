@@ -14,7 +14,10 @@ import { ParcelService } from './parcel.service';
 
 @Module({
   controllers: [ParcelController],
-  providers: [ParcelService,dbConnection, FormatDataUtils, ErrMessageUtilsTH]
+  providers: [ParcelService,
+    dbConnection, 
+    FormatDataUtils, 
+    ErrMessageUtilsTH]
 })
 export class ParcelModule {
   configure(consumer: MiddlewareConsumer) {
