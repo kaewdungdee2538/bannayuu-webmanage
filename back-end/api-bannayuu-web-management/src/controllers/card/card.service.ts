@@ -23,8 +23,12 @@ export class CardService {
         where delete_flag = 'N' and cardproblem_flag = 'N'
         and company_id = $1
         `;
-        if (card_code || card_name)
+        if (card_code && card_name)
             sql += ` and (card_code = '${card_code}' or card_name LIKE '%${card_name}%')`
+        else if (card_code)
+            sql += ` and card_code = '${card_code}'`
+        else if (card_name)
+            sql += ` and card_name LIKE '%${card_name}%'`
         sql += ` order by card_name`
 
         const query = {

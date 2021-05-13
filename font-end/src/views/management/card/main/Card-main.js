@@ -4,6 +4,7 @@ import {
     CCard,
     CCardBody,
     CCardHeader,
+    CRow,
     CCol,
     CDataTable,
     CBadge,
@@ -19,7 +20,7 @@ import { fields, getBadge, getTextStatus } from '../data/card-data'
 import { getCardAll } from './Card-main-controller'
 import CardAddModal from '../add/Card-add-modal'
 import CardEditModal from '../edit/Card-edit-modal'
-
+import InputEnable from '../../component/input/InputEnable'
 function CardMain() {
     const history = useHistory();
     const authStore = useSelector(state => state)
@@ -34,11 +35,12 @@ function CardMain() {
     });
     const [refeshForm, setRefeshForm] = useState(false);
     const [showLoading, setShowLoading] = useState(false);
-
+    const [cardCode, setCardCode] = useState("");
+    const [cardName, setCardName] = useState("");
     //---------------Form load
     useEffect(() => {
         setShowLoading(true);
-        refeshFormFunc();
+        refeshFormFunc(true);
     }, [])
 
     //-----------------Refesh Form
@@ -52,7 +54,11 @@ function CardMain() {
         } else {
             let isNotAuth;
             document.body.style.cursor = "wait";
-            getCardAll({ authStore })
+            const searchObj = {
+                card_code: reset ? null : cardCode
+                , card_name: reset ? null : cardName
+            }
+            getCardAll({ authStore, searchObj })
                 .then((res) => {
                     if (res.result) {
                         const result = res.result;
@@ -116,6 +122,10 @@ function CardMain() {
             setShowLoading={setShowLoading}
         />
     }
+    //------------------On search click
+    function onSearchClick() {
+        refeshFormFunc();
+    }
     //--------------------------
     return (
         <CCard>
@@ -137,6 +147,44 @@ function CardMain() {
                             Card Table
                     </CCardHeader>
                         <CCardBody>
+                            <CRow>
+                                <CCol xs="12" sm="6" md="6">
+                                    <InputEnable
+                                        title="รหัสบัตร (เลือกกล่องข้อความแล้วทาบบัตร)"
+                                        placeholder="Enter card code"
+                                        maxLength="30"
+                                        text={cardCode}
+                                        setText={setCardCode}
+                                    />
+                                </CCol>
+                            </CRow>
+                            <CRow>
+                                <CCol xs="12" sm="6" md="6">
+                                    <InputEnable
+                                        title="เลขหน้าบัตร"
+                                        placeholder="Enter card name"
+                                        maxLength="30"
+                                        text={cardName}
+                                        setText={setCardName}
+                                    />
+                                </CCol>
+                            </CRow>
+                            <br></br>
+                            <CRow>
+                                <CCol xs="12" sm="12" md="12">
+                                    <CButton
+                                        className="btn-class btn-head btn-search"
+                                        color="info"
+                                        onClick={onSearchClick}
+                                    >
+                                        <CIcon
+                                            name="cil-magnifying-glass"
+                                            color="info" />
+                                        <span className="span-head">ค้นหา</span>
+                                    </CButton>
+                                </CCol>
+                            </CRow>
+                            <br></br>
                             <CDataTable
                                 // onRowClick={onEditRowClick}
                                 className="tb-modal-td"
