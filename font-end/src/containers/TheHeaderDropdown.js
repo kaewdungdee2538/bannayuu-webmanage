@@ -1,3 +1,4 @@
+import './TheHeader.css'
 import React from 'react'
 import {
   // CBadge,
@@ -28,7 +29,7 @@ const TheHeaderDropdown = () => {
       className="c-header-nav-items mx-2"
       direction="down"
     >
-      <CDropdownToggle className="c-header-nav-link" caret={false}>
+      <CDropdownToggle className="c-header-nav-link mx-2" caret={false}>
         {/* <div className="c-avatar">
           <CImg
             src={}
@@ -37,9 +38,9 @@ const TheHeaderDropdown = () => {
           />
         </div> */}
         <ProfileIcon
-        imgLink={'https://www.popcornfor2.com/upload/115/news-full-114827.jpg'}/>
+        imgLink={'./image/profile-user.png'}/>
       </CDropdownToggle>
-      <CDropdownMenu className="pt-0" placement="bottom-end">
+      <CDropdownMenu className="" placement="bottom-end">
         <CDropdownItem
           header
           tag="div"
@@ -76,8 +77,9 @@ const TheHeaderDropdown = () => {
         >
           <strong>Settings</strong>
         </CDropdownItem>
-        <CDropdownItem onClick={onUserProfileClick}>
-          <CIcon name="cil-user" className="mfe-2" />Profile
+        <CDropdownItem 
+        onClick={onUserProfileClick}>
+          <CIcon name="cil-user" className="mfe-1" />Profile
         </CDropdownItem>
         {/* <CDropdownItem>
           <CIcon name="cil-settings" className="mfe-2" />
@@ -95,7 +97,7 @@ const TheHeaderDropdown = () => {
         </CDropdownItem> */}
         <CDropdownItem divider />
         <CDropdownItem onClick={onLogoutClick}>
-          <CIcon name="cil-lock-locked" className="mfe-2" />
+          <CIcon name="cil-lock-locked" className="mfe-1" />
           Lockout
         </CDropdownItem>
       </CDropdownMenu>

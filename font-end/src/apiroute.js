@@ -3,11 +3,14 @@ const ApiRoute ={
     main_url:config.config.url_hosting,
     socket_url:config.config.url_socket_hosting,
     image_line_url:config.config.url_image_line,
+    image_line_sos_url:config.config.url_imeage_line_sos,
     image_payment_url:config.config.url_image_payment,
     image_web_url:config.config.url_web_image,
     port:config.config.url_port,
     login:{
         login_url:'/webbannayuu/api/auth/login'
+    },company:{
+        get_company_list_url:'/webbannayuu/api/company/get-company-list'
     },home:{
         get_allhome_url:'/webbannayuu/api/home/get-all'
         ,get_allhome_not_disable_url:'/webbannayuu/api/home/get-all-not-disable'

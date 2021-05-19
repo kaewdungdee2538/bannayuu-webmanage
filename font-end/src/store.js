@@ -96,6 +96,21 @@ export const unSelectCartype = (props) => {
     data: { ...props, cartype_id: null },
   };
 };
+
+export const selectNewCompany = (props) => {
+  console.log(props);
+  return {
+    type: "SELECT_NEWCOMPANY",
+    data: props,
+  };
+};
+export const unSelectNewCompany = (props) => {
+  console.log(props);
+  return {
+    type: "UNSELECT_NEWCOMPANY",
+    data: { ...props, company_id: null,company_name:null },
+  };
+};
 //REDUCER
 
 const changeState = (state = initialState, { type, ...rest }) => {
@@ -151,6 +166,14 @@ const changeState = (state = initialState, { type, ...rest }) => {
     case "UNSELECT_CARTYPE":
       globalState = { ...state, ...data };
       // localStorage.setItem('authStorage', JSON.stringify(globalState))
+      return globalState;
+    case "SELECT_NEWCOMPANY":
+      globalState = { ...state, ...data };
+      localStorage.setItem('authStorage', JSON.stringify(globalState))
+      return globalState;
+      case "UNSELECT_NEWCOMPANY":
+      globalState = { ...state, ...data };
+      localStorage.setItem('authStorage', JSON.stringify(globalState))
       return globalState;
     default:
       const localStr = localStorage.getItem('authStorage')

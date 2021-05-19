@@ -19,29 +19,28 @@ export class EstampChangeHomeService {
         const f_name = body.f_name;
         const l_name = body.l_name;
 
-        let sql = `select 
-        visitor_record_id
-        ,visitor_record_code,tbv_code
-        ,visitor_slot_number,card_name
-        ,cartype_name_th,cartype_name_en
-        ,cartype_category_info->'cartype_category_name_th' as cartype_category_name_th
-        ,visitor_info->'first_name_th' as first_name_th
-		,visitor_info->'last_name_th' as last_name_th
+        let sql = `select
+         visitor_record_id
+        ,visitor_record_code
+        ,case when tvr.tbv_code IS NULL then visitor_info->>'first_name_th'::TEXT
+        else tbv.tbv_contact_person
+        end as first_name_th
+		,case when tvr.tbv_code IS NULL then visitor_info->>'last_name_th'::TEXT 
+        else ''
+        end as last_name_th
 		,action_info->'idividule_type' as idividule_type
 		,action_info->'person_contract' as person_contract
 		,action_info->'tel_number' as tel_number
 		,mh.home_id
-		,home_info->'home_address' as home_address
+		,mh.home_address
 		,license_plate
 		,to_char(parking_in_datetime,'DD/MM/YYYY HH24:MI:SS') as parking_in_datetime
-		,estamp_id,estamp_info,estamp_datetime,estamp_home_line_id
-		,estamp_flag 
-        ,case when tbv_code = null then 'booking' else 'walk in' end as record_from
-		,company_name
-        ,mh.home_address as estamp_form
+        ,to_char(estamp_datetime,'DD/MM/YYYY HH24:MI:SS') as estamp_datetime
         from t_visitor_record tvr left join m_company mc
         on tvr.company_id = mc.company_id
         left join m_home mh on tvr.home_id = mh.home_id
+        left join t_booking_visitor tbv 
+        on tvr.tbv_code = tbv.tbv_code
         where action_out_flag = 'N' and estamp_flag = 'N' and tvr.company_id =$1
         and parking_in_datetime between $2::timestamp and $3::timestamp
         `

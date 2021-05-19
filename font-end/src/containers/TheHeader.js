@@ -1,3 +1,4 @@
+import './TheHeader.css'
 import React, { useState, useEffect, useRef } from "react";
 import { useSelector, useDispatch } from 'react-redux'
 import io from "socket.io-client";
@@ -6,14 +7,8 @@ import {
   CToggler,
   CHeaderBrand,
   CHeaderNav,
-  // CHeaderNavItem,
-  // CHeaderNavLink,
-  // CSubheader,
-  // CBreadcrumbRouter,
-  // CLink,
   CImg,
-  // CAlert,
-  // CProgress,
+  CLabel
 } from '@coreui/react'
 // import CIcon from '@coreui/icons-react'
 
@@ -33,10 +28,11 @@ import { NotificationItemsAll } from './function/notification-items'
 import store, { disAuthenticationLogin } from '../store'
 // import LoadingModal from '../views/management/component/loading/LoadingModal'
 import { useHistory } from 'react-router-dom'
-
+import TheHeaderDropdownCompanyList from './TheHeaderDropdownCompanyList'
 const TheHeader = () => {
   const socketRef = useRef();
   const authStore = useSelector(state => state)
+  const company_list = authStore.company_list ? authStore.company_list : [];
   const history = useHistory();
   //------------------State
   const [yourID, setYourID] = useState();
@@ -45,7 +41,6 @@ const TheHeader = () => {
   const [showAlertSos, setShowAlertSos] = useState(null);
   const [notiItemsCount, setNotiItemCount] = useState(0);
   const [showLoading, setShowLoading] = useState(false);
-
   useEffect(() => {
     if (authStore.authorization) {
       socketRef.current = io.connect(ApiRoute.socket_url);
@@ -65,13 +60,14 @@ const TheHeader = () => {
     }
   }, []);
 
+  //--------------------------------
   function getNotificationItemsAll() {
     let isNotAuth;
     NotificationItemsAll({ authStore })
       .then((res) => {
         if (res.result) {
           const result = res.result;
-   
+
           setNotiItemCount(result.all);
         } else if (res.statusCode === 401) {
           isNotAuth = res.error;
@@ -133,6 +129,21 @@ const TheHeader = () => {
       link="/sos"
     />
   }
+  //------------------------When employee can login more than 1 company then show combobox company_list
+  let headerComboboxCompanyListElem = null;
+  if (company_list.length > 1) {
+    headerComboboxCompanyListElem = <CHeaderNav className="px-3 col-sm-12 col-md-12 col-lg-9 header-item-posotion-text-head">
+     <h4><strong>โครงการ</strong></h4>
+     <TheHeaderDropdownCompanyList
+        authStore={authStore}
+      />
+    </CHeaderNav>
+  }else{
+    headerComboboxCompanyListElem = <CHeaderNav className="px-3 col-auto col-lg-9 header-item-posotion-text-head">
+    <h4><strong>โครงการ {authStore.company_name}</strong></h4>
+    </CHeaderNav>
+  }
+  //----------------------------------------
   return (
     <CHeader withSubheader>
       {alertSos}
@@ -154,49 +165,14 @@ const TheHeader = () => {
           width="100"
         />
       </CHeaderBrand>
-
-      <CHeaderNav className="d-md-down-none mr-auto">
-        {/* <CHeaderNavItem className="px-3" >
-          <CHeaderNavLink to="/dashboard">Dashboard</CHeaderNavLink>
-        </CHeaderNavItem>
-        <CHeaderNavItem  className="px-3">
-          <CHeaderNavLink to="/users">Users</CHeaderNavLink>
-        </CHeaderNavItem>
-        <CHeaderNavItem className="px-3">
-          <CHeaderNavLink>Settings</CHeaderNavLink>
-        </CHeaderNavItem> */}
-      </CHeaderNav>
-
-      <CHeaderNav className="px-3">
+      {headerComboboxCompanyListElem}
+      <CHeaderNav className="col-sm-12 col-md-12 col-lg-2 header-item-posotion">
         <TheHeaderDropdownNotif
           itemsCount={notiItemsCount}
         />
-        {/* <TheHeaderDropdownTasks/>
-        <TheHeaderDropdownMssg/> */}
         <TheHeaderDropdown />
       </CHeaderNav>
 
-      {/* <CSubheader className="px-3 justify-content-between">
-        <CBreadcrumbRouter 
-          className="border-0 c-subheader-nav m-0 px-0 px-md-3" 
-          routes={routes} 
-        />
-          <div className="d-md-down-none mfe-2 c-subheader-nav">
-            <CLink className="c-subheader-nav-link"href="#">
-              <CIcon name="cil-speech" alt="Settings" />
-            </CLink>
-            <CLink 
-              className="c-subheader-nav-link" 
-              aria-current="page" 
-              to="/dashboard"
-            >
-              <CIcon name="cil-graph" alt="Dashboard" />&nbsp;Dashboard
-            </CLink>
-            <CLink className="c-subheader-nav-link" href="#">
-              <CIcon name="cil-settings" alt="Settings" />&nbsp;Settings
-            </CLink>
-          </div>
-      </CSubheader> */}
     </CHeader>
   )
 }

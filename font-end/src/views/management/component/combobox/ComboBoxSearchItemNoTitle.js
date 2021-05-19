@@ -1,15 +1,11 @@
-import {
-    CLabel,
-} from '@coreui/react'
-import { useState, } from 'react'
+import { useState } from 'react'
 import './ComboBoxSearchItem.css'
 
 
-export default function ComboBoxSearchItem(props) {
-    const { title, text, placeholder, itemsArray, setText } = props;
+export default function ComboBoxSearchItemNoTitle(props) {
+    const { placeholder, itemsArray, selectText ,setSelectText} = props;
     //-------------------------State
     const [itemsObj, setItemsObj] = useState(itemsArray)
-    const [selectText, setSelectText] = useState(text)
     const [showComboBox, setShowComboxBox] = useState(false);
 
     //-------------------------on select item
@@ -47,17 +43,14 @@ export default function ComboBoxSearchItem(props) {
     function onClickSelectItemCombobox(event) {
         setShowComboxBox(false);
         setSelectText({
-            id: event.target.getAttribute('cb_id'),
+            id: parseInt(event.target.getAttribute('cb_id')),
             value: event.target.value
         })
-        setText({
-            id: event.target.getAttribute('cb_id'),
-            value: event.target.value
-        })
-
+        
     }
     //-----------------------------On filter
     function onChangeFilter(event) {
+        console.log(event)
         const items = itemsArray.filter(item => {
             return item.value.toLowerCase().startsWith(event.target.value.toLowerCase())
         })
@@ -65,22 +58,21 @@ export default function ComboBoxSearchItem(props) {
     }
     return (
         <div key={Date.now}>
-            <CLabel>{title}</CLabel>
             <div className="dropdown" >
-                <button className="btn btn-secondary dropdown-toggle btn-drop" type="button"  data-toggle="dropdown" aria-haspopup="true" aria-expanded="false"
-                    onClick={onComboClick} 
+                <button className="btn btn-secondary dropdown-toggle btn-drop" type="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false"
+                    onClick={onComboClick}
                 >
-                    {selectText.value}
+                    <span>{selectText.value}</span>
                 </button>
                 <div className={`dropdown-menu dropdown-menu-main ${elemShowComboBox}`} aria-labelledby="dropdown_coins">
                     <form className="px-4 py-2" >
-                        <input type="search" className="form-control" 
+                        <input type="search" className="form-control"
                             placeholder={placeholder}
                             onChange={onChangeFilter}
                         />
                     </form>
                     <div className="item-combobox" onBlur={onCloseCombobox}>{itemsElem}</div>
-                    <div  className="dropdown-header">{!itemsArray ? "Items not found" : ""}</div>
+                    <div className="dropdown-header">{!itemsArray ? "Items not found" : ""}</div>
                 </div>
             </div>
         </div>

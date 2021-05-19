@@ -1,4 +1,4 @@
-export const fields = ['แสดง', 'ทะเบียนรถ', 'ชื่อ','บ้านที่มาติดต่อ', 'เวลาเข้า', ]
+export const fields = ['แสดง', 'ทะเบียนรถ', 'ชื่อ','บ้านที่มาติดต่อ', 'เวลาประทับตรา', ]
 export const getBadge = status => {
     switch (status) {
         case 'Y': return 'success'

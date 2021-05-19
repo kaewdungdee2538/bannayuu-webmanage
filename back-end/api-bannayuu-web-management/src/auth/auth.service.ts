@@ -15,13 +15,13 @@ export class AuthService {
 
     async validateUser(user: any): Promise<any> {
         console.log(user.username + user.password)
-        let sql = `select employee_id, employee_code,first_name_th,last_name_th,username,(passcode = crypt($2, passcode)) as password_status `
-        sql += `,me.company_id,mep.login_maintenance_data as privilege_info`
-        sql += ` FROM m_employee me `;
-        sql += ` inner join m_employee_privilege mep on me.employee_privilege_id = mep.employee_privilege_id`;
-        sql += ` WHERE me.username = $1 and me.delete_flag = 'N' and mep.delete_flag ='N' and mep.login_maintenance_status='Y'`;
-        // sql += ` and me.company_id = $3`;
-        sql += `;`
+        let sql = `select employee_id, employee_code,first_name_th,last_name_th,username,(passcode = crypt($2, passcode)) as password_status 
+        ,me.company_id,mc.company_name,me.company_list,mep.login_maintenance_data as privilege_info
+         FROM m_employee me 
+         inner join m_employee_privilege mep on me.employee_privilege_id = mep.employee_privilege_id
+         left join m_company mc on me.company_id = mc.company_id
+         WHERE me.username = $1 and me.delete_flag = 'N' and mep.delete_flag ='N' and mep.login_maintenance_status='Y'
+        ;`
         const querys = {
             text: sql
             , values: [user.username, user.password]

@@ -21,6 +21,7 @@ import TextAreaDisable from '../../../component/textarea/TextAreaDisable'
 import ImageBox from '../../../component/image/ImageBox'
 import { getSosInfoBydID, sendCorporateReceive, sendCorporateReject } from './Sos-modal-info-controller'
 import store, { disAuthenticationLogin } from '../../../../../store'
+import ApiRoute from '../../../../../apiroute'
 
 const SosMainModal = ({ showSosModal, setShowSosModal, setRefeshForm, selectedObj, setShowLoading }) => {
     const history = useHistory();
@@ -57,7 +58,8 @@ const SosMainModal = ({ showSosModal, setShowSosModal, setRefeshForm, selectedOb
                     if (res.result) {
                         const result = res.result;
                         setSosObj(result);
-                        setImageSos(result.sos_picture_data)
+                        console.log(result)
+                        setImageSos(ApiRoute.image_line_sos_url + result.img_sos)
                     } else if (res.statusCode === 401) {
                         isNotAuth = res.error;
                     } else swal("Warning!", res.error, "warning");
@@ -266,6 +268,7 @@ const SosMainModal = ({ showSosModal, setShowSosModal, setRefeshForm, selectedOb
                         <CCol xs="12" sm="12">
                             <ImageBox
                                 title="รูปภาพการแจ้งเตือนฉุกเฉิน"
+                                isNotStandard={true}
                                 link={imageSos}
                             />
                         </CCol>

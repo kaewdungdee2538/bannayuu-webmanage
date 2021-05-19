@@ -1,0 +1,17 @@
+.header-item-posotion{
+    display: flex;
+    justify-content: flex-end;
+    align-items: center;
+}
+
+.header-item-posotion-text-head{
+    display: flex;
+    justify-content: flex-start;
+    align-items: center;
+}
+
+.header-item-posotion-text-head h4{
+    margin: 0;
+    margin-right: 5px;
+}
+

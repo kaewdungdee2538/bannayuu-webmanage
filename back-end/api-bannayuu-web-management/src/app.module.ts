@@ -27,6 +27,7 @@ import { ParkingConfigSubModule } from './controllers/parking-config/parking-con
 import { CarTypeModule } from './controllers/car-type/car-type.module';
 import { CarTypeCategoryModule } from './controllers/car-type-category/car-type-category.module';
 import { CardModule } from './controllers/card/card.module';
+import { CompanyModule } from './controllers/company/company.module';
 
 @Module({
   imports: [
@@ -55,6 +56,7 @@ import { CardModule } from './controllers/card/card.module';
     ,CarTypeModule
     ,CarTypeCategoryModule
     ,CardModule
+    ,CompanyModule
   ],
   controllers: [AppController],
   providers: [

@@ -14,18 +14,16 @@ import {
     CRow,
     CCol,
     CLabel,
-    CInputFile,
     CBadge,
 } from '@coreui/react'
-import CIcon from '@coreui/icons-react'
-import InputEnable from '../../../component/input/InputEnable'
 import InputDisable from '../../../component/input/InputDisable'
-import TextArea from '../../../component/textarea/TextArea'
 import TextAreaDisable from '../../../component/textarea/TextAreaDisable'
 import ImageBox from '../../../component/image/ImageBox'
 import { getSosInfoBydID } from './Sos-modal-history-controller'
 import store, { disAuthenticationLogin } from '../../../../../store'
 import { getBadge, getStatus } from '../data/sos-history-data'
+import ApiRoute from '../../../../../apiroute'
+
 const SosHistoryModal = ({ showSosModal, setShowSosModal, selectedObj, setShowLoading }) => {
     const history = useHistory();
     const authStore = useSelector(state => state)
@@ -46,7 +44,6 @@ const SosHistoryModal = ({ showSosModal, setShowSosModal, selectedObj, setShowLo
         sos_status: "",
         company_name: ""
     })
-    const [remark, setRemark] = useState('')
     const [imageSos, setImageSos] = useState(null)
     //--------------------------Form load
     useEffect(() => {
@@ -61,7 +58,7 @@ const SosHistoryModal = ({ showSosModal, setShowSosModal, selectedObj, setShowLo
                     if (res.result) {
                         const result = res.result;
                         setSosObj(result);
-                        setImageSos(result.sos_picture_data)
+                        setImageSos(ApiRoute.image_line_sos_url +result.img_sos)
                     } else if (res.statusCode === 401) {
                         isNotAuth = res.error;
                     } else swal("Warning!", res.error, "warning");
@@ -153,6 +150,7 @@ const SosHistoryModal = ({ showSosModal, setShowSosModal, selectedObj, setShowLo
                         <CCol xs="12" sm="12">
                             <ImageBox
                                 title="รูปภาพการแจ้งเตือนฉุกเฉิน"
+                                isNotStandard={true}
                                 link={imageSos}
                             />
                         </CCol>

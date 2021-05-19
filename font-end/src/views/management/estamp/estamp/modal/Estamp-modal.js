@@ -279,14 +279,14 @@ function EstampModal(props) {
                             <InputDisable title="ทะเบียนรถ" text={estampInfo.license_plate} />
                         </CCol>
                     </CRow>
-                    <CRow>
+                    {/* <CRow>
                         <CCol xs="12" sm="6">
                             <InputDisable title="ประเภทผู้มาเยือน" text={estampInfo.idividule_type} />
                         </CCol>
                         <CCol xs="12" sm="6">
                             <InputDisable title="บุคคลที่มาติดต่อ" text={estampInfo.person_contract} />
                         </CCol>
-                    </CRow>
+                    </CRow> */}
                     <CRow>
                         <CCol xs="12" sm="12">
                             <InputDisable title="บ้านที่มาติดต่อ" text={estampInfo.home_address} />

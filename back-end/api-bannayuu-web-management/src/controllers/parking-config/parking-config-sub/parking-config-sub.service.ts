@@ -24,7 +24,9 @@ export class ParkingConfigSubService {
         left join m_company mcp 
         on mcps.company_id = mcp.company_id
         where mcps.delete_flag = 'N'
-        and mcps.company_id = $1 and cph_id = $2;`
+        and mcps.company_id = $1 and cph_id = $2
+        order by cps_start_interval
+        ;`
         const query = {
             text: sql,
             values: [company_id, cph_id]

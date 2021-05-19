@@ -22,7 +22,7 @@ export class PaymentManagementService {
         const company_id = body.company_id;
         const home_address = body.home_address;
         const payment_event_id = body.payment_event_id;
-        const workflow_id_wait_payment  = 2;
+        const workflow_id_wait_payment = 2;
         const workflow_id_wait_check = 3;
         const workflow_id_head_transfer = 1;
         const workflow_id_head_credit = 6;
@@ -53,12 +53,13 @@ export class PaymentManagementService {
             sql += ` and tpcfi.home_line_id in (select home_line_id from m_home_line left join m_home on m_home_line.home_id = m_home.home_id where home_address = '${home_address}')`
         if (payment_event_id)
             sql += ` and tpcfi.payment_event_id = ${payment_event_id}`
+        sql += ` order by tpcfi.create_date`
         const query = {
             text: sql,
             values: [
                 company_id,
-                workflow_id_wait_payment,workflow_id_wait_check
-                ,workflow_id_head_transfer,workflow_id_head_credit
+                workflow_id_wait_payment, workflow_id_wait_check
+                , workflow_id_head_transfer, workflow_id_head_credit
             ]
         }
         const res = await this.dbconnecttion.getPgData(query);
@@ -187,10 +188,10 @@ export class PaymentManagementService {
         transaction_pay = 'Y',update_by = $1 ,update_date = current_timestamp
         where company_id = $2 and scfi_code = $3`
         const query_schedule = {
-            text:sql_schedule,
-            values:[employee_id,company_id,scfi_code]
+            text: sql_schedule,
+            values: [employee_id, company_id, scfi_code]
         }
-        const res = await this.dbconnecttion.savePgData([query,query_schedule]);
+        const res = await this.dbconnecttion.savePgData([query, query_schedule]);
         if (res.error) {
             console.log(res.error)
             throw new StatusException({

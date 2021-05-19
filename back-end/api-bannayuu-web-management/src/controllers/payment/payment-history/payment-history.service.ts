@@ -56,7 +56,7 @@ export class PaymentHistoryService {
             sql += ` and tpcfi.home_line_id in (select home_line_id from m_home_line left join m_home on m_home_line.home_id = m_home.home_id where home_address = '${home_address}')`
         if (payment_event_id)
             sql += ` and tpcfi.payment_event_id = ${payment_event_id}`
-
+        sql += ` order by tpcfi.create_date`
         const query = {
             text: sql,
             values: [

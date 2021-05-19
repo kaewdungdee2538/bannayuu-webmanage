@@ -65,6 +65,8 @@ const Login = () => {
             authorization: true
             , access_token: result.access_token
             , company_id: result.employee.company_id
+            , company_name: result.employee.company_name
+            , company_list: result.employee.company_list ? [...result.employee.company_list] : [result.employee.company_id]
             , employee_code: result.employee.employee_code
             , employee_id: result.employee.employee_id
             , first_name_th: result.employee.first_name_th
@@ -133,9 +135,9 @@ const Login = () => {
                           color="primary"
                           className="px-4">Login</CButton>
                       </CCol>
-                      <CCol xs="6" className="text-right">
+                      {/* <CCol xs="6" className="text-right">
                         <CButton color="link" className="px-0">Forgot password?</CButton>
-                      </CCol>
+                      </CCol> */}
                     </CRow>
                   </CForm>
                 </CCardBody>

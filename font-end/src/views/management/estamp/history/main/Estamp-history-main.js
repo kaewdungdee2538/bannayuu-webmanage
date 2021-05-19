@@ -244,9 +244,9 @@ function EstampHistoryMain() {
                                         <span>{item.license_plate}</span>
                                     </td>
                                 )
-                                , 'เวลาเข้า': (item) => (
+                                , 'เวลาประทับตรา': (item) => (
                                     <td>
-                                        <span>{item.parking_in_datetime}</span>
+                                        <span>{item.estamp_datetime}</span>
                                     </td>
                                 )
                                 , 'บ้านที่มาติดต่อ':

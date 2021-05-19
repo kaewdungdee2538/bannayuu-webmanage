@@ -29,14 +29,13 @@ export class EstampGetRecordMiddleware implements NestMiddleware {
     }
 
     async CheckValues(body: any) {
-        if(!body.visitor_record_id)
+        if (!body.visitor_record_id)
             return this.errMessageUrilTh.errVisitorRecordIdNotFound
         else if (this.formatDataUtils.HaveSpecialFormat(body.visitor_record_id))
             return this.errMessageUrilTh.errVisitorRecordIdProhibitSpecial;
-        else if(!this.formatDataUtils.IsNumber(body.visitor_record_id))
+        else if (!this.formatDataUtils.IsNumber(body.visitor_record_id))
             return this.errMessageUrilTh.errVisitorRecordIdNotNumber
-        else if(!body.visitor_record_code)
-            return null;
+        return null;
     }
 
 
