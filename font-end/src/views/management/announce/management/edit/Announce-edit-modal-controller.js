@@ -46,7 +46,7 @@ export const editAnnouceModal = (props) => {
     bodyFormData.append('hni_link_text', hni_link_text);
     bodyFormData.append('hni_data', hni_data);
     bodyFormData.append('hni_remark', hni_remark);
-    bodyFormData.append('image_hni', image);
+    bodyFormData.append('image', image);
     return axios
         .post(
             `${ApiRoute.main_url}${ApiRoute.port}${ApiRoute.announce.edit_announce_url}`,

@@ -16,7 +16,7 @@ const addAnnouceModal = (props) => {
     bodyFormData.append('hni_link_text', announceObj.hni_link_text);
     bodyFormData.append('hni_data', announceObj.hni_data);
     bodyFormData.append('hni_remark', announceObj.hni_remark);
-    bodyFormData.append('image_hni', announceObj.image);
+    bodyFormData.append('image', announceObj.image);
     return axios
         .post(
             `${ApiRoute.main_url}${ApiRoute.port}${ApiRoute.announce.add_announce_url}`,

@@ -13,7 +13,7 @@ export const addParcelReceive = (props) => {
     bodyFormData.append('tpi_detail', valuesObj.detail);
     bodyFormData.append('receive_parcel_detail', valuesObj.detail);
     bodyFormData.append('home_address', valuesObj.address);
-    bodyFormData.append('image_parcel_receive', valuesObj.image);
+    bodyFormData.append('image', valuesObj.image);
     return axios
         .post(
             `${ApiRoute.main_url}${ApiRoute.port}${ApiRoute.parcel.save_parcel_receive_url}`,

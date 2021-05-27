@@ -33,7 +33,7 @@ export const sendParcelSend = (props) => {
     };
     bodyFormData.append('company_id', company_id);
     bodyFormData.append('tpi_id', valuesObj.tpi_id);
-    bodyFormData.append('image_parcel_send', valuesObj.image);
+    bodyFormData.append('image', valuesObj.image);
     bodyFormData.append('send_parcel_detail', valuesObj.send_parcel_detail);
     
     return axios
