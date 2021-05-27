@@ -4,6 +4,7 @@ import { StatusException } from "src/utils/callback.status";
 import { readdir, existsSync, mkdirSync } from 'fs';
 import { ErrMessageUtilsTH } from "src/utils/err_message_th.utils";
 import { FormatDataUtils } from "src/utils/format_data.utils";
+import { v1 as uuidv1 } from 'uuid';
 const errMessageUtilsTh = new ErrMessageUtilsTH();
 const formatUtils = new FormatDataUtils();
 
@@ -71,7 +72,8 @@ export const editFileName = (req, file, callback) => {
     const type_contrac = cookiesObj.type_contrac
     const action_type_contrac = cookiesObj.action_type_contrac
     console.log('cookie '+ JSON.stringify(cookiesObj))
-    const name = file.originalname.split('.')[0];
+    // const name = file.originalname.split('.')[0];
+    const name = uuidv1();
     const current_date = new Date();
     const year = current_date.getFullYear().toString();
     const month = current_date.getMonth().toString();
@@ -81,14 +83,16 @@ export const editFileName = (req, file, callback) => {
     const second = current_date.getSeconds().toString();
     const milsec = current_date.getMilliseconds().toString();
 
-    const file_date_name = `${year}${month}${date}_${hour}${minute}${second}${milsec}`
+    // const file_date_name = `${year}${month}${date}_${hour}${minute}${second}${milsec}`
+    const file_date_name = `${year}${month}${date}`
     const fileExtName = extname(file.originalname);
-    return callback(null, `${type_contrac}${action_type_contrac}_${name}_${file_date_name}${fileExtName}`);
+    return callback(null, `${type_contrac}${action_type_contrac}_${file_date_name}_${name}${fileExtName}`);
 };
 
 
 export const getCurrentDatePathFileSave = (req, file, callback) => {
-    const cookiesObj = req.cookie
+    const cookiesObj = req.cookie;
+    const company_id = cookiesObj.company_id;
     const type = cookiesObj.type;
     const action_type = cookiesObj.action_type;
     const current_date = new Date();
@@ -96,7 +100,7 @@ export const getCurrentDatePathFileSave = (req, file, callback) => {
     let year = current_date.getFullYear().toString();
     let month = (current_date.getMonth()+1).toString();
     let date = current_date.getDate().toString();
-    let currentPath = `${pathAllFiles}/files/${type}/${action_type}/${year}/${month}/${date}`;
+    let currentPath = `${pathAllFiles}/files/${company_id}/${type}/${action_type}/${year}/${month}/${date}`;
     console.log(pathAllFiles);
     const dir = currentPath;
     if (!existsSync(dir)) {

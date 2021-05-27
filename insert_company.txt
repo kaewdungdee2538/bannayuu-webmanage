@@ -1,0 +1,18 @@
+insert into m_company(
+	company_code
+	,company_name
+	,company_promotion
+	,company_start_date
+	,company_expire_date
+	,company_data
+) values(
+	'64B002'
+	,'นิติบุคคลหมู่บ้าน จัดสรร รสิกา-รัตนาธิเบศร์ (Villa Garden 3)'
+	,'STANDARD'
+	,current_timestamp
+	,'2030-12-31 23:59:59'
+	,'{
+	"address":"99/203 หมู่ 4 ตำบลบางเลน อำเภอบางใหญ่ จังหวัดนนทบุรี"
+	,"tel":"0935833112","email":"-"
+	}'
+)

@@ -1,0 +1,20 @@
+insert into m_setup (
+	setup_code
+	,setup_name_en
+	,setup_name_th
+	,ref_setup_id
+	,setup_data
+	,setup_remark
+	,company_id
+) values(
+	'0042'
+	,'Sub Main Calculate Setting company 2'
+	,'ตั้งค่าเกี่ยวกับเงื่อนไขการคิดเงิน โครงการ 2'
+	,8
+	,'{
+    "calculate_enable": true,
+    "except_time_split_from_day": true
+	}'
+	,'discount_split_from_day เลือกว่าจะให้ลดนาทีแยกตามวัน หรือไม่'
+	,2
+)

@@ -1,0 +1,20 @@
+insert into m_employee_privilege(
+	employee_privilege_code,
+	employee_privilege_name_th,
+	employee_privilege_name_en,
+	login_maintenance_status,
+	login_maintenance_data,
+	login_general_status,
+	employee_privilege_type,
+	create_by,create_date
+	
+	) values (
+		fun_generate_uuid('EMP',6),
+		'สิทธิ์ผู้ดูแลระบบเจ้าหน้าที่ CIT',
+		'CIT Administrator',
+		'Y',
+		'{}',
+		'CITSTAFF',
+		'N',
+		1,current_timestamp
+	);

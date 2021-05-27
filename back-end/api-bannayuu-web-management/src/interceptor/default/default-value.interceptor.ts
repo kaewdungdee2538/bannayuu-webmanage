@@ -17,7 +17,6 @@ export class DefaultInterceptor implements NestInterceptor {
     async intercept(context: ExecutionContext, next: CallHandler): Promise<Observable<any>> {
         const ctx = context.switchToHttp();
         const request = ctx.getRequest();
-       console.log(request)
         const errMessage = await this.checkInputValues(request);
         if (errMessage) throw new StatusException(
             {
@@ -34,7 +33,6 @@ export class DefaultInterceptor implements NestInterceptor {
     async checkInputValues(request: any) {
         const body = request.body;
         const file = request.files
-        console.log(body)
          if(!body.company_id)
             return this.errMessageUrilTh.errCompanyIDNotFound;
         else if(this.formatDataUtils.HaveSpecialFormat(body.company_id))

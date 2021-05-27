@@ -11,6 +11,7 @@ import { AnnounceService } from './announce.service';
 import { diskStorage } from 'multer';
 import { configfile } from '../../conf/config.json'
 import { AnnounceEditInterceptor } from 'src/interceptor/announce/announce-edit.interceptor';
+import { ResizeImageInterceptor } from 'src/interceptor/images/resizeimage.interceptor';
 
 @Controller('webbannayuu/api/announce')
 export class AnnounceController {
@@ -31,22 +32,24 @@ export class AnnounceController {
     @UseInterceptors(
         AnnounceInterceptor,
         FileFieldsInterceptor([
-            { name: 'image_hni', maxCount: 1 }
+            { name: 'image', maxCount: 1 }
         ], {
             storage: diskStorage({
                 destination: getCurrentDatePathFileSave,
                 filename: editFileName,
+                
             }),
             fileFilter: imageFileFilter,
             limits: { fileSize: 1024 * 1024 * 5 }
         }),
+        ResizeImageInterceptor,
         DefaultInterceptor,
         AnnounceAddInterceptor
     )
     async addAnnounce(@UploadedFiles() files, @Body() body, @Request() req) {
         const pathMain = configfile.image_path;
-        const pathImage = !files.image_hni ? [] : files.image_hni.map(file => {
-            const newfilename = file.path.replace(pathMain, '');
+        const pathImage = !files.image ? [] : files.image.map(file => {
+            const newfilename = file.replace(pathMain, '');
             return newfilename.replace(/\\/g, '/');
         })
         console.log(body)
@@ -66,7 +69,7 @@ export class AnnounceController {
     @UseInterceptors(
         AnnounceInterceptor,
         FileFieldsInterceptor([
-            { name: 'image_hni', maxCount: 1 }
+            { name: 'image', maxCount: 1 }
         ], {
             storage: diskStorage({
                 destination: getCurrentDatePathFileSave,
@@ -75,6 +78,7 @@ export class AnnounceController {
             fileFilter: imageFileFilter,
             limits: { fileSize: 1024 * 1024 * 5 }
         }),
+        ResizeImageInterceptor,
         DefaultInterceptor,
         AnnounceAddInterceptor,
         AnnounceEditInterceptor
@@ -82,9 +86,9 @@ export class AnnounceController {
     async editAnnounce(@UploadedFiles() files,@Body() body, @Request() req) {
         const pathMain = configfile.image_path;
         let pathImage = null;
-        if(files.image_hni){
-            pathImage = !files.image_hni ? [] : files.image_hni.map(file => {
-                const newfilename = file.path.replace(pathMain, '');
+        if(files.image){
+            pathImage = !files.image ? [] : files.image.map(file => {
+                const newfilename = file.replace(pathMain, '');
                 return newfilename.replace(/\\/g, '/');
             })
         }

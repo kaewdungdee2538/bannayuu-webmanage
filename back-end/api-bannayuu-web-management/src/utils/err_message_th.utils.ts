@@ -440,4 +440,6 @@ export class ErrMessageUtilsTH {
     errCardNameIsNotEngOrNumber = 'เลขหน้าบัตร ต้องเป็นอักษรภาษาอังกฤษ หรือตัวเลขเท่านั้น'
     errCardNameIsDuplicateInBase = 'เลขหน้าบัตร ซ้ำในระบบ'
     errCardIsUsing = 'บัตรใบนี้ถูกใช้งานอยู่ไม่สามารถลบบัตรได้ \nกรุณาทำรายการออกบัตรดังกล่าวก่อน'
+
+    errResizeImageFailed = 'Resize รูปภาพล้มเหลว'
 }

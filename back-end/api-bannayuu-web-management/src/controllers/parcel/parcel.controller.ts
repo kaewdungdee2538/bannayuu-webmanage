@@ -11,6 +11,7 @@ import { HomeInterceptor } from 'src/interceptor/home/home.interceptor';
 import {configfile} from '../../conf/config.json'
 import { SendParcelInterceptor } from 'src/interceptor/parcel/send/send-parcel.interceptor';
 import { ParcelSendInterceptor } from 'src/interceptor/parcel/send/parcel-send.interceptor';
+import { ResizeImageInterceptor } from 'src/interceptor/images/resizeimage.interceptor';
 @Controller('webbannayuu/api/parcel')
 export class ParcelController {
     constructor(private readonly parcelService:ParcelService){}
@@ -20,7 +21,7 @@ export class ParcelController {
     @UseInterceptors(
         ReceiveParcelInterceptor,
         FileFieldsInterceptor([
-            {name:'image_parcel_receive',maxCount:1}
+            {name:'image',maxCount:1}
         ],{
             storage: diskStorage({
                 destination: getCurrentDatePathFileSave,
@@ -29,14 +30,15 @@ export class ParcelController {
             fileFilter: imageFileFilter,
             limits:{fileSize: 1024*1024*5}
         }),
+        ResizeImageInterceptor,
         DefaultInterceptor,
         ParcelReceiveInterceptor,
         HomeInterceptor
     )
     async addParcelReceive(@UploadedFiles() files, @Body() body,@Request() req){
         const pathMain = configfile.image_path;
-        const pathCustomer = !files.image_parcel_receive ? [] : files.image_parcel_receive.map(file=>{
-            const newfilename = file.path.replace(pathMain,'');
+        const pathCustomer = !files.image ? [] : files.image.map(file=>{
+            const newfilename = file.replace(pathMain,'');
             return newfilename.replace(/\\/g, '/');
         })
         console.log(body)
@@ -49,7 +51,7 @@ export class ParcelController {
     @UseInterceptors(
         SendParcelInterceptor,
         FileFieldsInterceptor([
-            {name:'image_parcel_send',maxCount:1}
+            {name:'image',maxCount:1}
         ],{
             storage: diskStorage({
                 destination: getCurrentDatePathFileSave,
@@ -58,13 +60,14 @@ export class ParcelController {
             fileFilter: imageFileFilter,
             limits:{fileSize: 1024*1024*5}
         }),
+        ResizeImageInterceptor,
         DefaultInterceptor,
         ParcelSendInterceptor
     )
     async addParcelSend(@UploadedFiles() files, @Body() body,@Request() req){
         const pathMain = configfile.image_path;
-        const pathCustomer = !files.image_parcel_send ? [] : files.image_parcel_send.map(file=>{
-            const newfilename = file.path.replace(pathMain,'');
+        const pathCustomer = !files.image ? [] : files.image.map(file=>{
+            const newfilename = file.replace(pathMain,'');
             return newfilename.replace(/\\/g, '/');
         })
         return await this.parcelService.addParcelSend(body,req,pathCustomer)
@@ -75,7 +78,7 @@ export class ParcelController {
     @UseInterceptors(
         SendParcelInterceptor,
         FileFieldsInterceptor([
-            {name:'image_parcel_send',maxCount:1}
+            {name:'image',maxCount:1}
         ],{
             storage: diskStorage({
                 destination: getCurrentDatePathFileSave,
@@ -84,13 +87,14 @@ export class ParcelController {
             fileFilter: imageFileFilter,
             limits:{fileSize: 1024*1024*5}
         }),
+        ResizeImageInterceptor,
         DefaultInterceptor,
         ParcelSendInterceptor
     )
     async addParcelReject(@UploadedFiles() files, @Body() body,@Request() req){
         const pathMain = configfile.image_path;
-        const pathCustomer = !files.image_parcel_send ? [] : files.image_parcel_send.map(file=>{
-            const newfilename = file.path.replace(pathMain,'');
+        const pathCustomer = !files.image ? [] : files.image.map(file=>{
+            const newfilename = file.replace(pathMain,'');
             return newfilename.replace(/\\/g, '/');
         })
         return await this.parcelService.addParcelReject(body,req,pathCustomer)

@@ -1,0 +1,19 @@
+insert into m_employee(
+	employee_code
+	,first_name_th
+	,last_name_th
+	,username
+	,passcode
+	,employee_privilege_id
+	,company_id
+	,company_list
+) values( 
+	fun_generate_uuid('EMP',8)
+	,'Admin'
+	,'Admin'
+	,'64b002'
+	,crypt('987654321',gen_salt('bf'))
+	,3
+	,2
+	,'[2]'
+)

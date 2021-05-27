@@ -18,7 +18,7 @@ export class AnnounceAddInterceptor implements NestInterceptor {
     async intercept(context: ExecutionContext, next: CallHandler): Promise<Observable<any>> {
         const ctx = context.switchToHttp();
         const request = ctx.getRequest();
-        console.log(request.body)
+        // console.log(request.body)
         const errMessage = await this.CheckValues(request.body);
         if (errMessage) throw new StatusException(
             {
