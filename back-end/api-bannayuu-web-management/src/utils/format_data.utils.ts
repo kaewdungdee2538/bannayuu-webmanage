@@ -30,7 +30,7 @@ export class FormatDataUtils {
         return false;
     }
 
-    isNotCharacterEng(input:string){
+    isNotCharacterEng(input: string) {
         if (formatEng.test(input))
             return true;
         return false;
@@ -139,8 +139,8 @@ export class FormatDataUtils {
     }
 
     async isTimeStartOverTimeStop(time_start: string, time_stop: string) {
-        const Start = moment(time_start,'HH:mm:ss');
-        const Stop = moment(time_stop,'HH:mm:ss');
+        const Start = moment(time_start, 'HH:mm:ss');
+        const Stop = moment(time_stop, 'HH:mm:ss');
         if (Start > Stop)
             return true;
         return false;
@@ -148,10 +148,11 @@ export class FormatDataUtils {
 
 
     async isTimeStartOverOrEqualTimeStop(time_start: string, time_stop: string) {
-        const Start = moment(time_start,'HH:mm:ss');
-        const Stop = moment(time_stop,'HH:mm:ss');
+        const Start = moment(time_start, 'HH:mm:ss');
+        const Stop = moment(time_stop, 'HH:mm:ss');
         if (Start > Stop)
             return true;
         return false;
     }
+
 }

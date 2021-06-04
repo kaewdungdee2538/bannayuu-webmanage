@@ -2,6 +2,7 @@ const format = /[ `!@#$%^&*()_+\-=\[\]{};':"\\|,.<>\/?~]/;
 const formatuuid = /[ `!@#$%^&*()_+\=\[\]{};':"\\|,.<>\/?~]/;
 const formathome = /[`@#$%^&*;'|<>~]/;
 const formatname = /[`!@#$%^&*()_+\-=\[\]{};':"\\|,.<>\/?~]/;
+const formatEng = /[^a-zA-Z0-9]/;
 
 export function IsNumber(input) {
 
@@ -40,6 +41,13 @@ export function HaveSpecialHomeFormat(input) {
 
 export function HaveSpecialNameFormat(input) {
     if (formatname.test(input))
+        return true;
+    return false;
+}
+
+
+export function isNotEngCharOrNumber(input) {
+    if (formatEng.test(input))
         return true;
     return false;
 }

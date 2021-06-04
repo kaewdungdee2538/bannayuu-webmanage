@@ -4,6 +4,7 @@ import { DefaultValueMiddleware } from 'src/middleware/default-value/default-val
 import { dbConnection } from 'src/pg_database/pg.database';
 import { ErrMessageUtilsTH } from 'src/utils/err_message_th.utils';
 import { FormatDataUtils } from 'src/utils/format_data.utils';
+import { AuthResetMiddleware } from './auth-resetpassword.middleware';
 import { AuthController } from './auth.controller';
 import { AuthMiddleware } from './auth.middleware';
 import { AuthService } from './auth.service';
@@ -23,6 +24,9 @@ export class AuthModule {
   configure(consumer: MiddlewareConsumer) {
     consumer
       .apply(AuthMiddleware,)
-      .forRoutes('webbannayuu/api/auth/*');
+      .forRoutes('webbannayuu/api/auth/login');
+      consumer
+      .apply(DefaultValueMiddleware,AuthResetMiddleware)
+      .forRoutes('webbannayuu/api/auth/reset-password');
   }
 }

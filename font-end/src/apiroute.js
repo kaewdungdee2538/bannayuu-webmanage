@@ -8,7 +8,8 @@ const ApiRoute ={
     image_web_url:config.config.url_web_image,
     port:config.config.url_port,
     login:{
-        login_url:'/webbannayuu/api/auth/login'
+        login_url:'/webbannayuu/api/auth/login',
+        save_reset_password_url:'/webbannayuu/api/auth/reset-password'
     },company:{
         get_company_list_url:'/webbannayuu/api/company/get-company-list'
     },home:{

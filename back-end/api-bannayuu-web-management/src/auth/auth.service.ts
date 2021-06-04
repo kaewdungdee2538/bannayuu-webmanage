@@ -17,6 +17,7 @@ export class AuthService {
         console.log(user.username + user.password)
         let sql = `select employee_id, employee_code,first_name_th,last_name_th,username,(passcode = crypt($2, passcode)) as password_status 
         ,me.company_id,mc.company_name,me.company_list,mep.login_maintenance_data as privilege_info
+        ,me.employee_status
          FROM m_employee me 
          inner join m_employee_privilege mep on me.employee_privilege_id = mep.employee_privilege_id
          left join m_company mc on me.company_id = mc.company_id
@@ -77,5 +78,60 @@ export class AuthService {
                 statusCode: 200
             }, 200);
         }
+    }
+
+    async resetPassword(body: any) {
+        const company_id = body.company_id;
+        const username = body.username;
+        const new_password = body.new_password;
+        const employee_id = body.employee_id;
+        const log_object = { username : body.username,employee_id:body.employee_id,company_id:body.company_id };
+        let sql = `with updatereset as
+        (update m_employee set passcode = crypt($1,gen_salt('bf'))
+        ,update_by = $2,update_date = current_timestamp
+        ,employee_status = 'SUCCESS'
+        where username = $3 and company_id = $4 RETURNING company_id as comid)
+        insert into log_employee(
+            lep_code
+            ,lep_name
+            ,lep_data
+            ,lep_type
+            ,create_by
+            ,create_date
+            ,company_id
+        )values(
+            fun_generate_uuid('LEM'||trim(to_char((select comid FROM updatereset),'000')),5)
+            ,'เปลี่ยนรหัสผ่านใหม่'
+            ,$5
+            ,'CHANGEPASSOWRD'
+            ,$2
+            ,current_timestamp
+            ,(select comid FROM updatereset)
+        );`
+
+        const query = {
+            text: sql
+            , values: [
+                new_password
+                , employee_id
+                , username
+                , company_id
+                , log_object
+            ]
+        }
+        console.log(query);
+        const res = await this.dbconnecttion.savePgData([query]);
+        if (res.error) throw new StatusException({
+            error: res.error,
+            result: null,
+            message: this.errMessageUtilsTh.messageProcessFail,
+            statusCode: 200
+        }, 200);
+        else throw new StatusException({
+            error: null,
+            result: this.errMessageUtilsTh.messageSucceessEn,
+            message: this.errMessageUtilsTh.messageSuccess,
+            statusCode: 200
+        }, 200);
     }
 }
