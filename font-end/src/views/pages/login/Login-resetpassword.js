@@ -14,6 +14,7 @@ import CIcon from '@coreui/icons-react'
 import swal from 'sweetalert';
 import { isNotEngCharOrNumber } from '../../../utils/utils'
 import LoginResetPassowrdController from './Login-resetpassword-controller'
+import { OuanIconForBtn } from '../../../containers/function/OuanIcon'
 
 function LoginReSetPassword(props) {
     const { employeeObj, username, defualt_password, setShowLoading } = props;
@@ -110,7 +111,7 @@ function LoginReSetPassword(props) {
             <CInputGroup className="mb-3">
                 <CInputGroupPrepend>
                     <CInputGroupText>
-                        <CIcon name="cil-lock-locked" />
+                        <OuanIconForBtn name="RiLockLine" />
                     </CInputGroupText>
                 </CInputGroupPrepend>
                 <CInput
@@ -124,7 +125,7 @@ function LoginReSetPassword(props) {
             <CInputGroup className="mb-4">
                 <CInputGroupPrepend>
                     <CInputGroupText>
-                        <CIcon name="cil-lock-locked" />
+                        <OuanIconForBtn name="RiRotateLockFill" />
                     </CInputGroupText>
                 </CInputGroupPrepend>
                 <CInput
@@ -139,7 +140,7 @@ function LoginReSetPassword(props) {
             <CInputGroup className="mb-4">
                 <CInputGroupPrepend>
                     <CInputGroupText>
-                        <CIcon name="cil-lock-locked" />
+                        <OuanIconForBtn name="RiRotateLockFill" />
                     </CInputGroupText>
                 </CInputGroupPrepend>
                 <CInput

@@ -15,7 +15,12 @@ import {
     FaChevronCircleRight,
     FaShippingFast,
     FaIdCardAlt,
+    FaLock,
 } from "react-icons/fa";
+import {
+    RiRotateLockFill,
+    RiLockLine,
+} from "react-icons/ri"
 import './OuanIcon.css'
 const OuanIcon = (props) => {
     const { name } = props
@@ -59,6 +64,12 @@ const iconName = (name) => {
             return <FaShippingFast className="ouan-icon c-sidebar-nav-icon" />
         case 'FaIdCardAlt':
             return <FaIdCardAlt className="ouan-icon c-sidebar-nav-icon" />
+        case 'FaLock':
+            return <FaLock className="ouan-icon c-sidebar-nav-icon" />
+        case 'RiRotateLockFill':
+            return <FaLock className="ouan-icon c-sidebar-nav-icon" />
+        case 'RiLockLine':
+            return <RiLockLine className="ouan-icon c-sidebar-nav-icon" />
         default:
             return <FaRegWindowClose className="ouan-icon c-sidebar-nav-icon" />
     }
@@ -103,6 +114,12 @@ const iconNameForBtn = (name) => {
             return <FaChevronCircleRight className="ouan-icon-for-btn" />
         case 'FaShippingFast':
             return <FaShippingFast className="ouan-icon-for-btn" />
+        case 'FaLock':
+            return <FaLock className="ouan-icon-for-btn" />
+        case 'RiRotateLockFill':
+            return <RiRotateLockFill className="ouan-icon-for-btn" />
+        case 'RiLockLine':
+            return <RiLockLine className="ouan-icon-for-btn" />
         default:
             return <FaRegWindowClose className="ouan-icon-for-btn" />
     }
