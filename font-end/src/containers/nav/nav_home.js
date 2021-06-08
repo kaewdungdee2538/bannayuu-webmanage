@@ -26,7 +26,7 @@ export const nav_home_item = {
 }
 
 
-export const nav_villager_item = {
+export const nav_license_item = {
     _tag: 'CSidebarNavDropdown',
     name: 'ทะเบียนรถลูกบ้าน',
     route: '/icons',
