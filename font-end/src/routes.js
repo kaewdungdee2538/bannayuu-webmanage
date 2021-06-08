@@ -138,7 +138,7 @@ const routes = [
   { path: '/parking', exact: true, name: 'Parking Rate', component: ParkingMain }, 
   { path: '/cartype', exact: true, name: 'Cartype', component: CartypeMain },           
   { path: '/cartype-category', exact: true, name: 'Cartype Category', component: CartypeCategoryMain },    
-  { path: '/card', exact: true, name: 'Card', component: CardMain },                    
+  // { path: '/card', exact: true, name: 'Card', component: CardMain },                    
   { path: '*', name: 'Not Found', component: page404 },
 ];
 
