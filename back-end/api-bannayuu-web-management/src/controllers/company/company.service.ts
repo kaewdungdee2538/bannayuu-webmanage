@@ -21,7 +21,7 @@ export class CompanyService {
                 if (num === 0)
                     listText = companyList[num];
                 else
-                    listText = `'${listText}','${companyList[num]}'`
+                    listText = `${listText},${companyList[num]}`
             }
         }
         let sql = `select company_id,company_name

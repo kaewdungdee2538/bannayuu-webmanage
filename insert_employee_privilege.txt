@@ -1,3 +1,4 @@
+
 insert into m_employee_privilege(
 	employee_privilege_code,
 	employee_privilege_name_th,
@@ -6,15 +7,29 @@ insert into m_employee_privilege(
 	login_maintenance_data,
 	login_general_status,
 	employee_privilege_type,
+	login_staff_status,
 	create_by,create_date
 	
 	) values (
 		fun_generate_uuid('EMP',6),
-		'สิทธิ์ผู้ดูแลระบบเจ้าหน้าที่ CIT',
-		'CIT Administrator',
+		'สิทธิ์ผู้จัดการระบบสูงสุด',
+		'CIT Legendary',
 		'Y',
-		'{}',
-		'CITSTAFF',
-		'N',
+		'{
+    "estamp": {"status": true,"items": []},
+    "card": {"status": true,"items": []}, 
+    "home": {"status": true,"items": []},
+    "cartype": {"status": true,"items": []},
+    "annoince": {"status": true,"items": []},
+    "parcel": {"status": true,"items": []},
+    "sos": {"status": true,"items": []},
+    "complaint": {"status": true,"items": []},
+    "payment": {"status": true,"items": []},
+    "parking": {"status": true,"items": []}
+}',
+		'Y',
+		'LEGEND',
+		'Y',
 		1,current_timestamp
 	);
+	
