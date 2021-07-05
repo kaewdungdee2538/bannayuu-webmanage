@@ -229,14 +229,12 @@ export class EstampAllService {
     }
 
     async getEstampInfo(body: any) {
-        const company_id = body.company_id;
         let sql = `select estamp_id,estamp_code,estamp_name_th,estamp_name_en,estamp_remark
         from m_estamp
-        where delete_flag = 'N'
-        and company_id = $1;`
+        where delete_flag = 'N';`
         const query = {
             text: sql
-            , values: [company_id]
+            , values: []
         }
         const res = await this.dbconnecttion.getPgData(query);
         if (await res.error)

@@ -21,6 +21,7 @@ import TextArea from '../../../component/textarea/TextArea'
 import { addParcelReceive } from './Parcel-receive-add-controller'
 import store, { disAuthenticationLogin } from '../../../../../store'
 import ComboBoxSearchItem from '../../../component/combobox/ComboBoxSearchItem'
+import {checkFileNotOver10Mb} from '../../../../../utils/utils'
 const addressText = {
     id: 0, value: 'เลือกบ้าน'
 }
@@ -99,9 +100,18 @@ const ParcelReceiveAdd = ({ showAddModal, setShowAddModal, setRefeshForm, setSho
                 button: "OK",
             });
             return false;
+        }else if(!checkFileNotOver10Mb(image)){
+            swal({
+                title: "Warning.",
+                text: 'รูปภาพห้ามมีขนาดเกิน 10 Mb',
+                icon: "warning",
+                button: "OK",
+            });
+            return false;
         }
         return true;
     }
+
     return (
         <CModal
             show={showAddModal}
@@ -179,7 +189,7 @@ const ParcelReceiveAdd = ({ showAddModal, setShowAddModal, setRefeshForm, setSho
                                     onChange={async (event) => {
                                         const file = event.target.files.item(0);
                                         setImage(file)
-                                        setFileName(file.name)
+                                        setFileName(file ? file.name : fileName)
                                     }
                                     } />
                                 <label className="custom-file-label" htmlFor="customFile">{fileName}</label>

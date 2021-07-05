@@ -51,3 +51,13 @@ export function isNotEngCharOrNumber(input) {
         return true;
     return false;
 }
+
+export  function checkFileNotOver10Mb(imageInput) {
+    const fsize = imageInput.size;
+    const file = Math.round((fsize / 1024));
+    const sizeMb = (file / 1024);
+    if (sizeMb > 10) {
+        return false;
+    }
+    return true;
+}

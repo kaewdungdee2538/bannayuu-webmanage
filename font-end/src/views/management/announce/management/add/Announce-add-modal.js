@@ -21,6 +21,7 @@ import {
 } from '@coreui/react'
 import moment from 'moment'
 import store, { disAuthenticationLogin } from '../../../../../store'
+import {checkFileNotOver10Mb} from '../../../../../utils/utils'
 
 function AnnouceAddModal({ showAddAnnouce, setShowAddAnnouce, setRefeshForm, setShowLoading }) {
     const history = useHistory();
@@ -110,8 +111,11 @@ function AnnouceAddModal({ showAddAnnouce, setShowAddAnnouce, setRefeshForm, set
             return 'กรุณากรอกหัวประกาศ'
         else if (!announceDetail)
             return 'กรุณากรอกรายละเอียดของประกาศ'
+        else if (!checkFileNotOver10Mb(image))
+            return 'รูปภาพห้ามมีขนาดเกิน 10 Mb'
         return null;
     }
+
     //---------------Datetime handding
     function handdingDateStart(event) {
         if (moment(event) > moment(dateTimeEnd)) {

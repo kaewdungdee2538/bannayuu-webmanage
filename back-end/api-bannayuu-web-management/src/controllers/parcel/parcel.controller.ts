@@ -28,7 +28,7 @@ export class ParcelController {
                 filename: editFileName,
             }),
             fileFilter: imageFileFilter,
-            limits:{fileSize: 1024*1024*5}
+            limits:{fileSize: 1024*1024*configfile.image_size_mb}
         }),
         ResizeImageInterceptor,
         DefaultInterceptor,
@@ -58,7 +58,7 @@ export class ParcelController {
                 filename: editFileName,
             }),
             fileFilter: imageFileFilter,
-            limits:{fileSize: 1024*1024*5}
+            limits:{fileSize: 1024*1024*configfile.image_size_mb}
         }),
         ResizeImageInterceptor,
         DefaultInterceptor,
@@ -85,7 +85,7 @@ export class ParcelController {
                 filename: editFileName,
             }),
             fileFilter: imageFileFilter,
-            limits:{fileSize: 1024*1024*5}
+            limits:{fileSize: 1024*1024*configfile.image_size_mb}
         }),
         ResizeImageInterceptor,
         DefaultInterceptor,

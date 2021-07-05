@@ -23,6 +23,7 @@ import { getAnnouceByIdModal, editAnnouceModal } from './Announce-edit-modal-con
 import InputDisable from '../../../component/input/InputDisable'
 import ImageBox from '../../../component/image/ImageBox'
 import store, { disAuthenticationLogin } from '../../../../../store'
+import {checkFileNotOver10Mb} from '../../../../../utils/utils'
 
 function AnnouceEditModal({ showEdit, setShowEdit, setRefeshForm, editObj, setShowLoading }) {
     const history = useHistory();
@@ -91,7 +92,7 @@ function AnnouceEditModal({ showEdit, setShowEdit, setRefeshForm, editObj, setSh
                         setDateTimeStart(moment(hni_start_datetime).format("YYYY-MM-DDTHH:mm"))
                         setDateTimeEnd(moment(hni_end_datetime).format("YYYY-MM-DDTHH:mm"))
                         setCompany_name(company_name)
-                        const img_path = res.result.hni_data.image_hni ?  res.result.hni_data.image_hni : null;
+                        const img_path = res.result.hni_data.image_hni ? res.result.hni_data.image_hni : null;
                         setImageHni(img_path)
                     }
                 } else if (res.statusCode === 401) {
@@ -188,6 +189,8 @@ function AnnouceEditModal({ showEdit, setShowEdit, setRefeshForm, editObj, setSh
             return 'กรุณากรอกหัวประกาศ'
         else if (!announceDetail)
             return 'กรุณากรอกรายละเอียดของประกาศ'
+        else if (!checkFileNotOver10Mb(image))
+            return 'รูปภาพห้ามมีขนาดเกิน 10 Mb'
         return null;
     }
     //---------------Datetime handding
