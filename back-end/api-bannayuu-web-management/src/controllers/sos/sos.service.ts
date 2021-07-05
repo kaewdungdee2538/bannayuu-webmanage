@@ -238,7 +238,7 @@ export class SosService {
         left join m_company mc on hsi.company_id = mc.company_id
         where hsi.delete_flag = 'N'
         and hsi.company_id = $1
-        order by sos_datetime DESC
+        order by hsi.sos_datetime DESC
         limit 1;`
 
         const query = {
