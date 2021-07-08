@@ -50,9 +50,9 @@ export default function ComboBoxSearchItemNoTitle(props) {
     }
     //-----------------------------On filter
     function onChangeFilter(event) {
-        console.log(event)
         const items = itemsArray.filter(item => {
-            return item.value.toLowerCase().startsWith(event.target.value.toLowerCase())
+            return item.value.toLowerCase().match(event.target.value.toLowerCase())
+            // return item.value.toLowerCase().startsWith(event.target.value.toLowerCase())
         })
         setItemsObj(items)
     }

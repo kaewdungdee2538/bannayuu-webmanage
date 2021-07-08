@@ -59,7 +59,8 @@ export default function ComboBoxSearchItem(props) {
     //-----------------------------On filter
     function onChangeFilter(event) {
         const items = itemsArray.filter(item => {
-            return item.value.toLowerCase().startsWith(event.target.value.toLowerCase())
+            return item.value.toLowerCase().match(event.target.value.toLowerCase())
+            // return item.value.toLowerCase().startsWith(event.target.value.toLowerCase())
         })
         setItemsObj(items)
     }

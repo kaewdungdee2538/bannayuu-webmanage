@@ -24,11 +24,11 @@ export class CompanyService {
                     listText = `${listText},${companyList[num]}`
             }
         }
-        let sql = `select company_id,company_name
+        let sql = `select company_id,concat(company_id,' ',company_name) as company_name
         from m_company
         where company_id in (${listText})
         and delete_flag = 'N'
-        order by company_name
+        order by company_id,company_name
         `;
 
         const query = {
